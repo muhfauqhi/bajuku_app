@@ -48,6 +48,7 @@ class _SignInState extends State<SignIn> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
+
                   print(email);
                   print(password);
                 },
