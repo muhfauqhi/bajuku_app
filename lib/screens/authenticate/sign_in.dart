@@ -20,23 +20,20 @@ class _SignInState extends State<SignIn> {
   //text field state
   String email = '';
   String password = '';
+  String error = '';
+
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
-      backgroundColor: Colors.brown[100],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.brown[400],
+        backgroundColor: Colors.grey[100],
         elevation: 0.0,
-        title: Text('Sign in to Brew Crew'),
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Register'),
-            onPressed: () {
-              widget.toggleView();
-            },
-          ),
-        ],
+        title: 
+        Center(
+          child: Text('Sign in to Digidrobe',
+            style: TextStyle(color: Colors.black)),
+        ),
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -59,20 +56,45 @@ class _SignInState extends State<SignIn> {
                   setState(() => password = val);
                 }
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: 10.0),
               RaisedButton(
-                color: Colors.pink,
+                color: Colors.grey[900],
                 child: Text(
                   'Sign in',
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
-
-                  print(email);
-                  print(password);
+                  if(_formKey.currentState.validate()){
+                    setState(() => loading = true);
+                    dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                    if(result == null){
+                      setState(() {
+                        error = 'Email or Password not match!';
+                        loading =  false;
+                      });
+                    }
+                  }
+                },
+              ),
+              Text(
+                error,
+                style: TextStyle(
+                  color: Colors.red, 
+                  fontSize: 14.0
+                  ),
+              ),
+              FlatButton(
+                child: Text(
+                  'Register?',
+                  style: TextStyle(
+                    color: Colors.black
+                  ),
+                ),
+                onPressed: () {
+                  widget.toggleView();
                 },
               )
-            ],
+            ]
           ),
         ),
       ),

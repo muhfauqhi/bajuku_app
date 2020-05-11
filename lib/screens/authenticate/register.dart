@@ -23,20 +23,15 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
-      backgroundColor: Colors.brown[100],
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.brown[400],
+        backgroundColor: Colors.grey[100],
         elevation: 0.0,
-        title: Text('Sign up to Brew Crew'),
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Sign In'),
-            onPressed: () {
-              widget.toggleView();
-            },
-          ),
-        ],
+        title: 
+        Center(
+          child: Text('Sign up to Digidrobe',
+            style: TextStyle(color: Colors.grey[900]),),
+        ),
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -60,9 +55,9 @@ class _RegisterState extends State<Register> {
                   setState(() => password = val);
                 },
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: 10.0),
               RaisedButton(
-                color: Colors.pink[400],
+                color: Colors.grey[900],
                 child: Text(
                   'Register',
                   style: TextStyle(color: Colors.white),
@@ -80,7 +75,6 @@ class _RegisterState extends State<Register> {
                   }
                 }
               ),
-              SizedBox(height: 12.0),
               Text(
                 error,
                 style: TextStyle(
@@ -88,6 +82,17 @@ class _RegisterState extends State<Register> {
                   fontSize: 14.0
                   ),
               ),
+              FlatButton(
+                child: Text(
+                  'Already have account?',
+                  style: TextStyle(
+                    color: Colors.black
+                  ),
+                ),
+                onPressed: () {
+                  widget.toggleView();
+                },
+              )
             ],
           ),
         ),
