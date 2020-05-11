@@ -1,6 +1,7 @@
 import 'package:bajuku_app/services/auth.dart';
 import 'package:bajuku_app/shared/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:bajuku_app/shared/constants.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -45,13 +46,14 @@ class _RegisterState extends State<Register> {
             children: <Widget>[
               SizedBox(height: 20.0),
               TextFormField(
-                validator: (val) => val.isEmpty ? 'Enter an email!' : null,
+                decoration: textInputDecoration.copyWith(hintText: 'Email'),
                 onChanged: (val) {
                   setState(() => email = val);
                 },
               ),
               SizedBox(height: 20.0),
               TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'Password'),
                 obscureText: true,
                 validator: (val) => val.length < 8 ? 'Enter a password minimum 8 characters!' : null,
                 onChanged: (val) {

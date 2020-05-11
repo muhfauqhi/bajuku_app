@@ -1,6 +1,7 @@
 import 'package:bajuku_app/services/auth.dart';
 import 'package:bajuku_app/shared/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:bajuku_app/shared/constants.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -16,10 +17,9 @@ class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
 
+  //text field state
   String email = '';
   String password = '';
-  String error = '';
-
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
@@ -46,47 +46,32 @@ class _SignInState extends State<SignIn> {
             children: <Widget>[
               SizedBox(height: 20.0),
               TextFormField(
-                validator: (val) => val.isEmpty ? 'Enter an email!' : null,
-                onChanged: (val) {
+                decoration: textInputDecoration.copyWith(hintText: 'Email'),
+                onChanged: (val){
                   setState(() => email = val);
-                },
+                }
               ),
               SizedBox(height: 20.0),
               TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'Password'),
                 obscureText: true,
-                validator: (val) => val.length < 8 ? 'Enter a password minimum 8 characters!' : null,
-                onChanged: (val) {
+                onChanged: (val){
                   setState(() => password = val);
-                },
+                }
               ),
               SizedBox(height: 20.0),
               RaisedButton(
-                color: Colors.pink[400],
+                color: Colors.pink,
                 child: Text(
-                  'Sign In',
+                  'Sign in',
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () async {
-                  if(_formKey.currentState.validate()){
-                    setState(() => loading = true);
-                    dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-                    if(result == null){
-                      setState(() {
-                        error = 'Email or Password not match!';
-                        loading = false;
-                      });
-                    }
-                  }
-                }
-              ),
-              SizedBox(height: 12.0),
-              Text(
-                error,
-                style: TextStyle(
-                  color: Colors.red, 
-                  fontSize: 14.0
-                  ),
-              ),
+
+                  print(email);
+                  print(password);
+                },
+              )
             ],
           ),
         ),
