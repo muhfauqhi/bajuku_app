@@ -7,9 +7,10 @@ class DatabaseService {
 
   final CollectionReference clothCollection = Firestore.instance.collection('clothes');
 
-  Future updateUserData(var clothId, String notes, String size, String fabric, String season, String brand, String status, String category, String color, int price, int wear, Timestamp date, int worn, int usedInOutfit)async{
-  return await clothCollection.document(uid).setData({
-    'clothId': clothId,
+  var clothId = '1';
+  Future updateUserData(String notes, String size, String fabric, String season, String brand, String status, String category, String color, int price, int wear, Timestamp date, int worn, int usedInOutfit)async{
+  return await clothCollection.document(uid)
+  .collection('outfits').document(clothId).setData({
     'notes': notes,
     'size': size,
     'fabric': fabric,
