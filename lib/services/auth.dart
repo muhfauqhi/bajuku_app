@@ -1,4 +1,6 @@
 import 'package:bajuku_app/models/user.dart';
+import 'package:bajuku_app/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -45,6 +47,9 @@ class AuthService {
     try{
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
+
+
+      await DatabaseService(uid: user.uid).updateUserData(1,'jaket adidas', 'small', 'cotton', 'summer', 'adidas', 'new', 'top', 'black', 2000, 2, Timestamp.now(), 3, 0);
       return _userFromFirebaseUser(user);
     } catch(e){
       print(e.toString());
