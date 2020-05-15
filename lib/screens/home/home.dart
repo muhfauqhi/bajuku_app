@@ -15,7 +15,7 @@ class Home extends StatelessWidget {
         Center(
           child: Text('Wardrobe',
             style: TextStyle(
-              color: Colors.white)),
+              color: Colors.black)),
         ),
         backgroundColor: Colors.red,
         elevation: 0.0,
