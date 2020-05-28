@@ -2,27 +2,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
   // Collection reference
-  final String uid;
-  DatabaseService({ this.uid });
+  final firestoreInstance = Firestore.instance;
 
-  final CollectionReference clothCollection = Firestore.instance.collection('clothes');
+  Future createUser(String firstName, String lastName, String email)async {
+    return await firestoreInstance.collection("users").add({
+      "firstName": firstName,
+      "lastName": lastName,
+      "email": email,
+      "address": {
+        "street": "",
+        "city": "",
+      }
+    }).then((value){
+      print(value.documentID);
+      firestoreInstance.collection("users").document(value.documentID).collection("clothes").add({
+        "clothName": "",
+        "category": "",
+        "size": "",
+      });
+    });
+  }
 
-  var clothId = '1';
-  Future updateUserData(String notes, String size, String fabric, String season, String brand, String status, String category, String color, int price, int wear, Timestamp date, int worn, int usedInOutfit)async{
-  return await clothCollection.document(uid)
-  .collection('outfits').document(clothId).setData({
-    'notes': notes,
-    'size': size,
-    'fabric': fabric,
-    'season': season,
-    'brand': brand,
-    'category': category,
-    'color': color,
-    'price': price,
-    'wear': wear,
-    'date': Timestamp.now(),
-    'worn': worn,
-    'usedInOutfit': usedInOutfit,
-  });
-    }
+  Future createClothes(String name, String category, String size)async {
+    return await firestoreInstance.collection("clothes").add({
+      "clothName": name,
+      "category": category,
+      "size": size,
+    });
+  }
   }
