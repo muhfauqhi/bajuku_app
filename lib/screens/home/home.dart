@@ -1,8 +1,10 @@
 import 'package:bajuku_app/screens/Page/journal.dart';
-import 'package:bajuku_app/screens/page/addItem.dart';
+//import 'package:bajuku_app/screens/page/addItem.dart';
 import 'package:bajuku_app/screens/page/sustainable.dart';
 import 'package:bajuku_app/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class Home extends StatelessWidget {
   final AuthService _auth = AuthService();
@@ -18,31 +20,48 @@ class Home extends StatelessWidget {
               child: NestedScrollView(
                 headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
                   return <Widget>[
-                    SliverAppBar(
-                      iconTheme: IconThemeData(
-                        color: Colors.black,
-                      ),
-                      backgroundColor: Colors.white,
-                      expandedHeight: 100.0,
-                      floating: false,
-                      pinned: false,
-                      flexibleSpace: FlexibleSpaceBar(
+                    Container(
+                      child: SliverAppBar(
                         centerTitle: true,
-                        title: Text('Digidrobe',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16.0,
-                            ),
+                        leading: FlatButton(
+                          onPressed:  () => Scaffold.of(context).openDrawer(),
+                          padding: EdgeInsets.all(0.0),
+                          child: Image.asset('assets/images/burger_menu.png',
+                              height: 35.0,
+                              width: 35.0,
+                          ),
+                        ),
+                        iconTheme: IconThemeData(
+                          color: Hexcolor('#3F4D55'),
+                        ),
+                        backgroundColor: Colors.white,
+                        expandedHeight: 50.0,
+                        floating: false,
+                        pinned: false,
+                        flexibleSpace: FlexibleSpaceBar(
+                          centerTitle: true,
+                          title: Image.asset(
+                            'assets/images/logo@3x.png',
+                            width: 100,
+                            height: 30,
+                          ),
+
                         ),
                       ),
                     ),
                     new SliverPadding(
-                      padding: EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(0.0),
                       sliver: new SliverList(
                         delegate: new SliverChildListDelegate([
                           TabBar(
-                            labelColor: Colors.black,
-                            unselectedLabelColor: Colors.grey,
+                            labelColor: Hexcolor('#2F4F55'),
+                            unselectedLabelColor: Hexcolor('#D3D3D3'),
+                            indicatorColor: Hexcolor('#859289'),
+                            indicatorSize: TabBarIndicatorSize.tab,
+                            labelStyle: TextStyle(
+                              letterSpacing: 2.0,
+                              fontSize: 16.0,
+                            ) ,
                             tabs: [
                               new Tab(
                                 text: 'Wardrobe',
@@ -57,69 +76,29 @@ class Home extends StatelessWidget {
                       ),
                   ];
                 },
-          body: Container(
-            child: new Column(
-              children: <Widget>[
-                new Expanded(
-                  child: _buildGridView(),
+          body: TabBarView(
+              children: [
+                Container(
+                  child: new Column(
+                    children: <Widget>[
+                      new Expanded(
+                          child: _buildGridView(),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  child: new Column(
+                    children: <Widget>[
+                      new Text('Journal'),
+                    ],
+                  ),
                 ),
               ],
-            ),
           ),
         ),
       ),
-      // appBar: AppBar(
-      //   iconTheme: IconThemeData(
-      //     color: Colors.black,
-      //   ),
-      //   title:
-      //   Text('Digidrobe',
-      //     style: TextStyle(
-      //       color: Colors.black)),
-      //   backgroundColor: Colors.white,
-      //   centerTitle: true,
-      //   elevation: 0.0,
-      //   actions: <Widget>[
-      //     FlatButton.icon(
-      //       icon: Icon(Icons.person,
-      //       color: Colors.black),
-      //       label: Text('Logout',
-      //       style: TextStyle(
-      //         color: Colors.black,
-      //         ),
-      //       ),
-      //       onPressed: () async {
-      //         await _auth.signOut();
-      //       },
-      //     ),
-      //   ],
-      // ),
       drawer: _buildDrawer(context),
-      // body: Container(
-      //   child: new Column(
-      //     children: <Widget>[
-      //       _buildButtonBar(),
-      //       new Expanded(
-      //         child: _buildGridView()
-      //         ),
-      //     ],
-      //   ),
-      // ),
-      // floatingActionButton: Container(
-      //   height: 80.0,
-      //   width: 80.0,
-      //   child: FittedBox(
-      //     child: FloatingActionButton(onPressed: () {
-      //             Navigator.push(context, new MaterialPageRoute(
-      //                 builder: (BuildContext context) => new AddItem())
-      //             );
-      //     },
-      //     child: Icon(Icons.add),
-      //       backgroundColor: Colors.red,
-      //     ),
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: BottomNavigationBar(
         // onTap: onTabTap,
         currentIndex: _currentIndex,
@@ -142,19 +121,6 @@ class Home extends StatelessWidget {
     return scaffold;
   }
 
-  // ButtonBar _buildButtonBar() {
-  //   return ButtonBar(
-  //           children: <Widget>[
-  //             FlatButton(child: Text('Wardrobe',),
-  //             ),
-  //             FlatButton(child: Text('Journal'),
-  //             ),
-  //           ],
-  //           alignment: MainAxisAlignment.center,
-  //           mainAxisSize: MainAxisSize.max,
-  //         );
-  // }
-
 // Gridview Categories
   GridView _buildGridView() {
     return GridView.count(
@@ -175,6 +141,14 @@ class Home extends StatelessWidget {
     );
   }
 
+  //parsehexcolor
+  hexColor (String colorhexcode){
+    String colornew = '0xff' + colorhexcode;
+    colornew = colornew.replaceAll('#', '');
+    int colorint = int.parse(colornew);
+    return colorint;
+  }
+
 // Side Menu
   Drawer _buildDrawer(BuildContext context) {
     return new Drawer(
@@ -182,11 +156,7 @@ class Home extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: <Color>[
-                    Colors.red,
-                  Colors.redAccent
-                ]),
+              color: Hexcolor('#2F4F55')
             ),
             child: Container(
               child: Column(
@@ -236,19 +206,41 @@ class Home extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
             child: Container(
               decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.grey.shade400))
+                  border: Border(bottom: BorderSide(color: Colors.grey.shade400))
               ),
               child: new ListTile(
                 title: Text('Sustainable',
-                style: TextStyle(
-                    fontSize: 17.0
+                  style: TextStyle(
+                      fontSize: 17.0
+                  ),
                 ),
-              ),
                 onTap: (){
                   Navigator.of(context).pop();
                   Navigator.push(context, new MaterialPageRoute(
                       builder: (BuildContext context) => new SustainablePage())
                   );
+                },
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.grey.shade400))
+              ),
+              child: new ListTile(
+                title: FlatButton.icon(
+                  icon: Icon(Icons.person),
+                  color: Colors.black,
+                  label: Text('Logout',
+                    style: TextStyle(
+                        color: Colors.black
+                    ),
+                  ),
+                ),
+                onTap: () async{
+                  await _auth.signOut();
                 },
               ),
             ),
