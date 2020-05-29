@@ -1,3 +1,4 @@
+import 'package:bajuku_app/screens/page/onboarding_login.dart';
 import 'package:bajuku_app/services/auth.dart';
 import 'package:bajuku_app/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,11 @@ class _RegisterState extends State<Register> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           color: Hexcolor('#3F4D55'),
-          onPressed: (){},
+          onPressed: (){
+            Navigator.push(context, new MaterialPageRoute(
+                      builder: (BuildContext context) => new OnboardLogin())
+                  );
+          },
         ),
         title: 
         Text('Register',
