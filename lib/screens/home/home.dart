@@ -1,19 +1,22 @@
 import 'package:bajuku_app/screens/Page/journal.dart';
-//import 'package:bajuku_app/screens/page/addItem.dart';
+import 'package:bajuku_app/screens/page/addItem.dart';
 import 'package:bajuku_app/screens/page/sustainable.dart';
 import 'package:bajuku_app/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class Home extends StatelessWidget {
-  final AuthService _auth = AuthService();
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
 
-  int _currentIndex = 0;
+class _HomeState extends State<Home> {
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
-    var scaffold = Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       body: DefaultTabController(
               length: 2,
@@ -81,8 +84,28 @@ class Home extends StatelessWidget {
                 Container(
                   child: new Column(
                     children: <Widget>[
+                     Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          textDirection: TextDirection.rtl,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            new IconButton(
+                            icon: new Image.asset('assets/images/seeall@3x.png'
+                            ),
+                            iconSize: 40,
+                            onPressed: (){
+
+                            }),
+                          ],
+                      ),
                       new Expanded(
-                          child: _buildGridView(),
+                        child: new Image.network('https://assets.adidas.com/images/h_2000,f_auto,q_auto:sensitive,fl_lossy/8e72879ec848410db0c6ab2201261318_9366/MYSHELTER_RAIN.RDY_Parka_Black_FI9292_21_model.jpg',
+                            height: 300,
+                            width: 300,
+                            ),
+                      ),
+                      new Expanded(
+                        child: _buildGridView(),
                       ),
                     ],
                   ),
@@ -99,29 +122,9 @@ class Home extends StatelessWidget {
         ),
       ),
       drawer: _buildDrawer(context),
-      bottomNavigationBar: BottomNavigationBar(
-        // onTap: onTabTap,
-        currentIndex: _currentIndex,
-        items: [
-         BottomNavigationBarItem(
-           icon: new Icon(Icons.tab),
-           title: new Text(''),
-         ),
-         BottomNavigationBarItem(
-           icon: new Icon(Icons.add_circle_outline),
-           title: new Text(''),
-         ),
-         BottomNavigationBarItem(
-           icon: Icon(Icons.person),
-           title: Text('')
-         )
-       ],
-      ),
     );
-    return scaffold;
   }
 
-// Gridview Categories
   GridView _buildGridView() {
     return GridView.count(
         // Create a grid with 2 columns. If you change the scrollDirection to
@@ -141,15 +144,6 @@ class Home extends StatelessWidget {
     );
   }
 
-  //parsehexcolor
-  hexColor (String colorhexcode){
-    String colornew = '0xff' + colorhexcode;
-    colornew = colornew.replaceAll('#', '');
-    int colorint = int.parse(colornew);
-    return colorint;
-  }
-
-// Side Menu
   Drawer _buildDrawer(BuildContext context) {
     return new Drawer(
       child:  ListView(
@@ -232,15 +226,17 @@ class Home extends StatelessWidget {
               child: new ListTile(
                 title: FlatButton.icon(
                   icon: Icon(Icons.person),
-                  color: Colors.black,
                   label: Text('Logout',
                     style: TextStyle(
                         color: Colors.black
                     ),
                   ),
+                  onPressed: () async{
+                    await _auth.signOut();
+                  },
                 ),
-                onTap: () async{
-                  await _auth.signOut();
+                onTap: (){
+
                 },
               ),
             ),
@@ -249,4 +245,5 @@ class Home extends StatelessWidget {
       ),
     );
   }
+
 }

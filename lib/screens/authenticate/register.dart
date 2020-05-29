@@ -28,6 +28,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -77,7 +78,7 @@ class _RegisterState extends State<Register> {
                 onPressed: () async {
                   if(_formKey.currentState.validate()){
                     setState(() => loading = true);
-                    dynamic result = await _auth.registerWithEmailAndPassword(email, password);
+                    dynamic result = await _auth.registerWithEmailAndPassword(email, password, firstName, lastName);
                     if(result == null){
                       setState(() {
                         error = 'Email not valid!';
@@ -116,8 +117,8 @@ class _RegisterState extends State<Register> {
   
   TextFormField _buildPasswordTextField() {
     return TextFormField(
-      autofocus: true,
-      decoration: textInputDecoration.copyWith(labelText: 'Password',
+      decoration: textInputDecoration.copyWith(
+        labelText: 'Password',
         suffixIcon: IconButton(
           onPressed: (){
             setState(() {
@@ -137,7 +138,9 @@ class _RegisterState extends State<Register> {
 
   TextFormField _buildEmailTextField() {
     return TextFormField(
-      decoration: textInputDecoration.copyWith(labelText: 'Email'),
+      decoration: textInputDecoration.copyWith(
+        labelText: 'Email',
+      ),
       onChanged: (val){
         setState(() => email = val);
       },
@@ -146,7 +149,8 @@ class _RegisterState extends State<Register> {
 
   TextFormField _buildFirstNameTextField() {
     return TextFormField(
-      decoration: textInputDecoration.copyWith(labelText: 'First Name'),
+      decoration: textInputDecoration.copyWith(
+        labelText: 'First Name'),
       onChanged: (val){
         setState(() => firstName = val);
       },
@@ -155,7 +159,9 @@ class _RegisterState extends State<Register> {
 
   TextFormField _buildLastNameTextField() {
     return TextFormField(
-      decoration: textInputDecoration.copyWith(labelText: 'Last Name'),
+      decoration: textInputDecoration.copyWith(
+        labelText: 'Last Name',
+        ),
       onChanged: (val){
         setState(() => lastName = val);
       },
