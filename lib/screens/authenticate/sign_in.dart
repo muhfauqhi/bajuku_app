@@ -23,26 +23,11 @@ class _SignInState extends State<SignIn> {
   String email = '';
   String password = '';
   String error = '';
-  FocusNode myFocusNode;
-
-  @override
-  void initState() {
-    super.initState();
-
-    myFocusNode = FocusNode();
-  }
-
-  @override
-  void dispose() {
-    
-    myFocusNode.dispose();
-
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
