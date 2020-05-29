@@ -2,6 +2,7 @@ import 'package:bajuku_app/services/auth.dart';
 import 'package:bajuku_app/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:bajuku_app/shared/constants.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -16,53 +17,92 @@ class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
+  bool _obscureText = true;
 
   //text field state
   String email = '';
   String password = '';
   String error = '';
+  FocusNode myFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+
+    myFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    
+    myFocusNode.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Colors.white,
         elevation: 0.0,
-        title: 
-        Center(
-          child: Text('Sign in to Digidrobe',
-            style: TextStyle(color: Colors.black)),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Hexcolor('#3F4D55'),
+          onPressed: (){},
         ),
+        title: 
+        Text('Login',
+          style: TextStyle(color: Hexcolor('#3F4D55'),
+          ),
+        ),
+        centerTitle: true,
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
           key: _formKey,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              SizedBox(height: 20.0),
-              TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: 'Email'),
-                onChanged: (val){
-                  setState(() => email = val);
-                }
+              _buildEmailTextField(),
+              _buildPasswordTextField(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text('Forgot your password?', style: TextStyle(
+                    color: Hexcolor('#859289'),
+                    ),
+                  ),
+                  FlatButton(
+                    child: Text(
+                      'Come this way',
+                      style: TextStyle(
+                        color: Hexcolor('#E1B359'),
+                      ),
+                    ),
+                    onPressed: () {
+                      
+                    },
+                  ),
+                ],
               ),
-              SizedBox(height: 20.0),
-              TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: 'Password'),
-                obscureText: true,
-                onChanged: (val){
-                  setState(() => password = val);
-                }
+              Text(
+                error,
+                style: TextStyle(
+                  color: Colors.red, 
+                  fontSize: 14.0
+                  ),
               ),
-              SizedBox(height: 10.0),
               RaisedButton(
-                color: Colors.grey[900],
+                color: Hexcolor('#23414E'),
                 child: Text(
                   'Sign in',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Hexcolor('#E7C8AF')),
                 ),
+                padding: EdgeInsets.fromLTRB(0, 18, 0, 18),
                 onPressed: () async {
                   if(_formKey.currentState.validate()){
                     setState(() => loading = true);
@@ -76,28 +116,59 @@ class _SignInState extends State<SignIn> {
                   }
                 },
               ),
-              Text(
-                error,
-                style: TextStyle(
-                  color: Colors.red, 
-                  fontSize: 14.0
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                Text('Not a user yet?', style: TextStyle(
+                    color: Hexcolor('#859289'),
+                    ),
                   ),
-              ),
-              FlatButton(
-                child: Text(
-                  'Register?',
-                  style: TextStyle(
-                    color: Colors.black
+                FlatButton(
+                  child: Text(
+                    'Create an Account',
+                    style: TextStyle(
+                      color: Hexcolor('#4AA081'),
+                    ),
                   ),
+                  onPressed: () {
+                    widget.toggleView();
+                  },
                 ),
-                onPressed: () {
-                  widget.toggleView();
-                },
-              )
-            ]
+                ],
+              ),
+            ],
           ),
         ),
       ),
+    );
+  }
+
+  TextFormField _buildPasswordTextField() {
+    return TextFormField(
+      decoration: textInputDecoration.copyWith(labelText: 'Password',
+        suffixIcon: IconButton(
+          onPressed: (){
+            setState(() {
+              _obscureText = !_obscureText;
+            });
+          }, 
+          icon: Icon(Icons.remove_red_eye),
+          color: Hexcolor('#3F4D55'),
+          ),
+        ),
+      obscureText: _obscureText,
+      onChanged: (val){
+        setState(() => password = val);
+      },
+    );
+  }
+
+  TextFormField _buildEmailTextField() {
+    return TextFormField(
+      decoration: textInputDecoration.copyWith(labelText: 'Email'),
+      onChanged: (val){
+        setState(() => email = val);
+      },
     );
   }
 }

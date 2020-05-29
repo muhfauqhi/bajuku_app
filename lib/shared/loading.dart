@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class Loading extends StatelessWidget {
   @override
@@ -8,7 +9,7 @@ class Loading extends StatelessWidget {
       color: Colors.white,
       child: Center(
         child: SpinKitChasingDots(
-          color: Colors.black,
+          color: Hexcolor('#3F4D55'),
           size: 50.0,
         ),
       ),

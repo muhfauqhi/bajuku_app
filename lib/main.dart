@@ -1,3 +1,4 @@
+import 'package:bajuku_app/screens/splash.dart';
 import 'package:bajuku_app/screens/wrapper.dart';
 import 'package:bajuku_app/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return StreamProvider<User>.value(
       value: AuthService().user,
       child: MaterialApp(
-        home: Wrapper(),
+        home: SplashScreen(),
         ),
     );
   }
