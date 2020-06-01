@@ -2,6 +2,9 @@ import 'package:bajuku_app/screens/Page/journal.dart';
 import 'package:bajuku_app/screens/page/addItem.dart';
 import 'package:bajuku_app/screens/page/sustainable.dart';
 import 'package:bajuku_app/services/auth.dart';
+import 'package:bajuku_app/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -13,6 +16,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
+  var firebaseUser = FirebaseAuth.instance.currentUser();
+  String image;
 
   @override
   Widget build(BuildContext context) {
@@ -98,11 +103,27 @@ class _HomeState extends State<Home> {
                             }),
                           ],
                       ),
-                      new Expanded(
-                        child: new Image.network('https://assets.adidas.com/images/h_2000,f_auto,q_auto:sensitive,fl_lossy/8e72879ec848410db0c6ab2201261318_9366/MYSHELTER_RAIN.RDY_Parka_Black_FI9292_21_model.jpg',
-                            height: 300,
-                            width: 300,
-                            ),
+                      // new Expanded(
+                      //   child: new Image.network('https://assets.adidas.com/images/h_2000,f_auto,q_auto:sensitive,fl_lossy/8e72879ec848410db0c6ab2201261318_9366/MYSHELTER_RAIN.RDY_Parka_Black_FI9292_21_model.jpg',
+                      //       height: 300,
+                      //       width: 300,
+                      //       ),
+                      // ),
+                      StreamBuilder(
+                        stream: DatabaseService().getClothesHome(),
+                        builder: (context, snapshot){
+                          // print(snapshot.data.documents[0]['image']);
+                          if(!snapshot.hasData) return Text('Loading data...');
+                          else{
+                            image = snapshot.data.documents[0]['image'];
+                           return new Expanded(
+                             child: new Image.network(image,
+                              height: 300,
+                              width: 300,
+                              ),
+                           );
+                          }
+                        },
                       ),
                       new Expanded(
                         child: _buildGridView(),

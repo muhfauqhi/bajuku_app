@@ -1,4 +1,5 @@
 import 'package:bajuku_app/models/user.dart';
+import 'package:bajuku_app/screens/authenticate/authenticate.dart';
 import 'package:bajuku_app/screens/page/onboarding_login.dart';
 import 'package:bajuku_app/screens/home/homescreen.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class Wrapper extends StatelessWidget {
     
     // return either the Home or Authenticate widget
     if (user == null){
-      return OnboardLogin();
+      return Authenticate();
     } else {
       return HomeScreen();
     }

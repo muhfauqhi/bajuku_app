@@ -1,6 +1,8 @@
 import 'package:bajuku_app/models/slide.dart';
 import 'package:bajuku_app/screens/authenticate/authenticate.dart';
 import 'package:bajuku_app/screens/authenticate/register.dart';
+import 'package:bajuku_app/screens/authenticate/sign_in.dart';
+import 'package:bajuku_app/screens/wrapper.dart';
 import 'package:bajuku_app/widget/slide_item.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -44,6 +46,12 @@ class _OnboardLoginState extends State<OnboardLogin> {
       _currentPage = index;
     });
   }
+
+  bool showSignIn = true;
+  void toggleView() {
+    setState(() => showSignIn = !showSignIn);
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -93,7 +101,7 @@ class _OnboardLoginState extends State<OnboardLogin> {
                   textColor: Colors.white,
                   onPressed: () {
                     Navigator.push(context, new MaterialPageRoute(
-                      builder: (BuildContext context) => new Authenticate())
+                      builder: (BuildContext context) => Wrapper())
                   );
                   },
                 ),
@@ -109,7 +117,7 @@ class _OnboardLoginState extends State<OnboardLogin> {
                   textColor: Colors.white,
                   onPressed: () {
                     Navigator.push(context, new MaterialPageRoute(
-                      builder: (BuildContext context) => new Register())
+                      builder: (BuildContext context) => Wrapper())
                   );
                   },
                 ),
