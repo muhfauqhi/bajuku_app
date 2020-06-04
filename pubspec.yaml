@@ -31,6 +31,7 @@ dependencies:
   hexcolor: ^1.0.2
   carousel_slider: ^2.0.0
   intl: ^0.16.1
+  firebase_storage: ^3.1.6  
 
 dev_dependencies:
   flutter_test:

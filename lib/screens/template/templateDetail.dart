@@ -7,7 +7,8 @@ import 'package:hexcolor/hexcolor.dart';
 class TemplateDetail extends StatefulWidget {
   final String documentId;
   final String categories;
-  TemplateDetail({this.documentId, this.categories});
+  final int idx;
+  TemplateDetail({this.documentId, this.categories, this.idx});
   @override
   _TemplateDetailState createState() => _TemplateDetailState();
 }
@@ -42,7 +43,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                 pinned: false,
                 flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
-                  title: Text(widget.categories,
+                  title: Text('Clothing Detail',
                     style: TextStyle(color: Hexcolor('#3F4D55'),
                     ),
                   ),
@@ -52,12 +53,24 @@ class _TemplateDetailState extends State<TemplateDetail> {
           ];
         },
         body: FutureBuilder(
-          future: DatabaseService().getClothesDetail(widget.documentId),
+          future: DatabaseService().getClothesDetail(),
           builder: (_, snapshot){
             if(snapshot.connectionState == ConnectionState.waiting){
-              print("Loading");
+              // print("Loading");
+              return Text('Loading');
             }else{
-              print(snapshot.data["image"]);
+              // print(snapshot.data.documents.data["image"]);
+              return Card(
+                child: Column(
+                  children: [
+                    Image.network(snapshot.data.documents[widget.idx].data['image']),
+                    Text(snapshot.data.documents[widget.idx].data['clothName']),
+                    Text(snapshot.data.documents[widget.idx].data['price']),
+                    Text(snapshot.data.documents[widget.idx].data['category']),
+                    Text(snapshot.data.documents[widget.idx].data['season']),
+                  ],
+                )
+              );
             }
           },
         ),

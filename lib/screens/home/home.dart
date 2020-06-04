@@ -289,7 +289,6 @@ class _HomeState extends State<Home> {
                       }
                     ),
                     _buildCategories(),
-                    AddItemDialog(),
                   ],
                 ),
               );

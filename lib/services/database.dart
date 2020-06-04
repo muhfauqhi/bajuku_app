@@ -95,10 +95,10 @@ class DatabaseService {
     }
   }
 
-  Future getClothesDetail(String docId) async {
+  Future getClothesDetail() async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
-    DocumentSnapshot documentSnapshot = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').document(docId).get();
-    return documentSnapshot;
+    QuerySnapshot querySnapshot = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').getDocuments();
+    return querySnapshot;
     // QuerySnapshot qn = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').getDocuments().then((value) {
     //   value.documents.forEach((element) { 
     //     // print(element.documentID);

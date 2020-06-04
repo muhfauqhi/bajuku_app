@@ -81,7 +81,7 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
                         print(snapshot.data.documents[index].documentID);
                         Navigator.of(context).pop();
                         Navigator.push(context, new MaterialPageRoute(
-                          builder: (BuildContext context) => new TemplateDetail(documentId:snapshot.data.documents[index].documentID, categories: widget.categories))
+                          builder: (BuildContext context) => new TemplateDetail(documentId:snapshot.data.documents[index].documentID, categories: widget.categories, idx: index))
                         );
                       },
                     );
