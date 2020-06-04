@@ -4,6 +4,7 @@ import 'package:bajuku_app/services/database.dart';
 import 'package:bajuku_app/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 
 class AddItem extends StatefulWidget {
@@ -35,6 +36,16 @@ class _AddItemState extends State<AddItem> {
     return new Scaffold(
     resizeToAvoidBottomPadding: false,
     appBar: new AppBar(
+      leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Hexcolor('#3F4D55'),
+          onPressed: (){
+            Navigator.of(context).pop();
+            Navigator.push(context, new MaterialPageRoute(
+                      builder: (BuildContext context) => new HomeScreen())
+            );
+          },
+        ),
       iconTheme: IconThemeData(
         color: Colors.black,
       ),

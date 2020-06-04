@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:bajuku_app/screens/page/onboarding_login.dart';
 import 'package:bajuku_app/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 

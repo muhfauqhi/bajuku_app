@@ -69,5 +69,47 @@ class DatabaseService {
   Stream<QuerySnapshot> getClothesHome() async* {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     firestoreInstance.collection('users').document(firebaseUser.uid).collection('clothes').snapshots();
+    print(firebaseUser.uid);
   }
+
+  Future<String> getUid() async {
+    final FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
+    final String uid = firebaseUser.uid;
+    return uid;
+  }
+
+  // Stream<QuerySnapshot> getClothes() async* {
+  //   var firebaseUser = await FirebaseAuth.instance.currentUser();
+  //   firestoreInstance.collection('users').document(firebaseUser.uid).collection('clothes').snapshots();
+  //   print(firebaseUser.uid);
+  // }
+
+  Future getClothes(String category) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    if(category == 'All Items'){
+      QuerySnapshot qn = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').getDocuments();
+      return qn;
+    }else{
+      QuerySnapshot qn = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').where('category', isEqualTo: category).getDocuments();
+      return qn;
+    }
+  }
+
+  Future getClothesDetail(String docId) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    DocumentSnapshot documentSnapshot = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').document(docId).get();
+    return documentSnapshot;
+    // QuerySnapshot qn = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').getDocuments().then((value) {
+    //   value.documents.forEach((element) { 
+    //     // print(element.documentID);
+    //     print(element.data);
+    //   });
+    // });
+  }
+
+  // Future <DocumentSnapshot> getDocuments() async {
+  //   var firebaseUser = await FirebaseAuth.instance.currentUser();
+  //   QuerySnapshot result = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').getDocuments();
+  //   List<DocumentSnapshot> data = result.data;
+  // }
   }
