@@ -63,7 +63,9 @@ class _TemplateDetailState extends State<TemplateDetail> {
               return Card(
                 child: Column(
                   children: [
-                    Image.network(snapshot.data.documents[widget.idx].data['image']),
+                    Image.network(snapshot.data.documents[widget.idx].data['image'],
+                    width: 800,
+                    height: 300,),
                     Text(snapshot.data.documents[widget.idx].data['clothName']),
                     Text(snapshot.data.documents[widget.idx].data['price']),
                     Text(snapshot.data.documents[widget.idx].data['category']),

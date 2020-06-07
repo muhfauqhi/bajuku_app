@@ -9,10 +9,12 @@ class SustainablePage extends StatefulWidget {
 
 class _SustainablePageState extends State<SustainablePage> {
   CollectionReference userRef;
+  String uid;
   @override
   initState(){
     super.initState();
     _getUserDoc();
+    _getUid();
   }
   
   @override
@@ -24,14 +26,14 @@ class _SustainablePageState extends State<SustainablePage> {
       ),
       body: 
       StreamBuilder(
-        stream: userRef.snapshots(),
+        stream: userRef.document(uid).snapshots(),
         builder: (context, snapshot){
           // print(snapshot.data.documents[0]['image']);
           if(!snapshot.hasData) return Text('Loading data...');
           else{
-            String firstName = snapshot.data.documents[0]['firstName'];
-            String lastName = snapshot.data.documents[0]['lastName'];
-            String email = snapshot.data.documents[0]['email'];
+            String firstName = snapshot.data['firstName'];
+            String lastName = snapshot.data['lastName'];
+            String email = snapshot.data['email'];
             return Text(firstName+ ' ' +lastName+'\n'+ email);
           }
         },
@@ -43,6 +45,13 @@ class _SustainablePageState extends State<SustainablePage> {
 
     setState((){
       userRef = _firestore.collection('users');
+    });
+ }
+ Future<void> _getUid() async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+
+    setState((){
+      uid = firebaseUser.uid;
     });
  }
 }

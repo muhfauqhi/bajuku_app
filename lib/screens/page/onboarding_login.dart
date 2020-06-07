@@ -1,12 +1,9 @@
+import 'dart:async';
 import 'package:bajuku_app/models/slide.dart';
-import 'package:bajuku_app/screens/authenticate/authenticate.dart';
-import 'package:bajuku_app/screens/authenticate/register.dart';
-import 'package:bajuku_app/screens/authenticate/sign_in.dart';
 import 'package:bajuku_app/screens/wrapper.dart';
+import 'package:bajuku_app/widget/slide_dots.dart';
 import 'package:bajuku_app/widget/slide_item.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:bajuku_app/widget/slide_dots.dart';
 
 class OnboardLogin extends StatefulWidget{
   @override

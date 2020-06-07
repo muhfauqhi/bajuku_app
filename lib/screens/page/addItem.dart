@@ -1,13 +1,19 @@
-import 'package:bajuku_app/screens/home/home.dart';
+
+import 'dart:io';
 import 'package:bajuku_app/screens/home/homescreen.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:bajuku_app/shared/constants.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
+
 
 class AddItem extends StatefulWidget {
+  final File fileUpload;
+  AddItem({this.fileUpload});
   @override
   _AddItemState createState() => _AddItemState();
 }
@@ -73,12 +79,13 @@ class _AddItemState extends State<AddItem> {
                 _buildUrl(),
                 RaisedButton(
                   onPressed: () async {
+                    image = await uploadPic();
                     var now;
                     var formatter;
                     now = DateTime.now();
                     formatter = new DateFormat('yyyy-MM-dd');
                     date = formatter.format(now);
-                    image = "https://stockx.imgix.net/products/streetwear/Supreme-x-Louis-Vuitton-Box-Logo-Hooded-Sweatshirt-Red.png?fit=fill&bg=FFFFFF&w=700&h=500&auto=format,compress&q=90&trim=color&updated_at=1553700708&w=1000";
+                    //image = "https://stockx.imgix.net/products/streetwear/Supreme-x-Louis-Vuitton-Box-Logo-Hooded-Sweatshirt-Red.png?fit=fill&bg=FFFFFF&w=700&h=500&auto=format,compress&q=90&trim=color&updated_at=1553700708&w=1000";
                     worn = '0';
                     status = 'Available';
 
@@ -162,11 +169,13 @@ class _AddItemState extends State<AddItem> {
     return TextFormField(
               decoration: textInputDecoration.copyWith(hintText: 'Price'),
               keyboardType: TextInputType.number,
-              validator: (String val){
+              validator: (val){
                 int prices = int.tryParse(val);
                 // validasi
                 if(prices == null || prices < 0){
                   return 'Price must be valid';
+                }else{
+                  return val;
                 }
               },
               onChanged: (val){
@@ -200,5 +209,20 @@ class _AddItemState extends State<AddItem> {
                 setState(() => itemName = val);
               }
             );
+  }
+  Future <String> uploadPic() async{
+    String fileName = itemName+DateTime.now().millisecondsSinceEpoch.toString();
+    StorageReference firebaseStrorageRef = FirebaseStorage.instance.ref().child('clothes/'+fileName);
+    StorageUploadTask uploadTask = firebaseStrorageRef.putFile(widget.fileUpload);
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+    var imageURL = await taskSnapshot.ref.getDownloadURL();
+    if(uploadTask.isComplete){
+      String img = imageURL.toString();
+      return img;
+    }
+    // setState((){
+    //   Scaffold.of(context).showSnackBar(SnackBar(content: Text("Profile Picture Uploaded")));
+    // });
+    return '';
   }
 }

@@ -180,423 +180,775 @@ class _HomeState extends State<Home> {
 
   Container _buildJournal() {
     return Container(
-                child: new Column(
-                  children: <Widget>[
-                    new Text('Journal'),
-                  ],
-                ),
-              );
+      child: new Column(
+        children: <Widget>[
+          new Text('Journal'),
+        ],
+      ),
+    );
   }
 
   SingleChildScrollView _buildWardrobe() {
-    return SingleChildScrollView(
-                child: new Column(
-                  children: <Widget>[
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        textDirection: TextDirection.rtl,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          new IconButton(
-                          icon: new Image.asset('assets/images/seeall@3x.png'
-                          ),
-                          iconSize: 40,
-                          onPressed: (){
-                            Navigator.of(context).pop();
-                            Navigator.push(context, new MaterialPageRoute(
-                                      builder: (BuildContext context) => new TemplateCategories(categories: "All Items",))
-                            );
-                          }),
-                        ],
-                    ),
-                    _buildAllItems(),
-                    FutureBuilder(
-                      future: DatabaseService().getClothes('All Items'),
-                      builder: (context, snapshot) {
-                        if(!snapshot.hasData){
-                            return Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Text('0', 
-                                    style: TextStyle(
-                                      letterSpacing: 1.0,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                      color: Hexcolor('#3F4D55'),
-                                    ),
-                                  ),
-                                  Text(''),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Text('Pieces', 
-                                    style: TextStyle(
-                                      letterSpacing: 1.0, 
-                                      color: Hexcolor('#859289'),
-                                    ),
-                                  ),
-                                  Text('Since May \'20', 
-                                    style: TextStyle(
-                                      letterSpacing: 1.0, 
-                                      color: Hexcolor('#859289'),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          );
-                        }else{
-                          return Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Text(snapshot.data.documents.length.toString(), 
-                                  style: TextStyle(
-                                    letterSpacing: 1.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0,
-                                    color: Hexcolor('#3F4D55'),
-                                  ),
-                                ),
-                                Text(''),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Text('Pieces', 
-                                  style: TextStyle(
-                                    letterSpacing: 1.0, 
-                                    color: Hexcolor('#859289'),
-                                  ),
-                                ),
-                                Text('Since May \'20', 
-                                  style: TextStyle(
-                                    letterSpacing: 1.0, 
-                                    color: Hexcolor('#859289'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                          );
-                        }
-                      }
-                    ),
-                    _buildCategories(),
-                  ],
+  return SingleChildScrollView(
+      child: new Column(
+        children: <Widget>[
+          Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              textDirection: TextDirection.rtl,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                new IconButton(
+                icon: new Image.asset('assets/images/seeall@3x.png'
                 ),
-              );
+                iconSize: 40,
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  Navigator.push(context, new MaterialPageRoute(
+                            builder: (BuildContext context) => new TemplateCategories(categories: "All Items",))
+                  );
+                }),
+              ],
+          ),
+          _buildAllItems(),
+          FutureBuilder(
+            future: DatabaseService().getClothes('All Items'),
+            builder: (context, snapshot) {
+              if(!snapshot.hasData){
+                  return Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text('0', 
+                          style: TextStyle(
+                            letterSpacing: 1.0,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                            color: Hexcolor('#3F4D55'),
+                          ),
+                        ),
+                        Text(''),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text('Pieces', 
+                          style: TextStyle(
+                            letterSpacing: 1.0, 
+                            color: Hexcolor('#859289'),
+                          ),
+                        ),
+                        Text('Since May \'20', 
+                          style: TextStyle(
+                            letterSpacing: 1.0, 
+                            color: Hexcolor('#859289'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              }else{
+                return Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(snapshot.data.documents.length.toString(), 
+                        style: TextStyle(
+                          letterSpacing: 1.0,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                          color: Hexcolor('#3F4D55'),
+                        ),
+                      ),
+                      Text(''),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text('Pieces', 
+                        style: TextStyle(
+                          letterSpacing: 1.0, 
+                          color: Hexcolor('#859289'),
+                        ),
+                      ),
+                      Text('Since May \'20', 
+                        style: TextStyle(
+                          letterSpacing: 1.0, 
+                          color: Hexcolor('#859289'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+                );
+              }
+            }
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Image.asset("assets/images/categories_asset.png",
+              width: 150.0,
+              height: 25.0,),
+              new IconButton(
+                icon: new Image.asset('assets/images/seeall@3x.png'
+                ),
+                iconSize: 40,
+                onPressed: (){
+                  Navigator.of(context).pop();
+                  Navigator.push(context, new MaterialPageRoute(
+                            builder: (BuildContext context) => new TemplateCategories(categories: "All Items",))
+                  );
+                }),
+            ],
+          ),
+          _buildCategories(),
+        ],
+      ),
+    );
   }
 
   Column _buildCategories() {
     return Column(
-                    children: <Widget>[
-                      _buildAccessoriesAndTops(),
-                      _buildBottomsAndFullBodyWear(),
-                      _buildOutwearAndInnerwear(),
-                      _buildSocksAndFootwear(),
-                      _buildBags(),
-                    ],
-                  );
+      children: <Widget>[
+        _buildAccessoriesAndTops(),
+        _buildBottomsAndFullBodyWear(),
+        _buildOutwearAndInnerwear(),
+        _buildSocksAndFootwear(),
+        _buildBags(),
+      ],
+    );
   }
 
   Row _buildBags() {
     return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
-                      children: <Widget>[
-                        GestureDetector(
-                          child: new Card(
-                            child: new Image.asset('assets/images/allitems.png',
-                              fit: BoxFit.cover,
-                              height: 150.0,
-                            ),
-                            elevation: 0.0,
-                          ),
-                          onTap: (){
-                            Navigator.of(context).pop();
-                            Navigator.push(context, new MaterialPageRoute(
-                                      builder: (BuildContext context) => new TemplateCategories(categories: "Bags",))
-                            );
-                          },
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            GestureDetector(
+              child: new Card(
+                child: new Image.asset('assets/images/bags_asset.png',
+                  fit: BoxFit.cover,
+                  height: 150.0,
+                ),
+                elevation: 0.0,
+              ),
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.push(context, new MaterialPageRoute(
+                          builder: (BuildContext context) => new TemplateCategories(categories: "Bags",))
+                );
+              },
+            ),
+            FutureBuilder(
+            future: DatabaseService().getClothes('Bags'),
+            builder: (context, snapshot) {
+              if(!snapshot.hasData){
+                return Text("Loading!");
+              }else{
+              return Column(
+                children: [
+                    Text('Bags', style: TextStyle(
+                        letterSpacing: 1.0, 
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                        color: Hexcolor('#3F4D55'),
+                      ),
+                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(snapshot.data.documents.length.toString()+" pieces", 
+                        style: TextStyle(
+                          letterSpacing: 1.0,
+                          fontSize: 15.0,
+                          color: Hexcolor('#859289'),
                         ),
-                      ],
-                    );
+                      ),
+                      Text(''),
+                    ],
+                  ),
+                ],
+                );
+              }
+            }
+          ),
+          ],
+        ),
+      ],
+    );
   }
 
   Row _buildSocksAndFootwear() {
     return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            GestureDetector(
+              child: new Card(
+                child: new Image.asset('assets/images/allitems.png',
+                  fit: BoxFit.cover,
+                  height: 150.0,
+                ),
+                elevation: 0.0,
+              ),
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.push(context, new MaterialPageRoute(
+                          builder: (BuildContext context) => new TemplateCategories(categories: "Socks",))
+                );
+              },
+            ),
+              FutureBuilder(
+              future: DatabaseService().getClothes('Socks'),
+              builder: (context, snapshot) {
+                if(!snapshot.hasData){
+                  return Text("Loading!");
+                }else{
+                  return Column(
+                  children: [
+                     Text('Socks', style: TextStyle(
+                          letterSpacing: 1.0, 
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                          color: Hexcolor('#3F4D55'),
+                        ),
+                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        GestureDetector(
-                          child: new Card(
-                            child: new Image.asset('assets/images/allitems.png',
-                              fit: BoxFit.cover,
-                              height: 150.0,
-                            ),
-                            elevation: 0.0,
+                        Text(snapshot.data.documents.length.toString()+" pieces", 
+                          style: TextStyle(
+                            letterSpacing: 1.0,
+                            fontSize: 15.0,
+                            color: Hexcolor('#859289'),
                           ),
-                          onTap: (){
-                            Navigator.of(context).pop();
-                            Navigator.push(context, new MaterialPageRoute(
-                                      builder: (BuildContext context) => new TemplateCategories(categories: "Socks",))
-                            );
-                          },
                         ),
-                        GestureDetector(
-                          child: new Card(
-                            child: new Image.asset('assets/images/allitems.png',
-                              fit: BoxFit.cover,
-                              height: 150.0,
-                            ),
-                            elevation: 0.0,
-                          ),
-                          onTap: (){
-                            Navigator.of(context).pop();
-                            Navigator.push(context, new MaterialPageRoute(
-                                      builder: (BuildContext context) => new TemplateCategories(categories: "Footwear",))
-                            );
-                          },
-                        ),
+                        Text(''),
                       ],
-                    );
+                    ),
+                  ],
+                  );
+                }
+              }
+            ),
+          ],
+        ),
+        Column(
+          children: <Widget>[
+            GestureDetector(
+              child: new Card(
+                child: new Image.asset('assets/images/allitems.png',
+                  fit: BoxFit.cover,
+                  height: 150.0,
+                ),
+                elevation: 0.0,
+              ),
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.push(context, new MaterialPageRoute(
+                          builder: (BuildContext context) => new TemplateCategories(categories: "Footwear",))
+                );
+              },
+            ),
+            FutureBuilder(
+            future: DatabaseService().getClothes('Footwear'),
+            builder: (context, snapshot) {
+              if(!snapshot.hasData){
+                return Text("Loading!");
+              }else{
+              return Column(
+                children: [
+                    Text('Footwear', style: TextStyle(
+                        letterSpacing: 1.0, 
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                        color: Hexcolor('#3F4D55'),
+                      ),
+                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(snapshot.data.documents.length.toString()+" pieces", 
+                        style: TextStyle(
+                          letterSpacing: 1.0,
+                          fontSize: 15.0,
+                          color: Hexcolor('#859289'),
+                        ),
+                      ),
+                      Text(''),
+                    ],
+                  ),
+                ],
+                );
+              }
+            }
+          ),
+          ],
+        ),
+      ],
+    );
   }
 
   Row _buildOutwearAndInnerwear() {
     return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
-                      children: <Widget>[
-                        GestureDetector(
-                          child: new Card(
-                            child: new Image.asset('assets/images/allitems.png',
-                              fit: BoxFit.cover,
-                              height: 150.0,
-                            ),
-                            elevation: 0.0,
-                          ),
-                          onTap: (){
-                            Navigator.of(context).pop();
-                            Navigator.push(context, new MaterialPageRoute(
-                                      builder: (BuildContext context) => new TemplateCategories(categories: "Outwear",))
-                            );
-                          },
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            GestureDetector(
+              child: new Card(
+                child: new Image.asset('assets/images/allitems.png',
+                  fit: BoxFit.cover,
+                  height: 150.0,
+                ),
+                elevation: 0.0,
+              ),
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.push(context, new MaterialPageRoute(
+                          builder: (BuildContext context) => new TemplateCategories(categories: "Outwear",))
+                );
+              },
+            ),
+            FutureBuilder(
+            future: DatabaseService().getClothes('Outwear'),
+            builder: (context, snapshot) {
+              if(!snapshot.hasData){
+                return Text("Loading!");
+              }else{
+              return Column(
+                children: [
+                    Text('Outwear', style: TextStyle(
+                        letterSpacing: 1.0, 
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                        color: Hexcolor('#3F4D55'),
+                      ),
+                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(snapshot.data.documents.length.toString()+" pieces", 
+                        style: TextStyle(
+                          letterSpacing: 1.0,
+                          fontSize: 15.0,
+                          color: Hexcolor('#859289'),
                         ),
-                        GestureDetector(
-                          child: new Card(
-                            child: new Image.asset('assets/images/allitems.png',
-                              fit: BoxFit.cover,
-                              height: 150.0,
-                            ),
-                            elevation: 0.0,
-                          ),
-                          onTap: (){
-                            Navigator.of(context).pop();
-                            Navigator.push(context, new MaterialPageRoute(
-                                      builder: (BuildContext context) => new TemplateCategories(categories: "Innerwear",))
-                            );
-                          },
+                      ),
+                      Text(''),
+                    ],
+                  ),
+                ],
+                );
+              }
+            }
+          ),
+          ],
+        ),
+        Column(
+          children: <Widget>[
+            GestureDetector(
+              child: new Card(
+                child: new Image.asset('assets/images/allitems.png',
+                  fit: BoxFit.cover,
+                  height: 150.0,
+                ),
+                elevation: 0.0,
+              ),
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.push(context, new MaterialPageRoute(
+                          builder: (BuildContext context) => new TemplateCategories(categories: "Innerwear",))
+                );
+              },
+            ),
+            FutureBuilder(
+            future: DatabaseService().getClothes('Innerwear'),
+            builder: (context, snapshot) {
+              if(!snapshot.hasData){
+                return Text("Loading!");
+              }else{
+              return Column(
+                children: [
+                    Text('Innerwear', style: TextStyle(
+                        letterSpacing: 1.0, 
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                        color: Hexcolor('#3F4D55'),
+                      ),
+                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(snapshot.data.documents.length.toString()+" pieces", 
+                        style: TextStyle(
+                          letterSpacing: 1.0,
+                          fontSize: 15.0,
+                          color: Hexcolor('#859289'),
                         ),
-                      ],
-                    );
+                      ),
+                      Text(''),
+                    ],
+                  ),
+                ],
+                );
+              }
+            }
+          ),
+          ],
+        ),
+      ],
+    );
   }
 
   Row _buildBottomsAndFullBodyWear() {
     return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
-                      children: <Widget>[
-                        GestureDetector(
-                          child: new Card(
-                            child: new Image.asset('assets/images/allitems.png',
-                              fit: BoxFit.cover,
-                              height: 150.0,
-                            ),
-                            elevation: 0.0,
-                          ),
-                          onTap: (){
-                            Navigator.of(context).pop();
-                            Navigator.push(context, new MaterialPageRoute(
-                                      builder: (BuildContext context) => new TemplateCategories(categories: "Bottoms",))
-                            );
-                          },
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            GestureDetector(
+              child: new Card(
+                child: new Image.asset('assets/images/allitems.png',
+                  fit: BoxFit.cover,
+                  height: 150.0,
+                ),
+                elevation: 0.0,
+              ),
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.push(context, new MaterialPageRoute(
+                          builder: (BuildContext context) => new TemplateCategories(categories: "Bottoms",))
+                );
+              },
+            ),
+            FutureBuilder(
+            future: DatabaseService().getClothes('Bottoms'),
+            builder: (context, snapshot) {
+              if(!snapshot.hasData){
+                return Text("Loading!");
+              }else{
+              return Column(
+                children: [
+                    Text('Bottoms', style: TextStyle(
+                        letterSpacing: 1.0, 
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                        color: Hexcolor('#3F4D55'),
+                      ),
+                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(snapshot.data.documents.length.toString()+" pieces", 
+                        style: TextStyle(
+                          letterSpacing: 1.0,
+                          fontSize: 15.0,
+                          color: Hexcolor('#859289'),
                         ),
-                        GestureDetector(
-                          child: new Card(
-                            child: new Image.asset('assets/images/allitems.png',
-                              fit: BoxFit.cover,
-                              height: 150.0,
-                            ),
-                            elevation: 0.0,
-                          ),
-                          onTap: (){
-                            Navigator.of(context).pop();
-                            Navigator.push(context, new MaterialPageRoute(
-                                      builder: (BuildContext context) => new TemplateCategories(categories: "Full Body Wear",))
-                            );
-                          },
+                      ),
+                      Text(''),
+                    ],
+                  ),
+                ],
+                );
+              }
+            }
+          ),
+          ],
+        ),
+        Column(
+          children: <Widget>[
+            GestureDetector(
+              child: new Card(
+                child: new Image.asset('assets/images/allitems.png',
+                  fit: BoxFit.cover,
+                  height: 150.0,
+                ),
+                elevation: 0.0,
+              ),
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.push(context, new MaterialPageRoute(
+                          builder: (BuildContext context) => new TemplateCategories(categories: "Full Body Wear",))
+                );
+              },
+            ),
+            FutureBuilder(
+            future: DatabaseService().getClothes('Full Body Wear'),
+            builder: (context, snapshot) {
+              if(!snapshot.hasData){
+                return Text("Loading!");
+              }else{
+              return Column(
+                children: [
+                    Text('Full Body Wear', style: TextStyle(
+                        letterSpacing: 1.0, 
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                        color: Hexcolor('#3F4D55'),
+                      ),
+                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(snapshot.data.documents.length.toString()+" pieces", 
+                        style: TextStyle(
+                          letterSpacing: 1.0,
+                          fontSize: 15.0,
+                          color: Hexcolor('#859289'),
                         ),
-                      ],
-                    );
+                      ),
+                      Text(''),
+                    ],
+                  ),
+                ],
+                );
+              }
+            }
+          ),
+          ],
+        ),
+      ],
+    );
   }
 
   Row _buildAccessoriesAndTops() {
     return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
-                      children: <Widget>[
-                        GestureDetector(
-                          child: new Card(
-                            child: new Image.asset('assets/images/allitems.png',
-                              fit: BoxFit.cover,
-                              height: 150.0,
-                            ),
-                            elevation: 0.0,
-                          ),
-                          onTap: (){
-                            Navigator.of(context).pop();
-                            Navigator.push(context, new MaterialPageRoute(
-                                      builder: (BuildContext context) => new TemplateCategories(categories: "Accesories",))
-                            );
-                          },
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            GestureDetector(
+              child: new Card(
+                child: new Image.asset('assets/images/allitems.png',
+                  fit: BoxFit.cover,
+                  height: 150.0,
+                ),
+                elevation: 0.0,
+              ),
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.push(context, new MaterialPageRoute(
+                          builder: (BuildContext context) => new TemplateCategories(categories: "Accesories",))
+                );
+              },
+            ),
+            FutureBuilder(
+            future: DatabaseService().getClothes('Accesories'),
+            builder: (context, snapshot) {
+              if(!snapshot.hasData){
+                return Text("Loading!");
+              }else{
+              return Column(
+                children: [
+                    Text('Accesories', style: TextStyle(
+                        letterSpacing: 1.0, 
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                        color: Hexcolor('#3F4D55'),
+                      ),
+                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(snapshot.data.documents.length.toString()+" pieces", 
+                        style: TextStyle(
+                          letterSpacing: 1.0,
+                          fontSize: 15.0,
+                          color: Hexcolor('#859289'),
                         ),
-                        GestureDetector(
-                          child: new Card(
-                            child: new Image.asset('assets/images/allitems.png',
-                              fit: BoxFit.cover,
-                              height: 150.0,
-                            ),
-                            elevation: 0.0,
-                          ),
-                          onTap: (){
-                            Navigator.of(context).pop();
-                            Navigator.push(context, new MaterialPageRoute(
-                                      builder: (BuildContext context) => new TemplateCategories(categories: "Tops",))
-                            );
-                          },
+                      ),
+                      Text(''),
+                    ],
+                  ),
+                ],
+                );
+              }
+            }
+          ),
+          ],
+        ),
+        Column(
+          children: <Widget>[
+            GestureDetector(
+              child: new Card(
+                child: new Image.asset('assets/images/tops_asset.png',
+                  fit: BoxFit.cover,
+                  height: 150.0,
+                ),
+                elevation: 0.0,
+              ),
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.push(context, new MaterialPageRoute(
+                          builder: (BuildContext context) => new TemplateCategories(categories: "Tops",))
+                );
+              },
+            ),
+            FutureBuilder(
+            future: DatabaseService().getClothes('Tops'),
+            builder: (context, snapshot) {
+              if(!snapshot.hasData){
+                return Text("Loading!");
+              }else{
+              return Column(
+                children: [
+                    Text('Tops', style: TextStyle(
+                        letterSpacing: 1.0, 
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                        color: Hexcolor('#3F4D55'),
+                      ),
+                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(snapshot.data.documents.length.toString()+" pieces", 
+                        style: TextStyle(
+                          letterSpacing: 1.0,
+                          fontSize: 15.0,
+                          color: Hexcolor('#859289'),
                         ),
-                      ],
-                    );
+                      ),
+                      Text(''),
+                    ],
+                  ),
+                ],
+                );
+              }
+            }
+          ),
+          ],
+        ),
+      ],
+    );
   }
 
   GestureDetector _buildAllItems() {
     return GestureDetector(
-                    child: new Card(
-                      child: new Image.asset('assets/images/allitems.png',
-                        fit: BoxFit.cover,
-                      ),
-                      elevation: 0.0,
-                    ),
-                    onTap: (){
-                      Navigator.of(context).pop();
-                      Navigator.push(context, new MaterialPageRoute(
-                                builder: (BuildContext context) => new TemplateCategories(categories: "All Items",))
-                      );
-                    },
-                  );
+      child: new Card(
+        child: new Image.asset('assets/images/allitems.png',
+          fit: BoxFit.cover,
+        ),
+        elevation: 0.0,
+      ),
+      onTap: (){
+        Navigator.of(context).pop();
+        Navigator.push(context, new MaterialPageRoute(
+                  builder: (BuildContext context) => new TemplateCategories(categories: "All Items",))
+        );
+      },
+    );
   }
     
+
   Drawer _buildDrawer(BuildContext context) {
-        return new Drawer(
-          child:  ListView(
-            children: <Widget>[
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Hexcolor('#2F4F55')
-                ),
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      Material(
-                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                        child: Padding(padding: EdgeInsets.all(8.0),
-                        child: Image.network(
-                            'https://cdn3.iconfinder.com/data/icons/furniture-175/64/clothes-cabinet-storage-furniture-wardrobe-512.png',
-                          width: 70,
-                          height: 70,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text('Digidrobe', style: TextStyle(
-                          color: Colors.white,fontSize: 20.0
-                        )),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey.shade400))
-                  ),
-                  child: new ListTile(
-                    title: Text('Journal',
-                      style: TextStyle(
-                          fontSize: 17.0
+    return new Drawer(
+      child:  ListView(
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Hexcolor('#2F4F55')
+            ),
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  Material(
+                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                    child: Padding(padding: EdgeInsets.all(8.0),
+                    child: Image.network(
+                        'https://cdn3.iconfinder.com/data/icons/furniture-175/64/clothes-cabinet-storage-furniture-wardrobe-512.png',
+                      width: 70,
+                      height: 70,
                       ),
                     ),
-                    onTap: (){
-                      Navigator.of(context).pop();
-                      Navigator.push(context, new MaterialPageRoute(
-                          builder: (BuildContext context) => new JournalPage())
-                      );
-                    },
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text('Digidrobe', style: TextStyle(
+                      color: Colors.white,fontSize: 20.0
+                    )),
+                  )
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey.shade400))
-                  ),
-                  child: new ListTile(
-                    title: Text('Sustainable',
-                      style: TextStyle(
-                          fontSize: 17.0
-                      ),
-                    ),
-                    onTap: (){
-                      Navigator.of(context).pop();
-                      Navigator.push(context, new MaterialPageRoute(
-                          builder: (BuildContext context) => new SustainablePage())
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey.shade400))
-                  ),
-                  child: new ListTile(
-                    title: FlatButton.icon(
-                      icon: Icon(Icons.person),
-                      label: Text('Logout',
-                        style: TextStyle(
-                            color: Colors.black
-                        ),
-                      ),
-                      onPressed: () async{
-                        await _auth.signOut();
-                      },
-                    ),
-                    onTap: (){
-    
-                    },
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        );
-      }
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.grey.shade400))
+              ),
+              child: new ListTile(
+                title: Text('Journal',
+                  style: TextStyle(
+                      fontSize: 17.0
+                  ),
+                ),
+                onTap: (){
+                  Navigator.of(context).pop();
+                  Navigator.push(context, new MaterialPageRoute(
+                      builder: (BuildContext context) => new JournalPage())
+                  );
+                },
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.grey.shade400))
+              ),
+              child: new ListTile(
+                title: Text('Sustainable',
+                  style: TextStyle(
+                      fontSize: 17.0
+                  ),
+                ),
+                onTap: (){
+                  Navigator.of(context).pop();
+                  Navigator.push(context, new MaterialPageRoute(
+                      builder: (BuildContext context) => new SustainablePage())
+                  );
+                },
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.grey.shade400))
+              ),
+              child: new ListTile(
+                title: FlatButton.icon(
+                  icon: Icon(Icons.person),
+                  label: Text('Logout',
+                    style: TextStyle(
+                        color: Colors.black
+                    ),
+                  ),
+                  onPressed: () async{
+                    await _auth.signOut();
+                  },
+                ),
+                onTap: (){
+
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

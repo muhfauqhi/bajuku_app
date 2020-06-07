@@ -11,7 +11,7 @@ class SlideItem extends StatelessWidget {
       width: 200.0,
       height: 200.0,
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
+        shape: BoxShape.rectangle,
         image: DecorationImage(
           image: AssetImage(slideList[index].imageUrl),
           fit: BoxFit.cover
