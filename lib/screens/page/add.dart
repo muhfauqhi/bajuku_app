@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bajuku_app/screens/home/homescreen.dart';
 import 'package:bajuku_app/screens/page/previewImage.dart';
 import 'package:bajuku_app/screens/page/onboarding_login.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,16 @@ class _AddItemDialogState extends State<AddItemDialog> {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
+      if(_image!=null){
       print('_image: $_image');
        Navigator.of(context).pop();
                   Navigator.push(context, new MaterialPageRoute(
                       builder: (BuildContext context) => new PreviewImage(fileImage: _image, method: 'Gallery',)));
+      }else{
+        Navigator.of(context).pop();
+                  Navigator.push(context, new MaterialPageRoute(
+                      builder: (BuildContext context) => new HomeScreen()));
+      }
     });
   }
 
@@ -27,9 +34,16 @@ class _AddItemDialogState extends State<AddItemDialog> {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       _image = image;
-      Navigator.of(context).pop();
+      if(_image!=null){
+      print('_image: $_image');
+       Navigator.of(context).pop();
                   Navigator.push(context, new MaterialPageRoute(
                       builder: (BuildContext context) => new PreviewImage(fileImage: _image, method: 'Camera',)));
+      }else{
+        Navigator.of(context).pop();
+                  Navigator.push(context, new MaterialPageRoute(
+                      builder: (BuildContext context) => new HomeScreen()));
+      }
     });
   }
 
