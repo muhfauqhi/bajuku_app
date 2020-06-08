@@ -334,6 +334,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                 widget.fileUpload,
                 height: 70.0,
                 width: 70.0,
+                fit: BoxFit.cover,
               ),
             ),
           ),
