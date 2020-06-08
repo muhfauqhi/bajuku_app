@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:path/path.dart';
 
 class TemplateCategories extends StatefulWidget {
   final String categories;
@@ -18,18 +19,18 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
   DocumentReference userRef;
 
   @override
-  initState(){ 
+  initState() {
     super.initState();
     _getUserDoc();
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {
-    if(userRef != null){
+    if (userRef != null) {
       return Scaffold(
         backgroundColor: Colors.white,
         body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               Container(
                 child: SliverAppBar(
@@ -37,14 +38,13 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
                   leading: IconButton(
                     icon: Icon(Icons.arrow_back),
                     color: Hexcolor('#3F4D55'),
-                    onPressed: (){
-                      Navigator.push(context, new MaterialPageRoute(
-                                builder: (BuildContext context) => new HomeScreen())
-                      );
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  new HomeScreen()));
                     },
-                  ),
-                  iconTheme: IconThemeData(
-                    color: Hexcolor('#3F4D55'),
                   ),
                   backgroundColor: Colors.white,
                   expandedHeight: 50.0,
@@ -52,8 +52,14 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
                   pinned: false,
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
-                    title: Text(widget.categories,
-                      style: TextStyle(color: Hexcolor('#3F4D55'),
+                    title: Text(
+                      'Your Wardrobe',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        letterSpacing: 1.0,
+                        fontWeight: FontWeight.w600,
+                        fontStyle: FontStyle.normal,
+                        color: Hexcolor('#3F4D55'),
                       ),
                     ),
                   ),
@@ -61,38 +67,130 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
               ),
             ];
           },
-          body: FutureBuilder(
-            future: DatabaseService().getClothes(widget.categories),
-            builder: (_, snapshot){
-              if(snapshot.connectionState == ConnectionState.waiting){
-                return Container(
-                  child: Text('Loading'),
-                );
-              }else{
-                return GridView.builder(
-                  itemCount: snapshot.data.documents.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0), 
-                  itemBuilder: (context, index){
-                    return GestureDetector(
-                      child: Card(
-                        child: Image.network(snapshot.data.documents[index].data['image'])
+          body: Column(
+            children: <Widget>[
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 23.0, right: 22.0, top: 14.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            widget.categories,
+                            style: TextStyle(
+                              color: Hexcolor('#3F4D55'),
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.0,
+                              fontStyle: FontStyle.normal,
+                            ),
+                          ),
+                          Row(
+                            children: <Widget>[
+                              IconButton(
+                                icon:
+                                    Image.asset('assets/images/searchIcon.png'),
+                                onPressed: () {},
+                              ),
+                              IconButton(
+                                icon:
+                                    Image.asset('assets/images/filterIcon.png'),
+                                onPressed: () {},
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      onTap: (){ 
-                        print(snapshot.data.documents[index].documentID);
-                        Navigator.of(context).pop();
-                        Navigator.push(context, new MaterialPageRoute(
-                          builder: (BuildContext context) => new TemplateDetail(documentId:snapshot.data.documents[index].documentID, categories: widget.categories, idx: index))
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 23),
+                          child: FutureBuilder(
+                            future:
+                                DatabaseService().getClothes(widget.categories),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return Text('Loading');
+                              } else {
+                                return Text(
+                                  snapshot.data.documents.length.toString() +
+                                      " Items",
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 12.0,
+                                    color: Hexcolor('#859289'),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                child: Expanded(
+                  child: FutureBuilder(
+                    future: DatabaseService().getClothes(widget.categories),
+                    builder: (_, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Container(
+                          child: Text('Loading'),
                         );
-                      },
-                    );
-                  },
-                );
-              }
-            },
+                      } else {
+                        return GridView.builder(
+                          padding: EdgeInsets.only(left: 15, right: 15, top: 9, bottom: 120),
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.documents.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 15.0,
+                                  mainAxisSpacing: 15.0),
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              child: new Card(
+                                child: Image.network(
+                                  snapshot.data.documents[index].data['image'],
+                                  fit: BoxFit.cover,
+                                  height: 150.0,
+                                  width: 150.0,
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            new TemplateDetail(
+                                                documentId: snapshot
+                                                    .data
+                                                    .documents[index]
+                                                    .documentID,
+                                                categories: widget.categories,
+                                                idx: index)));
+                              },
+                            );
+                          },
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       );
-    }else{
+    } else {
       return Container(
         child: Text('Test'),
       );
@@ -104,9 +202,8 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
     final Firestore _firestore = Firestore.instance;
 
     FirebaseUser user = await _auth.currentUser();
-    setState((){
+    setState(() {
       userRef = _firestore.collection('users').document(user.uid);
     });
- }
-
+  }
 }

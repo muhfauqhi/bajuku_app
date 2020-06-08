@@ -13,7 +13,7 @@ import 'package:hexcolor/hexcolor.dart';
 class Home extends StatefulWidget {
   final int currentIndex;
   Home({this.currentIndex});
-  
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -22,23 +22,102 @@ class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
-    if(widget.currentIndex == 0){
+    if (widget.currentIndex == 0) {
       return Scaffold(
-      backgroundColor: Colors.white,
-      body: DefaultTabController(
+        backgroundColor: Colors.white,
+        body: DefaultTabController(
+          length: 2,
+          child: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                Container(
+                  child: SliverAppBar(
+                    centerTitle: true,
+                    leading: FlatButton(
+                      onPressed: () => Scaffold.of(context).openDrawer(),
+                      padding: EdgeInsets.all(0.0),
+                      child: Image.asset(
+                        'assets/images/burger_menu.png',
+                        height: 35.0,
+                        width: 35.0,
+                      ),
+                    ),
+                    iconTheme: IconThemeData(
+                      color: Hexcolor('#3F4D55'),
+                    ),
+                    backgroundColor: Colors.white,
+                    expandedHeight: 50.0,
+                    floating: false,
+                    pinned: false,
+                    flexibleSpace: FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: Image.asset(
+                        'assets/images/logo@3x.png',
+                        width: 100,
+                        height: 30,
+                      ),
+                    ),
+                  ),
+                ),
+                new SliverPadding(
+                  padding: EdgeInsets.all(0.0),
+                  sliver: new SliverList(
+                    delegate: new SliverChildListDelegate([
+                      TabBar(
+                        labelColor: Hexcolor('#2F4F55'),
+                        unselectedLabelColor: Hexcolor('#D3D3D3'),
+                        indicatorColor: Hexcolor('#859289'),
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        labelStyle: TextStyle(
+                          letterSpacing: 2.0,
+                          fontSize: 16.0,
+                        ),
+                        tabs: [
+                          new Tab(
+                            text: 'Wardrobe',
+                          ),
+                          new Tab(
+                            text: 'Journal',
+                          ),
+                        ],
+                      ),
+                    ]),
+                  ),
+                ),
+              ];
+            },
+            body: TabBarView(
+              children: [
+                _buildWardrobe(),
+                _buildJournal(),
+              ],
+            ),
+          ),
+        ),
+        drawer: _buildDrawer(context),
+      );
+    } else {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: Stack(
+          children: [
+            DefaultTabController(
               length: 2,
               child: NestedScrollView(
-                headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
                   return <Widget>[
                     Container(
                       child: SliverAppBar(
                         centerTitle: true,
                         leading: FlatButton(
-                          onPressed:  () => Scaffold.of(context).openDrawer(),
+                          onPressed: () => Scaffold.of(context).openDrawer(),
                           padding: EdgeInsets.all(0.0),
-                          child: Image.asset('assets/images/burger_menu.png',
-                              height: 35.0,
-                              width: 35.0,
+                          child: Image.asset(
+                            'assets/images/burger_menu.png',
+                            height: 35.0,
+                            width: 35.0,
                           ),
                         ),
                         iconTheme: IconThemeData(
@@ -55,7 +134,6 @@ class _HomeState extends State<Home> {
                             width: 100,
                             height: 30,
                           ),
-
                         ),
                       ),
                     ),
@@ -71,7 +149,7 @@ class _HomeState extends State<Home> {
                             labelStyle: TextStyle(
                               letterSpacing: 2.0,
                               fontSize: 16.0,
-                            ) ,
+                            ),
                             tabs: [
                               new Tab(
                                 text: 'Wardrobe',
@@ -82,99 +160,23 @@ class _HomeState extends State<Home> {
                             ],
                           ),
                         ]),
-                        ),
                       ),
+                    ),
                   ];
                 },
-          body: TabBarView(
-              children: [
-                _buildWardrobe(),
-                _buildJournal(),
-              ],
-          ),
-        ),
-      ),
-      drawer: _buildDrawer(context),
-    );
-    }else{
-      return Scaffold(
-      backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          DefaultTabController(
-                  length: 2,
-                  child: NestedScrollView(
-                    headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
-                      return <Widget>[
-                        Container(
-                          child: SliverAppBar(
-                            centerTitle: true,
-                            leading: FlatButton(
-                              onPressed:  () => Scaffold.of(context).openDrawer(),
-                              padding: EdgeInsets.all(0.0),
-                              child: Image.asset('assets/images/burger_menu.png',
-                                  height: 35.0,
-                                  width: 35.0,
-                              ),
-                            ),
-                            iconTheme: IconThemeData(
-                              color: Hexcolor('#3F4D55'),
-                            ),
-                            backgroundColor: Colors.white,
-                            expandedHeight: 50.0,
-                            floating: false,
-                            pinned: false,
-                            flexibleSpace: FlexibleSpaceBar(
-                              centerTitle: true,
-                              title: Image.asset(
-                                'assets/images/logo@3x.png',
-                                width: 100,
-                                height: 30,
-                              ),
-
-                            ),
-                          ),
-                        ),
-                        new SliverPadding(
-                          padding: EdgeInsets.all(0.0),
-                          sliver: new SliverList(
-                            delegate: new SliverChildListDelegate([
-                              TabBar(
-                                labelColor: Hexcolor('#2F4F55'),
-                                unselectedLabelColor: Hexcolor('#D3D3D3'),
-                                indicatorColor: Hexcolor('#859289'),
-                                indicatorSize: TabBarIndicatorSize.tab,
-                                labelStyle: TextStyle(
-                                  letterSpacing: 2.0,
-                                  fontSize: 16.0,
-                                ) ,
-                                tabs: [
-                                  new Tab(
-                                    text: 'Wardrobe',
-                                  ),
-                                  new Tab(
-                                    text: 'Journal',
-                                  ),
-                                ],
-                              ),
-                            ]),
-                            ),
-                          ),
-                      ];
-                    },
-              body: TabBarView(
+                body: TabBarView(
                   children: [
                     _buildWardrobe(),
                     _buildJournal(),
                   ],
+                ),
               ),
             ),
-          ),
-          AddItemDialog(),
-        ],
-      ),
-      drawer: _buildDrawer(context),
-    );
+            AddItemDialog(),
+          ],
+        ),
+        drawer: _buildDrawer(context),
+      );
     }
   }
 
@@ -189,121 +191,147 @@ class _HomeState extends State<Home> {
   }
 
   SingleChildScrollView _buildWardrobe() {
-  return SingleChildScrollView(
+    return SingleChildScrollView(
       child: new Column(
         children: <Widget>[
-          Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              textDirection: TextDirection.rtl,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                new IconButton(
-                icon: new Image.asset('assets/images/seeall@3x.png'
-                ),
+          Padding(
+            padding: EdgeInsets.only(left: 260),
+            child: IconButton(
+                icon: new Image.asset('assets/images/seeall@3x.png'),
                 iconSize: 40,
-                onPressed: (){
+                onPressed: () {
                   Navigator.of(context).pop();
-                  Navigator.push(context, new MaterialPageRoute(
-                            builder: (BuildContext context) => new TemplateCategories(categories: "All Items",))
-                  );
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new TemplateCategories(
+                                categories: "All Items",
+                              )));
                 }),
-              ],
           ),
           _buildAllItems(),
           FutureBuilder(
-            future: DatabaseService().getClothes('All Items'),
-            builder: (context, snapshot) {
-              if(!snapshot.hasData){
+              future: DatabaseService().getClothes('All Items'),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
                   return Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text('0', 
-                          style: TextStyle(
-                            letterSpacing: 1.0,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                            color: Hexcolor('#3F4D55'),
-                          ),
-                        ),
-                        Text(''),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text('Pieces', 
-                          style: TextStyle(
-                            letterSpacing: 1.0, 
-                            color: Hexcolor('#859289'),
-                          ),
-                        ),
-                        Text('Since May \'20', 
-                          style: TextStyle(
-                            letterSpacing: 1.0, 
-                            color: Hexcolor('#859289'),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                );
-              }else{
-                return Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      Text(snapshot.data.documents.length.toString(), 
-                        style: TextStyle(
-                          letterSpacing: 1.0,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                          color: Hexcolor('#3F4D55'),
-                        ),
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(left: 50),
+                            child: Text(
+                              '',
+                              style: TextStyle(
+                                letterSpacing: 1.0,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                                color: Hexcolor('#3F4D55'),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(''),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text('Pieces', 
-                        style: TextStyle(
-                          letterSpacing: 1.0, 
-                          color: Hexcolor('#859289'),
-                        ),
-                      ),
-                      Text('Since May \'20', 
-                        style: TextStyle(
-                          letterSpacing: 1.0, 
-                          color: Hexcolor('#859289'),
-                        ),
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 50, right: 83),
+                            child: Text(
+                              'Pieces',
+                              style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Hexcolor('#859289'),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 80),
+                            child: Text(
+                              '',
+                              style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Hexcolor('#859289'),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
-                  ),
-                ],
-                );
-              }
-            }
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Image.asset("assets/images/categories_asset.png",
-              width: 150.0,
-              height: 25.0,),
-              new IconButton(
-                icon: new Image.asset('assets/images/seeall@3x.png'
-                ),
-                iconSize: 40,
-                onPressed: (){
-                  Navigator.of(context).pop();
-                  Navigator.push(context, new MaterialPageRoute(
-                            builder: (BuildContext context) => new TemplateCategories(categories: "All Items",))
                   );
-                }),
+                } else {
+                  return Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(left: 50),
+                            child: Text(
+                              snapshot.data.documents.length.toString(),
+                              style: TextStyle(
+                                letterSpacing: 1.0,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                                color: Hexcolor('#3F4D55'),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 50, right: 83),
+                            child: Text(
+                              'Pieces',
+                              style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Hexcolor('#859289'),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 80),
+                            child: Text(
+                              'Since May \'20',
+                              style: TextStyle(
+                                letterSpacing: 1.0,
+                                color: Hexcolor('#859289'),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                }
+              }),
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 50, right: 83),
+                child: Image.asset(
+                  "assets/images/categories_asset.png",
+                  width: 150.0,
+                  height: 25.0,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 30),
+                child: IconButton(
+                    icon: new Image.asset('assets/images/seeall@3x.png'),
+                    iconSize: 40,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  new TemplateCategories(
+                                    categories: "All Items",
+                                  )));
+                    }),
+              ),
             ],
           ),
           _buildCategories(),
@@ -315,69 +343,98 @@ class _HomeState extends State<Home> {
   Column _buildCategories() {
     return Column(
       children: <Widget>[
-        _buildAccessoriesAndTops(),
-        _buildBottomsAndFullBodyWear(),
-        _buildOutwearAndInnerwear(),
-        _buildSocksAndFootwear(),
-        _buildBags(),
+        Padding(
+          padding: EdgeInsets.only(top: 3.0),
+          child: _buildAccessoriesAndTops(),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 10.0),
+          child: _buildBottomsAndFullBodyWear(),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: _buildOutwearAndInnerwear(),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: _buildSocksAndFootwear(),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10.0, bottom: 140),
+          child: _buildBags(),
+        ),
       ],
     );
   }
 
   Row _buildBags() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
       children: <Widget>[
         Column(
           children: <Widget>[
-            GestureDetector(
-              child: new Card(
-                child: new Image.asset('assets/images/bags_asset.png',
-                  fit: BoxFit.cover,
-                  height: 150.0,
-                ),
-                elevation: 0.0,
-              ),
-              onTap: (){
-                Navigator.of(context).pop();
-                Navigator.push(context, new MaterialPageRoute(
-                          builder: (BuildContext context) => new TemplateCategories(categories: "Bags",))
-                );
-              },
-            ),
             FutureBuilder(
-            future: DatabaseService().getClothes('Bags'),
-            builder: (context, snapshot) {
-              if(!snapshot.hasData){
-                return Text("Loading!");
-              }else{
-              return Column(
-                children: [
-                    Text('Bags', style: TextStyle(
-                        letterSpacing: 1.0, 
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                        color: Hexcolor('#3F4D55'),
-                      ),
-                    ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(snapshot.data.documents.length.toString()+" pieces", 
-                        style: TextStyle(
-                          letterSpacing: 1.0,
-                          fontSize: 15.0,
-                          color: Hexcolor('#859289'),
+                future: DatabaseService().getClothes('Bags'),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text("Loading!");
+                  } else {
+                    return Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 50.0, right: 11),
+                          child: GestureDetector(
+                            child: new Card(
+                              child: new Image.asset(
+                                'assets/images/bags_asset.png',
+                                fit: BoxFit.cover,
+                                height: 150.0,
+                                width: 150.0,
+                              ),
+                              elevation: 0.0,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new TemplateCategories(
+                                            categories: "Bags",
+                                          )));
+                            },
+                          ),
                         ),
-                      ),
-                      Text(''),
-                    ],
-                  ),
-                ],
-                );
-              }
-            }
-          ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 50),
+                          child: Text(
+                            'Bags',
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                              color: Hexcolor('#3F4D55'),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Text(
+                            snapshot.data.documents.length.toString() +
+                                " Pieces",
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16.0,
+                              color: Hexcolor('#859289'),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                }),
           ],
         ),
       ],
@@ -386,110 +443,139 @@ class _HomeState extends State<Home> {
 
   Row _buildSocksAndFootwear() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
       children: <Widget>[
         Column(
           children: <Widget>[
-            GestureDetector(
-              child: new Card(
-                child: new Image.asset('assets/images/allitems.png',
-                  fit: BoxFit.cover,
-                  height: 150.0,
-                ),
-                elevation: 0.0,
-              ),
-              onTap: (){
-                Navigator.of(context).pop();
-                Navigator.push(context, new MaterialPageRoute(
-                          builder: (BuildContext context) => new TemplateCategories(categories: "Socks",))
-                );
-              },
-            ),
-              FutureBuilder(
-              future: DatabaseService().getClothes('Socks'),
-              builder: (context, snapshot) {
-                if(!snapshot.hasData){
-                  return Text("Loading!");
-                }else{
-                  return Column(
-                  children: [
-                     Text('Socks', style: TextStyle(
-                          letterSpacing: 1.0, 
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                          color: Hexcolor('#3F4D55'),
-                        ),
-                      ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+            FutureBuilder(
+                future: DatabaseService().getClothes('Socks'),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text("Loading!");
+                  } else {
+                    return Column(
                       children: <Widget>[
-                        Text(snapshot.data.documents.length.toString()+" pieces", 
-                          style: TextStyle(
-                            letterSpacing: 1.0,
-                            fontSize: 15.0,
-                            color: Hexcolor('#859289'),
+                        Padding(
+                          padding: EdgeInsets.only(left: 50.0, right: 11),
+                          child: GestureDetector(
+                            child: new Card(
+                              child: new Image.asset(
+                                'assets/images/tops_asset.png',
+                                fit: BoxFit.cover,
+                                height: 150.0,
+                                width: 150.0,
+                              ),
+                              elevation: 0.0,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new TemplateCategories(
+                                            categories: "Socks",
+                                          )));
+                            },
                           ),
                         ),
-                        Text(''),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 40),
+                          child: Text(
+                            'Socks',
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                              color: Hexcolor('#3F4D55'),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Text(
+                            snapshot.data.documents.length.toString() +
+                                " Pieces",
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16.0,
+                              color: Hexcolor('#859289'),
+                            ),
+                          ),
+                        ),
                       ],
-                    ),
-                  ],
-                  );
-                }
-              }
-            ),
+                    );
+                  }
+                }),
           ],
         ),
         Column(
           children: <Widget>[
-            GestureDetector(
-              child: new Card(
-                child: new Image.asset('assets/images/allitems.png',
-                  fit: BoxFit.cover,
-                  height: 150.0,
-                ),
-                elevation: 0.0,
-              ),
-              onTap: (){
-                Navigator.of(context).pop();
-                Navigator.push(context, new MaterialPageRoute(
-                          builder: (BuildContext context) => new TemplateCategories(categories: "Footwear",))
-                );
-              },
-            ),
             FutureBuilder(
-            future: DatabaseService().getClothes('Footwear'),
-            builder: (context, snapshot) {
-              if(!snapshot.hasData){
-                return Text("Loading!");
-              }else{
-              return Column(
-                children: [
-                    Text('Footwear', style: TextStyle(
-                        letterSpacing: 1.0, 
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                        color: Hexcolor('#3F4D55'),
-                      ),
-                    ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(snapshot.data.documents.length.toString()+" pieces", 
-                        style: TextStyle(
-                          letterSpacing: 1.0,
-                          fontSize: 15.0,
-                          color: Hexcolor('#859289'),
+                future: DatabaseService().getClothes('Footwear'),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text("Loading!");
+                  } else {
+                    return Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(),
+                          child: GestureDetector(
+                            child: new Card(
+                              child: new Image.asset(
+                                'assets/images/tops_asset.png',
+                                fit: BoxFit.cover,
+                                height: 150.0,
+                                width: 150.0,
+                              ),
+                              elevation: 0.0,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new TemplateCategories(
+                                            categories: "Footwear",
+                                          )));
+                            },
+                          ),
                         ),
-                      ),
-                      Text(''),
-                    ],
-                  ),
-                ],
-                );
-              }
-            }
-          ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 60),
+                          child: Text(
+                            'Footwear',
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                              color: Hexcolor('#3F4D55'),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 65),
+                          child: Text(
+                            snapshot.data.documents.length.toString() +
+                                " Pieces",
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16.0,
+                              color: Hexcolor('#859289'),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                }),
           ],
         ),
       ],
@@ -498,110 +584,139 @@ class _HomeState extends State<Home> {
 
   Row _buildOutwearAndInnerwear() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
       children: <Widget>[
         Column(
           children: <Widget>[
-            GestureDetector(
-              child: new Card(
-                child: new Image.asset('assets/images/allitems.png',
-                  fit: BoxFit.cover,
-                  height: 150.0,
-                ),
-                elevation: 0.0,
-              ),
-              onTap: (){
-                Navigator.of(context).pop();
-                Navigator.push(context, new MaterialPageRoute(
-                          builder: (BuildContext context) => new TemplateCategories(categories: "Outwear",))
-                );
-              },
-            ),
             FutureBuilder(
-            future: DatabaseService().getClothes('Outwear'),
-            builder: (context, snapshot) {
-              if(!snapshot.hasData){
-                return Text("Loading!");
-              }else{
-              return Column(
-                children: [
-                    Text('Outwear', style: TextStyle(
-                        letterSpacing: 1.0, 
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                        color: Hexcolor('#3F4D55'),
-                      ),
-                    ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(snapshot.data.documents.length.toString()+" pieces", 
-                        style: TextStyle(
-                          letterSpacing: 1.0,
-                          fontSize: 15.0,
-                          color: Hexcolor('#859289'),
+                future: DatabaseService().getClothes('Outwear'),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text("Loading!");
+                  } else {
+                    return Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 50.0, right: 11),
+                          child: GestureDetector(
+                            child: new Card(
+                              child: new Image.asset(
+                                'assets/images/jacket_asset.png',
+                                fit: BoxFit.cover,
+                                height: 150.0,
+                                width: 150.0,
+                              ),
+                              elevation: 0.0,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new TemplateCategories(
+                                            categories: "Outwear",
+                                          )));
+                            },
+                          ),
                         ),
-                      ),
-                      Text(''),
-                    ],
-                  ),
-                ],
-                );
-              }
-            }
-          ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Text(
+                            'Outwear',
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                              color: Hexcolor('#3F4D55'),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Text(
+                            snapshot.data.documents.length.toString() +
+                                " Pieces",
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16.0,
+                              color: Hexcolor('#859289'),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                }),
           ],
         ),
         Column(
           children: <Widget>[
-            GestureDetector(
-              child: new Card(
-                child: new Image.asset('assets/images/allitems.png',
-                  fit: BoxFit.cover,
-                  height: 150.0,
-                ),
-                elevation: 0.0,
-              ),
-              onTap: (){
-                Navigator.of(context).pop();
-                Navigator.push(context, new MaterialPageRoute(
-                          builder: (BuildContext context) => new TemplateCategories(categories: "Innerwear",))
-                );
-              },
-            ),
             FutureBuilder(
-            future: DatabaseService().getClothes('Innerwear'),
-            builder: (context, snapshot) {
-              if(!snapshot.hasData){
-                return Text("Loading!");
-              }else{
-              return Column(
-                children: [
-                    Text('Innerwear', style: TextStyle(
-                        letterSpacing: 1.0, 
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                        color: Hexcolor('#3F4D55'),
-                      ),
-                    ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(snapshot.data.documents.length.toString()+" pieces", 
-                        style: TextStyle(
-                          letterSpacing: 1.0,
-                          fontSize: 15.0,
-                          color: Hexcolor('#859289'),
+                future: DatabaseService().getClothes('Innerwear'),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text("Loading!");
+                  } else {
+                    return Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(),
+                          child: GestureDetector(
+                            child: new Card(
+                              child: new Image.asset(
+                                'assets/images/tops_asset.png',
+                                fit: BoxFit.cover,
+                                height: 150.0,
+                                width: 150.0,
+                              ),
+                              elevation: 0.0,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new TemplateCategories(
+                                            categories: "Innerwear",
+                                          )));
+                            },
+                          ),
                         ),
-                      ),
-                      Text(''),
-                    ],
-                  ),
-                ],
-                );
-              }
-            }
-          ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 52),
+                          child: Text(
+                            'Innerwear',
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                              color: Hexcolor('#3F4D55'),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 65),
+                          child: Text(
+                            snapshot.data.documents.length.toString() +
+                                " Pieces",
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16.0,
+                              color: Hexcolor('#859289'),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                }),
           ],
         ),
       ],
@@ -610,110 +725,139 @@ class _HomeState extends State<Home> {
 
   Row _buildBottomsAndFullBodyWear() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
       children: <Widget>[
         Column(
           children: <Widget>[
-            GestureDetector(
-              child: new Card(
-                child: new Image.asset('assets/images/allitems.png',
-                  fit: BoxFit.cover,
-                  height: 150.0,
-                ),
-                elevation: 0.0,
-              ),
-              onTap: (){
-                Navigator.of(context).pop();
-                Navigator.push(context, new MaterialPageRoute(
-                          builder: (BuildContext context) => new TemplateCategories(categories: "Bottoms",))
-                );
-              },
-            ),
             FutureBuilder(
-            future: DatabaseService().getClothes('Bottoms'),
-            builder: (context, snapshot) {
-              if(!snapshot.hasData){
-                return Text("Loading!");
-              }else{
-              return Column(
-                children: [
-                    Text('Bottoms', style: TextStyle(
-                        letterSpacing: 1.0, 
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                        color: Hexcolor('#3F4D55'),
-                      ),
-                    ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(snapshot.data.documents.length.toString()+" pieces", 
-                        style: TextStyle(
-                          letterSpacing: 1.0,
-                          fontSize: 15.0,
-                          color: Hexcolor('#859289'),
+                future: DatabaseService().getClothes('Bottoms'),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text("Loading!");
+                  } else {
+                    return Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 50.0, right: 11),
+                          child: GestureDetector(
+                            child: new Card(
+                              child: new Image.asset(
+                                'assets/images/jeans_asset.png',
+                                fit: BoxFit.cover,
+                                height: 150.0,
+                                width: 150.0,
+                              ),
+                              elevation: 0.0,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new TemplateCategories(
+                                            categories: "Bottoms",
+                                          )));
+                            },
+                          ),
                         ),
-                      ),
-                      Text(''),
-                    ],
-                  ),
-                ],
-                );
-              }
-            }
-          ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Text(
+                            'Bottoms',
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                              color: Hexcolor('#3F4D55'),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Text(
+                            snapshot.data.documents.length.toString() +
+                                " Pieces",
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16.0,
+                              color: Hexcolor('#859289'),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                }),
           ],
         ),
         Column(
           children: <Widget>[
-            GestureDetector(
-              child: new Card(
-                child: new Image.asset('assets/images/allitems.png',
-                  fit: BoxFit.cover,
-                  height: 150.0,
-                ),
-                elevation: 0.0,
-              ),
-              onTap: (){
-                Navigator.of(context).pop();
-                Navigator.push(context, new MaterialPageRoute(
-                          builder: (BuildContext context) => new TemplateCategories(categories: "Full Body Wear",))
-                );
-              },
-            ),
             FutureBuilder(
-            future: DatabaseService().getClothes('Full Body Wear'),
-            builder: (context, snapshot) {
-              if(!snapshot.hasData){
-                return Text("Loading!");
-              }else{
-              return Column(
-                children: [
-                    Text('Full Body Wear', style: TextStyle(
-                        letterSpacing: 1.0, 
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                        color: Hexcolor('#3F4D55'),
-                      ),
-                    ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(snapshot.data.documents.length.toString()+" pieces", 
-                        style: TextStyle(
-                          letterSpacing: 1.0,
-                          fontSize: 15.0,
-                          color: Hexcolor('#859289'),
+                future: DatabaseService().getClothes('Full Body Wear'),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text("Loading!");
+                  } else {
+                    return Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(),
+                          child: GestureDetector(
+                            child: new Card(
+                              child: new Image.asset(
+                                'assets/images/tops_asset.png',
+                                fit: BoxFit.cover,
+                                height: 150.0,
+                                width: 150.0,
+                              ),
+                              elevation: 0.0,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new TemplateCategories(
+                                            categories: "Full Body Wear",
+                                          )));
+                            },
+                          ),
                         ),
-                      ),
-                      Text(''),
-                    ],
-                  ),
-                ],
-                );
-              }
-            }
-          ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 12),
+                          child: Text(
+                            'Full Body Wear',
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                              color: Hexcolor('#3F4D55'),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 65),
+                          child: Text(
+                            snapshot.data.documents.length.toString() +
+                                " Pieces",
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16.0,
+                              color: Hexcolor('#859289'),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                }),
           ],
         ),
       ],
@@ -722,110 +866,136 @@ class _HomeState extends State<Home> {
 
   Row _buildAccessoriesAndTops() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,                          
       children: <Widget>[
         Column(
           children: <Widget>[
-            GestureDetector(
-              child: new Card(
-                child: new Image.asset('assets/images/allitems.png',
-                  fit: BoxFit.cover,
-                  height: 150.0,
-                ),
-                elevation: 0.0,
-              ),
-              onTap: (){
-                Navigator.of(context).pop();
-                Navigator.push(context, new MaterialPageRoute(
-                          builder: (BuildContext context) => new TemplateCategories(categories: "Accesories",))
-                );
-              },
-            ),
             FutureBuilder(
-            future: DatabaseService().getClothes('Accesories'),
-            builder: (context, snapshot) {
-              if(!snapshot.hasData){
-                return Text("Loading!");
-              }else{
-              return Column(
-                children: [
-                    Text('Accesories', style: TextStyle(
-                        letterSpacing: 1.0, 
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                        color: Hexcolor('#3F4D55'),
-                      ),
-                    ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(snapshot.data.documents.length.toString()+" pieces", 
-                        style: TextStyle(
-                          letterSpacing: 1.0,
-                          fontSize: 15.0,
-                          color: Hexcolor('#859289'),
+                future: DatabaseService().getClothes('Accesories'),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text("Loading!");
+                  } else {
+                    return Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 50.0, right: 11),
+                          child: GestureDetector(
+                            child: new Card(
+                              child: new Image.asset(
+                                'assets/images/tops_asset.png',
+                                fit: BoxFit.cover,
+                                height: 150.0,
+                                width: 150.0,
+                              ),
+                              elevation: 0.0,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new TemplateCategories(
+                                            categories: "Accesories",
+                                          )));
+                            },
+                          ),
                         ),
-                      ),
-                      Text(''),
-                    ],
-                  ),
-                ],
-                );
-              }
-            }
-          ),
+                        Text(
+                          'Accesories',
+                          style: TextStyle(
+                            fontStyle: FontStyle.normal,
+                            letterSpacing: 1.0,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                            color: Hexcolor('#3F4D55'),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Text(
+                            snapshot.data.documents.length.toString() +
+                                " Pieces",
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16.0,
+                              color: Hexcolor('#859289'),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                }),
           ],
         ),
         Column(
           children: <Widget>[
-            GestureDetector(
-              child: new Card(
-                child: new Image.asset('assets/images/tops_asset.png',
-                  fit: BoxFit.cover,
-                  height: 150.0,
-                ),
-                elevation: 0.0,
-              ),
-              onTap: (){
-                Navigator.of(context).pop();
-                Navigator.push(context, new MaterialPageRoute(
-                          builder: (BuildContext context) => new TemplateCategories(categories: "Tops",))
-                );
-              },
-            ),
             FutureBuilder(
-            future: DatabaseService().getClothes('Tops'),
-            builder: (context, snapshot) {
-              if(!snapshot.hasData){
-                return Text("Loading!");
-              }else{
-              return Column(
-                children: [
-                    Text('Tops', style: TextStyle(
-                        letterSpacing: 1.0, 
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                        color: Hexcolor('#3F4D55'),
-                      ),
-                    ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(snapshot.data.documents.length.toString()+" pieces", 
-                        style: TextStyle(
-                          letterSpacing: 1.0,
-                          fontSize: 15.0,
-                          color: Hexcolor('#859289'),
+                future: DatabaseService().getClothes('Tops'),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text("Loading!");
+                  } else {
+                    return Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(),
+                          child: GestureDetector(
+                            child: new Card(
+                              child: new Image.asset(
+                                'assets/images/tops_asset.png',
+                                fit: BoxFit.cover,
+                                height: 150.0,
+                                width: 150.0,
+                              ),
+                              elevation: 0.0,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new TemplateCategories(
+                                            categories: "Tops",
+                                          )));
+                            },
+                          ),
                         ),
-                      ),
-                      Text(''),
-                    ],
-                  ),
-                ],
-                );
-              }
-            }
-          ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 95.0),
+                          child: Text(
+                            'Tops',
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                              color: Hexcolor('#3F4D55'),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 65),
+                          child: Text(
+                            snapshot.data.documents.length.toString() +
+                                " Pieces",
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16.0,
+                              color: Hexcolor('#859289'),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                }),
           ],
         ),
       ],
@@ -834,48 +1004,53 @@ class _HomeState extends State<Home> {
 
   GestureDetector _buildAllItems() {
     return GestureDetector(
-      child: new Card(
-        child: new Image.asset('assets/images/allitems.png',
-          fit: BoxFit.cover,
+      child: Container(
+        child: Card(
+          child: Image.asset(
+            'assets/images/allitems.png',
+            fit: BoxFit.cover,
+            // height: 310,
+            // width: 276,
+          ),
+          elevation: 0.0,
         ),
-        elevation: 0.0,
       ),
-      onTap: (){
+      onTap: () {
         Navigator.of(context).pop();
-        Navigator.push(context, new MaterialPageRoute(
-                  builder: (BuildContext context) => new TemplateCategories(categories: "All Items",))
-        );
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new TemplateCategories(
+                      categories: "All Items",
+                    )));
       },
     );
   }
-    
 
   Drawer _buildDrawer(BuildContext context) {
     return new Drawer(
-      child:  ListView(
+      child: ListView(
         children: <Widget>[
           DrawerHeader(
-            decoration: BoxDecoration(
-              color: Hexcolor('#2F4F55')
-            ),
+            decoration: BoxDecoration(color: Hexcolor('#2F4F55')),
             child: Container(
               child: Column(
                 children: <Widget>[
                   Material(
                     borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                    child: Padding(padding: EdgeInsets.all(8.0),
-                    child: Image.network(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Image.network(
                         'https://cdn3.iconfinder.com/data/icons/furniture-175/64/clothes-cabinet-storage-furniture-wardrobe-512.png',
-                      width: 70,
-                      height: 70,
+                        width: 70,
+                        height: 70,
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text('Digidrobe', style: TextStyle(
-                      color: Colors.white,fontSize: 20.0
-                    )),
+                    child: Text('Digidrobe',
+                        style: TextStyle(color: Colors.white, fontSize: 20.0)),
                   )
                 ],
               ),
@@ -885,19 +1060,20 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
             child: Container(
               decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Colors.grey.shade400))
-              ),
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey.shade400))),
               child: new ListTile(
-                title: Text('Journal',
-                  style: TextStyle(
-                      fontSize: 17.0
-                  ),
+                title: Text(
+                  'Journal',
+                  style: TextStyle(fontSize: 17.0),
                 ),
-                onTap: (){
+                onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.push(context, new MaterialPageRoute(
-                      builder: (BuildContext context) => new JournalPage())
-                  );
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new JournalPage()));
                 },
               ),
             ),
@@ -906,19 +1082,20 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
             child: Container(
               decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Colors.grey.shade400))
-              ),
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey.shade400))),
               child: new ListTile(
-                title: Text('Sustainable',
-                  style: TextStyle(
-                      fontSize: 17.0
-                  ),
+                title: Text(
+                  'Sustainable',
+                  style: TextStyle(fontSize: 17.0),
                 ),
-                onTap: (){
+                onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.push(context, new MaterialPageRoute(
-                      builder: (BuildContext context) => new SustainablePage())
-                  );
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new SustainablePage()));
                 },
               ),
             ),
@@ -927,23 +1104,20 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
             child: Container(
               decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Colors.grey.shade400))
-              ),
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey.shade400))),
               child: new ListTile(
                 title: FlatButton.icon(
                   icon: Icon(Icons.person),
-                  label: Text('Logout',
-                    style: TextStyle(
-                        color: Colors.black
-                    ),
+                  label: Text(
+                    'Logout',
+                    style: TextStyle(color: Colors.black),
                   ),
-                  onPressed: () async{
+                  onPressed: () async {
                     await _auth.signOut();
                   },
                 ),
-                onTap: (){
-
-                },
+                onTap: () {},
               ),
             ),
           ),
