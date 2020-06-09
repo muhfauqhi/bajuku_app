@@ -72,11 +72,10 @@ class DatabaseService {
       "brand": brand,
       "worn": worn,
       "notes": notes,
-      // "category": {
-      //   "topCategory": category1,
-      //   "subCategory": category2,
-      // },
-      "category": category1,
+      "category": {
+        "topCategory": category1,
+        "subCategory": category2,
+      },
       "size": size,
       "season": season,
       "price": price,
@@ -88,6 +87,7 @@ class DatabaseService {
       "url": url,
       "startDate": FieldValue.serverTimestamp(),
       "endDate": FieldValue.serverTimestamp(),
+      "updateDate": FieldValue.serverTimestamp(),
       "image": image,
     });
   }

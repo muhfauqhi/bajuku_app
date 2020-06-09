@@ -39,7 +39,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
     });
   }
 
-  String name;
+  String itemName;
   String brand;
   String fabric;
   int worn = 0;
@@ -131,20 +131,21 @@ class _AddItemDetailState extends State<AddItemDetail> {
                           ],
                         ),
                       ),
-                      _buildContainerListDark('Name', 'name'),
-                      _buildContainerListLight('Fabric', 'fabric'),
-                      _buildContainerListDark('Brand', 'brand'),
-                      _buildContainerListLight('Size', 'fabric'),
-                      _buildContainerListDark('Season', 'season'),
-                      _buildContainerListLight('Price', 'price'),
-                      _buildContainerListDarkDisabled('Value Cost', 'cost'),
-                      _buildContainerListLight('Date bought', 'dateBought'),
+                      _buildContainerListDark('Name', "itemName"),
+                      _buildContainerListLight('Fabric', "fabric"),
+                      _buildContainerListDark('Brand', "brand"),
+                      _buildContainerListLight('Size', "size"),
+                      _buildContainerListDark('Season', "season"),
+                      _buildContainerListLight('Price', "price"),
+                      _buildContainerListDarkDisabled('Value Cost', "cost"),
+                      _buildContainerListLight('Date bought', "dateBought"),
                       _buildColorPicker(),
-                      _buildContainerListLightDisabled('Status', 'status'),
-                      _buildContainerListDarkDisabled('Used in Outfit', 'usedInOutfit'),
-                      _buildContainerListLightDisabled('Worn', 'worn'),
-                      _buildContainerListDark('Tags Category', 'category1'),
-                      _buildContainerListLight('URL', 'url'),
+                      _buildContainerListLightDisabled('Status', "status"),
+                      _buildContainerListDarkDisabled(
+                          'Used in Outfit', "usedInOutfit"),
+                      _buildContainerListLightDisabled('Worn', "worn"),
+                      _buildContainerListDark('Tags Category', "category1"),
+                      _buildContainerListLight('URL', "url"),
                     ],
                   ),
                 ),
@@ -157,7 +158,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       image = await uploadPic();
                       cost = price;
                       await DatabaseService().setClothes(
-                          name,
+                          itemName,
                           brand,
                           fabric,
                           worn,
@@ -169,7 +170,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                           price,
                           cost,
                           dateBought,
-                          color.toString().substring(1, 4),
+                          currentColor.toString(),
                           status,
                           usedInOutfit,
                           url,
@@ -374,7 +375,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                     color: Hexcolor('#3F4D55'),
                   ),
                   decoration: InputDecoration(
-                    hintText: '0',
+                    hintText: '',
                     hintStyle: TextStyle(
                       fontSize: 12.0,
                       fontWeight: FontWeight.normal,
@@ -385,10 +386,33 @@ class _AddItemDetailState extends State<AddItemDetail> {
                         borderSide: BorderSide(color: const Color(0xF8F6F4))),
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: const Color(0xF8F6F4))),
-                    // filled: true,
-                    // fillColor: Hexcolor('#FFFFFF'),
+                    filled: true,
+                    fillColor: Hexcolor('#FFFFFF'),
                   ),
                   onChanged: (val) {
+                    if (data == "itemName") {
+                      this.itemName = val;
+                    } else if (data == "fabric") {
+                      this.fabric = val;
+                    } else if (data == "brand") {
+                      this.brand = val;
+                    } else if (data == "size") {
+                      this.size = val;
+                    } else if (data == "season") {
+                      this.season = val;
+                    } else if (data == "price") {
+                      this.price = val;
+                    } else if (data == "cost") {
+                      this.cost = val;
+                    } else if (data == "dateBought") {
+                      this.dateBought = val;
+                    } else if (data == "status") {
+                      this.status = val;
+                    } else if (data == "category1") {
+                      this.category1 = val;
+                    } else if (data == "url") {
+                      this.url = val;
+                    }
                     setState(() => data = val);
                   }),
             ),
@@ -429,7 +453,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                     color: Hexcolor('#3F4D55'),
                   ),
                   decoration: InputDecoration(
-                    hintText: '0',
+                    hintText: '',
                     hintStyle: TextStyle(
                       fontSize: 12.0,
                       fontWeight: FontWeight.normal,
@@ -440,10 +464,33 @@ class _AddItemDetailState extends State<AddItemDetail> {
                         borderSide: BorderSide(color: const Color(0xF8F6F4))),
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: const Color(0xF8F6F4))),
-                    // filled: true,
-                    // fillColor: Hexcolor('#FFFFFF'),
+                    filled: true,
+                    fillColor: Hexcolor('#F8F6F4'),
                   ),
                   onChanged: (val) {
+                    if (data == "itemName") {
+                      this.itemName = val;
+                    } else if (data == "fabric") {
+                      this.fabric = val;
+                    } else if (data == "brand") {
+                      this.brand = val;
+                    } else if (data == "size") {
+                      this.size = val;
+                    } else if (data == "season") {
+                      this.season = val;
+                    } else if (data == "price") {
+                      this.price = val;
+                    } else if (data == "cost") {
+                      this.cost = val;
+                    } else if (data == "dateBought") {
+                      this.dateBought = val;
+                    } else if (data == "status") {
+                      this.status = val;
+                    } else if (data == "category1") {
+                      this.category1 = val;
+                    } else if (data == "url") {
+                      this.url = val;
+                    }
                     setState(() => data = val);
                   }),
             ),
@@ -491,6 +538,29 @@ class _AddItemDetailState extends State<AddItemDetail> {
                     // fillColor: Hexcolor('#FFFFFF'),
                   ),
                   onChanged: (val) {
+                    if (data == "itemName") {
+                      this.itemName = val;
+                    } else if (data == "fabric") {
+                      this.fabric = val;
+                    } else if (data == "brand") {
+                      this.brand = val;
+                    } else if (data == "size") {
+                      this.size = val;
+                    } else if (data == "season") {
+                      this.season = val;
+                    } else if (data == "price") {
+                      this.price = val;
+                    } else if (data == "cost") {
+                      this.cost = val;
+                    } else if (data == "dateBought") {
+                      this.dateBought = val;
+                    } else if (data == "status") {
+                      this.status = val;
+                    } else if (data == "category1") {
+                      this.category1 = val;
+                    } else if (data == "url") {
+                      this.url = val;
+                    }
                     setState(() => data = val);
                   }),
             ),
@@ -538,6 +608,29 @@ class _AddItemDetailState extends State<AddItemDetail> {
                     // fillColor: Hexcolor('#FFFFFF'),
                   ),
                   onChanged: (val) {
+                    if (data == "itemName") {
+                      this.itemName = val;
+                    } else if (data == "fabric") {
+                      this.fabric = val;
+                    } else if (data == "brand") {
+                      this.brand = val;
+                    } else if (data == "size") {
+                      this.size = val;
+                    } else if (data == "season") {
+                      this.season = val;
+                    } else if (data == "price") {
+                      this.price = val;
+                    } else if (data == "cost") {
+                      this.cost = val;
+                    } else if (data == "dateBought") {
+                      this.dateBought = val;
+                    } else if (data == "status") {
+                      this.status = val;
+                    } else if (data == "category1") {
+                      this.category1 = val;
+                    } else if (data == "url") {
+                      this.url = val;
+                    }
                     setState(() => data = val);
                   }),
             ),
@@ -635,7 +728,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
   // }
 
   Future<String> uploadPic() async {
-    String fileName = name + DateTime.now().millisecondsSinceEpoch.toString();
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     StorageReference firebaseStrorageRef =
         FirebaseStorage.instance.ref().child('clothes/' + fileName);
     StorageUploadTask uploadTask =

@@ -136,7 +136,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                                   child: Text(
                                     'Last worn ' +
                                         snapshot.data.documents[widget.idx]
-                                            .data['worn']
+                                            .data['worn'].toString()
                                             .toString() +
                                         ' days ago',
                                     textAlign: TextAlign.right,
@@ -161,22 +161,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                           onPressed: () {},
                         ),
                       ),
-                      if (snapshot.data.documents[widget.idx].data['notes']
-                              .toString()
-                              .length >=
-                          30)
-                        _buildContainerListDark(
-                            'Notes',
-                            snapshot.data.documents[widget.idx].data['notes']
-                                    .toString()
-                                    .substring(0, 30) +
-                                ' ...'),
-                      if (snapshot.data.documents[widget.idx].data['notes']
-                              .toString()
-                              .length <
-                          30)
-                        _buildContainerListDark('Notes',
-                            snapshot.data.documents[widget.idx].data['notes']),
+                      _buildContainerListDark('Notes', snapshot.data.documents[widget.idx].data['notes']),
                       _buildContainerListLight('Fabric', 'Cotton; Nylon'),
                       _buildContainerListDark('Brand', ''),
                       _buildContainerListLight('Size',
@@ -192,7 +177,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                           snapshot.data.documents[widget.idx].data['cost']
                               .toString()),
                       _buildContainerListLight('Date Bought', date),
-                      _buildContainerListDark('Color', ''),
+                      _buildContainerListDarkColor('Color', snapshot.data.documents[widget.idx].data['color'].toString()),
                       _buildContainerListLight('Status',
                           snapshot.data.documents[widget.idx].data['status']),
                       _buildContainerListDark(
@@ -200,8 +185,6 @@ class _TemplateDetailState extends State<TemplateDetail> {
                           snapshot
                               .data.documents[widget.idx].data['usedInOutfit']
                               .toString()),
-                      // _buildContainerListLight('Tags Category',
-                      //     snapshot.data.documents[widget.idx].data['category']),
                       _buildContainerListLight(
                           'Tags Category',
                           snapshot.data.documents[widget.idx]
@@ -211,8 +194,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                               snapshot.data.documents[widget.idx]
                                   .data['category']['subCategory']
                                   .toString()),
-                      // _buildContainerListLight('Tags Category',
-                      //     snapshot.data.documents[widget.idx].data['category'].toString().substring(1, snapshot.data.documents[widget.idx].data['category'].toString().length-1)),
+
                       _buildContainerListDarkURL('URL',
                           snapshot.data.documents[widget.idx].data['url']),
                       SizedBox(
@@ -225,6 +207,38 @@ class _TemplateDetailState extends State<TemplateDetail> {
             },
           ),
         ),
+      ),
+    );
+  }
+
+  Container _buildContainerListDarkColor(String desc, String snapshot) {
+    return Container(
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      padding: EdgeInsets.all(14.0),
+      color: Hexcolor('#F8F6F4'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 120,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          Container(
+            // color: Hexcolor(snapshot),
+            child: Icon(
+              Icons.crop_square,
+              // color: Hexcolor(snapshot),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -249,11 +263,22 @@ class _TemplateDetailState extends State<TemplateDetail> {
               ),
             ),
           ),
+          // Container(
+          //   color: Hexcolor('$snapshot'),
+          //   child: Icon(
+          //     Icons.crop_square,
+          //     color: Hexcolor('$snapshot'),
+          //   ),
+          // ),
           Container(
-            color: Hexcolor('$snapshot'),
-            child: Icon(
-                  Icons.crop_square,
-                  color: Hexcolor('$snapshot'),
+            child: Text(
+              snapshot,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.normal,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
             ),
           ),
         ],
