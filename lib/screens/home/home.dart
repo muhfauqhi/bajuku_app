@@ -377,7 +377,7 @@ class _HomeState extends State<Home> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 10.0),
-          child: _buildOutwearAndInnerwear(),
+          child: _buildOuterwearAndInnerwear(),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 10.0),
@@ -612,13 +612,13 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Row _buildOutwearAndInnerwear() {
+  Row _buildOuterwearAndInnerwear() {
     return Row(
       children: <Widget>[
         Column(
           children: <Widget>[
             FutureBuilder(
-                future: DatabaseService().getClothes('Outwear'),
+                future: DatabaseService().getClothes('Outerwear'),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Text('');
@@ -644,7 +644,7 @@ class _HomeState extends State<Home> {
                                   new MaterialPageRoute(
                                       builder: (BuildContext context) =>
                                           new TemplateCategories(
-                                            categories: "Outwear",
+                                            categories: "Outerwear",
                                           )));
                             },
                           ),
@@ -653,7 +653,7 @@ class _HomeState extends State<Home> {
                           width: 150,
                           margin: EdgeInsets.only(left: 50.0),
                           child: Text(
-                            'Outwear',
+                            'Outerwear',
                             style: TextStyle(
                               fontStyle: FontStyle.normal,
                               letterSpacing: 1.0,
