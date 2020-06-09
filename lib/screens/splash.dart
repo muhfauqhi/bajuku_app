@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bajuku_app/screens/page/onboarding_login.dart';
 import 'package:bajuku_app/screens/wrapper.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     var duration = const Duration(seconds: 5);
     return Timer(duration, (){
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_){
-        return Wrapper();
+        return OnboardLogin();
       }));
     });
   }

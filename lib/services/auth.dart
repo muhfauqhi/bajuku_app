@@ -1,6 +1,5 @@
 import 'package:bajuku_app/models/user.dart';
 import 'package:bajuku_app/services/database.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {

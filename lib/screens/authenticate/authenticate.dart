@@ -3,14 +3,24 @@ import 'package:bajuku_app/screens/authenticate/sign_in.dart';
 import 'package:flutter/material.dart';
 
 class Authenticate extends StatefulWidget {
-  final bool showSignIn = true;
-
+  final String flag;
+  Authenticate({this.flag});
   @override
   _AuthenticateState createState() => _AuthenticateState();
 }
 
 class _AuthenticateState extends State<Authenticate> {
-  bool showSignIn = true;
+  bool showSignIn;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.flag == 'Login') {
+      showSignIn = true;
+    } else {
+      showSignIn = false;
+    }
+  }
 
   void toggleView() {
     setState(() => showSignIn = !showSignIn);
@@ -20,9 +30,8 @@ class _AuthenticateState extends State<Authenticate> {
   Widget build(BuildContext context) {
     if (showSignIn) {
       return SignIn(toggleView: toggleView);
-    } else{
+    } else {
       return Register(toggleView: toggleView);
     }
-
   }
 }

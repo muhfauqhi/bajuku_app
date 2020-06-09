@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Wrapper extends StatelessWidget {
+  final String flag;
+  Wrapper({this.flag});
+  
   @override
   Widget build(BuildContext context) {
 
@@ -13,7 +16,7 @@ class Wrapper extends StatelessWidget {
     
     // return either the Home or Authenticate widget
     if (user == null){
-      return Authenticate();
+      return Authenticate(flag: flag,);
     } else {
       return HomeScreen();
     }

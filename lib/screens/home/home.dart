@@ -4,9 +4,12 @@ import 'package:bajuku_app/screens/page/sustainable.dart';
 import 'package:bajuku_app/screens/template/templateCategories.dart';
 import 'package:bajuku_app/services/auth.dart';
 import 'package:bajuku_app/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   final int currentIndex;
@@ -17,6 +20,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  CollectionReference userRef;
+  String uid;
+  @override
+  initState() {
+    super.initState();
+    _getUserDoc();
+    _getUid();
+  }
+
   final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
@@ -288,16 +300,30 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 80),
-                            child: Text(
-                              'Since May \'20',
-                              style: TextStyle(
-                                letterSpacing: 1.0,
-                                color: Hexcolor('#859289'),
-                              ),
-                            ),
-                          ),
+                          StreamBuilder(
+                              stream: userRef.document(uid).snapshots(),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return Text('');
+                                } else {
+                                  var m = snapshot.data['created'].toDate();
+                                  var y = snapshot.data['created'].toDate();
+                                  String month =
+                                      new DateFormat('MMMM').format(m);
+                                  String year = new DateFormat('yy').format(y);
+                                  return Container(
+                                    width: 180,
+                                    alignment: Alignment(1, 0),
+                                    child: Text(
+                                      'Since ' + month + ' \'' + year,
+                                      style: TextStyle(
+                                        letterSpacing: 1.0,
+                                        color: Hexcolor('#859289'),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              }),
                         ],
                       ),
                     ],
@@ -402,8 +428,9 @@ class _HomeState extends State<Home> {
                             },
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 50),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 50.0),
                           child: Text(
                             'Bags',
                             style: TextStyle(
@@ -415,8 +442,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 20),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 50.0),
                           child: Text(
                             snapshot.data.documents.length.toString() +
                                 " Pieces",
@@ -476,8 +504,9 @@ class _HomeState extends State<Home> {
                             },
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 40),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 50.0),
                           child: Text(
                             'Socks',
                             style: TextStyle(
@@ -489,8 +518,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 20),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 50.0),
                           child: Text(
                             snapshot.data.documents.length.toString() +
                                 " Pieces",
@@ -543,8 +573,9 @@ class _HomeState extends State<Home> {
                             },
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 60),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 15),
                           child: Text(
                             'Footwear',
                             style: TextStyle(
@@ -556,8 +587,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 65),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 15),
                           child: Text(
                             snapshot.data.documents.length.toString() +
                                 " Pieces",
@@ -617,8 +649,9 @@ class _HomeState extends State<Home> {
                             },
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 50.0),
                           child: Text(
                             'Outwear',
                             style: TextStyle(
@@ -630,8 +663,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 20),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 50.0),
                           child: Text(
                             snapshot.data.documents.length.toString() +
                                 " Pieces",
@@ -684,8 +718,9 @@ class _HomeState extends State<Home> {
                             },
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 52),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 15.0),
                           child: Text(
                             'Innerwear',
                             style: TextStyle(
@@ -697,8 +732,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 65),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 15.0),
                           child: Text(
                             snapshot.data.documents.length.toString() +
                                 " Pieces",
@@ -758,8 +794,9 @@ class _HomeState extends State<Home> {
                             },
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 50.0),
                           child: Text(
                             'Bottoms',
                             style: TextStyle(
@@ -771,8 +808,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 20),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 50.0),
                           child: Text(
                             snapshot.data.documents.length.toString() +
                                 " Pieces",
@@ -825,8 +863,9 @@ class _HomeState extends State<Home> {
                             },
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 12),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 15.0),
                           child: Text(
                             'Full Body Wear',
                             style: TextStyle(
@@ -838,8 +877,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 65),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 15.0),
                           child: Text(
                             snapshot.data.documents.length.toString() +
                                 " Pieces",
@@ -899,18 +939,23 @@ class _HomeState extends State<Home> {
                             },
                           ),
                         ),
-                        Text(
-                          'Accesories',
-                          style: TextStyle(
-                            fontStyle: FontStyle.normal,
-                            letterSpacing: 1.0,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                            color: Hexcolor('#3F4D55'),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 50.0),
+                          child: Text(
+                            'Accesories',
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              letterSpacing: 1.0,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                              color: Hexcolor('#3F4D55'),
+                            ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 20),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 50.0),
                           child: Text(
                             snapshot.data.documents.length.toString() +
                                 " Pieces",
@@ -963,8 +1008,9 @@ class _HomeState extends State<Home> {
                             },
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 95.0),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 15.0),
                           child: Text(
                             'Tops',
                             style: TextStyle(
@@ -976,8 +1022,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 65),
+                        Container(
+                          width: 150,
+                          margin: EdgeInsets.only(left: 15.0),
                           child: Text(
                             snapshot.data.documents.length.toString() +
                                 " Pieces",
@@ -1118,5 +1165,21 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
+  }
+
+  Future<void> _getUserDoc() async {
+    final Firestore _firestore = Firestore.instance;
+
+    setState(() {
+      userRef = _firestore.collection('users');
+    });
+  }
+
+  Future<void> _getUid() async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+
+    setState(() {
+      uid = firebaseUser.uid;
+    });
   }
 }

@@ -72,9 +72,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                         margin: EdgeInsets.only(left: 330),
                         child: IconButton(
                             icon: new Image.asset('assets/images/edit.png'),
-                            onPressed: () {
-
-                            }),
+                            onPressed: () {}),
                       ),
                       Container(
                         height: 300,
@@ -94,8 +92,9 @@ class _TemplateDetailState extends State<TemplateDetail> {
                       Container(
                         child: Column(
                           children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(right: 240, top: 10),
+                            Container(
+                              width: 355,
+                              padding: EdgeInsets.only(top: 10),
                               child: Text(
                                 snapshot.data.documents[widget.idx]
                                     .data['clothName'],
@@ -110,9 +109,9 @@ class _TemplateDetailState extends State<TemplateDetail> {
                             ),
                             Row(
                               children: <Widget>[
-                                Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 25.0, top: 10.0),
+                                Container(
+                                  width: 270,
+                                  padding: EdgeInsets.only(left: 30.0, top: 10.0),
                                   child: Text(
                                     snapshot.data.documents[widget.idx]
                                             .data['worn'] +
@@ -126,8 +125,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 150.0, top: 15.0),
+                                  padding: EdgeInsets.only(top: 10.0),
                                   child: Text(
                                     'Last worn ' +
                                         snapshot.data.documents[widget.idx]

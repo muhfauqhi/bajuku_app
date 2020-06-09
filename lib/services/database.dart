@@ -30,10 +30,8 @@ class DatabaseService {
       "firstName": firstName,
       "lastName": lastName,
       "email": email,
-      "address": {
-        "street": "",
-        "city": "",
-      }
+      "created": FieldValue.serverTimestamp(),
+      "profilePicture": '',
     });
   }
 
