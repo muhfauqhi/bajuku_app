@@ -3,6 +3,7 @@ import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:path/path.dart';
 
 class TemplateDetail extends StatefulWidget {
   final String documentId;
@@ -111,10 +112,12 @@ class _TemplateDetailState extends State<TemplateDetail> {
                               children: <Widget>[
                                 Container(
                                   width: 270,
-                                  padding: EdgeInsets.only(left: 30.0, top: 10.0),
+                                  padding:
+                                      EdgeInsets.only(left: 30.0, top: 10.0),
                                   child: Text(
                                     snapshot.data.documents[widget.idx]
-                                            .data['worn'] +
+                                            .data['worn']
+                                            .toString() +
                                         ' times worn',
                                     style: TextStyle(
                                       fontSize: 16.0,
@@ -129,7 +132,8 @@ class _TemplateDetailState extends State<TemplateDetail> {
                                   child: Text(
                                     'Last worn ' +
                                         snapshot.data.documents[widget.idx]
-                                            .data['worn'] +
+                                            .data['worn']
+                                            .toString() +
                                         ' days ago',
                                     style: TextStyle(
                                       fontSize: 12.0,
@@ -152,8 +156,22 @@ class _TemplateDetailState extends State<TemplateDetail> {
                           onPressed: () {},
                         ),
                       ),
-                      _buildContainerListDark('Notes',
-                          snapshot.data.documents[widget.idx].data['notes']),
+                      if (snapshot.data.documents[widget.idx].data['notes']
+                              .toString()
+                              .length >=
+                          30)
+                        _buildContainerListDark(
+                            'Notes',
+                            snapshot.data.documents[widget.idx].data['notes']
+                                    .toString()
+                                    .substring(0, 30) +
+                                ' ...'),
+                      if (snapshot.data.documents[widget.idx].data['notes']
+                              .toString()
+                              .length <
+                          30)
+                        _buildContainerListDark('Notes',
+                            snapshot.data.documents[widget.idx].data['notes']),
                       _buildContainerListLight('Fabric', 'Cotton; Nylon'),
                       _buildContainerListDark('Brand', ''),
                       _buildContainerListLight(
@@ -165,12 +183,13 @@ class _TemplateDetailState extends State<TemplateDetail> {
                       _buildContainerListLight(
                           'Price',
                           '€ ' +
-                              snapshot
-                                  .data.documents[widget.idx].data['price']),
+                              snapshot.data.documents[widget.idx].data['price']
+                                  .toString()),
                       _buildContainerListDark(
                           'Value Cost',
                           '€ ' +
-                              snapshot.data.documents[widget.idx].data['cost']),
+                              snapshot.data.documents[widget.idx].data['cost']
+                                  .toString()),
                       _buildContainerListLight(
                           'Date Bought',
                           snapshot
@@ -181,9 +200,12 @@ class _TemplateDetailState extends State<TemplateDetail> {
                       _buildContainerListDark(
                           'Used in Outfit',
                           snapshot
-                              .data.documents[widget.idx].data['usedInOutfit']),
+                              .data.documents[widget.idx].data['usedInOutfit']
+                              .toString()),
                       _buildContainerListLight('Tags Category',
                           snapshot.data.documents[widget.idx].data['category']),
+                      // _buildContainerListLight('Tags Category',
+                      //     snapshot.data.documents[widget.idx].data['category'].toString().substring(1, snapshot.data.documents[widget.idx].data['category'].toString().length-1)),
                       _buildContainerListDarkURL('URL',
                           snapshot.data.documents[widget.idx].data['url']),
                       SizedBox(

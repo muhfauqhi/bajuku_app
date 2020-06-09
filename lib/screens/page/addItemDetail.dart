@@ -81,6 +81,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
       body: SingleChildScrollView(
         child: Container(
           child: Form(
+            key: _formKey,
             child: Column(
               children: <Widget>[
                 //Add Notes
@@ -90,21 +91,19 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   child: Column(
                     children: <Widget>[
                       TextFormField(
-                          enabled: false,
-                          decoration: InputDecoration(
-                            labelText: date,
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: const Color(0xFFFFFF))),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: const Color(0xFFFFFF))),
-                            filled: true,
-                            fillColor: Hexcolor('#FFFFFF'),
-                          ),
-                          onChanged: (val) {
-                            setState(() => name = val);
-                          }),
+                        enabled: false,
+                        decoration: InputDecoration(
+                          labelText: date,
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: const Color(0xFFFFFF))),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: const Color(0xFFFFFF))),
+                          filled: true,
+                          fillColor: Hexcolor('#FFFFFF'),
+                        ),
+                      ),
                       buildInputItemName(),
                       buildInputSize(),
                       buildInputSeason(),
@@ -240,15 +239,15 @@ class _AddItemDetailState extends State<AddItemDetail> {
         ),
         keyboardType: TextInputType.number,
         validator: (val) {
-          int prices = int.tryParse(val);
+          double prices = double.tryParse(val);
           // validasi
-          if (prices == null || prices < 0) {
+          if (prices == null || prices < 0.0) {
             return 'Price must be valid';
           } else {
             return val;
           }
         },
-        onChanged: (val) {
+        onSaved: (val) {
           setState(() => price = double.tryParse(val));
         });
   }
@@ -341,8 +340,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
   }
 
   Future<String> uploadPic() async {
-    String fileName =
-        name + DateTime.now().millisecondsSinceEpoch.toString();
+    String fileName = name + DateTime.now().millisecondsSinceEpoch.toString();
     StorageReference firebaseStrorageRef =
         FirebaseStorage.instance.ref().child('clothes/' + fileName);
     StorageUploadTask uploadTask =
