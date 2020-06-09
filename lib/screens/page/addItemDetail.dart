@@ -79,7 +79,9 @@ class _AddItemDetailState extends State<AddItemDetail> {
             Navigator.push(
                 context,
                 new MaterialPageRoute(
-                    builder: (BuildContext context) => new ImageEditor(filePicture: widget.fileUpload,)));
+                    builder: (BuildContext context) => new ImageEditor(
+                          filePicture: widget.fileUpload,
+                        )));
           },
         ),
         centerTitle: true,
@@ -97,7 +99,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   child: Column(
                     children: <Widget>[
                       Container(
-                        color: Hexcolor('#F8F6F4'),
+                        color: Hexcolor('#FFFFFF'),
                         height: 45,
                         margin: EdgeInsets.only(left: 25.0, right: 25.0),
                         child: Row(
@@ -129,17 +131,18 @@ class _AddItemDetailState extends State<AddItemDetail> {
                           ],
                         ),
                       ),
+                      _buildContainerListDark('Name', 'name'),
                       _buildContainerListLight('Fabric', 'fabric'),
                       _buildContainerListDark('Brand', 'brand'),
                       _buildContainerListLight('Size', 'fabric'),
                       _buildContainerListDark('Season', 'season'),
                       _buildContainerListLight('Price', 'price'),
-                      _buildContainerListDark('Value Cost', 'cost'),
+                      _buildContainerListDarkDisabled('Value Cost', 'cost'),
                       _buildContainerListLight('Date bought', 'dateBought'),
                       _buildColorPicker(),
-                      _buildContainerListLight('Status', 'status'),
-                      _buildContainerListDark('Used in Outfit', 'userInOutfit'),
-                      _buildContainerListLight('Worn', 'worn'),
+                      _buildContainerListLightDisabled('Status', 'status'),
+                      _buildContainerListDarkDisabled('Used in Outfit', 'usedInOutfit'),
+                      _buildContainerListLightDisabled('Worn', 'worn'),
                       _buildContainerListDark('Tags Category', 'category1'),
                       _buildContainerListLight('URL', 'url'),
                     ],
@@ -337,6 +340,116 @@ class _AddItemDetailState extends State<AddItemDetail> {
           onChanged: (val) {
             setState(() => notes = val);
           }),
+    );
+  }
+
+  Container _buildContainerListLightDisabled(String desc, String data) {
+    return Container(
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      // padding: EdgeInsets.all(14.0),
+      color: Hexcolor('#FFFFFF'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 135,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: TextFormField(
+                  enabled: false,
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.normal,
+                    color: Hexcolor('#3F4D55'),
+                  ),
+                  decoration: InputDecoration(
+                    hintText: '0',
+                    hintStyle: TextStyle(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.normal,
+                      fontStyle: FontStyle.normal,
+                      color: Hexcolor('#3F4D55'),
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: const Color(0xF8F6F4))),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: const Color(0xF8F6F4))),
+                    // filled: true,
+                    // fillColor: Hexcolor('#FFFFFF'),
+                  ),
+                  onChanged: (val) {
+                    setState(() => data = val);
+                  }),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Container _buildContainerListDarkDisabled(String desc, String data) {
+    return Container(
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      // padding: EdgeInsets.all(14.0),
+      color: Hexcolor('#F8F6F4'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 135,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: TextFormField(
+                  enabled: false,
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.normal,
+                    color: Hexcolor('#3F4D55'),
+                  ),
+                  decoration: InputDecoration(
+                    hintText: '0',
+                    hintStyle: TextStyle(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.normal,
+                      fontStyle: FontStyle.normal,
+                      color: Hexcolor('#3F4D55'),
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: const Color(0xF8F6F4))),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: const Color(0xF8F6F4))),
+                    // filled: true,
+                    // fillColor: Hexcolor('#FFFFFF'),
+                  ),
+                  onChanged: (val) {
+                    setState(() => data = val);
+                  }),
+            ),
+          )
+        ],
+      ),
     );
   }
 
