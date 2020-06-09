@@ -88,7 +88,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
       body: SingleChildScrollView(
         child: Container(
           child: Form(
-            // key: _formKey,
+            key: _formKey,
             child: Column(
               children: <Widget>[
                 //Add Notes

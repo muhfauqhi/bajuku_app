@@ -250,14 +250,10 @@ class _TemplateDetailState extends State<TemplateDetail> {
             ),
           ),
           Container(
-            child: Text(
-              snapshot,
-              style: TextStyle(
-                fontSize: 12.0,
-                fontWeight: FontWeight.normal,
-                fontStyle: FontStyle.normal,
-                color: Hexcolor('#3F4D55'),
-              ),
+            color: Hexcolor('$snapshot'),
+            child: Icon(
+                  Icons.crop_square,
+                  color: Hexcolor('$snapshot'),
             ),
           ),
         ],
