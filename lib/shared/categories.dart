@@ -1,5 +1,5 @@
 class Category {
-  final String categoryName;
-  final String subCategoryName;
+  String categoryName;
+  String subCategoryName;
   Category({this.categoryName, this.subCategoryName});
 }
