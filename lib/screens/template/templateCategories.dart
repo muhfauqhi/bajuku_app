@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:path/path.dart';
 
 class TemplateCategories extends StatefulWidget {
   final String categories;
@@ -65,128 +64,130 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
                   ),
                 ),
               ),
-            ];
-          },
-          body: Column(
-            children: <Widget>[
-              Container(
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 23.0, right: 22.0, top: 14.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  <Widget>[
+                    Container(
+                      child: Column(
                         children: <Widget>[
-                          Text(
-                            widget.categories,
-                            style: TextStyle(
-                              color: Hexcolor('#3F4D55'),
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.0,
-                              fontStyle: FontStyle.normal,
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 23.0, right: 22.0, top: 14.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  widget.categories,
+                                  style: TextStyle(
+                                    color: Hexcolor('#3F4D55'),
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1.0,
+                                    fontStyle: FontStyle.normal,
+                                  ),
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    IconButton(
+                                      icon: Image.asset(
+                                          'assets/images/searchIcon.png'),
+                                      onPressed: () {},
+                                    ),
+                                    IconButton(
+                                      icon: Image.asset(
+                                          'assets/images/filterIcon.png'),
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                           Row(
                             children: <Widget>[
-                              IconButton(
-                                icon:
-                                    Image.asset('assets/images/searchIcon.png'),
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon:
-                                    Image.asset('assets/images/filterIcon.png'),
-                                onPressed: () {},
+                              Padding(
+                                padding: EdgeInsets.only(left: 23),
+                                child: FutureBuilder(
+                                  future: DatabaseService()
+                                      .getClothes(widget.categories),
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return Text('');
+                                    } else {
+                                      return Text(
+                                        snapshot.data.documents.length
+                                                .toString() +
+                                            " Items",
+                                        style: TextStyle(
+                                          fontStyle: FontStyle.normal,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 12.0,
+                                          color: Hexcolor('#859289'),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
                               ),
                             ],
                           ),
                         ],
                       ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(left: 23),
-                          child: FutureBuilder(
-                            future:
-                                DatabaseService().getClothes(widget.categories),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return Text('Loading');
-                              } else {
-                                return Text(
-                                  snapshot.data.documents.length.toString() +
-                                      " Items",
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 12.0,
-                                    color: Hexcolor('#859289'),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
-              Container(
-                child: Expanded(
-                  child: FutureBuilder(
-                    future: DatabaseService().getClothes(widget.categories),
-                    builder: (_, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Container(
-                          child: Text('Loading'),
-                        );
-                      } else {
-                        return GridView.builder(
-                          padding: EdgeInsets.only(left: 15, right: 15, top: 9, bottom: 120),
-                          shrinkWrap: true,
-                          itemCount: snapshot.data.documents.length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 15.0,
-                                  mainAxisSpacing: 15.0),
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              child: new Card(
-                                child: Image.network(
-                                  snapshot.data.documents[index].data['image'],
-                                  fit: BoxFit.cover,
-                                  height: 150.0,
-                                  width: 150.0,
-                                ),
-                              ),
-                              onTap: () {
-                                Navigator.of(context).pop();
-                                Navigator.push(
-                                    context,
-                                    new MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            new TemplateDetail(
-                                                documentId: snapshot
-                                                    .data
-                                                    .documents[index]
-                                                    .documentID,
-                                                categories: widget.categories,
-                                                idx: index)));
-                              },
-                            );
-                          },
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
-            ],
+            ];
+          },
+          body: FutureBuilder(
+            future: DatabaseService().getClothes(widget.categories),
+            builder: (_, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text('');
+              } else {
+                return GridView.builder(
+                  padding:
+                      EdgeInsets.only(left: 15, right: 15, top: 9, bottom: 120),
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.documents.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 15.0,
+                      mainAxisSpacing: 15.0),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      // color: Colors.black,
+                      width: 150,
+                      height: 150,
+                      child: GestureDetector(
+                        child: ClipRRect(
+                          child: Card(
+                            child: Image.network(
+                              snapshot.data.documents[index].data['image'],
+                              fit: BoxFit.fitWidth,
+                            ),
+                            elevation: 2.0,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      new TemplateDetail(
+                                          documentId: snapshot
+                                              .data.documents[index].documentID,
+                                          categories: widget.categories,
+                                          idx: index)));
+                        },
+                      ),
+                    );
+                  },
+                );
+              }
+            },
           ),
         ),
       );

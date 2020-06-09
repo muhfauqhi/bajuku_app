@@ -19,63 +19,292 @@ class _TemplateDetailState extends State<TemplateDetail> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled){
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             Container(
               child: SliverAppBar(
                 centerTitle: true,
                 leading: IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    color: Hexcolor('#3F4D55'),
-                    onPressed: (){
-                      Navigator.of(context).pop();
-                      Navigator.push(context, new MaterialPageRoute(
-                          builder: (BuildContext context) => new TemplateCategories(categories: widget.categories))
-                      );
-                    },
+                  icon: Icon(Icons.arrow_back),
+                  color: Hexcolor('#3F4D55'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new TemplateCategories(
+                                    categories: widget.categories)));
+                  },
                 ),
                 iconTheme: IconThemeData(
-                    color: Hexcolor('#3F4D55'),
-                  ),
-                backgroundColor: Colors.white,
+                  color: Hexcolor('#3F4D55'),
+                ),
+                backgroundColor: Hexcolor('FBFBFB'),
                 expandedHeight: 50.0,
                 floating: false,
                 pinned: false,
                 flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
-                  title: Text('Clothing Detail',
-                    style: TextStyle(color: Hexcolor('#3F4D55'),
+                  title: Text(
+                    'Clothing Detail',
+                    style: TextStyle(
+                      color: Hexcolor('#3F4D55'),
                     ),
                   ),
                 ),
               ),
-              ),
+            ),
           ];
         },
-        body: FutureBuilder(
-          future: DatabaseService().getClothesDetail(),
-          builder: (_, snapshot){
-            if(snapshot.connectionState == ConnectionState.waiting){
-              // print("Loading");
-              return Text('Loading');
-            }else{
-              // print(snapshot.data.documents.data["image"]);
-              return Card(
-                child: Column(
-                  children: [
-                    Image.network(snapshot.data.documents[widget.idx].data['image'],
-                    width: 800,
-                    height: 300,),
-                    Text(snapshot.data.documents[widget.idx].data['clothName']),
-                    Text(snapshot.data.documents[widget.idx].data['price']),
-                    Text(snapshot.data.documents[widget.idx].data['category']),
-                    Text(snapshot.data.documents[widget.idx].data['season']),
-                  ],
-                )
-              );
-            }
-          },
+        body: SingleChildScrollView(
+          child: FutureBuilder(
+            future: DatabaseService().getClothesDetail(),
+            builder: (_, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text('');
+              } else {
+                return Container(
+                  color: Hexcolor('#FBFBFB'),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(left: 330),
+                        child: IconButton(
+                            icon: new Image.asset('assets/images/edit.png'),
+                            onPressed: () {
+
+                            }),
+                      ),
+                      Container(
+                        height: 300,
+                        width: 400,
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: ClipRRect(
+                          child: Card(
+                            child: Image.network(
+                              snapshot.data.documents[widget.idx].data['image'],
+                              fit: BoxFit.fitWidth,
+                            ),
+                            elevation: 2.0,
+                          ),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      Container(
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(right: 240, top: 10),
+                              child: Text(
+                                snapshot.data.documents[widget.idx]
+                                    .data['clothName'],
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Hexcolor('#3F4D55'),
+                                  letterSpacing: 1.0,
+                                  fontStyle: FontStyle.normal,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 25.0, top: 10.0),
+                                  child: Text(
+                                    snapshot.data.documents[widget.idx]
+                                            .data['worn'] +
+                                        ' times worn',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.normal,
+                                      color: Hexcolor('#859289'),
+                                      fontStyle: FontStyle.normal,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(left: 150.0, top: 15.0),
+                                  child: Text(
+                                    'Last worn ' +
+                                        snapshot.data.documents[widget.idx]
+                                            .data['worn'] +
+                                        ' days ago',
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.normal,
+                                      color: Hexcolor('#859289'),
+                                      fontStyle: FontStyle.normal,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: 8.0, right: 8.0, top: 25.0, bottom: 25.0),
+                        child: FlatButton(
+                          child: Image.asset('assets/images/wornButton.png'),
+                          onPressed: () {},
+                        ),
+                      ),
+                      _buildContainerListDark('Notes',
+                          snapshot.data.documents[widget.idx].data['notes']),
+                      _buildContainerListLight('Fabric', 'Cotton; Nylon'),
+                      _buildContainerListDark('Brand', ''),
+                      _buildContainerListLight(
+                          'Size',
+                          'UK ' +
+                              snapshot.data.documents[widget.idx].data['size']),
+                      _buildContainerListDark('Season',
+                          snapshot.data.documents[widget.idx].data['season']),
+                      _buildContainerListLight(
+                          'Price',
+                          '€ ' +
+                              snapshot
+                                  .data.documents[widget.idx].data['price']),
+                      _buildContainerListDark(
+                          'Value Cost',
+                          '€ ' +
+                              snapshot.data.documents[widget.idx].data['cost']),
+                      _buildContainerListLight(
+                          'Date Bought',
+                          snapshot
+                              .data.documents[widget.idx].data['dateBought']),
+                      _buildContainerListDark('Color', ''),
+                      _buildContainerListLight('Status',
+                          snapshot.data.documents[widget.idx].data['status']),
+                      _buildContainerListDark(
+                          'Used in Outfit',
+                          snapshot
+                              .data.documents[widget.idx].data['usedInOutfit']),
+                      _buildContainerListLight('Tags Category',
+                          snapshot.data.documents[widget.idx].data['category']),
+                      _buildContainerListDarkURL('URL',
+                          snapshot.data.documents[widget.idx].data['url']),
+                      SizedBox(
+                        height: 50,
+                      ),
+                    ],
+                  ),
+                );
+              }
+            },
+          ),
         ),
+      ),
+    );
+  }
+
+  Container _buildContainerListDark(String desc, String snapshot) {
+    return Container(
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      padding: EdgeInsets.all(14.0),
+      color: Hexcolor('#F8F6F4'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 120,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          Text(
+            snapshot,
+            style: TextStyle(
+              fontSize: 12.0,
+              fontWeight: FontWeight.normal,
+              fontStyle: FontStyle.normal,
+              color: Hexcolor('#3F4D55'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container _buildContainerListDarkURL(String desc, String snapshot) {
+    return Container(
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      padding: EdgeInsets.all(14.0),
+      color: Hexcolor('#F8F6F4'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 120,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          GestureDetector(
+            child: Text(
+              snapshot,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.normal,
+                fontStyle: FontStyle.normal,
+                color: Colors.blue,
+              ),
+            ),
+            onTap: () {},
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container _buildContainerListLight(String desc, String snapshot) {
+    return Container(
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      padding: EdgeInsets.all(14.0),
+      color: Hexcolor('#FFFFFF'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 120,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          Container(
+            child: Text(
+              snapshot,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.normal,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

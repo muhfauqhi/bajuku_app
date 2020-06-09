@@ -4,8 +4,6 @@ import 'package:bajuku_app/screens/page/sustainable.dart';
 import 'package:bajuku_app/screens/template/templateCategories.dart';
 import 'package:bajuku_app/services/auth.dart';
 import 'package:bajuku_app/services/database.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -376,7 +374,7 @@ class _HomeState extends State<Home> {
                 future: DatabaseService().getClothes('Bags'),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Text("Loading!");
+                    return Text('');
                   } else {
                     return Column(
                       children: <Widget>[
@@ -450,7 +448,7 @@ class _HomeState extends State<Home> {
                 future: DatabaseService().getClothes('Socks'),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Text("Loading!");
+                    return Text('');
                   } else {
                     return Column(
                       children: <Widget>[
@@ -517,7 +515,7 @@ class _HomeState extends State<Home> {
                 future: DatabaseService().getClothes('Footwear'),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Text("Loading!");
+                    return Text('');
                   } else {
                     return Column(
                       children: <Widget>[
@@ -591,7 +589,7 @@ class _HomeState extends State<Home> {
                 future: DatabaseService().getClothes('Outwear'),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Text("Loading!");
+                    return Text('');
                   } else {
                     return Column(
                       children: <Widget>[
@@ -658,7 +656,7 @@ class _HomeState extends State<Home> {
                 future: DatabaseService().getClothes('Innerwear'),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Text("Loading!");
+                    return Text('');
                   } else {
                     return Column(
                       children: <Widget>[
@@ -732,7 +730,7 @@ class _HomeState extends State<Home> {
                 future: DatabaseService().getClothes('Bottoms'),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Text("Loading!");
+                    return Text('');
                   } else {
                     return Column(
                       children: <Widget>[
@@ -799,7 +797,7 @@ class _HomeState extends State<Home> {
                 future: DatabaseService().getClothes('Full Body Wear'),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Text("Loading!");
+                    return Text('');
                   } else {
                     return Column(
                       children: <Widget>[
@@ -873,7 +871,7 @@ class _HomeState extends State<Home> {
                 future: DatabaseService().getClothes('Accesories'),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Text("Loading!");
+                    return Text('');
                   } else {
                     return Column(
                       children: <Widget>[
@@ -937,7 +935,7 @@ class _HomeState extends State<Home> {
                 future: DatabaseService().getClothes('Tops'),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Text("Loading!");
+                    return Text('');
                   } else {
                     return Column(
                       children: <Widget>[
@@ -1004,16 +1002,12 @@ class _HomeState extends State<Home> {
 
   GestureDetector _buildAllItems() {
     return GestureDetector(
-      child: Container(
-        child: Card(
-          child: Image.asset(
-            'assets/images/allitems.png',
-            fit: BoxFit.cover,
-            // height: 310,
-            // width: 276,
-          ),
-          elevation: 0.0,
+      child: Card(
+        child: Image.asset(
+          'assets/images/allitems.png',
+          fit: BoxFit.cover,
         ),
+        elevation: 0.0,
       ),
       onTap: () {
         Navigator.of(context).pop();
