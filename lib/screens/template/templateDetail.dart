@@ -1,9 +1,8 @@
 import 'package:bajuku_app/screens/template/templateCategories.dart';
 import 'package:bajuku_app/services/database.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:path/path.dart';
+import 'package:intl/intl.dart';
 
 class TemplateDetail extends StatefulWidget {
   final String documentId;
@@ -65,6 +64,10 @@ class _TemplateDetailState extends State<TemplateDetail> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Text('');
               } else {
+                DateTime dt = DateTime.parse(snapshot
+                    .data.documents[widget.idx].data['dateBought']
+                    .toString());
+                String date = new DateFormat('dd MMMM yyyy').format(dt);
                 return Container(
                   color: Hexcolor('#FBFBFB'),
                   child: Column(
@@ -111,7 +114,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                             Row(
                               children: <Widget>[
                                 Container(
-                                  width: 270,
+                                  width: 200,
                                   padding:
                                       EdgeInsets.only(left: 30.0, top: 10.0),
                                   child: Text(
@@ -127,7 +130,8 @@ class _TemplateDetailState extends State<TemplateDetail> {
                                     ),
                                   ),
                                 ),
-                                Padding(
+                                Container(
+                                  width: 185,
                                   padding: EdgeInsets.only(top: 10.0),
                                   child: Text(
                                     'Last worn ' +
@@ -135,6 +139,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                                             .data['worn']
                                             .toString() +
                                         ' days ago',
+                                        textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 12.0,
                                       fontWeight: FontWeight.normal,
@@ -190,10 +195,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                           '€ ' +
                               snapshot.data.documents[widget.idx].data['cost']
                                   .toString()),
-                      _buildContainerListLight(
-                          'Date Bought',
-                          snapshot
-                              .data.documents[widget.idx].data['dateBought']),
+                      _buildContainerListLight('Date Bought', date),
                       _buildContainerListDark('Color', ''),
                       _buildContainerListLight('Status',
                           snapshot.data.documents[widget.idx].data['status']),
@@ -202,8 +204,17 @@ class _TemplateDetailState extends State<TemplateDetail> {
                           snapshot
                               .data.documents[widget.idx].data['usedInOutfit']
                               .toString()),
-                      _buildContainerListLight('Tags Category',
-                          snapshot.data.documents[widget.idx].data['category']),
+                      // _buildContainerListLight('Tags Category',
+                      //     snapshot.data.documents[widget.idx].data['category']),
+                      _buildContainerListLight(
+                          'Tags Category',
+                          snapshot.data.documents[widget.idx]
+                                  .data['category']['topCategory']
+                                  .toString() +
+                              '; ' +
+                              snapshot.data.documents[widget.idx]
+                                  .data['category']['subCategory']
+                                  .toString()),
                       // _buildContainerListLight('Tags Category',
                       //     snapshot.data.documents[widget.idx].data['category'].toString().substring(1, snapshot.data.documents[widget.idx].data['category'].toString().length-1)),
                       _buildContainerListDarkURL('URL',

@@ -72,7 +72,10 @@ class DatabaseService {
       "brand": brand,
       "worn": worn,
       "notes": notes,
-      "category": FieldValue.arrayUnion([category1, category2]),
+      "category": {
+        "topCategory": category1,
+        "subCategory": category2,
+      },
       "size": size,
       "season": season,
       "price": price,

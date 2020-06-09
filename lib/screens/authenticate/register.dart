@@ -26,6 +26,11 @@ class _RegisterState extends State<Register> {
   String error = '';
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
       resizeToAvoidBottomPadding: false,
