@@ -3,6 +3,7 @@ import 'package:bajuku_app/screens/home/homescreen.dart';
 import 'package:bajuku_app/screens/page/previewImage.dart';
 import 'package:bajuku_app/screens/page/onboarding_login.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddItemDialog extends StatefulWidget {
@@ -13,60 +14,127 @@ class AddItemDialog extends StatefulWidget {
 class _AddItemDialogState extends State<AddItemDialog> {
   File _image;
 
-  Future getImageGallery() async{
+  Future getImageGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
-      if(_image!=null){
-      print('_image: $_image');
-       Navigator.of(context).pop();
-                  Navigator.push(context, new MaterialPageRoute(
-                      builder: (BuildContext context) => new PreviewImage(fileImage: _image, method: 'Gallery',)));
-      }else{
+      if (_image != null) {
+        print('_image: $_image');
         Navigator.of(context).pop();
-                  Navigator.push(context, new MaterialPageRoute(
-                      builder: (BuildContext context) => new HomeScreen()));
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new PreviewImage(
+                      fileImage: _image,
+                      method: 'Gallery',
+                    )));
+      } else {
+        Navigator.of(context).pop();
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new HomeScreen()));
       }
     });
   }
 
-  Future getImageCamera() async{
+  Future getImageCamera() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       _image = image;
-      if(_image!=null){
-      print('_image: $_image');
-       Navigator.of(context).pop();
-                  Navigator.push(context, new MaterialPageRoute(
-                      builder: (BuildContext context) => new PreviewImage(fileImage: _image, method: 'Camera',)));
-      }else{
+      if (_image != null) {
+        print('_image: $_image');
         Navigator.of(context).pop();
-                  Navigator.push(context, new MaterialPageRoute(
-                      builder: (BuildContext context) => new HomeScreen()));
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new PreviewImage(
+                      fileImage: _image,
+                      method: 'Camera',
+                    )));
+      } else {
+        Navigator.of(context).pop();
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new HomeScreen()));
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
-      // useMaterialBorderRadius: true,
-      children: <Widget>[
-          SimpleDialogOption(
-            onPressed: getImageCamera,
-            child: const Text('Take a picture'),
+    return Container(
+      child: SimpleDialog(
+        backgroundColor: Hexcolor('#E1C8B4'),
+        // useMaterialBorderRadius: true,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: Column(
+              children: <Widget>[
+                SimpleDialogOption(
+                  onPressed: getImageCamera,
+                  child: Text(
+                    'Take a picture',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.normal,
+                      color: Hexcolor('#3F4D55'),
+                    ),
+                  ),
+                ),
+                Divider(
+                  color: Colors.white,
+                  thickness: 1.0,
+                ),
+              ],
+            ),
           ),
-          SimpleDialogOption(
-            onPressed: getImageGallery,
-            child: const Text('Choose From Album'),
+          Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: Column(
+              children: <Widget>[
+                SimpleDialogOption(
+                  onPressed: getImageGallery,
+                  child: Text(
+                    'Choose from Album',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.normal,
+                      color: Hexcolor('#3F4D55'),
+                    ),
+                  ),
+                ),
+                Divider(
+                  color: Colors.white,
+                  thickness: 1.0,
+                ),
+              ],
+            ),
           ),
-          SimpleDialogOption(
-            onPressed: () {
-             
-            },
-            child: const Text('Take Multiple Photos'),
+          Container(
+            child: Column(
+              children: <Widget>[
+                SimpleDialogOption(
+                  onPressed: getImageCamera,
+                  child: Text(
+                    'Take Multiple Photos',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.normal,
+                      color: Hexcolor('#3F4D55'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-      ],
+        ],
+      ),
     );
   }
 }
