@@ -139,7 +139,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                                             .data['worn']
                                             .toString() +
                                         ' days ago',
-                                        textAlign: TextAlign.right,
+                                    textAlign: TextAlign.right,
                                     style: TextStyle(
                                       fontSize: 12.0,
                                       fontWeight: FontWeight.normal,
@@ -179,22 +179,18 @@ class _TemplateDetailState extends State<TemplateDetail> {
                             snapshot.data.documents[widget.idx].data['notes']),
                       _buildContainerListLight('Fabric', 'Cotton; Nylon'),
                       _buildContainerListDark('Brand', ''),
-                      _buildContainerListLight(
-                          'Size',
-                          'UK ' +
-                              snapshot.data.documents[widget.idx].data['size']),
+                      _buildContainerListLight('Size',
+                          snapshot.data.documents[widget.idx].data['size']),
                       _buildContainerListDark('Season',
                           snapshot.data.documents[widget.idx].data['season']),
                       _buildContainerListLight(
                           'Price',
-                          '€ ' +
-                              snapshot.data.documents[widget.idx].data['price']
-                                  .toString()),
+                          snapshot.data.documents[widget.idx].data['price']
+                              .toString()),
                       _buildContainerListDark(
                           'Value Cost',
-                          '€ ' +
-                              snapshot.data.documents[widget.idx].data['cost']
-                                  .toString()),
+                          snapshot.data.documents[widget.idx].data['cost']
+                              .toString()),
                       _buildContainerListLight('Date Bought', date),
                       _buildContainerListDark('Color', ''),
                       _buildContainerListLight('Status',
@@ -253,13 +249,15 @@ class _TemplateDetailState extends State<TemplateDetail> {
               ),
             ),
           ),
-          Text(
-            snapshot,
-            style: TextStyle(
-              fontSize: 12.0,
-              fontWeight: FontWeight.normal,
-              fontStyle: FontStyle.normal,
-              color: Hexcolor('#3F4D55'),
+          Container(
+            child: Text(
+              snapshot,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.normal,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
             ),
           ),
         ],
