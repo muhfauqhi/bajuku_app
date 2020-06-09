@@ -17,6 +17,7 @@ class AddItemDetail extends StatefulWidget {
 
 class _AddItemDetailState extends State<AddItemDetail> {
   final _formKey = GlobalKey<FormState>();
+  String date;
 
   @override
   void initState() {
@@ -31,20 +32,22 @@ class _AddItemDetailState extends State<AddItemDetail> {
     });
   }
 
-  String itemName;
-  String worn;
+  String name;
+  String brand;
+  String fabric;
+  int worn = 0;
   String notes;
+  String category1;
+  String category2;
   String size;
   String season;
-  String price;
-  String valueCost;
-  String colors;
-  String status;
-  String usedInOutfits;
-  String category;
-  String url;
+  double price;
+  double cost;
   String dateBought;
-  String date;
+  String color;
+  String status = 'Available';
+  int usedInOutfit = 0;
+  String url;
   String image;
 
   @override
@@ -100,7 +103,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                             fillColor: Hexcolor('#FFFFFF'),
                           ),
                           onChanged: (val) {
-                            setState(() => itemName = val);
+                            setState(() => name = val);
                           }),
                       buildInputItemName(),
                       buildInputSize(),
@@ -117,31 +120,24 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   padding: EdgeInsets.zero,
                   onPressed: () async {
                     image = await uploadPic();
-                    //image = "https://stockx.imgix.net/products/streetwear/Supreme-x-Louis-Vuitton-Box-Logo-Hooded-Sweatshirt-Red.png?fit=fill&bg=FFFFFF&w=700&h=500&auto=format,compress&q=90&trim=color&updated_at=1553700708&w=1000";
-                    worn = '0';
-                    status = 'Available';
-
-                    double prices = double.tryParse(price);
-                    int worns = int.tryParse(worn);
-                    double value = prices / worns;
-                    valueCost = price;
-                    usedInOutfits = '0';
+                    cost = price;
                     await DatabaseService().setClothes(
-                        itemName,
+                        name,
+                        brand,
+                        fabric,
                         worn,
                         notes,
-                        category,
+                        category1,
+                        category2,
                         size,
                         season,
                         price,
-                        valueCost,
+                        cost,
                         dateBought,
-                        colors,
+                        color,
                         status,
-                        usedInOutfits,
+                        usedInOutfit,
                         url,
-                        date,
-                        date,
                         image);
                     Navigator.push(
                         context,
@@ -192,7 +188,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
           fillColor: Hexcolor('#F8F6F4'),
         ),
         onChanged: (val) {
-          setState(() => category = val);
+          setState(() => category1 = val);
         });
   }
 
@@ -208,7 +204,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
           fillColor: Hexcolor('#FFFFFF'),
         ),
         onChanged: (val) {
-          setState(() => colors = val);
+          setState(() => color = val);
         });
   }
 
@@ -253,7 +249,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
           }
         },
         onChanged: (val) {
-          setState(() => price = val);
+          setState(() => price = double.tryParse(val));
         });
   }
 
@@ -304,7 +300,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
           fillColor: Hexcolor('#F8F6F4'),
         ),
         onChanged: (val) {
-          setState(() => itemName = val);
+          setState(() => name = val);
         });
   }
 
@@ -346,7 +342,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
 
   Future<String> uploadPic() async {
     String fileName =
-        itemName + DateTime.now().millisecondsSinceEpoch.toString();
+        name + DateTime.now().millisecondsSinceEpoch.toString();
     StorageReference firebaseStrorageRef =
         FirebaseStorage.instance.ref().child('clothes/' + fileName);
     StorageUploadTask uploadTask =

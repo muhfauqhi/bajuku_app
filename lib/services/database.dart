@@ -5,8 +5,8 @@ class DatabaseService {
   // Collection reference
   final firestoreInstance = Firestore.instance;
 
-  Future createUser(String firstName, String lastName, String email)async {
-  return await firestoreInstance.collection("users").add({
+  Future createUser(String firstName, String lastName, String email) async {
+    return await firestoreInstance.collection("users").add({
       "firstName": firstName,
       "lastName": lastName,
       "email": email,
@@ -14,9 +14,13 @@ class DatabaseService {
         "street": "",
         "city": "",
       }
-    }).then((value){
+    }).then((value) {
       print(value.documentID);
-      firestoreInstance.collection("users").document(value.documentID).collection("clothes").add({
+      firestoreInstance
+          .collection("users")
+          .document(value.documentID)
+          .collection("clothes")
+          .add({
         "clothName": "",
         "category": "",
         "size": "",
@@ -24,9 +28,12 @@ class DatabaseService {
     });
   }
 
-  Future setUser(String firstName, String lastName, String email)async {
+  Future setUser(String firstName, String lastName, String email) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
-    return await firestoreInstance.collection('users').document(firebaseUser.uid).setData({
+    return await firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .setData({
       "firstName": firstName,
       "lastName": lastName,
       "email": email,
@@ -35,13 +42,37 @@ class DatabaseService {
     });
   }
 
-  Future setClothes(String name, String worn, String notes, String category, String size, String season, String price, String cost, String dateBought, String color, String status, String usedInOutfit, String url, String startDate, String endDate, String image)async {
+  Future setClothes(
+      String name,
+      String brand,
+      String fabric,
+      int worn,
+      String notes,
+      String category1,
+      String category2,
+      String size,
+      String season,
+      double price,
+      double cost,
+      String dateBought,
+      String color,
+      String status,
+      int usedInOutfit,
+      String url,
+      String image) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
-    return await firestoreInstance.collection('users').document(firebaseUser.uid).collection('clothes').document().setData({
+    return await firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('clothes')
+        .document()
+        .setData({
       "clothName": name,
+      "fabric": fabric,
+      "brand": brand,
       "worn": worn,
       "notes": notes,
-      "category": category,
+      "category": FieldValue.arrayUnion([category1, category2]),
       "size": size,
       "season": season,
       "price": price,
@@ -51,22 +82,31 @@ class DatabaseService {
       "status": status,
       "usedInOutfit": usedInOutfit,
       "url": url,
-      "startDate": startDate,
-      "endDate": endDate,
+      "startDate": FieldValue.serverTimestamp(),
+      "endDate": FieldValue.serverTimestamp(),
       "image": image,
     });
   }
 
-  Future setOutfit(String name)async {
+  Future setOutfit(String name) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
-    return await firestoreInstance.collection('users').document(firebaseUser.uid).collection('outfits').document().setData({
+    return await firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('outfits')
+        .document()
+        .setData({
       "outfitName": name,
     });
   }
 
   Stream<QuerySnapshot> getClothesHome() async* {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
-    firestoreInstance.collection('users').document(firebaseUser.uid).collection('clothes').snapshots();
+    firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('clothes')
+        .snapshots();
     print(firebaseUser.uid);
   }
 
@@ -84,21 +124,34 @@ class DatabaseService {
 
   Future getClothes(String category) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
-    if(category == 'All Items'){
-      QuerySnapshot qn = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').getDocuments();
+    if (category == 'All Items') {
+      QuerySnapshot qn = await Firestore.instance
+          .collection('users')
+          .document(firebaseUser.uid)
+          .collection('clothes')
+          .getDocuments();
       return qn;
-    }else{
-      QuerySnapshot qn = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').where('category', isEqualTo: category).getDocuments();
+    } else {
+      QuerySnapshot qn = await Firestore.instance
+          .collection('users')
+          .document(firebaseUser.uid)
+          .collection('clothes')
+          .where('category', isEqualTo: category)
+          .getDocuments();
       return qn;
     }
   }
 
   Future getClothesDetail() async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
-    QuerySnapshot querySnapshot = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').getDocuments();
+    QuerySnapshot querySnapshot = await Firestore.instance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('clothes')
+        .getDocuments();
     return querySnapshot;
     // QuerySnapshot qn = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').getDocuments().then((value) {
-    //   value.documents.forEach((element) { 
+    //   value.documents.forEach((element) {
     //     // print(element.documentID);
     //     print(element.data);
     //   });
@@ -110,4 +163,4 @@ class DatabaseService {
   //   QuerySnapshot result = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').getDocuments();
   //   List<DocumentSnapshot> data = result.data;
   // }
-  }
+}
