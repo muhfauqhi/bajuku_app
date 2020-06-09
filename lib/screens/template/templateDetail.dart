@@ -136,7 +136,8 @@ class _TemplateDetailState extends State<TemplateDetail> {
                                   child: Text(
                                     'Last worn ' +
                                         snapshot.data.documents[widget.idx]
-                                            .data['worn'].toString()
+                                            .data['worn']
+                                            .toString()
                                             .toString() +
                                         ' days ago',
                                     textAlign: TextAlign.right,
@@ -161,23 +162,28 @@ class _TemplateDetailState extends State<TemplateDetail> {
                           onPressed: () {},
                         ),
                       ),
-                      _buildContainerListDark('Notes', snapshot.data.documents[widget.idx].data['notes']),
+                      _buildContainerListDark('Notes',
+                          snapshot.data.documents[widget.idx].data['notes']),
                       _buildContainerListLight('Fabric', 'Cotton; Nylon'),
-                      _buildContainerListDark('Brand', ''),
+                      _buildContainerListDark('Brand', snapshot.data.documents[widget.idx].data['brand']),
                       _buildContainerListLight('Size',
                           snapshot.data.documents[widget.idx].data['size']),
                       _buildContainerListDark('Season',
                           snapshot.data.documents[widget.idx].data['season']),
                       _buildContainerListLight(
                           'Price',
-                          snapshot.data.documents[widget.idx].data['price']
+                          '€'+snapshot.data.documents[widget.idx].data['price']
                               .toString()),
                       _buildContainerListDark(
                           'Value Cost',
-                          snapshot.data.documents[widget.idx].data['cost']
+                          '€'+snapshot.data.documents[widget.idx].data['cost']
                               .toString()),
                       _buildContainerListLight('Date Bought', date),
-                      _buildContainerListDarkColor('Color', snapshot.data.documents[widget.idx].data['color'].toString()),
+                      _buildContainerListDarkColor(
+                          'Color',
+                          snapshot.data.documents[widget.idx].data['color']
+                              .toString()
+                              .substring(37, 45)),
                       _buildContainerListLight('Status',
                           snapshot.data.documents[widget.idx].data['status']),
                       _buildContainerListDark(
@@ -194,7 +200,6 @@ class _TemplateDetailState extends State<TemplateDetail> {
                               snapshot.data.documents[widget.idx]
                                   .data['category']['subCategory']
                                   .toString()),
-
                       _buildContainerListDarkURL('URL',
                           snapshot.data.documents[widget.idx].data['url']),
                       SizedBox(
@@ -232,10 +237,10 @@ class _TemplateDetailState extends State<TemplateDetail> {
             ),
           ),
           Container(
-            // color: Hexcolor(snapshot),
+            color: Hexcolor('#'+snapshot),
             child: Icon(
               Icons.crop_square,
-              // color: Hexcolor(snapshot),
+              color: Hexcolor('#'+snapshot),
             ),
           ),
         ],
