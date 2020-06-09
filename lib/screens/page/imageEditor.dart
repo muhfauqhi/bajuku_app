@@ -20,6 +20,7 @@ class _ImageEditorState extends State<ImageEditor> {
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
+        elevation: 0.0,
         backgroundColor: Colors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -34,7 +35,6 @@ class _ImageEditorState extends State<ImageEditor> {
                     fontWeight: FontWeight.normal),
               ),
               onTap: () {
-                
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -114,9 +114,16 @@ class _ImageEditorState extends State<ImageEditor> {
       ),
       body: SingleChildScrollView(
         child: Container(
+          color: Hexcolor('#FBFBFB'),
           child: Column(
             children: <Widget>[
-              Image.file(widget.filePicture),
+              Container(
+                  height: 550,
+                  width: 500,
+                  child: Image.file(widget.filePicture,
+                  fit: BoxFit.fill,
+                ),
+              ),
             ],
           ),
         ),

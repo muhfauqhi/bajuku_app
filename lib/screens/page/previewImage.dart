@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bajuku_app/screens/page/addItem.dart';
 import 'package:bajuku_app/screens/page/imageEditor.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class PreviewImage extends StatefulWidget {
   final File fileImage;
@@ -19,6 +20,7 @@ class _PreviewImageState extends State<PreviewImage> {
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
+        elevation: 0.0,
         backgroundColor: Colors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,9 +69,16 @@ class _PreviewImageState extends State<PreviewImage> {
       ),
       body: SingleChildScrollView(
         child: Container(
+          color: Hexcolor('#FBFBFB'),
           child: Column(
             children: <Widget>[
-              Image.file(widget.fileImage),
+              Container(
+                width: 500,
+                height: 550,
+                child: Image.file(widget.fileImage,
+                fit: BoxFit.fill
+                ),
+              ),
               // RaisedButton(
               //     child: Text("Save"),
               //     onPressed: () {
