@@ -72,12 +72,14 @@ class _TemplateDetailState extends State<TemplateDetail> {
                   color: Hexcolor('#FBFBFB'),
                   child: Column(
                     children: <Widget>[
+                      // Edit button 
                       Container(
                         margin: EdgeInsets.only(left: 330),
                         child: IconButton(
                             icon: new Image.asset('assets/images/edit.png'),
                             onPressed: () {}),
                       ),
+                      // Image of Cloth detail
                       Container(
                         height: 300,
                         width: 400,
@@ -93,6 +95,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
+                      // Name of cloth detail and total of worns and last worns
                       Container(
                         child: Column(
                           children: <Widget>[
@@ -137,7 +140,6 @@ class _TemplateDetailState extends State<TemplateDetail> {
                                     'Last worn ' +
                                         snapshot.data.documents[widget.idx]
                                             .data['worn']
-                                            .toString()
                                             .toString() +
                                         ' days ago',
                                     textAlign: TextAlign.right,
@@ -154,6 +156,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                           ],
                         ),
                       ),
+                      // Button worns
                       Container(
                         padding: EdgeInsets.only(
                             left: 8.0, right: 8.0, top: 25.0, bottom: 25.0),
