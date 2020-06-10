@@ -3,6 +3,7 @@ import 'package:bajuku_app/screens/page/add.dart';
 import 'package:bajuku_app/screens/page/addItem.dart';
 import 'package:bajuku_app/screens/page/journal.dart';
 import 'package:bajuku_app/screens/page/sustainable.dart';
+import 'package:bajuku_app/test2.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -17,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _children = [
     new Home(currentIndex: 0),
     new Home(currentIndex: 1),
-    new SustainablePage(),
+    new DemoScreen(),
  ];
 
   @override

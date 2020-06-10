@@ -1,12 +1,9 @@
 import 'dart:io';
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:bajuku_app/screens/home/homescreen.dart';
 import 'package:bajuku_app/screens/page/imageEditor.dart';
 import 'package:bajuku_app/services/database.dart';
-import 'package:bajuku_app/shared/categories.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -21,10 +18,7 @@ class AddItemDetail extends StatefulWidget {
 
 class _AddItemDetailState extends State<AddItemDetail> {
   final _formKey = GlobalKey<FormState>();
-  // GlobalKey key = new GlobalKey<AutoCompleteTextFieldState<Category>>();
-  Category selected;
   String date;
-  AutoCompleteTextField<Category> textField;
 
   @override
   void initState() {
@@ -186,41 +180,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                 SizedBox(
                   height: 80,
                 ),
-                // RaisedButton(
-                //   padding: EdgeInsets.zero,
-                //   onPressed: () async {
-                //     image = await uploadPic();
-                //     cost = price;
-                //     await DatabaseService().setClothes(
-                //         name,
-                //         brand,
-                //         fabric,
-                //         worn,
-                //         notes,
-                //         category1,
-                //         category2,
-                //         size,
-                //         season,
-                //         price,
-                //         cost,
-                //         dateBought,
-                //         color,
-                //         status,
-                //         usedInOutfit,
-                //         url,
-                //         image);
-                //     Navigator.push(
-                //         context,
-                //         new MaterialPageRoute(
-                //             builder: (BuildContext context) =>
-                //                 new HomeScreen()));
-                //   },
-                //   child: Image.asset(
-                //     'assets/images/buttonSave.png',
-                //     height: 50,
-                //     width: 300,
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -279,29 +238,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
           ),
         ],
       ),
-    );
-  }
-
-  Column buildTextField() {
-    return new Column(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.all(16),
-          child: textField,
-        ),
-        Container(
-            padding: EdgeInsets.only(top: 64),
-            child: selected != null
-                ? new Column(
-                    children: <Widget>[
-                      new ListTile(
-                        title: new Text(selected.categoryName),
-                        trailing: new Text(selected.subCategoryName),
-                      )
-                    ],
-                  )
-                : new Icon(Icons.cancel)),
-      ],
     );
   }
 
@@ -639,93 +575,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
       ),
     );
   }
-
-  // List<Category> categories = [
-  //   new Category(categoryName: 'Accessories', subCategoryName: 'Caps and Hats'),
-  //   new Category(categoryName: 'Accessories', subCategoryName: 'Headbands'),
-  //   new Category(
-  //       categoryName: 'Accessories', subCategoryName: 'Head Tie/Scarves'),
-  //   new Category(categoryName: 'Accessories', subCategoryName: 'Belts'),
-  //   new Category(categoryName: 'Accessories', subCategoryName: 'Eyewear'),
-  //   new Category(
-  //       categoryName: 'Accessories', subCategoryName: 'Wallets & Card Holder'),
-  //   new Category(categoryName: 'Accessories', subCategoryName: 'Jewelry'),
-  //   new Category(categoryName: 'Accessories', subCategoryName: 'Scarves'),
-  //   new Category(categoryName: 'Accessories', subCategoryName: 'Ties'),
-  //   new Category(categoryName: 'Accessories', subCategoryName: 'Watches'),
-  //   new Category(categoryName: 'Accessories', subCategoryName: 'Others'),
-  //   new Category(categoryName: 'Tops', subCategoryName: 'T-Shirts'),
-  //   new Category(categoryName: 'Tops', subCategoryName: 'Blouses'),
-  //   new Category(categoryName: 'Tops', subCategoryName: 'Tube top'),
-  //   new Category(categoryName: 'Tops', subCategoryName: 'Crop Tops'),
-  //   new Category(categoryName: 'Tops', subCategoryName: 'Sweaters'),
-  //   new Category(
-  //       categoryName: 'Full Body Wear', subCategoryName: 'Dresses / Gowns'),
-  //   new Category(categoryName: 'Full Body Wear', subCategoryName: 'Activewear'),
-  //   new Category(categoryName: 'Full Body Wear', subCategoryName: 'Rompers'),
-  //   new Category(categoryName: 'Bottoms', subCategoryName: 'Pants/Trousers'),
-  //   new Category(categoryName: 'Bottoms', subCategoryName: 'Skirts'),
-  //   new Category(categoryName: 'Bottoms', subCategoryName: 'Shorts'),
-  //   new Category(categoryName: 'Bottoms', subCategoryName: 'Sarong'),
-  //   new Category(
-  //       categoryName: 'Bottoms', subCategoryName: 'Tights and Leggings'),
-  //   new Category(categoryName: 'Bottoms', subCategoryName: 'Jeans'),
-  //   new Category(
-  //       categoryName: 'Innerwear', subCategoryName: 'Long / Thermal Underwear'),
-  //   new Category(categoryName: 'Innerwear', subCategoryName: 'Tank Top'),
-  //   new Category(
-  //       categoryName: 'Innerwear', subCategoryName: 'Underwear / Underpants'),
-  //   new Category(categoryName: 'Innerwear', subCategoryName: 'Bras'),
-  //   new Category(
-  //       categoryName: 'Innerwear', subCategoryName: 'Corsets and Body Shapers'),
-  //   new Category(categoryName: 'Innerwear', subCategoryName: 'Slip'),
-  //   new Category(
-  //       categoryName: 'Innerwear', subCategoryName: 'Panties / Underwear'),
-  //   new Category(categoryName: 'Outerwear', subCategoryName: 'Coats'),
-  //   new Category(
-  //       categoryName: 'Outerwear', subCategoryName: 'Jackets and Hoodies'),
-  //   new Category(categoryName: 'Outerwear', subCategoryName: 'Vest/Waistcoat'),
-  //   new Category(
-  //       categoryName: 'Outerwear', subCategoryName: 'Robes and CLoaks'),
-  //   new Category(categoryName: 'Outerwear', subCategoryName: 'Poncho'),
-  //   new Category(
-  //       categoryName: 'Outerwear', subCategoryName: 'Scarves and Shawls'),
-  //   new Category(categoryName: 'Outerwear', subCategoryName: 'Windbreaker'),
-  //   new Category(categoryName: 'Outerwear', subCategoryName: 'Gloves'),
-  //   new Category(categoryName: 'Footwear', subCategoryName: 'Shoes'),
-  //   new Category(categoryName: 'Footwear', subCategoryName: 'Sandals'),
-  //   new Category(categoryName: 'Footwear', subCategoryName: 'Boots'),
-  //   new Category(categoryName: 'Footwear', subCategoryName: 'Sneakers'),
-  //   new Category(categoryName: 'Footwear', subCategoryName: 'Wedges'),
-  //   new Category(categoryName: 'Footwear', subCategoryName: 'Loafers'),
-  //   new Category(categoryName: 'Footwear', subCategoryName: 'Flats'),
-  //   new Category(categoryName: 'Socks', subCategoryName: ''),
-  //   new Category(categoryName: 'Bags', subCategoryName: 'Shoulder'),
-  //   new Category(categoryName: 'Bags', subCategoryName: 'Briefcase'),
-  //   new Category(categoryName: 'Bags', subCategoryName: 'Backpack'),
-  //   new Category(categoryName: 'Bags', subCategoryName: 'Clutch'),
-  //   new Category(categoryName: 'Bags', subCategoryName: 'Tote'),
-  //   new Category(categoryName: 'Bags', subCategoryName: 'Crossbody'),
-  //   new Category(categoryName: 'Bags', subCategoryName: 'Luggage and Travel'),
-  // ];
-
-  // _AddItemDetailState() {
-  //   textField = new AutoCompleteTextField<Category>(
-  //     decoration: new InputDecoration(
-  //         hintText: "Category"),
-  //     itemSubmitted: (item) => setState(() => selected = item),
-  //     key: key,
-  //     suggestions: categories,
-  //     itemBuilder: (context, suggestion) => new Padding(
-  //         child: new ListTile(
-  //             title: new Text(suggestion.categoryName),
-  //             trailing: new Text(suggestion.subCategoryName)),
-  //         padding: EdgeInsets.all(8.0)),
-  //     itemSorter: null,
-  //     itemFilter: (suggestion, input) =>
-  //         suggestion.categoryName.toLowerCase().startsWith(input.toLowerCase()),
-  //   );
-  // }
 
   Future<String> uploadPic() async {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
