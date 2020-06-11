@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:bajuku_app/screens/home/homescreen.dart';
+
+import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/previewImage.dart';
-import 'package:bajuku_app/screens/page/onboarding_login.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
@@ -33,7 +33,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
         Navigator.push(
             context,
             new MaterialPageRoute(
-                builder: (BuildContext context) => new HomeScreen()));
+                builder: (BuildContext context) => new Home()));
       }
     });
   }
@@ -57,84 +57,82 @@ class _AddItemDialogState extends State<AddItemDialog> {
         Navigator.push(
             context,
             new MaterialPageRoute(
-                builder: (BuildContext context) => new HomeScreen()));
+                builder: (BuildContext context) => new Home()));
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SimpleDialog(
-        backgroundColor: Hexcolor('#E1C8B4'),
-        // useMaterialBorderRadius: true,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(bottom: 10),
-            child: Column(
-              children: <Widget>[
-                SimpleDialogOption(
-                  onPressed: getImageCamera,
-                  child: Text(
-                    'Take a picture',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.normal,
-                      color: Hexcolor('#3F4D55'),
-                    ),
+    return SimpleDialog(
+      backgroundColor: Hexcolor('#E1C8B4'),
+      // useMaterialBorderRadius: true,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(bottom: 10),
+          child: Column(
+            children: <Widget>[
+              SimpleDialogOption(
+                onPressed: getImageCamera,
+                child: Text(
+                  'Take a picture',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.normal,
+                    color: Hexcolor('#3F4D55'),
                   ),
                 ),
-                Divider(
-                  color: Colors.white,
-                  thickness: 1.0,
-                ),
-              ],
-            ),
+              ),
+              Divider(
+                color: Colors.white,
+                thickness: 1.0,
+              ),
+            ],
           ),
-          Container(
-            margin: EdgeInsets.only(bottom: 10),
-            child: Column(
-              children: <Widget>[
-                SimpleDialogOption(
-                  onPressed: getImageGallery,
-                  child: Text(
-                    'Choose from Album',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.normal,
-                      color: Hexcolor('#3F4D55'),
-                    ),
+        ),
+        Container(
+          margin: EdgeInsets.only(bottom: 10),
+          child: Column(
+            children: <Widget>[
+              SimpleDialogOption(
+                onPressed: getImageGallery,
+                child: Text(
+                  'Choose from Album',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.normal,
+                    color: Hexcolor('#3F4D55'),
                   ),
                 ),
-                Divider(
-                  color: Colors.white,
-                  thickness: 1.0,
-                ),
-              ],
-            ),
+              ),
+              Divider(
+                color: Colors.white,
+                thickness: 1.0,
+              ),
+            ],
           ),
-          Container(
-            child: Column(
-              children: <Widget>[
-                SimpleDialogOption(
-                  onPressed: getImageCamera,
-                  child: Text(
-                    'Take Multiple Photos',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.normal,
-                      color: Hexcolor('#3F4D55'),
-                    ),
+        ),
+        Container(
+          child: Column(
+            children: <Widget>[
+              SimpleDialogOption(
+                onPressed: getImageCamera,
+                child: Text(
+                  'Take Multiple Photos',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.normal,
+                    color: Hexcolor('#3F4D55'),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

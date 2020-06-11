@@ -1,4 +1,5 @@
-import 'package:bajuku_app/screens/home/homescreen.dart';
+import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
+import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/template/templateDetail.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,6 +28,7 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
   Widget build(BuildContext context) {
     if (userRef != null) {
       return Scaffold(
+        bottomNavigationBar: CustomBottomNavigationBar(),
         backgroundColor: Colors.white,
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -42,7 +44,7 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
                           context,
                           new MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  new HomeScreen()));
+                                  new Home()));
                     },
                   ),
                   backgroundColor: Colors.white,

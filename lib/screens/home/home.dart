@@ -1,4 +1,5 @@
 import 'package:bajuku_app/screens/Page/journal.dart';
+import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/page/add.dart';
 import 'package:bajuku_app/screens/page/sustainable.dart';
 import 'package:bajuku_app/screens/template/templateCategories.dart';
@@ -32,163 +33,80 @@ class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
-    if (widget.currentIndex == 0) {
-      return Scaffold(
-        backgroundColor: Colors.white,
-        body: DefaultTabController(
-          length: 2,
-          child: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                Container(
-                  child: SliverAppBar(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: DefaultTabController(
+        length: 2,
+        child: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              Container(
+                child: SliverAppBar(
+                  centerTitle: true,
+                  leading: FlatButton(
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    padding: EdgeInsets.all(0.0),
+                    child: Image.asset(
+                      'assets/images/burger_menu.png',
+                      height: 35.0,
+                      width: 35.0,
+                    ),
+                  ),
+                  iconTheme: IconThemeData(
+                    color: Hexcolor('#3F4D55'),
+                  ),
+                  backgroundColor: Colors.white,
+                  expandedHeight: 50.0,
+                  floating: false,
+                  pinned: false,
+                  flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
-                    leading: FlatButton(
-                      onPressed: () => Scaffold.of(context).openDrawer(),
-                      padding: EdgeInsets.all(0.0),
-                      child: Image.asset(
-                        'assets/images/burger_menu.png',
-                        height: 35.0,
-                        width: 35.0,
-                      ),
-                    ),
-                    iconTheme: IconThemeData(
-                      color: Hexcolor('#3F4D55'),
-                    ),
-                    backgroundColor: Colors.white,
-                    expandedHeight: 50.0,
-                    floating: false,
-                    pinned: false,
-                    flexibleSpace: FlexibleSpaceBar(
-                      centerTitle: true,
-                      title: Image.asset(
-                        'assets/images/logo@3x.png',
-                        width: 100,
-                        height: 30,
-                      ),
+                    title: Image.asset(
+                      'assets/images/logo@3x.png',
+                      width: 100,
+                      height: 30,
                     ),
                   ),
-                ),
-                new SliverPadding(
-                  padding: EdgeInsets.all(0.0),
-                  sliver: new SliverList(
-                    delegate: new SliverChildListDelegate([
-                      TabBar(
-                        labelColor: Hexcolor('#2F4F55'),
-                        unselectedLabelColor: Hexcolor('#D3D3D3'),
-                        indicatorColor: Hexcolor('#859289'),
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        labelStyle: TextStyle(
-                          letterSpacing: 2.0,
-                          fontSize: 16.0,
-                        ),
-                        tabs: [
-                          new Tab(
-                            text: 'Wardrobe',
-                          ),
-                          new Tab(
-                            text: 'Journal',
-                          ),
-                        ],
-                      ),
-                    ]),
-                  ),
-                ),
-              ];
-            },
-            body: TabBarView(
-              children: [
-                _buildWardrobe(),
-                _buildJournal(),
-              ],
-            ),
-          ),
-        ),
-        drawer: _buildDrawer(context),
-      );
-    } else {
-      return Scaffold(
-        resizeToAvoidBottomPadding: false,
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            DefaultTabController(
-              length: 2,
-              child: NestedScrollView(
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  return <Widget>[
-                    Container(
-                      child: SliverAppBar(
-                        centerTitle: true,
-                        leading: FlatButton(
-                          onPressed: () => Scaffold.of(context).openDrawer(),
-                          padding: EdgeInsets.all(0.0),
-                          child: Image.asset(
-                            'assets/images/burger_menu.png',
-                            height: 35.0,
-                            width: 35.0,
-                          ),
-                        ),
-                        iconTheme: IconThemeData(
-                          color: Hexcolor('#3F4D55'),
-                        ),
-                        backgroundColor: Colors.white,
-                        expandedHeight: 50.0,
-                        floating: false,
-                        pinned: false,
-                        flexibleSpace: FlexibleSpaceBar(
-                          centerTitle: true,
-                          title: Image.asset(
-                            'assets/images/logo@3x.png',
-                            width: 100,
-                            height: 30,
-                          ),
-                        ),
-                      ),
-                    ),
-                    new SliverPadding(
-                      padding: EdgeInsets.all(0.0),
-                      sliver: new SliverList(
-                        delegate: new SliverChildListDelegate([
-                          TabBar(
-                            labelColor: Hexcolor('#2F4F55'),
-                            unselectedLabelColor: Hexcolor('#D3D3D3'),
-                            indicatorColor: Hexcolor('#859289'),
-                            indicatorSize: TabBarIndicatorSize.tab,
-                            labelStyle: TextStyle(
-                              letterSpacing: 2.0,
-                              fontSize: 16.0,
-                            ),
-                            tabs: [
-                              new Tab(
-                                text: 'Wardrobe',
-                              ),
-                              new Tab(
-                                text: 'Journal',
-                              ),
-                            ],
-                          ),
-                        ]),
-                      ),
-                    ),
-                  ];
-                },
-                body: TabBarView(
-                  children: [
-                    _buildWardrobe(),
-                    _buildJournal(),
-                  ],
                 ),
               ),
-            ),
-            AddItemDialog(),
-          ],
+              new SliverPadding(
+                padding: EdgeInsets.all(0.0),
+                sliver: new SliverList(
+                  delegate: new SliverChildListDelegate([
+                    TabBar(
+                      labelColor: Hexcolor('#2F4F55'),
+                      unselectedLabelColor: Hexcolor('#D3D3D3'),
+                      indicatorColor: Hexcolor('#859289'),
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      labelStyle: TextStyle(
+                        letterSpacing: 2.0,
+                        fontSize: 16.0,
+                      ),
+                      tabs: [
+                        new Tab(
+                          text: 'Wardrobe',
+                        ),
+                        new Tab(
+                          text: 'Journal',
+                        ),
+                      ],
+                    ),
+                  ]),
+                ),
+              ),
+            ];
+          },
+          body: TabBarView(
+            children: [
+              _buildWardrobe(),
+              _buildJournal(),
+            ],
+          ),
         ),
-        drawer: _buildDrawer(context),
-      );
-    }
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
+      drawer: _buildDrawer(context),
+    );
   }
 
   Widget buildContainerProfile(BuildContext context) {

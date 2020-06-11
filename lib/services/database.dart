@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -92,15 +93,17 @@ class DatabaseService {
     });
   }
 
-  Future setOutfit(String name) async {
+  Future setOutfit(
+      String name, String imageUrl, String documentId) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     return await firestoreInstance
         .collection('users')
         .document(firebaseUser.uid)
         .collection('outfits')
-        .document()
-        .setData({
+        .add({
       "outfitName": name,
+      "image": imageUrl,
+      "created": FieldValue.serverTimestamp(),
     });
   }
 

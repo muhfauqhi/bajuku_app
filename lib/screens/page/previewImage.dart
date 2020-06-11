@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bajuku_app/screens/page/addItem.dart';
+import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/page/imageEditor.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -19,6 +19,7 @@ class _PreviewImageState extends State<PreviewImage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
+      bottomNavigationBar: CustomBottomNavigationBar(),
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.white,
