@@ -109,6 +109,7 @@ class _HomeState extends State<Home> {
       );
     } else {
       return Scaffold(
+        resizeToAvoidBottomPadding: false,
         backgroundColor: Colors.white,
         body: Stack(
           children: [
@@ -190,13 +191,178 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Container _buildJournal() {
+  Widget buildContainerProfile(BuildContext context) {
     return Container(
-      child: new Column(
+      margin: EdgeInsets.only(bottom: 0),
+      child: Row(
         children: <Widget>[
-          new Text('Journal'),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            width: 150,
+            height: 90,
+            child: Column(
+              children: <Widget>[
+                GestureDetector(
+                  child: Center(
+                    child: Container(
+                      width: 60.0,
+                      height: 60.0,
+                      decoration: new BoxDecoration(
+                        border:
+                            Border.all(width: 3, color: Hexcolor('#F4D4B8')),
+                        shape: BoxShape.circle,
+                        image: new DecorationImage(
+                          fit: BoxFit.fitHeight,
+                          image: new NetworkImage(
+                              "https://cdn.vox-cdn.com/thumbor/U7zc79wuh0qCZxPhGAdi3eJ-q1g=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19228501/acastro_190919_1777_instagram_0003.0.jpg"),
+                        ),
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new TemplateCategories(
+                                  categories: "Socks",
+                                )));
+                  },
+                ),
+                Center(
+                  child: Container(
+                      margin: EdgeInsets.only(top: 5),
+                      child: GestureDetector(
+                        child: Text('Edit',
+                        style: TextStyle(
+                          color: Hexcolor('#E1C8B4'),
+                          fontSize: 12,
+                        ),),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      new TemplateCategories(
+                                        categories: "Socks",
+                                      )));
+                        },
+                      )),
+                ),
+              ],
+            ),
+          ),
+          Container(
+              margin: EdgeInsets.only(top: 10),
+              width: 260,
+              height: 90,
+              child: Container(
+                margin: EdgeInsets.only(top:20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Text(
+                          '100',
+                          style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16),
+                        ),
+                        Text(
+                          'Pieces',
+                          style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16,
+                              color: Hexcolor('#859289')),
+                        )
+                      ],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Text(
+                          '10',
+                          style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16),
+                        ),
+                        Text(
+                          'Outfits',
+                          style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16,
+                              color: Hexcolor('#859289')),
+                        )
+                      ],
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Text(
+                          '10',
+                          style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16),
+                        ),
+                        Text(
+                          'Points',
+                          style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16,
+                              color: Hexcolor('#859289')),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ))
         ],
       ),
+    );
+  }
+
+  Widget _buildJournal() {
+    return Column(
+      children: <Widget>[
+        buildContainerProfile(context),
+        Expanded(
+          child: Container(
+            margin: EdgeInsets.only(top: 10),
+            child: GridView.builder(
+              primary: true,
+              padding:
+                  EdgeInsets.only(left: 15, right: 15, top: 9, bottom: 120),
+              shrinkWrap: false,
+              itemCount: 15,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3, crossAxisSpacing: 11, mainAxisSpacing: 11),
+              itemBuilder: (context, index) {
+                return Container(
+                  width: 150,
+                  height: 150,
+                  child: GestureDetector(
+                    child: ClipRRect(
+                      child: Card(
+                        child: Image.network(
+                          "https://cdn.idntimes.com/content-images/post/20180824/6eda99bee7ddfc124c5645ebf2ca4fbf.jpg",
+                          fit: BoxFit.fitWidth,
+                        ),
+                        elevation: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    onTap: () {},
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 
