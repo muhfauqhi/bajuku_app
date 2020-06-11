@@ -25,7 +25,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   String uid;
   int _activeTabIndex;
 
-
   final List<Tab> myTabs = <Tab>[
     new Tab(
       text: 'Wardrobe',
@@ -42,13 +41,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _getUid();
   }
 
- 
-
   final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Hexcolor('#FBFBFB'),
       body: DefaultTabController(
         length: 2,
         initialIndex: 0,
@@ -70,7 +67,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   iconTheme: IconThemeData(
                     color: Hexcolor('#3F4D55'),
                   ),
-                  backgroundColor: Colors.white,
+                  backgroundColor: Hexcolor('#FBFBFB'),
                   expandedHeight: 50.0,
                   floating: false,
                   pinned: false,
@@ -89,18 +86,19 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 sliver: new SliverList(
                   delegate: new SliverChildListDelegate([
                     TabBar(
-                      labelColor: Hexcolor('#2F4F55'),
+                      labelColor: Hexcolor('#1C3949'),
                       unselectedLabelColor: Hexcolor('#D3D3D3'),
                       indicatorColor: Hexcolor('#859289'),
                       indicatorSize: TabBarIndicatorSize.tab,
                       labelStyle: TextStyle(
-                        letterSpacing: 2.0,
+                        letterSpacing: 1.0,
                         fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
                       ),
                       tabs: myTabs,
                       onTap: (index) {
                         setState(() {
-                          _activeTabIndex=index;
+                          _activeTabIndex = index;
                         });
                       },
                     ),
@@ -127,6 +125,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget buildContainerProfile(BuildContext context) {
     if (_activeTabIndex == 1) {
       return Container(
+        color: Hexcolor('#FBFBFB'),
         margin: EdgeInsets.only(bottom: 0),
         child: Row(
           children: <Widget>[
@@ -204,8 +203,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           Text(
                             '100',
                             style: TextStyle(
+                                color: Hexcolor('#3F4D55'),
                                 fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                                 fontSize: 16),
                           ),
                           Text(
@@ -222,8 +222,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           Text(
                             '10',
                             style: TextStyle(
+                                color: Hexcolor('#3F4D55'),
                                 fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                                 fontSize: 16),
                           ),
                           Text(
@@ -240,8 +241,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           Text(
                             '10',
                             style: TextStyle(
+                                color: Hexcolor('#3F4D55'),
                                 fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                                 fontSize: 16),
                           ),
                           Text(
@@ -267,14 +269,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget _buildJournal() {
     return Column(
       children: <Widget>[
-        // buildContainerProfile(context),
+        Divider(
+          thickness: 3,
+          color: Colors.white,
+        ),
         Expanded(
           child: Container(
+            color: Hexcolor('#FBFBFB'),
             margin: EdgeInsets.only(top: 10),
             child: GridView.builder(
               primary: true,
-              padding:
-                  EdgeInsets.only(left: 15, right: 15, top: 9, bottom: 120),
+              padding: EdgeInsets.only(left: 15, right: 15, top: 9, bottom: 20),
               shrinkWrap: false,
               itemCount: 15,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -290,7 +295,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           "https://cdn.idntimes.com/content-images/post/20180824/6eda99bee7ddfc124c5645ebf2ca4fbf.jpg",
                           fit: BoxFit.fitWidth,
                         ),
-                        elevation: 2.0,
+                        elevation: 0.0,
                       ),
                       borderRadius: BorderRadius.circular(15),
                     ),

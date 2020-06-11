@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/imageEditor.dart';
 import 'package:bajuku_app/services/database.dart';
@@ -34,7 +35,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _myController.dispose();
     super.dispose();
   }
@@ -61,6 +62,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: CustomBottomNavigationBar(),
       appBar: AppBar(
         elevation: 0.0,
         title: Text(
@@ -179,8 +181,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  new Home()));
+                              builder: (BuildContext context) => new Home()));
                     },
                   ),
                 ),
@@ -218,15 +219,20 @@ class _AddItemDetailState extends State<AddItemDetail> {
               ),
             ),
           ),
-          GestureDetector(
-            child: Container(
-                color: currentColor,
-                child: Icon(
-                  Icons.crop_square,
-                  color: currentColor,
-                )),
-            onTap: () {
-              showDialog(
+          ButtonTheme(
+            height: 20,
+            padding: EdgeInsets.zero,
+            minWidth: 20,
+            buttonColor: currentColor,
+            hoverColor: currentColor,
+            child: RaisedButton(
+              elevation: 0,
+              shape: BeveledRectangleBorder(
+                borderRadius: BorderRadius.circular(0.0),
+                side: BorderSide(color: Colors.grey[500], width: 0.8),
+              ),
+              onPressed: (){
+                showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
@@ -240,8 +246,33 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   );
                 },
               );
-            },
+              },
+            ),
           ),
+          // GestureDetector(
+          //   child: Container(
+          //       color: currentColor,
+          //       child: Icon(
+          //         Icons.crop_square,
+          //         color: currentColor,
+          //       )),
+          //   onTap: () {
+          //     showDialog(
+          //       context: context,
+          //       builder: (BuildContext context) {
+          //         return AlertDialog(
+          //           title: Text('Select a color'),
+          //           content: SingleChildScrollView(
+          //             child: BlockPicker(
+          //               pickerColor: Colors.red,
+          //               onColorChanged: changeColor,
+          //             ),
+          //           ),
+          //         );
+          //       },
+          //     );
+          //   },
+          // ),
         ],
       ),
     );
@@ -388,7 +419,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
           Container(
             width: 135,
             child: Text(
-              _myController.text,
+              '€ ' + _myController.text,
               style: TextStyle(
                 fontSize: 12.0,
                 fontWeight: FontWeight.normal,
@@ -639,11 +670,23 @@ class _AddItemDetailState extends State<AddItemDetail> {
               ),
             ),
           ),
+          Container(
+            child: Text(
+              '€ ',
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.normal,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
           Expanded(
             child: Container(
               child: TextFormField(
-                keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
-                controller: _myController,
+                  keyboardType: TextInputType.numberWithOptions(
+                      signed: false, decimal: true),
+                  controller: _myController,
                   style: TextStyle(
                     fontSize: 12.0,
                     fontWeight: FontWeight.normal,
