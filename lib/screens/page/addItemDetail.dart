@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:bajuku_app/screens/home/homescreen.dart';
+import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/imageEditor.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -180,7 +180,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                           context,
                           new MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  new HomeScreen()));
+                                  new Home()));
                     },
                   ),
                 ),
@@ -642,6 +642,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
           Expanded(
             child: Container(
               child: TextFormField(
+                keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
                 controller: _myController,
                   style: TextStyle(
                     fontSize: 12.0,

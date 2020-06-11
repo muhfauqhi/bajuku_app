@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bajuku_app/models/slide.dart';
 import 'package:bajuku_app/models/user.dart';
-import 'package:bajuku_app/screens/home/homescreen.dart';
+import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/wrapper.dart';
 import 'package:bajuku_app/widget/slide_dots.dart';
 import 'package:bajuku_app/widget/slide_item.dart';
@@ -134,7 +134,7 @@ class _OnboardLoginState extends State<OnboardLogin> {
         ),
       );
     } else {
-      return HomeScreen();
+      return Home();
     }
   }
 

@@ -1,7 +1,6 @@
 import 'dart:io';
 
-import 'package:bajuku_app/screens/home/homescreen.dart';
-import 'package:bajuku_app/screens/page/addItem.dart';
+import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/addItemDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -78,7 +77,7 @@ class _ImageEditorState extends State<ImageEditor> {
                                   context,
                                   new MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                          new HomeScreen()));
+                                          new Home()));
                             },
                           )
                         ],
@@ -118,9 +117,10 @@ class _ImageEditorState extends State<ImageEditor> {
           child: Column(
             children: <Widget>[
               Container(
-                  height: 550,
-                  width: 500,
-                  child: Image.file(widget.filePicture,
+                height: 550,
+                width: 500,
+                child: Image.file(
+                  widget.filePicture,
                   fit: BoxFit.fill,
                 ),
               ),

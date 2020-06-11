@@ -1,5 +1,6 @@
 import 'package:bajuku_app/screens/template/templateCategories.dart';
 import 'package:bajuku_app/services/database.dart';
+import 'package:bajuku_app/test.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -166,7 +167,14 @@ class _TemplateDetailState extends State<TemplateDetail> {
                             left: 8.0, right: 8.0, top: 25.0, bottom: 25.0),
                         child: FlatButton(
                           child: Image.asset('assets/images/wornButton.png'),
-                          onPressed: () {},
+                          onPressed: () {
+                            Test().createState().setOutfit(
+                                snapshot.data.documents[widget.idx]
+                                    .data['clothName'],
+                                snapshot
+                                    .data.documents[widget.idx].data['image'],
+                                widget.documentId);
+                          },
                         ),
                       ),
                       _buildContainerListDark('Notes',
@@ -331,10 +339,10 @@ class _TemplateDetailState extends State<TemplateDetail> {
                 color: Colors.blue,
               ),
             ),
-            onTap: () async{
-              if(await canLaunch(url)){
+            onTap: () async {
+              if (await canLaunch(url)) {
                 await launch(url);
-              }else{
+              } else {
                 throw 'Could not launch $url';
               }
             },
