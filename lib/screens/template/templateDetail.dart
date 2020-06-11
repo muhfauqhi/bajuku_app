@@ -3,6 +3,7 @@ import 'package:bajuku_app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TemplateDetail extends StatefulWidget {
   final String documentId;
@@ -14,6 +15,8 @@ class TemplateDetail extends StatefulWidget {
 }
 
 class _TemplateDetailState extends State<TemplateDetail> {
+  String url;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,6 +67,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Text('');
               } else {
+                url = snapshot.data.documents[widget.idx].data['url'];
                 DateTime dt = DateTime.parse(snapshot
                     .data.documents[widget.idx].data['dateBought']
                     .toString());
@@ -72,7 +76,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                   color: Hexcolor('#FBFBFB'),
                   child: Column(
                     children: <Widget>[
-                      // Edit button 
+                      // Edit button
                       Container(
                         margin: EdgeInsets.only(left: 330),
                         child: IconButton(
@@ -168,19 +172,22 @@ class _TemplateDetailState extends State<TemplateDetail> {
                       _buildContainerListDark('Notes',
                           snapshot.data.documents[widget.idx].data['notes']),
                       _buildContainerListLight('Fabric', 'Cotton; Nylon'),
-                      _buildContainerListDark('Brand', snapshot.data.documents[widget.idx].data['brand']),
+                      _buildContainerListDark('Brand',
+                          snapshot.data.documents[widget.idx].data['brand']),
                       _buildContainerListLight('Size',
                           snapshot.data.documents[widget.idx].data['size']),
                       _buildContainerListDark('Season',
                           snapshot.data.documents[widget.idx].data['season']),
                       _buildContainerListLight(
                           'Price',
-                          '€'+snapshot.data.documents[widget.idx].data['price']
-                              .toString()),
+                          '€' +
+                              snapshot.data.documents[widget.idx].data['price']
+                                  .toString()),
                       _buildContainerListDark(
                           'Value Cost',
-                          '€'+snapshot.data.documents[widget.idx].data['cost']
-                              .toString()),
+                          '€' +
+                              snapshot.data.documents[widget.idx].data['cost']
+                                  .toString()),
                       _buildContainerListLight('Date Bought', date),
                       _buildContainerListDarkColor(
                           'Color',
@@ -240,10 +247,10 @@ class _TemplateDetailState extends State<TemplateDetail> {
             ),
           ),
           Container(
-            color: Hexcolor('#'+snapshot),
+            color: Hexcolor('#' + snapshot),
             child: Icon(
               Icons.crop_square,
-              color: Hexcolor('#'+snapshot),
+              color: Hexcolor('#' + snapshot),
             ),
           ),
         ],
@@ -324,7 +331,13 @@ class _TemplateDetailState extends State<TemplateDetail> {
                 color: Colors.blue,
               ),
             ),
-            onTap: () {},
+            onTap: () async{
+              if(await canLaunch(url)){
+                await launch(url);
+              }else{
+                throw 'Could not launch $url';
+              }
+            },
           ),
         ],
       ),
