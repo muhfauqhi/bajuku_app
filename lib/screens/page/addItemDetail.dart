@@ -33,6 +33,12 @@ class _AddItemDetailState extends State<AddItemDetail> {
     });
   }
 
+  @override
+  void dispose(){
+    _myController.dispose();
+    super.dispose();
+  }
+
   String itemName;
   String brand;
   String fabric;
@@ -50,6 +56,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
   int usedInOutfit = 0;
   String url;
   String image;
+  final _myController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -130,8 +137,8 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       _buildContainerListDark('Brand', "brand"),
                       _buildContainerListLight('Size', "size"),
                       _buildContainerListDark('Season', "season"),
-                      _buildContainerListLight('Price', "price"),
-                      _buildContainerListDarkDisabled('Value Cost', "cost"),
+                      _buildContainerListLightPrice('Price', "price"),
+                      _buildContainerListDarkValueCost('Value Cost', "cost"),
                       _buildContainerListLight('Date bought', "dateBought"),
                       _buildColorPicker(),
                       _buildContainerListLightDisabled('Status', "status"),
@@ -194,7 +201,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
   Container _buildColorPicker() {
     return Container(
       height: 50,
-      padding: EdgeInsets.only(left: 2.0),
       margin: EdgeInsets.only(left: 25.0, right: 25.0),
       color: Hexcolor('#F8F6F4'),
       child: Row(
@@ -353,6 +359,44 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   }),
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  Container _buildContainerListDarkValueCost(String desc, String data) {
+    return Container(
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      height: 50,
+      // padding: EdgeInsets.all(14.0),
+      color: Hexcolor('#F8F6F4'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 135,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          Container(
+            width: 135,
+            child: Text(
+              _myController.text,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.normal,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -529,6 +573,76 @@ class _AddItemDetailState extends State<AddItemDetail> {
           Expanded(
             child: Container(
               child: TextFormField(
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.normal,
+                    color: Hexcolor('#3F4D55'),
+                  ),
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: const Color(0xFFFFFF))),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: const Color(0xFFFFFF))),
+                    // filled: true,
+                    // fillColor: Hexcolor('#FFFFFF'),
+                  ),
+                  onChanged: (val) {
+                    if (data == "itemName") {
+                      this.itemName = val;
+                    } else if (data == "fabric") {
+                      this.fabric = val;
+                    } else if (data == "brand") {
+                      this.brand = val;
+                    } else if (data == "size") {
+                      this.size = val;
+                    } else if (data == "season") {
+                      this.season = val;
+                    } else if (data == "price") {
+                      this.price = val;
+                    } else if (data == "cost") {
+                      this.cost = val;
+                    } else if (data == "dateBought") {
+                      this.dateBought = val;
+                    } else if (data == "status") {
+                      this.status = val;
+                    } else if (data == "category1") {
+                      this.category1 = val;
+                    } else if (data == "url") {
+                      this.url = val;
+                    }
+                    setState(() => data = val);
+                  }),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Container _buildContainerListLightPrice(String desc, String data) {
+    return Container(
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      color: Hexcolor('#FFFFFF'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 135,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: TextFormField(
+                controller: _myController,
                   style: TextStyle(
                     fontSize: 12.0,
                     fontWeight: FontWeight.normal,
