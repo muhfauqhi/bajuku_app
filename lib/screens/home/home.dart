@@ -20,15 +20,29 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with TickerProviderStateMixin {
   CollectionReference userRef;
   String uid;
+  int _activeTabIndex;
+
+
+  final List<Tab> myTabs = <Tab>[
+    new Tab(
+      text: 'Wardrobe',
+    ),
+    new Tab(
+      text: 'Journal',
+    )
+  ];
+
   @override
-  initState() {
+  void initState() {
     super.initState();
     _getUserDoc();
     _getUid();
   }
+
+ 
 
   final AuthService _auth = AuthService();
   @override
@@ -37,6 +51,7 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.white,
       body: DefaultTabController(
         length: 2,
+        initialIndex: 0,
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
@@ -82,21 +97,21 @@ class _HomeState extends State<Home> {
                         letterSpacing: 2.0,
                         fontSize: 16.0,
                       ),
-                      tabs: [
-                        new Tab(
-                          text: 'Wardrobe',
-                        ),
-                        new Tab(
-                          text: 'Journal',
-                        ),
-                      ],
+                      tabs: myTabs,
+                      onTap: (index) {
+                        setState(() {
+                          _activeTabIndex=index;
+                        });
+                      },
                     ),
+                    buildContainerProfile(context)
                   ]),
                 ),
               ),
             ];
           },
           body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
             children: [
               _buildWardrobe(),
               _buildJournal(),
@@ -110,143 +125,149 @@ class _HomeState extends State<Home> {
   }
 
   Widget buildContainerProfile(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 0),
-      child: Row(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            width: 150,
-            height: 90,
-            child: Column(
-              children: <Widget>[
-                GestureDetector(
-                  child: Center(
-                    child: Container(
-                      width: 60.0,
-                      height: 60.0,
-                      decoration: new BoxDecoration(
-                        border:
-                            Border.all(width: 3, color: Hexcolor('#F4D4B8')),
-                        shape: BoxShape.circle,
-                        image: new DecorationImage(
-                          fit: BoxFit.fitHeight,
-                          image: new NetworkImage(
-                              "https://cdn.vox-cdn.com/thumbor/U7zc79wuh0qCZxPhGAdi3eJ-q1g=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19228501/acastro_190919_1777_instagram_0003.0.jpg"),
+    if (_activeTabIndex == 1) {
+      return Container(
+        margin: EdgeInsets.only(bottom: 0),
+        child: Row(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              width: 150,
+              height: 90,
+              child: Column(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Center(
+                      child: Container(
+                        width: 60.0,
+                        height: 60.0,
+                        decoration: new BoxDecoration(
+                          border:
+                              Border.all(width: 3, color: Hexcolor('#F4D4B8')),
+                          shape: BoxShape.circle,
+                          image: new DecorationImage(
+                            fit: BoxFit.fitHeight,
+                            image: new NetworkImage(
+                                "https://cdn.vox-cdn.com/thumbor/U7zc79wuh0qCZxPhGAdi3eJ-q1g=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19228501/acastro_190919_1777_instagram_0003.0.jpg"),
+                          ),
                         ),
                       ),
                     ),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  new TemplateCategories(
+                                    categories: "Socks",
+                                  )));
+                    },
                   ),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new TemplateCategories(
-                                  categories: "Socks",
-                                )));
-                  },
-                ),
-                Center(
-                  child: Container(
-                      margin: EdgeInsets.only(top: 5),
-                      child: GestureDetector(
-                        child: Text('Edit',
-                        style: TextStyle(
-                          color: Hexcolor('#E1C8B4'),
-                          fontSize: 12,
-                        ),),
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      new TemplateCategories(
-                                        categories: "Socks",
-                                      )));
-                        },
-                      )),
-                ),
-              ],
+                  Center(
+                    child: Container(
+                        margin: EdgeInsets.only(top: 5),
+                        child: GestureDetector(
+                          child: Text(
+                            'Edit',
+                            style: TextStyle(
+                              color: Hexcolor('#E1C8B4'),
+                              fontSize: 12,
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        new TemplateCategories(
+                                          categories: "Socks",
+                                        )));
+                          },
+                        )),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Container(
-              margin: EdgeInsets.only(top: 10),
-              width: 260,
-              height: 90,
-              child: Container(
-                margin: EdgeInsets.only(top:20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          '100',
-                          style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16),
-                        ),
-                        Text(
-                          'Pieces',
-                          style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontSize: 16,
-                              color: Hexcolor('#859289')),
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          '10',
-                          style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16),
-                        ),
-                        Text(
-                          'Outfits',
-                          style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontSize: 16,
-                              color: Hexcolor('#859289')),
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          '10',
-                          style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16),
-                        ),
-                        Text(
-                          'Points',
-                          style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontSize: 16,
-                              color: Hexcolor('#859289')),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ))
-        ],
-      ),
-    );
+            Container(
+                margin: EdgeInsets.only(top: 10),
+                width: 260,
+                height: 90,
+                child: Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            '100',
+                            style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16),
+                          ),
+                          Text(
+                            'Pieces',
+                            style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                fontSize: 16,
+                                color: Hexcolor('#859289')),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            '10',
+                            style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16),
+                          ),
+                          Text(
+                            'Outfits',
+                            style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                fontSize: 16,
+                                color: Hexcolor('#859289')),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            '10',
+                            style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16),
+                          ),
+                          Text(
+                            'Points',
+                            style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                fontSize: 16,
+                                color: Hexcolor('#859289')),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ))
+          ],
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 
   Widget _buildJournal() {
     return Column(
       children: <Widget>[
-        buildContainerProfile(context),
+        // buildContainerProfile(context),
         Expanded(
           child: Container(
             margin: EdgeInsets.only(top: 10),
