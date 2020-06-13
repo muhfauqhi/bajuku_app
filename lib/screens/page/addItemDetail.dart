@@ -88,6 +88,16 @@ class _AddItemDetailState extends State<AddItemDetail> {
           },
         ),
         centerTitle: true,
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 10),
+            constraints: BoxConstraints(
+                minWidth: 25, minHeight: 25, maxHeight: 25, maxWidth: 25),
+            child: GestureDetector(
+              child: Image.asset('assets/images/helpicon.png'),
+            ),
+          )
+        ],
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
@@ -231,21 +241,21 @@ class _AddItemDetailState extends State<AddItemDetail> {
                 borderRadius: BorderRadius.circular(0.0),
                 side: BorderSide(color: Colors.grey[500], width: 0.8),
               ),
-              onPressed: (){
+              onPressed: () {
                 showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Select a color'),
-                    content: SingleChildScrollView(
-                      child: BlockPicker(
-                        pickerColor: Colors.red,
-                        onColorChanged: changeColor,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Select a color'),
+                      content: SingleChildScrollView(
+                        child: BlockPicker(
+                          pickerColor: Colors.red,
+                          onColorChanged: changeColor,
+                        ),
                       ),
-                    ),
-                  );
-                },
-              );
+                    );
+                  },
+                );
               },
             ),
           ),

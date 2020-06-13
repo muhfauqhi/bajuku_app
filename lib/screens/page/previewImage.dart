@@ -21,6 +21,7 @@ class _PreviewImageState extends State<PreviewImage> {
       resizeToAvoidBottomPadding: false,
       bottomNavigationBar: CustomBottomNavigationBar(),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0.0,
         backgroundColor: Colors.white,
         title: Row(
@@ -31,27 +32,31 @@ class _PreviewImageState extends State<PreviewImage> {
               child: Text(
                 'Retake',
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Hexcolor('#3F4D55'),
                     fontSize: 16,
                     fontWeight: FontWeight.normal),
               ),
-              onTap: (){
-                if(widget.method == 'Camera'){
-                  
-                }else{
-
-                }
+              onTap: () {
+                if (widget.method == 'Camera') {
+                } else {}
               },
             ),
-            Text(
-              'Import Image',
-              style: TextStyle(color: Colors.black),
+            Container(
+              margin: EdgeInsets.only(left: 15),
+              child: Text(
+                'Import Image',
+                style: TextStyle(
+                  color: Hexcolor('#3F4D55'),
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1.0,
+                ),
+              ),
             ),
             GestureDetector(
               child: Text(
                 'Use Photo',
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Hexcolor('#3F4D55'),
                     fontSize: 16,
                     fontWeight: FontWeight.normal),
               ),
@@ -60,7 +65,8 @@ class _PreviewImageState extends State<PreviewImage> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new ImageEditor(filePicture: widget.fileImage,
+                        builder: (BuildContext context) => new ImageEditor(
+                              filePicture: widget.fileImage,
                             )));
               },
             ),
@@ -68,52 +74,12 @@ class _PreviewImageState extends State<PreviewImage> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: Container(
+        color: Hexcolor('#FBFBFB'),
         child: Container(
-          color: Hexcolor('#FBFBFB'),
-          child: Column(
-            children: <Widget>[
-              Container(
-                width: 500,
-                height: 550,
-                child: Image.file(widget.fileImage,
-                fit: BoxFit.fill
-                ),
-              ),
-              // RaisedButton(
-              //     child: Text("Save"),
-              //     onPressed: () {
-              //       showDialog(
-              //           context: context,
-              //           builder: (context) {
-              //             return AlertDialog(
-              //               title: Text("Are you sure?"),
-              //               actions: <Widget>[
-              //                 FlatButton(
-              //                   child: Text("No"),
-              //                   onPressed: () {
-              //                     Navigator.pop(context);
-              //                   },
-              //                 ),
-              //                 FlatButton(
-              //                   child: Text("Yes"),
-              //                   onPressed: () {
-              //                     Navigator.pop(context);
-              //                     Navigator.push(
-              //                         context,
-              //                         new MaterialPageRoute(
-              //                             builder: (BuildContext context) =>
-              //                                 new AddItem(
-              //                                   fileUpload: widget.fileImage,
-              //                                 )));
-              //                   },
-              //                 )
-              //               ],
-              //             );
-              //           });
-              //     })
-            ],
-          ),
+          constraints: BoxConstraints(
+              maxWidth: 450, maxHeight: 450, minWidth: 450, minHeight: 450),
+          child: Image.file(widget.fileImage, fit: BoxFit.cover),
         ),
       ),
     );
