@@ -2,18 +2,19 @@ import 'dart:io';
 
 import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/addItemDetail.dart';
+import 'package:bajuku_app/screens/page/addOutfitDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class ImageEditor extends StatefulWidget {
+class ImageEditorOutfit extends StatefulWidget {
   final File filePicture;
-  ImageEditor({this.filePicture});
+  ImageEditorOutfit({this.filePicture});
 
   @override
-  _ImageEditorState createState() => _ImageEditorState();
+  _ImageEditorOutfitState createState() => _ImageEditorOutfitState();
 }
 
-class _ImageEditorState extends State<ImageEditor> {
+class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -110,7 +111,7 @@ class _ImageEditorState extends State<ImageEditor> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new AddItemDetail(
+                        builder: (BuildContext context) => new AddOutfitDetail(
                               fileUpload: widget.filePicture,
                             )));
               },

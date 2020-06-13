@@ -24,7 +24,7 @@ class _AddChoiceDialogState extends State<AddChoiceDialog> {
                 child: GestureDetector(
                   child: Image.asset('assets/images/addclothes.png'),
                   onTap: () {
-                    showDialog(context: context, child: AddItemDialog());
+                    showDialog(context: context, child: AddItemDialog(flagAdd: 'Wardrobe',));
                   },
                 ),
               ),
@@ -34,7 +34,7 @@ class _AddChoiceDialogState extends State<AddChoiceDialog> {
                 child: GestureDetector(
                   child: Image.asset('assets/images/addjournal.png'),
                   onTap: () {
-                    showDialog(context: context, child: AddItemDialog());
+                    showDialog(context: context, child: AddItemDialog(flagAdd: 'Journal',));
                   },
                 ),
               ),

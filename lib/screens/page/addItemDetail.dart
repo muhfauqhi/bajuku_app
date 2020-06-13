@@ -57,6 +57,10 @@ class _AddItemDetailState extends State<AddItemDetail> {
   String url;
   String image;
   final _myController = TextEditingController();
+  List<String> allStatus = [
+      "Available",
+      "Not available"
+    ];  
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +145,8 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       _buildContainerListDarkValueCost('Value Cost', "cost"),
                       _buildContainerListLight('Date bought', "dateBought"),
                       _buildColorPicker(),
-                      _buildContainerListLightDisabled('Status', "status"),
+                      // _buildContainerListLightDisabled('Status', "status"),
+                      _buildContainerListLightStatus('Status'),
                       _buildContainerListDarkDisabled(
                           'Used in Outfit', "usedInOutfit"),
                       _buildContainerListLightDisabled('Worn', "worn"),
@@ -286,6 +291,47 @@ class _AddItemDetailState extends State<AddItemDetail> {
     );
   }
 
+  Container _buildContainerListLightStatus(String desc){
+    return Container(
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      // padding: EdgeInsets.all(14.0),
+      color: Hexcolor('#FFFFFF'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 135,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          DropdownButton(
+            iconSize: 10,
+            dropdownColor: Hexcolor('#FFFFFF'),
+            style: TextStyle(color: Colors.black),
+            value: status,
+            items: allStatus.map((val){
+              return DropdownMenuItem(
+                value: val,
+                child: Text(val),
+                );
+            }).toList(),
+            onChanged: (val){
+              setState(() {
+                status=val;
+              });
+            }
+          ),
+        ],
+      ),
+    );
+  }
   Container _buildContainerListLightDisabled(String desc, String data) {
     return Container(
       margin: EdgeInsets.only(left: 25.0, right: 25.0),

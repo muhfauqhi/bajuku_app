@@ -25,7 +25,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   String uid;
   int _activeTabIndex;
 
-
   final List<Tab> myTabs = <Tab>[
     new Tab(
       text: 'Wardrobe',
@@ -41,8 +40,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _getUserDoc();
     _getUid();
   }
-
- 
 
   final AuthService _auth = AuthService();
   @override
@@ -100,7 +97,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       tabs: myTabs,
                       onTap: (index) {
                         setState(() {
-                          _activeTabIndex=index;
+                          _activeTabIndex = index;
                         });
                       },
                     ),
@@ -265,18 +262,20 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   Widget _buildJournal() {
-    return Column(
-      children: <Widget>[
-        // buildContainerProfile(context),
-        Expanded(
-          child: Container(
+    return FutureBuilder(
+      future: DatabaseService().getOutfit(),
+      builder: (_, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text('');
+        } else {
+          return Container(
             margin: EdgeInsets.only(top: 10),
             child: GridView.builder(
               primary: true,
               padding:
                   EdgeInsets.only(left: 15, right: 15, top: 9, bottom: 120),
               shrinkWrap: false,
-              itemCount: 15,
+              itemCount: snapshot.data.documents.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3, crossAxisSpacing: 11, mainAxisSpacing: 11),
               itemBuilder: (context, index) {
@@ -287,7 +286,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     child: ClipRRect(
                       child: Card(
                         child: Image.network(
-                          "https://cdn.idntimes.com/content-images/post/20180824/6eda99bee7ddfc124c5645ebf2ca4fbf.jpg",
+                          snapshot.data.documents[index].data['image'],
                           fit: BoxFit.fitWidth,
                         ),
                         elevation: 2.0,
@@ -299,9 +298,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 );
               },
             ),
-          ),
-        ),
-      ],
+          );
+        }
+      },
     );
   }
 

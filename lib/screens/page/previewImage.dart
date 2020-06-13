@@ -2,13 +2,15 @@ import 'dart:io';
 
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/page/imageEditor.dart';
+import 'package:bajuku_app/screens/page/imageEditorOutfit.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class PreviewImage extends StatefulWidget {
   final File fileImage;
   final String method;
-  PreviewImage({this.fileImage, this.method});
+  final String flagAdd;
+  PreviewImage({this.fileImage, this.method, this.flagAdd});
 
   @override
   _PreviewImageState createState() => _PreviewImageState();
@@ -35,12 +37,9 @@ class _PreviewImageState extends State<PreviewImage> {
                     fontSize: 16,
                     fontWeight: FontWeight.normal),
               ),
-              onTap: (){
-                if(widget.method == 'Camera'){
-                  
-                }else{
-
-                }
+              onTap: () {
+                if (widget.method == 'Camera') {
+                } else {}
               },
             ),
             Text(
@@ -57,11 +56,21 @@ class _PreviewImageState extends State<PreviewImage> {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new ImageEditor(filePicture: widget.fileImage,
-                            )));
+                if (widget.flagAdd == 'Wardrobe') {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) => new ImageEditor(
+                                filePicture: widget.fileImage,
+                              )));
+                } else {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) => new ImageEditorOutfit(
+                                filePicture: widget.fileImage,
+                              )));
+                }
               },
             ),
           ],
@@ -76,9 +85,7 @@ class _PreviewImageState extends State<PreviewImage> {
               Container(
                 width: 500,
                 height: 550,
-                child: Image.file(widget.fileImage,
-                fit: BoxFit.fill
-                ),
+                child: Image.file(widget.fileImage, fit: BoxFit.fill),
               ),
               // RaisedButton(
               //     child: Text("Save"),

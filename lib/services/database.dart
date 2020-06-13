@@ -28,6 +28,7 @@ class DatabaseService {
       });
     });
   }
+  
 
   Future setUser(String firstName, String lastName, String email) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
@@ -93,16 +94,15 @@ class DatabaseService {
     });
   }
 
-  Future setOutfit(
-      String name, String imageUrl, String documentId) async {
+  Future setOutfit( String image) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     return await firestoreInstance
         .collection('users')
         .document(firebaseUser.uid)
         .collection('outfits')
         .add({
-      "outfitName": name,
-      "image": imageUrl,
+      // "outfitName": name,
+      "image": image,
       "created": FieldValue.serverTimestamp(),
     });
   }
@@ -113,6 +113,16 @@ class DatabaseService {
         .collection('users')
         .document(firebaseUser.uid)
         .collection('clothes')
+        .snapshots();
+    print(firebaseUser.uid);
+  }
+
+  Stream<QuerySnapshot> getOutfitHome() async* {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('outfits')
         .snapshots();
     print(firebaseUser.uid);
   }
@@ -147,6 +157,17 @@ class DatabaseService {
           .getDocuments();
       return qn;
     }
+  }
+
+  Future getOutfit() async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+      QuerySnapshot qn = await Firestore.instance
+          .collection('users')
+          .document(firebaseUser.uid)
+          .collection('outfits')
+          .getDocuments();
+      return qn;
+    
   }
 
   Future getClothesDetail() async {

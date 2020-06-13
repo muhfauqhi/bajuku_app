@@ -14,7 +14,7 @@ class _TestState extends State<Test> {
     );
   }
 
-  void setOutfit(String name, String imageUrl, String documentId) async{
-    DatabaseService().setOutfit(name, imageUrl, documentId);
+  void setOutfit(String image) async{
+    DatabaseService().setOutfit(image);
   }
 }
