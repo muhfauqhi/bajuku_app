@@ -340,8 +340,8 @@ class _TemplateDetailState extends State<TemplateDetail> {
               ),
             ),
             onTap: () async {
-              if (await canLaunch(url)) {
-                await launch(url);
+              if (await canLaunch('https://'+ url)) {
+                await launch('https://'+ url);
               } else {
                 throw 'Could not launch $url';
               }
