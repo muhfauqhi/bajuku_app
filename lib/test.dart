@@ -1,4 +1,3 @@
-import 'package:bajuku_app/services/database.dart';
 import 'package:flutter/material.dart';
 
 class Test extends StatefulWidget {
@@ -14,7 +13,36 @@ class _TestState extends State<Test> {
     );
   }
 
-  void setOutfit(String name, String imageUrl, String documentId) async{
-    DatabaseService().setOutfit(name, imageUrl, documentId);
+  List<String> options = [
+    'News',
+    'Entertainment',
+    'Politics',
+    'Automotive',
+    'Sports',
+    'Education',
+    'Fashion',
+    'Travel',
+    'Food',
+    'Tech',
+    'Science',
+  ];
+
+  void cariJumlahAlphabet() {
+    List<String> alpha = [];
+    for (int i = 0; i < options.length; i++) {
+      if (alpha.any((e) => e.contains(options[i].substring(0, 1).toUpperCase()))) {
+        alpha.add(options[i].substring(0, 1).toUpperCase());
+      } else {
+        print('huruf ini sudah ada');
+      }
+    }
+    for (var alpha in alpha) {
+      print(alpha);
+    }
+  }
+  @override
+  void setState(fn) {
+    super.setState(fn);
+    cariJumlahAlphabet();
   }
 }

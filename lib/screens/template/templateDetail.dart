@@ -168,12 +168,6 @@ class _TemplateDetailState extends State<TemplateDetail> {
                         child: FlatButton(
                           child: Image.asset('assets/images/wornButton.png'),
                           onPressed: () {
-                            Test().createState().setOutfit(
-                                snapshot.data.documents[widget.idx]
-                                    .data['clothName'],
-                                snapshot
-                                    .data.documents[widget.idx].data['image'],
-                                widget.documentId);
                           },
                         ),
                       ),
