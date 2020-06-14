@@ -7,14 +7,22 @@ class DatePicker extends StatefulWidget {
 }
 
 class _DatePickerState extends State<DatePicker> {
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate;
   DateTime firstDate = DateTime(2015, 8);
   DateTime lastDate = DateTime(2101);
-   DateTime getSelectedDate() {
+  
+  
+  @override
+  void initState(){
+    selectedDate=DateTime.now();
+    super.initState();
+  }
+
+  DateTime getSelectedDate() {
     return selectedDate;
     }
 
-  Future<Null> _selectDate(BuildContext context) async {
+  Future<Null> selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
@@ -25,7 +33,6 @@ class _DatePickerState extends State<DatePicker> {
     );
     if (picked != null && picked != selectedDate)
       setState(() {
-        print(selectedDate);
         selectedDate = picked;
       });
   }
@@ -40,7 +47,7 @@ class _DatePickerState extends State<DatePicker> {
           child: Column(
             children: [
               RaisedButton(
-                onPressed: () => _selectDate(context),
+                onPressed: () => selectDate(context),
                 // onPressed: () {
                 //   setState(() {
                 //     buildDayPicker(
@@ -49,6 +56,7 @@ class _DatePickerState extends State<DatePicker> {
                 // },
                 child: Text('Select date'),
               ),
+              Text(getSelectedDate().toString())
             ],
           ),
         ),

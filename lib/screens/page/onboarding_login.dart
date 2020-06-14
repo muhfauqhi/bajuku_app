@@ -14,35 +14,35 @@ class OnboardLogin extends StatefulWidget {
 }
 
 class _OnboardLoginState extends State<OnboardLogin> {
-  int _currentPage = 0;
-  final PageController _pageController = PageController(initialPage: 0);
+  // int _currentPage = 0;
+  // final PageController _pageController = PageController(initialPage: 0);
   // Automatic Transition
-  @override
-  void initState() {
-    super.initState();
-    Timer.periodic(Duration(seconds: 5), (Timer timer) {
-      if (_currentPage < 2) {
-        _currentPage++;
-      } else {
-        _currentPage = 0;
-      }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Timer.periodic(Duration(seconds: 5), (Timer timer) {
+  //     if (_currentPage < 2) {
+  //       _currentPage++;
+  //     } else {
+  //       _currentPage = 0;
+  //     }
 
-      _pageController.animateToPage(_currentPage,
-          duration: Duration(milliseconds: 300), curve: Curves.easeIn);
-    });
-  }
+  //     _pageController.animateToPage(_currentPage,
+  //         duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+  //   });
+  // }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _pageController.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   _pageController.dispose();
+  // }
 
-  _onPageChanged(int index) {
-    setState(() {
-      _currentPage = index;
-    });
-  }
+  // _onPageChanged(int index) {
+  //   setState(() {
+  //     _currentPage = index;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -57,34 +57,34 @@ class _OnboardLoginState extends State<OnboardLogin> {
                 child: Stack(
                   alignment: AlignmentDirectional.center,
                   children: <Widget>[
-                    _pageViewSlider(),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 35.0),
-                              child: Container(
-                                // color: Colors.red,
-                                height: 330,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    for (int i = 0; i < slideList.length; i++)
-                                      if (i == _currentPage)
-                                        SlideDots(true)
-                                      else
-                                        SlideDots(false)
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                    // _pageViewSlider(),
+                    // Column(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //   children: <Widget>[
+                    //     Column(
+                    //       children: <Widget>[
+                    //         Container(
+                    //           margin: const EdgeInsets.only(bottom: 35.0),
+                    //           child: Container(
+                    //             // color: Colors.red,
+                    //             height: 330,
+                    //             child: Row(
+                    //               mainAxisAlignment: MainAxisAlignment.center,
+                    //               crossAxisAlignment: CrossAxisAlignment.end,
+                    //               children: <Widget>[
+                    //                 for (int i = 0; i < slideList.length; i++)
+                    //                   if (i == _currentPage)
+                    //                     SlideDots(true)
+                    //                   else
+                    //                     SlideDots(false)
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ],
+                    // ),
                     Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -147,13 +147,13 @@ class _OnboardLoginState extends State<OnboardLogin> {
     }
   }
 
-  PageView _pageViewSlider() {
-    return PageView.builder(
-      scrollDirection: Axis.horizontal,
-      controller: _pageController,
-      onPageChanged: _onPageChanged,
-      itemCount: slideList.length,
-      itemBuilder: (ctx, i) => SlideItem(i),
-    );
-  }
+  // PageView _pageViewSlider() {
+  //   return PageView.builder(
+  //     scrollDirection: Axis.horizontal,
+  //     controller: _pageController,
+  //     onPageChanged: _onPageChanged,
+  //     itemCount: slideList.length,
+  //     itemBuilder: (ctx, i) => SlideItem(i),
+  //   );
+  // }
 }
