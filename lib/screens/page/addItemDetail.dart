@@ -48,8 +48,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
   String fabric;
   int worn = 0;
   String notes;
-  String category1 = 'Tops';
-  String category2 = 'Jackets';
   String size;
   String season;
   String price;
@@ -182,8 +180,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                           fabricsList,
                           worn,
                           notes,
-                          category1,
-                          category2,
+                          category,
                           size,
                           season,
                           price,
@@ -241,9 +238,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
             width: 135,
             child: GestureDetector(
               child: Text('Test'),
-              onTap: () {
-
-              },
+              onTap: () {},
             ),
           )
         ],
@@ -282,8 +277,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   child: DialogChipCategories(),
                 ).then((value) {
                   setState(() {
-                    category =
-                        DialogChipCategories().createState().getTags();
+                    category = DialogChipCategories().createState().getTags();
                   });
                 });
               },
@@ -574,8 +568,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
-                    } else if (data == "category1") {
-                      this.category1 = val;
                     } else if (data == "url") {
                       this.url = val;
                     }
@@ -690,8 +682,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
-                    } else if (data == "category1") {
-                      this.category1 = val;
                     } else if (data == "url") {
                       this.url = val;
                     }
@@ -760,8 +750,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
-                    } else if (data == "category1") {
-                      this.category1 = val;
                     } else if (data == "url") {
                       this.url = val;
                     }
@@ -830,8 +818,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
-                    } else if (data == "category1") {
-                      this.category1 = val;
                     } else if (data == "url") {
                       this.url = val;
                     }
@@ -913,8 +899,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
-                    } else if (data == "category1") {
-                      this.category1 = val;
                     } else if (data == "url") {
                       this.url = val;
                     }
