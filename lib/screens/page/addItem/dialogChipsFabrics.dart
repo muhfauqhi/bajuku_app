@@ -1,18 +1,16 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:path/path.dart';
 
-class DialogChipFilter extends StatefulWidget {
+class DialogChipFabric extends StatefulWidget {
   @override
-  _DialogChipFilterState createState() => _DialogChipFilterState();
+  _DialogChipFabricState createState() => _DialogChipFabricState();
 }
 
-class _DialogChipFilterState extends State<DialogChipFilter> {
+class _DialogChipFabricState extends State<DialogChipFabric> {
   String temp;
-  List<String> tags = [];
-
+  final _myController = TextEditingController();
+  static List<String> tags;
   List<String> fabric = [
     'Acetate',
     'Bamboo',
@@ -63,7 +61,6 @@ class _DialogChipFilterState extends State<DialogChipFilter> {
     for (int i = 0; i < tagsList.length; i++) {
       if (alpha
           .any((e) => e.contains(tagsList[i].substring(0, 1).toUpperCase()))) {
-        print('huruf ini sudah ada');
       } else {
         alpha.add(tagsList[i].substring(0, 1).toUpperCase());
       }
@@ -80,20 +77,36 @@ class _DialogChipFilterState extends State<DialogChipFilter> {
     fabricListAlphabet = cariJumlahAlphabet(fabric);
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   bool flag = true;
+
+  List<String> getTags() {
+    return tags;
+  }
 
   Widget suggestionList() {
     if (flag) {
-      print(tags);
       return Expanded(
-        child: ListView.builder(
+        child: ListView.separated(
+            separatorBuilder: (context, index) => Divider(),
+            shrinkWrap: true,
             itemCount: fabricListAlphabet.length,
             itemBuilder: (context, idx) {
               return ListTile(
-                title: Text(fabricListAlphabet.elementAt(idx)),
+                title: Text(
+                  fabricListAlphabet.elementAt(idx),
+                  style: TextStyle(
+                      color: Hexcolor('#E1C8B4'),
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.normal),
+                ),
                 subtitle: ChipsChoice<String>.multiple(
                     itemConfig: ChipsChoiceItemConfig(
-                      selectedColor: Hexcolor('#DFC2AA'),
+                      selectedColor: Hexcolor('#E1C8B4'),
                       unselectedColor: Hexcolor('#3F4D55'),
                       labelStyle: TextStyle(
                         color: Hexcolor('#3F4D55'),
@@ -120,6 +133,16 @@ class _DialogChipFilterState extends State<DialogChipFilter> {
         return ListTile(
           title: Text('Result'),
           subtitle: ChipsChoice<String>.multiple(
+              itemConfig: ChipsChoiceItemConfig(
+                selectedColor: Hexcolor('#DFC2AA'),
+                unselectedColor: Hexcolor('#3F4D55'),
+                labelStyle: TextStyle(
+                  color: Hexcolor('#3F4D55'),
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.normal,
+                ),
+                elevation: 5.0,
+              ),
               value: tags,
               options: ChipsChoiceOption.listFrom<String, String>(
                   source: fabric
@@ -137,13 +160,30 @@ class _DialogChipFilterState extends State<DialogChipFilter> {
   }
 
   Widget buildChip() {
-    if (tags.length > 0) {
-      return Container(
-        child: ChipsChoice<String>.multiple(
-            value: tags,
-            options: ChipsChoiceOption.listFrom<String, String>(
-                source: tags, value: (i, v) => v, label: (i, v) => v),
-            onChanged: (val) => setState(() => tags = val)),
+    if (tags != null) {
+      return Row(
+        children: [
+          Container(
+            width: 316,
+            child: ChipsChoice<String>.multiple(
+                itemConfig: ChipsChoiceItemConfig(
+                  selectedColor: Hexcolor('#DFC2AA'),
+                  unselectedColor: Hexcolor('#3F4D55'),
+                  labelStyle: TextStyle(
+                    color: Hexcolor('#3F4D55'),
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  elevation: 5.0,
+                ),
+                value: tags,
+                options: ChipsChoiceOption.listFrom<String, String>(
+                    source: tags, value: (i, v) => v, label: (i, v) => v),
+                onChanged: (val) => setState(() {
+                      tags = val;
+                    })),
+          ),
+        ],
       );
     } else {
       return Text('');
@@ -152,12 +192,18 @@ class _DialogChipFilterState extends State<DialogChipFilter> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return SimpleDialog(children: [
+      Container(
+        height: 300,
+        width: 300,
         child: Column(
           children: [
             Container(
+              padding: EdgeInsets.all(14.0),
               child: TextFormField(
+                onSaved: (val) {
+                  return tags;
+                },
                 onChanged: (val) {
                   if (val.isNotEmpty) {
                     setState(() {
@@ -171,6 +217,7 @@ class _DialogChipFilterState extends State<DialogChipFilter> {
                     });
                   }
                 },
+                controller: _myController,
                 style: TextStyle(
                   fontSize: 12.0,
                   fontWeight: FontWeight.normal,
@@ -183,10 +230,11 @@ class _DialogChipFilterState extends State<DialogChipFilter> {
               ),
             ),
             buildChip(),
+            Divider(),
             suggestionList(),
           ],
         ),
       ),
-    );
+    ]);
   }
 }

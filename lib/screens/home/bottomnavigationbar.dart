@@ -1,9 +1,6 @@
 import 'package:bajuku_app/screens/home/home.dart';
-import 'package:bajuku_app/screens/page/add.dart';
 import 'package:bajuku_app/screens/page/addChoice.dart';
-import 'package:bajuku_app/screens/page/addItem/dialogChipsDialog.dart';
-import 'package:bajuku_app/screens/page/sustainable.dart';
-import 'package:bajuku_app/test2.dart';
+import 'package:bajuku_app/screens/page/addItem/datePicker.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -62,12 +59,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: GestureDetector(
               child: Image.asset('assets/images/profilenav.png'),
               onTap: () {
-                // showDialog(context: context,
-                // child: DialogChipFilter());
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new DialogChipFilter()));
+                showDialog(context: context,
+                child: DatePicker(),);
+                // Navigator.push(
+                //     context,
+                //     new MaterialPageRoute(
+                //         builder: (BuildContext context) =>
+                //             new DialogChipFilter()));
               },
             ),
           ),

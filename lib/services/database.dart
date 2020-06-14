@@ -46,7 +46,7 @@ class DatabaseService {
   Future setClothes(
       String name,
       String brand,
-      String fabric,
+      List<String> fabric,
       int worn,
       String notes,
       String category1,
