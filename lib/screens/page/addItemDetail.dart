@@ -249,6 +249,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   cancelText: '',
                 ).then((value) {
                   setState(() {
+                    selectedDate = value;
                     dateBoughtFormatted = formatter.format(value);
                   });
                 });
@@ -446,6 +447,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
       child: Row(
         children: <Widget>[
           Container(
+            color: Colors.black,
             padding: EdgeInsets.only(left: 8.0),
             width: 135,
             child: Text(

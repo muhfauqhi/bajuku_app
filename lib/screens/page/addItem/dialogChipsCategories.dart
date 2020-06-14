@@ -208,7 +208,7 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
                   color: Hexcolor('#3F4D55'),
                 ),
                 decoration: InputDecoration(
-                    hintText: 'Search your fabric',
+                    hintText: 'Search your categories',
                     suffixIcon: Icon(Icons.search)),
               ),
             ),
