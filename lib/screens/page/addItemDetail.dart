@@ -52,7 +52,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
   String season;
   String price;
   String cost;
-  DateTime dateBought;
+  DateTime selectedDate;
   String color;
   String status = 'Available';
   int usedInOutfit = 0;
@@ -186,7 +186,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                           season,
                           price,
                           cost,
-                          dateBought,
+                          selectedDate,
                           currentColor.toString(),
                           status,
                           usedInOutfit,
@@ -240,17 +240,30 @@ class _AddItemDetailState extends State<AddItemDetail> {
             child: GestureDetector(
               child: _buildTextDateBought(),
               onTap: () {
-                showDialog(
+                showDatePicker(
                   context: context,
-                  child: DatePicker(),
+                  initialDate: now,
+                  firstDate: DateTime(2015, 8),
+                  lastDate: DateTime(2101),
+                  confirmText: 'OK',
+                  cancelText: '',
                 ).then((value) {
                   setState(() {
-                    var f = new DateFormat('dd MMMM yyyy');
-                    dateBoughtFormatted = f
-                        .format(DatePicker().createState().getSelectedDate());
-                    print(dateBoughtFormatted+"halo");
+                    dateBoughtFormatted = formatter.format(value);
                   });
                 });
+                // showDialog(
+                //   context: context,
+                //   child: DatePicker(),
+                // ).whenComplete(() {
+                //   setState(() {
+                //     // var f = new DateFormat('dd MMMM yyyy');
+                //     // dateBoughtFormatted = f
+                //     //     .format(DatePicker().createState().getSelectedDate());
+                //     // print(dateBoughtFormatted+"halo");
+                //     print(DatePicker().createState().getSelectedDate());
+                //   });
+                // });
               },
             ),
           )
@@ -378,7 +391,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
         ),
       );
     } else {
-      return Text('Kosong');
+      return Text('');
     }
   }
 

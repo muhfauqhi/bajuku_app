@@ -10,17 +10,16 @@ class _DatePickerState extends State<DatePicker> {
   DateTime selectedDate;
   DateTime firstDate = DateTime(2015, 8);
   DateTime lastDate = DateTime(2101);
-  
-  
+
   @override
-  void initState(){
-    selectedDate=DateTime.now();
+  void initState() {
+    selectedDate = DateTime.now();
     super.initState();
   }
 
   DateTime getSelectedDate() {
     return selectedDate;
-    }
+  }
 
   Future<Null> selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
