@@ -12,50 +12,6 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
   final _myController = TextEditingController();
   static String tags;
   static String tagsTopCategory;
-  List<String> fabric = [
-    'Acetate',
-    'Bamboo',
-    'Cotton',
-    'Chiffon',
-    'Chino',
-    'Charmeuse',
-    'Combed Cotton',
-    'Coolmax',
-    'Corduroy',
-    'Ecosil Polyester',
-    'Fleece',
-    'Interlock Knit',
-    'Jacquard',
-    'Jersey',
-    'Jeans',
-    'Knit',
-    'Leather',
-    'Lace',
-    'Latex',
-    'Linen',
-    'Lycra',
-    'Lyocell',
-    'Memory Foam',
-    'Microfiber',
-    'Microfleece',
-    'Neoprene',
-    'Nylon',
-    'Pique',
-    'Polyester',
-    'Rayon',
-    'Satin',
-    'Silk',
-    'Spandex',
-    'Suede',
-    'Tencel',
-    'Tactel',
-    'Thermastat',
-    'Velvet',
-    'Viscose',
-    'Vinyl',
-    'Wool',
-    'Woven',
-  ];
 
   List<String> cariJumlahTitle(List<Category> tagsList) {
     List<String> alpha = [];
@@ -106,8 +62,11 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
 
   bool flag = true;
 
-  String getTags() {
-    return tagsTopCategory + '; ' + tags;
+  List<String> getTags() {
+    List<String> tagsCategory = [];
+    tagsCategory.add(tagsTopCategory);
+    tagsCategory.add(tags);
+    return tagsCategory;
   }
 
   Widget suggestionList() {

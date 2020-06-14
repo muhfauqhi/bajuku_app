@@ -52,19 +52,16 @@ class _AddItemDetailState extends State<AddItemDetail> {
   String season;
   String price;
   String cost;
-  String dateBought;
+  DateTime dateBought;
   String color;
   String status = 'Available';
   int usedInOutfit = 0;
   String url;
   String image;
-  static List<String> fabricsList;
-  static String category;
+  List<String> fabricsList;
+  List<String> categoryList;
   final _myController = TextEditingController();
-  List<String> allStatus = [
-      "Available",
-      "Not available"
-    ];  
+  List<String> allStatus = ["Available", "Not available"];
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +149,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                         ),
                       ),
                       _buildContainerListDark('Name', "itemName"),
-                      _buildContainerListLightFabric('Fabric', "fabric"),
+                      _buildContainerListLightFabric('Fabric'),
                       _buildContainerListDark('Brand', "brand"),
                       _buildContainerListLight('Size', "size"),
                       _buildContainerListDark('Season', "season"),
@@ -166,7 +163,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                           'Used in Outfit', "usedInOutfit"),
                       _buildContainerListLightDisabled('Worn', "worn"),
                       _buildContainerListDarkCategory(
-                          'Tags Category', "category1"),
+                          'Tags Category'),
                       _buildContainerListLight('URL', "url"),
                     ],
                   ),
@@ -185,7 +182,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                           fabricsList,
                           worn,
                           notes,
-                          category,
+                          categoryList,
                           size,
                           season,
                           price,
@@ -251,7 +248,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
     );
   }
 
-  Widget _buildContainerListDarkCategory(String desc, String data) {
+  Widget _buildContainerListDarkCategory(String desc) {
     return Container(
       margin: EdgeInsets.only(left: 25.0, right: 25.0),
       color: Hexcolor('#F8F6F4'),
@@ -282,7 +279,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   child: DialogChipCategories(),
                 ).then((value) {
                   setState(() {
-                    category = DialogChipCategories().createState().getTags();
+                    categoryList = DialogChipCategories().createState().getTags();
                   });
                 });
               },
@@ -293,10 +290,18 @@ class _AddItemDetailState extends State<AddItemDetail> {
     );
   }
 
+  String getCategory() {
+    String a = "";
+    for (var t in categoryList) {
+      a = a + t + "; ";
+    }
+    return a;
+  }
+
   Widget _buildTextCategory() {
-    if (category != null) {
+    if (categoryList != null) {
       return Text(
-        category,
+        getCategory(),
         style: TextStyle(
           fontSize: 12.0,
           fontWeight: FontWeight.normal,
@@ -349,7 +354,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
     }
   }
 
-  Widget _buildContainerListLightFabric(String desc, String data) {
+  Widget _buildContainerListLightFabric(String desc) {
     return Container(
       height: 50,
       margin: EdgeInsets.only(left: 25.0, right: 25.0),
@@ -510,7 +515,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
     );
   }
 
-  Container _buildContainerListLightStatus(String desc){
+  Container _buildContainerListLightStatus(String desc) {
     return Container(
       margin: EdgeInsets.only(left: 25.0, right: 25.0),
       // padding: EdgeInsets.all(14.0),
@@ -531,26 +536,26 @@ class _AddItemDetailState extends State<AddItemDetail> {
             ),
           ),
           DropdownButton(
-            iconSize: 10,
-            dropdownColor: Hexcolor('#FFFFFF'),
-            style: TextStyle(color: Colors.black),
-            value: status,
-            items: allStatus.map((val){
-              return DropdownMenuItem(
-                value: val,
-                child: Text(val),
+              iconSize: 10,
+              dropdownColor: Hexcolor('#FFFFFF'),
+              style: TextStyle(color: Colors.black),
+              value: status,
+              items: allStatus.map((val) {
+                return DropdownMenuItem(
+                  value: val,
+                  child: Text(val),
                 );
-            }).toList(),
-            onChanged: (val){
-              setState(() {
-                status=val;
-              });
-            }
-          ),
+              }).toList(),
+              onChanged: (val) {
+                setState(() {
+                  status = val;
+                });
+              }),
         ],
       ),
     );
   }
+
   Container _buildContainerListLightDisabled(String desc, String data) {
     return Container(
       margin: EdgeInsets.only(left: 25.0, right: 25.0),
@@ -610,8 +615,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.price = val;
                     } else if (data == "cost") {
                       this.cost = val;
-                    } else if (data == "dateBought") {
-                      this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
                     } else if (data == "url") {
@@ -724,8 +727,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.price = val;
                     } else if (data == "cost") {
                       this.cost = val;
-                    } else if (data == "dateBought") {
-                      this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
                     } else if (data == "url") {
@@ -792,8 +793,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.price = val;
                     } else if (data == "cost") {
                       this.cost = val;
-                    } else if (data == "dateBought") {
-                      this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
                     } else if (data == "url") {
@@ -860,8 +859,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.price = val;
                     } else if (data == "cost") {
                       this.cost = val;
-                    } else if (data == "dateBought") {
-                      this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
                     } else if (data == "url") {
@@ -941,8 +938,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.price = val;
                     } else if (data == "cost") {
                       this.cost = val;
-                    } else if (data == "dateBought") {
-                      this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
                     } else if (data == "url") {
