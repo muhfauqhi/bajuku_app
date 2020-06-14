@@ -52,6 +52,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
             context,
             new MaterialPageRoute(
                 builder: (BuildContext context) => new PreviewImage(
+                      flagAdd: widget.flagAdd,
                       fileImage: _image,
                       method: 'Camera',
                     )));
