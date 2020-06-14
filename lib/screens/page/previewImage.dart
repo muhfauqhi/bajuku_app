@@ -23,6 +23,7 @@ class _PreviewImageState extends State<PreviewImage> {
       resizeToAvoidBottomPadding: false,
       bottomNavigationBar: CustomBottomNavigationBar(),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0.0,
         backgroundColor: Colors.white,
         title: Row(
@@ -33,7 +34,7 @@ class _PreviewImageState extends State<PreviewImage> {
               child: Text(
                 'Retake',
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Hexcolor('#3F4D55'),
                     fontSize: 16,
                     fontWeight: FontWeight.normal),
               ),
@@ -42,20 +43,28 @@ class _PreviewImageState extends State<PreviewImage> {
                 } else {}
               },
             ),
-            Text(
-              'Import Image',
-              style: TextStyle(color: Colors.black),
+            Container(
+              margin: EdgeInsets.only(left: 15),
+              child: Text(
+                'Import Image',
+                style: TextStyle(
+                  color: Hexcolor('#3F4D55'),
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1.0,
+                ),
+              ),
             ),
             GestureDetector(
               child: Text(
                 'Use Photo',
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Hexcolor('#3F4D55'),
                     fontSize: 16,
                     fontWeight: FontWeight.normal),
               ),
               onTap: () {
                 Navigator.pop(context);
+<<<<<<< HEAD
                 if (widget.flagAdd == 'Wardrobe') {
                   Navigator.push(
                       context,
@@ -71,14 +80,24 @@ class _PreviewImageState extends State<PreviewImage> {
                                 filePicture: widget.fileImage,
                               )));
                 }
+=======
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new ImageEditor(
+                              filePicture: widget.fileImage,
+                            )));
+>>>>>>> f0fac72ea1f932111fb9c3286d32d33bac8751ec
               },
             ),
           ],
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: Container(
+        color: Hexcolor('#FBFBFB'),
         child: Container(
+<<<<<<< HEAD
           color: Hexcolor('#FBFBFB'),
           child: Column(
             children: <Widget>[
@@ -121,6 +140,11 @@ class _PreviewImageState extends State<PreviewImage> {
               //     })
             ],
           ),
+=======
+          constraints: BoxConstraints(
+              maxWidth: 450, maxHeight: 450, minWidth: 450, minHeight: 450),
+          child: Image.file(widget.fileImage, fit: BoxFit.cover),
+>>>>>>> f0fac72ea1f932111fb9c3286d32d33bac8751ec
         ),
       ),
     );

@@ -168,12 +168,15 @@ class _TemplateDetailState extends State<TemplateDetail> {
                         child: FlatButton(
                           child: Image.asset('assets/images/wornButton.png'),
                           onPressed: () {
+<<<<<<< HEAD
                             // Test().createState().setOutfit(
                             //     snapshot.data.documents[widget.idx]
                             //         .data['clothsName'],
                             //     snapshot
                             //         .data.documents[widget.idx].data['image'],
                             //     widget.documentId);
+=======
+>>>>>>> f0fac72ea1f932111fb9c3286d32d33bac8751ec
                           },
                         ),
                       ),
@@ -340,8 +343,8 @@ class _TemplateDetailState extends State<TemplateDetail> {
               ),
             ),
             onTap: () async {
-              if (await canLaunch(url)) {
-                await launch(url);
+              if (await canLaunch('https://'+ url)) {
+                await launch('https://'+ url);
               } else {
                 throw 'Could not launch $url';
               }

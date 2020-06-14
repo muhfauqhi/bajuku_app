@@ -61,10 +61,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: GestureDetector(
               child: Image.asset('assets/images/profilenav.png'),
               onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new SustainablePage()));
+                // showDialog(context: context,
+                // child: DialogChipFilter());
+                // Navigator.push(
+                //     context,
+                //     new MaterialPageRoute(
+                //         builder: (BuildContext context) => new DialogChipFilter()));
               },
             ),
           ),

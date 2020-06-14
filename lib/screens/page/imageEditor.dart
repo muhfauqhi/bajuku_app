@@ -19,6 +19,7 @@ class _ImageEditorState extends State<ImageEditor> {
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0.0,
         backgroundColor: Colors.white,
         title: Row(
@@ -29,7 +30,7 @@ class _ImageEditorState extends State<ImageEditor> {
               child: Text(
                 'Cancel',
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Hexcolor('#3F4D55'),
                     fontSize: 16,
                     fontWeight: FontWeight.normal),
               ),
@@ -93,15 +94,33 @@ class _ImageEditorState extends State<ImageEditor> {
                     });
               },
             ),
-            Text(
-              'Import Image',
-              style: TextStyle(color: Colors.black),
+            Container(
+              margin: EdgeInsets.only(left: 40),
+              child: Text(
+                'Import Image',
+                style: TextStyle(
+                  color: Hexcolor('#3F4D55'),
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1.0,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 20),
+              constraints: BoxConstraints(
+                        minWidth: 20,
+                        minHeight: 20,
+                        maxHeight: 20,
+                        maxWidth: 20),
+              child: GestureDetector(
+                child: Image.asset('assets/images/helpicon.png'),
+              ),
             ),
             GestureDetector(
               child: Text(
                 'Save',
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Hexcolor('#3F4D55'),
                     fontSize: 16,
                     fontWeight: FontWeight.normal),
               ),
@@ -119,21 +138,19 @@ class _ImageEditorState extends State<ImageEditor> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          color: Hexcolor('#FBFBFB'),
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 550,
-                width: 500,
-                child: Image.file(
-                  widget.filePicture,
-                  fit: BoxFit.fill,
-                ),
+      body: Container(
+        color: Hexcolor('#FBFBFB'),
+        child: Column(
+          children: <Widget>[
+            Container(
+              constraints: BoxConstraints(
+                  maxWidth: 450, maxHeight: 450, minWidth: 450, minHeight: 450),
+              child: Image.file(
+                widget.filePicture,
+                fit: BoxFit.cover,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
