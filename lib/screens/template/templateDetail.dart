@@ -69,7 +69,8 @@ class _TemplateDetailState extends State<TemplateDetail> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Text('');
               } else {
-                Timestamp t = snapshot.data.documents[widget.idx].data['dateBought'];
+                Timestamp t =
+                    snapshot.data.documents[widget.idx].data['dateBought'];
                 DateTime d = t.toDate();
                 var format = new DateFormat('dd MMMM yyyy');
                 String date = format.format(d);
@@ -176,14 +177,29 @@ class _TemplateDetailState extends State<TemplateDetail> {
                       _buildContainerListLight(
                           'Fabric',
                           snapshot.data.documents[widget.idx].data['fabric']
-                              .toString().substring(1, snapshot.data.documents[widget.idx].data['fabric']
-                              .toString().length-1)),
+                              .toString()
+                              .substring(
+                                  1,
+                                  snapshot.data.documents[widget.idx]
+                                          .data['fabric']
+                                          .toString()
+                                          .length -
+                                      1)),
                       _buildContainerListDark('Brand',
                           snapshot.data.documents[widget.idx].data['brand']),
                       _buildContainerListLight('Size',
                           snapshot.data.documents[widget.idx].data['size']),
-                      _buildContainerListDark('Season',
-                          snapshot.data.documents[widget.idx].data['season']),
+                      _buildContainerListDark(
+                          'Season',
+                          snapshot.data.documents[widget.idx].data['season']
+                              .toString()
+                              .substring(
+                                  1,
+                                  snapshot.data.documents[widget.idx]
+                                          .data['season']
+                                          .toString()
+                                          .length -
+                                      1)),
                       _buildContainerListLight(
                           'Price',
                           '€' +
@@ -210,8 +226,14 @@ class _TemplateDetailState extends State<TemplateDetail> {
                       _buildContainerListLight(
                           'Tags Category',
                           snapshot.data.documents[widget.idx].data['category']
-                              .toString().substring(1, snapshot.data.documents[widget.idx].data['category']
-                              .toString().length-1)),
+                              .toString()
+                              .substring(
+                                  1,
+                                  snapshot.data.documents[widget.idx]
+                                          .data['category']
+                                          .toString()
+                                          .length -
+                                      1)),
                       _buildContainerListDarkURL('URL',
                           snapshot.data.documents[widget.idx].data['url']),
                       SizedBox(

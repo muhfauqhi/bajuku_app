@@ -52,7 +52,7 @@ class DatabaseService {
       String notes,
       List<String> category,
       String size,
-      String season,
+      List<String> season,
       String price,
       String cost,
       DateTime dateBought,

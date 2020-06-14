@@ -5,6 +5,7 @@ import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/addItem/datePicker.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsCategories.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsFabrics.dart';
+import 'package:bajuku_app/screens/page/addItem/dialogChipsSeason.dart';
 import 'package:bajuku_app/screens/page/imageEditor.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -60,6 +61,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
   String image;
   List<String> fabricsList;
   List<String> categoryList;
+  List<String> seasonList;
   final _myController = TextEditingController();
   List<String> allStatus = ["Available", "Not available"];
 
@@ -152,7 +154,8 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       _buildContainerListLightFabric('Fabric'),
                       _buildContainerListDark('Brand', "brand"),
                       _buildContainerListLight('Size', "size"),
-                      _buildContainerListDark('Season', "season"),
+                      // _buildContainerListDark('Season', "season"),
+                      _buildContainerListDarkSeason('Season'),
                       _buildContainerListLightPrice('Price', "price"),
                       _buildContainerListDarkValueCost('Value Cost', "cost"),
                       _buildContainerListLightDate('Date bought', "dateBought"),
@@ -183,7 +186,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                           notes,
                           categoryList,
                           size,
-                          season,
+                          seasonList,
                           price,
                           cost,
                           selectedDate,
@@ -356,10 +359,42 @@ class _AddItemDetailState extends State<AddItemDetail> {
     return a;
   }
 
+  String getSeason() {
+    String a = "";
+    for (var t in seasonList) {
+      a = a + t + "; ";
+    }
+    return a;
+  }
+
   Widget _buildTextFabric() {
     if (fabricsList != null) {
       return Text(
         getFabric(),
+        style: TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.normal,
+          fontStyle: FontStyle.normal,
+          color: Hexcolor('#3F4D55'),
+        ),
+      );
+    } else {
+      return Text(
+        '',
+        style: TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.normal,
+          fontStyle: FontStyle.normal,
+          color: Hexcolor('#3F4D55'),
+        ),
+      );
+    }
+  }
+
+  Widget _buildTextSeason() {
+    if (seasonList != null) {
+      return Text(
+        getSeason(),
         style: TextStyle(
           fontSize: 12.0,
           fontWeight: FontWeight.normal,
@@ -429,6 +464,49 @@ class _AddItemDetailState extends State<AddItemDetail> {
                 ).then((value) {
                   setState(() {
                     fabricsList = DialogChipFabric().createState().getTags();
+                  });
+                });
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContainerListDarkSeason(String desc) {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      color: Hexcolor('#F8F6F4'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 135,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          Container(
+            height: 50,
+            padding: EdgeInsets.only(top: 17),
+            width: 135,
+            child: GestureDetector(
+              child: _buildTextSeason(),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  child: DialogChipSeason(),
+                ).then((value) {
+                  setState(() {
+                    seasonList = DialogChipSeason().createState().getTags();
                   });
                 });
               },
