@@ -44,8 +44,8 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
     return 'Tidak ditemukan';
   }
 
-  List<String> categoryListTitle;
-  List<String> subCategoryList;
+  static List<String> categoryListTitle;
+  static List<String> subCategoryList;
 
   @override
   void initState() {
@@ -212,7 +212,7 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
                     suffixIcon: Icon(Icons.search)),
               ),
             ),
-            buildChip(),
+            // buildChip(),
             Divider(),
             suggestionList(),
           ],
