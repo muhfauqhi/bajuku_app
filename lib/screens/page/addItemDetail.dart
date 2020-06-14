@@ -45,7 +45,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
 
   String itemName;
   String brand;
-  String fabric;
   int worn = 0;
   String notes;
   String size;
@@ -58,10 +57,16 @@ class _AddItemDetailState extends State<AddItemDetail> {
   int usedInOutfit = 0;
   String url;
   String image;
-  List<String> fabricsList;
-  List<String> categoryList;
+  static List<String> fabricsList;
+  static List<String> categoryList;
   final _myController = TextEditingController();
-  List<String> allStatus = ["Available", "Not available"];
+  List<String> allStatus = [
+    'Available',
+    'Washing',
+    'Given',
+    'Sold',
+    'Unavailable'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -192,10 +197,20 @@ class _AddItemDetailState extends State<AddItemDetail> {
                           usedInOutfit,
                           url,
                           image);
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) => new Home()));
+                      showDialog(
+                        context: context,
+                        child: GestureDetector(
+                          child:
+                              Image.asset('assets/images/itemsavedialog.png'),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        new Home()));
+                          },
+                        ),
+                      );
                     },
                   ),
                 ),
@@ -645,8 +660,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   onChanged: (val) {
                     if (data == "itemName") {
                       this.itemName = val;
-                    } else if (data == "fabric") {
-                      this.fabric = val;
                     } else if (data == "brand") {
                       this.brand = val;
                     } else if (data == "size") {
@@ -757,8 +770,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   onChanged: (val) {
                     if (data == "itemName") {
                       this.itemName = val;
-                    } else if (data == "fabric") {
-                      this.fabric = val;
                     } else if (data == "brand") {
                       this.brand = val;
                     } else if (data == "size") {
@@ -823,8 +834,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   onChanged: (val) {
                     if (data == "itemName") {
                       this.itemName = val;
-                    } else if (data == "fabric") {
-                      this.fabric = val;
                     } else if (data == "brand") {
                       this.brand = val;
                     } else if (data == "size") {
@@ -889,8 +898,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   onChanged: (val) {
                     if (data == "itemName") {
                       this.itemName = val;
-                    } else if (data == "fabric") {
-                      this.fabric = val;
                     } else if (data == "brand") {
                       this.brand = val;
                     } else if (data == "size") {
@@ -968,8 +975,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   onChanged: (val) {
                     if (data == "itemName") {
                       this.itemName = val;
-                    } else if (data == "fabric") {
-                      this.fabric = val;
                     } else if (data == "brand") {
                       this.brand = val;
                     } else if (data == "size") {
