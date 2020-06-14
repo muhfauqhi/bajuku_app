@@ -64,30 +64,12 @@ class _PreviewImageState extends State<PreviewImage> {
               ),
               onTap: () {
                 Navigator.pop(context);
-<<<<<<< HEAD
-                if (widget.flagAdd == 'Wardrobe') {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new ImageEditor(
-                                filePicture: widget.fileImage,
-                              )));
-                } else {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new ImageEditorOutfit(
-                                filePicture: widget.fileImage,
-                              )));
-                }
-=======
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new ImageEditor(
                               filePicture: widget.fileImage,
                             )));
->>>>>>> f0fac72ea1f932111fb9c3286d32d33bac8751ec
               },
             ),
           ],
@@ -97,54 +79,9 @@ class _PreviewImageState extends State<PreviewImage> {
       body: Container(
         color: Hexcolor('#FBFBFB'),
         child: Container(
-<<<<<<< HEAD
-          color: Hexcolor('#FBFBFB'),
-          child: Column(
-            children: <Widget>[
-              Container(
-                width: 500,
-                height: 550,
-                child: Image.file(widget.fileImage, fit: BoxFit.fill),
-              ),
-              // RaisedButton(
-              //     child: Text("Save"),
-              //     onPressed: () {
-              //       showDialog(
-              //           context: context,
-              //           builder: (context) {
-              //             return AlertDialog(
-              //               title: Text("Are you sure?"),
-              //               actions: <Widget>[
-              //                 FlatButton(
-              //                   child: Text("No"),
-              //                   onPressed: () {
-              //                     Navigator.pop(context);
-              //                   },
-              //                 ),
-              //                 FlatButton(
-              //                   child: Text("Yes"),
-              //                   onPressed: () {
-              //                     Navigator.pop(context);
-              //                     Navigator.push(
-              //                         context,
-              //                         new MaterialPageRoute(
-              //                             builder: (BuildContext context) =>
-              //                                 new AddItem(
-              //                                   fileUpload: widget.fileImage,
-              //                                 )));
-              //                   },
-              //                 )
-              //               ],
-              //             );
-              //           });
-              //     })
-            ],
-          ),
-=======
           constraints: BoxConstraints(
               maxWidth: 450, maxHeight: 450, minWidth: 450, minHeight: 450),
           child: Image.file(widget.fileImage, fit: BoxFit.cover),
->>>>>>> f0fac72ea1f932111fb9c3286d32d33bac8751ec
         ),
       ),
     );
