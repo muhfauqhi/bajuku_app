@@ -447,7 +447,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
       child: Row(
         children: <Widget>[
           Container(
-            color: Colors.black,
             padding: EdgeInsets.only(left: 8.0),
             width: 135,
             child: Text(
@@ -479,8 +478,8 @@ class _AddItemDetailState extends State<AddItemDetail> {
                     return AlertDialog(
                       title: Text('Select a color'),
                       content: SingleChildScrollView(
-                        child: BlockPicker(
-                          pickerColor: Colors.red,
+                        child: ColorPicker(
+                          pickerColor: Colors.white,
                           onColorChanged: changeColor,
                         ),
                       ),

@@ -1,6 +1,7 @@
 import 'package:bajuku_app/screens/template/templateCategories.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:bajuku_app/test.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -68,11 +69,11 @@ class _TemplateDetailState extends State<TemplateDetail> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Text('');
               } else {
+                Timestamp t = snapshot.data.documents[widget.idx].data['dateBought'];
+                DateTime d = t.toDate();
+                var format = new DateFormat('dd MMMM yyyy');
+                String date = format.format(d);
                 url = snapshot.data.documents[widget.idx].data['url'];
-                DateTime dt = DateTime.parse(snapshot
-                    .data.documents[widget.idx].data['dateBought']
-                    .toString());
-                String date = new DateFormat('dd MMMM yyyy').format(dt);
                 return Container(
                   color: Hexcolor('#FBFBFB'),
                   child: Column(
@@ -167,13 +168,15 @@ class _TemplateDetailState extends State<TemplateDetail> {
                             left: 8.0, right: 8.0, top: 25.0, bottom: 25.0),
                         child: FlatButton(
                           child: Image.asset('assets/images/wornButton.png'),
-                          onPressed: () {
-                          },
+                          onPressed: () {},
                         ),
                       ),
                       _buildContainerListDark('Notes',
                           snapshot.data.documents[widget.idx].data['notes']),
-                      _buildContainerListLight('Fabric', 'Cotton; Nylon'),
+                      _buildContainerListLight(
+                          'Fabric',
+                          snapshot.data.documents[widget.idx].data['fabric']
+                              .toString()),
                       _buildContainerListDark('Brand',
                           snapshot.data.documents[widget.idx].data['brand']),
                       _buildContainerListLight('Size',
@@ -205,13 +208,8 @@ class _TemplateDetailState extends State<TemplateDetail> {
                               .toString()),
                       _buildContainerListLight(
                           'Tags Category',
-                          snapshot.data.documents[widget.idx]
-                                  .data['category']['topCategory']
-                                  .toString() +
-                              '; ' +
-                              snapshot.data.documents[widget.idx]
-                                  .data['category']['subCategory']
-                                  .toString()),
+                          snapshot.data.documents[widget.idx].data['category']
+                              .toString()),
                       _buildContainerListDarkURL('URL',
                           snapshot.data.documents[widget.idx].data['url']),
                       SizedBox(
@@ -334,8 +332,8 @@ class _TemplateDetailState extends State<TemplateDetail> {
               ),
             ),
             onTap: () async {
-              if (await canLaunch('https://'+ url)) {
-                await launch('https://'+ url);
+              if (await canLaunch('https://' + url)) {
+                await launch('https://' + url);
               } else {
                 throw 'Could not launch $url';
               }
