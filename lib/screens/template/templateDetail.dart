@@ -176,7 +176,8 @@ class _TemplateDetailState extends State<TemplateDetail> {
                       _buildContainerListLight(
                           'Fabric',
                           snapshot.data.documents[widget.idx].data['fabric']
-                              .toString()),
+                              .toString().substring(1, snapshot.data.documents[widget.idx].data['fabric']
+                              .toString().length-1)),
                       _buildContainerListDark('Brand',
                           snapshot.data.documents[widget.idx].data['brand']),
                       _buildContainerListLight('Size',
@@ -198,7 +199,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
                           'Color',
                           snapshot.data.documents[widget.idx].data['color']
                               .toString()
-                              .substring(37, 45)),
+                              .substring(10, 16)),
                       _buildContainerListLight('Status',
                           snapshot.data.documents[widget.idx].data['status']),
                       _buildContainerListDark(
@@ -209,7 +210,8 @@ class _TemplateDetailState extends State<TemplateDetail> {
                       _buildContainerListLight(
                           'Tags Category',
                           snapshot.data.documents[widget.idx].data['category']
-                              .toString()),
+                              .toString().substring(1, snapshot.data.documents[widget.idx].data['category']
+                              .toString().length-1)),
                       _buildContainerListDarkURL('URL',
                           snapshot.data.documents[widget.idx].data['url']),
                       SizedBox(

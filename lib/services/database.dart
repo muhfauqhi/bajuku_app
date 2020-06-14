@@ -149,7 +149,7 @@ class DatabaseService {
           .collection('users')
           .document(firebaseUser.uid)
           .collection('clothes')
-          .where('category', isEqualTo: category)
+          .where('category', arrayContains: category)
           .getDocuments();
       return qn;
     }
