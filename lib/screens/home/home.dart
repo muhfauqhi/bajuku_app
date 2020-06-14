@@ -267,7 +267,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   Widget _buildJournal() {
-<<<<<<< HEAD
     return FutureBuilder(
       future: DatabaseService().getOutfit(),
       builder: (_, snapshot) {
@@ -275,17 +274,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           return Text('');
         } else {
           return Container(
-=======
-    return Column(
-      children: <Widget>[
-        Divider(
-          thickness: 3,
-          color: Colors.white,
-        ),
-        Expanded(
-          child: Container(
-            color: Hexcolor('#FBFBFB'),
->>>>>>> f0fac72ea1f932111fb9c3286d32d33bac8751ec
             margin: EdgeInsets.only(top: 10),
             child: GridView.builder(
               primary: true,

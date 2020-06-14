@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/home/home.dart';
+import 'package:bajuku_app/screens/page/addItem/datePicker.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsCategories.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsFabrics.dart';
 import 'package:bajuku_app/screens/page/imageEditor.dart';
@@ -23,17 +24,17 @@ class AddItemDetail extends StatefulWidget {
 class _AddItemDetailState extends State<AddItemDetail> {
   final _formKey = GlobalKey<FormState>();
   String date;
-
+  String dateBoughtFormatted;
   @override
   void initState() {
     super.initState();
     var now;
     var formatter;
-
     setState(() {
       now = DateTime.now();
       formatter = new DateFormat('dd MMMM yyyy');
       date = formatter.format(now);
+      dateBoughtFormatted = formatter.fomat(dateBought);
     });
   }
 
@@ -52,7 +53,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
   String season;
   String price;
   String cost;
-  String dateBought;
+  DateTime dateBought=DateTime.now();
   String color;
   String status = 'Available';
   int usedInOutfit = 0;
@@ -242,8 +243,17 @@ class _AddItemDetailState extends State<AddItemDetail> {
             padding: EdgeInsets.only(top: 17),
             width: 135,
             child: GestureDetector(
-              child: Text('Test'),
-              onTap: () {},
+              child: _buildTextDateBought(),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  child: DatePicker(),
+                ).then((value) {
+                  setState(() {
+                    dateBought = DatePicker().createState().getSelectedDate();
+                  });
+                });
+              },
             ),
           )
         ],
@@ -347,6 +357,18 @@ class _AddItemDetailState extends State<AddItemDetail> {
         ),
       );
     }
+  }
+
+   Widget _buildTextDateBought() {
+      return Text(
+        dateBoughtFormatted,
+        style: TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.normal,
+          fontStyle: FontStyle.normal,
+          color: Hexcolor('#3F4D55'),
+        ),
+      );
   }
 
   Widget _buildContainerListLightFabric(String desc, String data) {

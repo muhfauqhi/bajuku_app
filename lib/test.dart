@@ -13,10 +13,6 @@ class _TestState extends State<Test> {
     );
   }
 
-<<<<<<< HEAD
-  void setOutfit(String image) async{
-    DatabaseService().setOutfit(image);
-=======
   List<String> options = [
     'News',
     'Entertainment',
@@ -48,6 +44,5 @@ class _TestState extends State<Test> {
   void setState(fn) {
     super.setState(fn);
     cariJumlahAlphabet();
->>>>>>> f0fac72ea1f932111fb9c3286d32d33bac8751ec
   }
 }

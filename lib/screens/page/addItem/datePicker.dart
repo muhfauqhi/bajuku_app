@@ -10,6 +10,9 @@ class _DatePickerState extends State<DatePicker> {
   DateTime selectedDate = DateTime.now();
   DateTime firstDate = DateTime(2015, 8);
   DateTime lastDate = DateTime(2101);
+   DateTime getSelectedDate() {
+    return selectedDate;
+    }
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -17,7 +20,7 @@ class _DatePickerState extends State<DatePicker> {
       initialDate: selectedDate,
       firstDate: DateTime(2015, 8),
       lastDate: DateTime(2101),
-      confirmText: '',
+      confirmText: 'OK',
       cancelText: '',
     );
     if (picked != null && picked != selectedDate)
