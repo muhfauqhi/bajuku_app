@@ -1,6 +1,9 @@
 import 'dart:io';
+
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/home/home.dart';
+import 'package:bajuku_app/screens/page/addItem/dialogChipsCategories.dart';
+import 'package:bajuku_app/screens/page/addItem/dialogChipsFabrics.dart';
 import 'package:bajuku_app/screens/page/imageEditor.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -45,8 +48,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
   String fabric;
   int worn = 0;
   String notes;
-  String category1;
-  String category2;
   String size;
   String season;
   String price;
@@ -57,6 +58,8 @@ class _AddItemDetailState extends State<AddItemDetail> {
   int usedInOutfit = 0;
   String url;
   String image;
+  static List<String> fabricsList;
+  static String category;
   final _myController = TextEditingController();
   List<String> allStatus = [
       "Available",
@@ -149,20 +152,21 @@ class _AddItemDetailState extends State<AddItemDetail> {
                         ),
                       ),
                       _buildContainerListDark('Name', "itemName"),
-                      _buildContainerListLight('Fabric', "fabric"),
+                      _buildContainerListLightFabric('Fabric', "fabric"),
                       _buildContainerListDark('Brand', "brand"),
                       _buildContainerListLight('Size', "size"),
                       _buildContainerListDark('Season', "season"),
                       _buildContainerListLightPrice('Price', "price"),
                       _buildContainerListDarkValueCost('Value Cost', "cost"),
-                      _buildContainerListLight('Date bought', "dateBought"),
+                      _buildContainerListLightDate('Date bought', "dateBought"),
                       _buildColorPicker(),
                       // _buildContainerListLightDisabled('Status', "status"),
                       _buildContainerListLightStatus('Status'),
                       _buildContainerListDarkDisabled(
                           'Used in Outfit', "usedInOutfit"),
                       _buildContainerListLightDisabled('Worn', "worn"),
-                      _buildContainerListDark('Tags Category', "category1"),
+                      _buildContainerListDarkCategory(
+                          'Tags Category', "category1"),
                       _buildContainerListLight('URL', "url"),
                     ],
                   ),
@@ -178,11 +182,10 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       await DatabaseService().setClothes(
                           itemName,
                           brand,
-                          fabric,
+                          fabricsList,
                           worn,
                           notes,
-                          category1,
-                          category2,
+                          category,
                           size,
                           season,
                           price,
@@ -213,6 +216,181 @@ class _AddItemDetailState extends State<AddItemDetail> {
 
   Color currentColor = Colors.white;
   void changeColor(Color color) => setState(() => currentColor = color);
+
+  Widget _buildContainerListLightDate(String desc, String data) {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      color: Hexcolor('#FFFFFF'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 135,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          Container(
+            height: 50,
+            padding: EdgeInsets.only(top: 17),
+            width: 135,
+            child: GestureDetector(
+              child: Text('Test'),
+              onTap: () {},
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContainerListDarkCategory(String desc, String data) {
+    return Container(
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      color: Hexcolor('#F8F6F4'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 135,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          Container(
+            height: 50,
+            padding: EdgeInsets.only(top: 17),
+            width: 135,
+            child: GestureDetector(
+              child: _buildTextCategory(),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  child: DialogChipCategories(),
+                ).then((value) {
+                  setState(() {
+                    category = DialogChipCategories().createState().getTags();
+                  });
+                });
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTextCategory() {
+    if (category != null) {
+      return Text(
+        category,
+        style: TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.normal,
+          fontStyle: FontStyle.normal,
+          color: Hexcolor('#3F4D55'),
+        ),
+      );
+    } else {
+      return Text(
+        '',
+        style: TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.normal,
+          fontStyle: FontStyle.normal,
+          color: Hexcolor('#3F4D55'),
+        ),
+      );
+    }
+  }
+
+  String getFabric() {
+    String a = "";
+    for (var t in fabricsList) {
+      a = a + t + "; ";
+    }
+    return a;
+  }
+
+  Widget _buildTextFabric() {
+    if (fabricsList != null) {
+      return Text(
+        getFabric(),
+        style: TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.normal,
+          fontStyle: FontStyle.normal,
+          color: Hexcolor('#3F4D55'),
+        ),
+      );
+    } else {
+      return Text(
+        '',
+        style: TextStyle(
+          fontSize: 12.0,
+          fontWeight: FontWeight.normal,
+          fontStyle: FontStyle.normal,
+          color: Hexcolor('#3F4D55'),
+        ),
+      );
+    }
+  }
+
+  Widget _buildContainerListLightFabric(String desc, String data) {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      color: Hexcolor('#FFFFFF'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 135,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          Container(
+            height: 50,
+            padding: EdgeInsets.only(top: 17),
+            width: 135,
+            child: GestureDetector(
+              child: _buildTextFabric(),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  child: DialogChipFabric(),
+                ).then((value) {
+                  setState(() {
+                    fabricsList = DialogChipFabric().createState().getTags();
+                  });
+                });
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
 
   Container _buildColorPicker() {
     return Container(
@@ -376,7 +554,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
   Container _buildContainerListLightDisabled(String desc, String data) {
     return Container(
       margin: EdgeInsets.only(left: 25.0, right: 25.0),
-      // padding: EdgeInsets.all(14.0),
       color: Hexcolor('#FFFFFF'),
       child: Row(
         children: <Widget>[
@@ -437,8 +614,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
-                    } else if (data == "category1") {
-                      this.category1 = val;
                     } else if (data == "url") {
                       this.url = val;
                     }
@@ -553,8 +728,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
-                    } else if (data == "category1") {
-                      this.category1 = val;
                     } else if (data == "url") {
                       this.url = val;
                     }
@@ -623,8 +796,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
-                    } else if (data == "category1") {
-                      this.category1 = val;
                     } else if (data == "url") {
                       this.url = val;
                     }
@@ -693,8 +864,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
-                    } else if (data == "category1") {
-                      this.category1 = val;
                     } else if (data == "url") {
                       this.url = val;
                     }
@@ -776,8 +945,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.dateBought = val;
                     } else if (data == "status") {
                       this.status = val;
-                    } else if (data == "category1") {
-                      this.category1 = val;
                     } else if (data == "url") {
                       this.url = val;
                     }

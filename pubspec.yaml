@@ -40,7 +40,7 @@ dependencies:
   flutter_colorpicker: ^0.3.4
   url_launcher: ^5.4.10
   chips_choice: ^1.2.0
-  flutter_typeahead: ^1.8.3
+  flutter_date_pickers: ^0.1.0
 
 dev_dependencies:
   flutter_test:
