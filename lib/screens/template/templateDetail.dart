@@ -64,7 +64,7 @@ class _TemplateDetailState extends State<TemplateDetail> {
         },
         body: SingleChildScrollView(
           child: FutureBuilder(
-            future: DatabaseService().getClothesDetail(),
+            future: DatabaseService().getClothes(widget.categories),
             builder: (_, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Text('');
