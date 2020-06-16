@@ -265,6 +265,20 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   lastDate: DateTime(2101),
                   confirmText: 'OK',
                   cancelText: '',
+                  builder: (BuildContext context, Widget child) {
+                    return Theme(
+                      data: ThemeData.dark().copyWith(
+                        colorScheme: ColorScheme.dark(
+                          primary: Hexcolor('#DBBEA7'),
+                          onPrimary: Colors.white,
+                          surface: Hexcolor('#3F4D55'),
+                          onSurface: Hexcolor('#DBBEA7'),
+                        ),
+                        dialogBackgroundColor: Hexcolor('#3F4D55'),
+                      ),
+                      child: child,
+                    );
+                  },
                 ).then((value) {
                   setState(() {
                     selectedDate = value;
