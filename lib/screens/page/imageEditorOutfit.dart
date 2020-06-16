@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:bajuku_app/screens/home/home.dart';
+import 'package:bajuku_app/screens/page/addItemDetail.dart';
 import 'package:bajuku_app/screens/page/addOutfitDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -14,8 +16,21 @@ class ImageEditorOutfit extends StatefulWidget {
 }
 
 class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
+  GlobalKey key = GlobalKey();
+
+  Rect myRect;
+  // int count = 1;
+
+  void getPositon() {
+    final RenderBox renderBox = key.currentContext.findRenderObject();
+    final position = renderBox.localToGlobal(Offset.zero);
+    print(position);
+  }
+
   @override
   Widget build(BuildContext context) {
+    // List<Widget> children = new List.generate(count, (int i) => new InputWidget(i));
+
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
@@ -137,18 +152,54 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
       ),
       body: Container(
         color: Hexcolor('#FBFBFB'),
-        child: Column(
-          children: <Widget>[
-            Container(
-              constraints: BoxConstraints(
-                  maxWidth: 450, maxHeight: 450, minWidth: 450, minHeight: 450),
-              child: Image.file(
-                widget.filePicture,
-                fit: BoxFit.cover,
+        child: GestureDetector(
+          onTap: () {
+            getPositon();
+          },
+          onTapDown: (TapDownDetails details) {
+            var x = details.globalPosition.dx;
+            var y = details.globalPosition.dy;
+            setState(() {
+              myRect = Offset(x, y - 80) & const Size(20, 20);
+            });
+            print("tap down: " + x.toString() + y.toString());
+          },
+          child: Stack(
+            children: [
+              Container(
+                key: key,
+                constraints: BoxConstraints(
+                    maxWidth: 450,
+                    maxHeight: 450,
+                    minWidth: 450,
+                    minHeight: 450),
+                child: Image.file(
+                  widget.filePicture,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-          ],
+              // children,
+              // Case buruknya kita bikin method positioned from rect divalidasi apakah sudah di klik apa belum..
+              // _buildWidgetTextTags(){
+              // if(tags != null){
+              // return Position.fromrect()
+              // }
+              // else{ return Text('')}
+              // }
+              // Case bagusnya kita bikin seperti builder agar bisa di build position rectnya berulang-ulang...
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  Widget buildPositioned() {
+    return Positioned.fromRect(
+      rect: myRect,
+      child: Container(
+        color: Colors.black,
+        // child: Text('Test'),
       ),
     );
   }
