@@ -1016,7 +1016,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         Column(
           children: <Widget>[
             FutureBuilder(
-                future: DatabaseService().getClothes('Accesories'),
+                future: DatabaseService().getClothes('Accessories'),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Text('');
@@ -1042,7 +1042,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                                   new MaterialPageRoute(
                                       builder: (BuildContext context) =>
                                           new TemplateCategories(
-                                            categories: "Accesories",
+                                            categories: "Accessories",
                                           )));
                             },
                           ),
@@ -1051,7 +1051,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           width: 150,
                           margin: EdgeInsets.only(left: 50.0),
                           child: Text(
-                            'Accesories',
+                            'Accessories',
                             style: TextStyle(
                               fontStyle: FontStyle.normal,
                               letterSpacing: 1.0,
