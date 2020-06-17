@@ -2,13 +2,15 @@ import 'dart:io';
 
 import 'package:bajuku_app/screens/page/outfit/buildTags.dart';
 import 'package:bajuku_app/screens/page/outfit/findSuggestionClothes.dart';
+import 'package:bajuku_app/screens/page/outfit/imageEditorOutfit.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class TagImage extends StatefulWidget {
   final File file;
+  final List<Widget> children;
 
-  TagImage({this.file});
+  TagImage({this.file, this.children});
 
   @override
   _TagImageState createState() => _TagImageState();
@@ -132,7 +134,31 @@ class _TagImageState extends State<TagImage> {
                     fontSize: 16,
                     fontWeight: FontWeight.normal),
               ),
-              onTap: () {},
+              onTap: () {
+                if (widget.children != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => ImageEditorOutfit(
+                        children: widget.children,
+                        mapOfCloth: mapCloth,
+                        filePicture: widget.file,
+                      ),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => ImageEditorOutfit(
+                        children: children,
+                        mapOfCloth: mapCloth,
+                        filePicture: widget.file,
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
           ],
         ),
@@ -167,13 +193,21 @@ class _TagImageState extends State<TagImage> {
                 ),
               ),
               Stack(
-                children: children,
+                children: validate(),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  List<Widget> validate() {
+    if (widget.children != null) {
+      return widget.children;
+    } else {
+      return children;
+    }
   }
 
   Future getClothesDetail(var x, var y) async {

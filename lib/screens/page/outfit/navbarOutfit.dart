@@ -6,8 +6,9 @@ import 'package:hexcolor/hexcolor.dart';
 
 class CustomNavbarOutfit extends StatefulWidget {
   final File file;
+  final List<Widget> children;
 
-  CustomNavbarOutfit({this.file});
+  CustomNavbarOutfit({this.file, this.children});
 
   @override
   _CustomBottomNavigationBarState createState() =>
@@ -45,7 +46,15 @@ class _CustomBottomNavigationBarState extends State<CustomNavbarOutfit> {
               child: Image.asset('assets/images/cil_tags.png'),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => new TagImage(file: widget.file,)));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => new TagImage(
+                      file: widget.file,
+                      children: widget.children,
+                    ),
+                  ),
+                );
               },
             ),
           ),

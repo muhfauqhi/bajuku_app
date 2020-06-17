@@ -3,16 +3,16 @@ import 'dart:ui';
 
 import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/addOutfitDetail.dart';
-import 'package:bajuku_app/screens/page/outfit/buildTags.dart';
-import 'package:bajuku_app/screens/page/outfit/findSuggestionClothes.dart';
 import 'package:bajuku_app/screens/page/outfit/navbarOutfit.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class ImageEditorOutfit extends StatefulWidget {
   final File filePicture;
+  final Map mapOfCloth;
+  final List<Widget> children;
 
-  ImageEditorOutfit({this.filePicture});
+  ImageEditorOutfit({this.filePicture, this.mapOfCloth, this.children});
 
   @override
   _ImageEditorOutfitState createState() => _ImageEditorOutfitState();
@@ -25,8 +25,6 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
   String clothName;
   String category;
 
-  Rect myRect;
-  List<Widget> children = [];
 
   void getPositon() {
     final RenderBox renderBox = key.currentContext.findRenderObject();
@@ -161,22 +159,6 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
           onTap: () {
             getPositon();
           },
-          // onTapDown: (TapDownDetails details) {
-            // var x = details.globalPosition.dx;
-            // var y = details.globalPosition.dy;
-            // setState(() {
-            //   myRect = Offset(x, y - 80) & Size(50, 20);
-            //   children.add(
-            //     new TagsPositioned(
-            //       myRect: myRect,
-            //       category: category,
-            //       clothName: clothName,
-            //       documentId: documentId,
-            //     ),
-            //   );
-            // });
-            // print("tap down: " + x.toString() + y.toString());
-          // },
           child: Stack(
             children: [
               Container(
@@ -192,33 +174,23 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
                 ),
               ),
               Stack(
-                children: children,
+                children: validate(),
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: CustomNavbarOutfit(file: widget.filePicture,),
+      bottomNavigationBar: CustomNavbarOutfit(file: widget.filePicture, children: widget.children,),
     );
   }
 
-  // Future getClothesDetail() async {
-  //   Map results = await Navigator.push(
-  //     context,
-  //     new MaterialPageRoute(
-  //       builder: (BuildContext context) => new SuggestionClothes(),
-  //     ),
-  //   );
-  //   if (results.containsKey('clothName') &&
-  //       results.containsKey('category') &&
-  //       results.containsKey('documentId')) {
-  //     clothName = results['clothName'];
-  //     category = results['category'];
-  //     documentId = results['documentId'];
-  //   } else {
-  //     Navigator.pop(context);
-  //   }
-  //   print(clothName + '\n' + category + '\n' + documentId);
-  // }
+  List<Widget> validate(){
+    if(widget.children != null){
+      return widget.children;
+    }
+    else{
+      return [];
+    }
+  }
 
 }
