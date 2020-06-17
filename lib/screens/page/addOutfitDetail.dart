@@ -1,11 +1,9 @@
 import 'dart:io';
 import 'package:bajuku_app/screens/home/home.dart';
-import 'package:bajuku_app/screens/page/imageEditor.dart';
 import 'package:bajuku_app/screens/page/imageEditorOutfit.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 
@@ -35,188 +33,128 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _myController.dispose();
     super.dispose();
   }
 
   String image;
+  String name;
   String notes;
+  String totalCost;
+  Map<String, String> tagging;
+
   final _myController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        title: Text(
-          "New Journal",
-          style: TextStyle(
-            color: Hexcolor('#3f4d55'),
-            letterSpacing: 1,
-            fontSize: 16.0,
-            fontWeight: FontWeight.w600,
-            fontStyle: FontStyle.normal,
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          color: Hexcolor('#3F4D55'),
-          onPressed: () {
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (BuildContext context) => new ImageEditorOutfit(
-                          filePicture: widget.fileUpload,
-                        )));
-          },
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                //Add Notes
-                buildInputNotes(),
-                // Container(
-                //   child: Column(
-                //     children: <Widget>[
-                //       Container(
-                //         color: Hexcolor('#FFFFFF'),
-                //         height: 45,
-                //         margin: EdgeInsets.only(left: 25.0, right: 25.0),
-                //         child: Row(
-                //           children: <Widget>[
-                //             Container(
-                //               padding: EdgeInsets.only(left: 8.0),
-                //               width: 135,
-                //               child: Text(
-                //                 'Date',
-                //                 style: TextStyle(
-                //                   fontSize: 12.0,
-                //                   fontWeight: FontWeight.bold,
-                //                   fontStyle: FontStyle.normal,
-                //                   color: Hexcolor('#3F4D55'),
-                //                 ),
-                //               ),
-                //             ),
-                //             Container(
-                //               child: Text(
-                //                 date,
-                //                 style: TextStyle(
-                //                   fontSize: 12.0,
-                //                   fontWeight: FontWeight.normal,
-                //                   fontStyle: FontStyle.normal,
-                //                   color: Hexcolor('#3F4D55'),
-                //                 ),
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //       _buildContainerListDark('Name', "itemName"),
-                //       _buildContainerListLight('Fabric', "fabric"),
-                //       _buildContainerListDark('Brand', "brand"),
-                //       _buildContainerListLight('Size', "size"),
-                //       _buildContainerListDark('Season', "season"),
-                //       _buildContainerListLightPrice('Price', "price"),
-                //       _buildContainerListDarkValueCost('Value Cost', "cost"),
-                //       _buildContainerListLight('Date bought', "dateBought"),
-                //       _buildColorPicker(),
-                //       // _buildContainerListLightDisabled('Status', "status"),
-                //       _buildContainerListLightStatus('Status'),
-                //       _buildContainerListDarkDisabled(
-                //           'Used in Outfit', "usedInOutfit"),
-                //       _buildContainerListLightDisabled('Worn', "worn"),
-                //       _buildContainerListDark('Tags Category', "category1"),
-                //       _buildContainerListLight('URL', "url"),
-                //     ],
-                //   ),
-                // ),
-                Container(
-                  padding: EdgeInsets.only(
-                      left: 8.0, right: 8.0, top: 25.0, bottom: 25.0),
-                  margin: EdgeInsets.only(top:350),
-                  child: FlatButton(
-                    child: Image.asset('assets/images/postButton.png'),
-                    onPressed: () async {
-                      image = await uploadPic();
-                      await DatabaseService().setOutfit(
-                          image);
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  new Home()));
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 80,
-                ),
-              ],
+        appBar: AppBar(
+          elevation: 0.0,
+          title: Text(
+            "New Journal",
+            style: TextStyle(
+              color: Hexcolor('#3f4d55'),
+              letterSpacing: 1,
+              fontSize: 16.0,
+              fontWeight: FontWeight.w600,
+              fontStyle: FontStyle.normal,
             ),
           ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            color: Hexcolor('#3F4D55'),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (BuildContext context) => new ImageEditorOutfit(
+                            filePicture: widget.fileUpload,
+                          )));
+            },
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.white,
         ),
+        body: SingleChildScrollView(
+          child: Container(
+            child: Form(
+              key: _formKey,
+              child: Column(children: <Widget>[
+                //Add Notes
+                buildInputNotes(),
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      buildDate(),
+                      _buildContainerTagging('Tagging'),
+                      _buildContainerOutfit('Outfit Name'),
+                      _buildContainerTotalCost('Total Cost'),
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: 8.0, right: 8.0, top: 25.0, bottom: 25.0),
+                        margin: EdgeInsets.only(top: 200),
+                        child: FlatButton(
+                          child: Image.asset('assets/images/postButton.png'),
+                          onPressed: () async {
+                            image = await uploadPic();
+                            await DatabaseService().setOutfit(
+                                notes, name, image, totalCost, tagging);
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        new Home()));
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 80,
+                      ),
+                    ],
+                  ),
+                ),
+              ]),
+            ),
+          ),
+        ));
+  }
+
+  Container buildDate() {
+    return Container(
+      color: Hexcolor('#FFFFFF'),
+      height: 40,
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 135,
+            child: Text(
+              'Date',
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          Container(
+            child: Text(
+              date,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.normal,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
-
-  Color currentColor = Colors.white;
-  void changeColor(Color color) => setState(() => currentColor = color);
-
-  // Container _buildColorPicker() {
-  //   return Container(
-  //     height: 50,
-  //     margin: EdgeInsets.only(left: 25.0, right: 25.0),
-  //     color: Hexcolor('#F8F6F4'),
-  //     child: Row(
-  //       children: <Widget>[
-  //         Container(
-  //           padding: EdgeInsets.only(left: 8.0),
-  //           width: 135,
-  //           child: Text(
-  //             'Color',
-  //             style: TextStyle(
-  //               fontSize: 12.0,
-  //               fontWeight: FontWeight.bold,
-  //               fontStyle: FontStyle.normal,
-  //               color: Hexcolor('#3F4D55'),
-  //             ),
-  //           ),
-  //         ),
-  //         GestureDetector(
-  //           child: Container(
-  //               color: currentColor,
-  //               child: Icon(
-  //                 Icons.crop_square,
-  //                 color: currentColor,
-  //               )),
-  //           onTap: () {
-  //             showDialog(
-  //               context: context,
-  //               builder: (BuildContext context) {
-  //                 return AlertDialog(
-  //                   title: Text('Select a color'),
-  //                   content: SingleChildScrollView(
-  //                     child: BlockPicker(
-  //                       pickerColor: Colors.red,
-  //                       onColorChanged: changeColor,
-  //                     ),
-  //                   ),
-  //                 );
-  //               },
-  //             );
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Container buildInputNotes() {
     return Container(
@@ -257,451 +195,127 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
     );
   }
 
-  // Container _buildContainerListLightStatus(String desc){
-  //   return Container(
-  //     margin: EdgeInsets.only(left: 25.0, right: 25.0),
-  //     // padding: EdgeInsets.all(14.0),
-  //     color: Hexcolor('#FFFFFF'),
-  //     child: Row(
-  //       children: <Widget>[
-  //         Container(
-  //           padding: EdgeInsets.only(left: 8.0),
-  //           width: 135,
-  //           child: Text(
-  //             desc,
-  //             style: TextStyle(
-  //               fontSize: 12.0,
-  //               fontWeight: FontWeight.bold,
-  //               fontStyle: FontStyle.normal,
-  //               color: Hexcolor('#3F4D55'),
-  //             ),
-  //           ),
-  //         ),
-  //         DropdownButton(
-  //           iconSize: 10,
-  //           dropdownColor: Hexcolor('#FFFFFF'),
-  //           style: TextStyle(color: Colors.black),
-  //           value: status,
-  //           items: allStatus.map((val){
-  //             return DropdownMenuItem(
-  //               value: val,
-  //               child: Text(val),
-  //               );
-  //           }).toList(),
-  //           onChanged: (val){
-  //             setState(() {
-  //               status=val;
-  //             });
-  //           }
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-  // Container _buildContainerListLightDisabled(String desc, String data) {
-  //   return Container(
-  //     margin: EdgeInsets.only(left: 25.0, right: 25.0),
-  //     // padding: EdgeInsets.all(14.0),
-  //     color: Hexcolor('#FFFFFF'),
-  //     child: Row(
-  //       children: <Widget>[
-  //         Container(
-  //           padding: EdgeInsets.only(left: 8.0),
-  //           width: 135,
-  //           child: Text(
-  //             desc,
-  //             style: TextStyle(
-  //               fontSize: 12.0,
-  //               fontWeight: FontWeight.bold,
-  //               fontStyle: FontStyle.normal,
-  //               color: Hexcolor('#3F4D55'),
-  //             ),
-  //           ),
-  //         ),
-  //         Expanded(
-  //           child: Container(
-  //             child: TextFormField(
-  //                 enabled: false,
-  //                 style: TextStyle(
-  //                   fontSize: 12.0,
-  //                   fontWeight: FontWeight.normal,
-  //                   fontStyle: FontStyle.normal,
-  //                   color: Hexcolor('#3F4D55'),
-  //                 ),
-  //                 decoration: InputDecoration(
-  //                   hintText: '',
-  //                   hintStyle: TextStyle(
-  //                     fontSize: 12.0,
-  //                     fontWeight: FontWeight.normal,
-  //                     fontStyle: FontStyle.normal,
-  //                     color: Hexcolor('#3F4D55'),
-  //                   ),
-  //                   enabledBorder: UnderlineInputBorder(
-  //                       borderSide: BorderSide(color: const Color(0xF8F6F4))),
-  //                   focusedBorder: UnderlineInputBorder(
-  //                       borderSide: BorderSide(color: const Color(0xF8F6F4))),
-  //                   filled: true,
-  //                   fillColor: Hexcolor('#FFFFFF'),
-  //                 ),
-  //                 onChanged: (val) {
-  //                   if (data == "itemName") {
-  //                     this.itemName = val;
-  //                   } else if (data == "fabric") {
-  //                     this.fabric = val;
-  //                   } else if (data == "brand") {
-  //                     this.brand = val;
-  //                   } else if (data == "size") {
-  //                     this.size = val;
-  //                   } else if (data == "season") {
-  //                     this.season = val;
-  //                   } else if (data == "price") {
-  //                     this.price = val;
-  //                   } else if (data == "cost") {
-  //                     this.cost = val;
-  //                   } else if (data == "dateBought") {
-  //                     this.dateBought = val;
-  //                   } else if (data == "status") {
-  //                     this.status = val;
-  //                   } else if (data == "category1") {
-  //                     this.category1 = val;
-  //                   } else if (data == "url") {
-  //                     this.url = val;
-  //                   }
-  //                   setState(() => data = val);
-  //                 }),
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
+  Container _buildContainerTagging(String desc) {
+    return Container(
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      // padding: EdgeInsets.all(14.0),
+      height: 40,
+      color: Hexcolor('#F8F6F4'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 135,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+         Container(
+            child: Text(
+              date,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.normal,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-  // Container _buildContainerListDarkValueCost(String desc, String data) {
-  //   return Container(
-  //     margin: EdgeInsets.only(left: 25.0, right: 25.0),
-  //     height: 50,
-  //     // padding: EdgeInsets.all(14.0),
-  //     color: Hexcolor('#F8F6F4'),
-  //     child: Row(
-  //       children: <Widget>[
-  //         Container(
-  //           padding: EdgeInsets.only(left: 8.0),
-  //           width: 135,
-  //           child: Text(
-  //             desc,
-  //             style: TextStyle(
-  //               fontSize: 12.0,
-  //               fontWeight: FontWeight.bold,
-  //               fontStyle: FontStyle.normal,
-  //               color: Hexcolor('#3F4D55'),
-  //             ),
-  //           ),
-  //         ),
-  //         Container(
-  //           width: 135,
-  //           child: Text(
-  //             _myController.text,
-  //             style: TextStyle(
-  //               fontSize: 12.0,
-  //               fontWeight: FontWeight.normal,
-  //               fontStyle: FontStyle.normal,
-  //               color: Hexcolor('#3F4D55'),
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Container _buildContainerTotalCost(String desc) {
+    return Container(
+      height: 40,
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      // padding: EdgeInsets.all(14.0),
+      color: Hexcolor('#F8F6F4'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 135,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+           Container(
+            child: Text(
+              date,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.normal,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-  // Container _buildContainerListDarkDisabled(String desc, String data) {
-  //   return Container(
-  //     margin: EdgeInsets.only(left: 25.0, right: 25.0),
-  //     // padding: EdgeInsets.all(14.0),
-  //     color: Hexcolor('#F8F6F4'),
-  //     child: Row(
-  //       children: <Widget>[
-  //         Container(
-  //           padding: EdgeInsets.only(left: 8.0),
-  //           width: 135,
-  //           child: Text(
-  //             desc,
-  //             style: TextStyle(
-  //               fontSize: 12.0,
-  //               fontWeight: FontWeight.bold,
-  //               fontStyle: FontStyle.normal,
-  //               color: Hexcolor('#3F4D55'),
-  //             ),
-  //           ),
-  //         ),
-  //         Expanded(
-  //           child: Container(
-  //             child: TextFormField(
-  //                 enabled: false,
-  //                 style: TextStyle(
-  //                   fontSize: 12.0,
-  //                   fontWeight: FontWeight.normal,
-  //                   fontStyle: FontStyle.normal,
-  //                   color: Hexcolor('#3F4D55'),
-  //                 ),
-  //                 decoration: InputDecoration(
-  //                   hintText: '',
-  //                   hintStyle: TextStyle(
-  //                     fontSize: 12.0,
-  //                     fontWeight: FontWeight.normal,
-  //                     fontStyle: FontStyle.normal,
-  //                     color: Hexcolor('#3F4D55'),
-  //                   ),
-  //                   enabledBorder: UnderlineInputBorder(
-  //                       borderSide: BorderSide(color: const Color(0xF8F6F4))),
-  //                   focusedBorder: UnderlineInputBorder(
-  //                       borderSide: BorderSide(color: const Color(0xF8F6F4))),
-  //                   filled: true,
-  //                   fillColor: Hexcolor('#F8F6F4'),
-  //                 ),
-  //                 onChanged: (val) {
-  //                   if (data == "itemName") {
-  //                     this.itemName = val;
-  //                   } else if (data == "fabric") {
-  //                     this.fabric = val;
-  //                   } else if (data == "brand") {
-  //                     this.brand = val;
-  //                   } else if (data == "size") {
-  //                     this.size = val;
-  //                   } else if (data == "season") {
-  //                     this.season = val;
-  //                   } else if (data == "price") {
-  //                     this.price = val;
-  //                   } else if (data == "cost") {
-  //                     this.cost = val;
-  //                   } else if (data == "dateBought") {
-  //                     this.dateBought = val;
-  //                   } else if (data == "status") {
-  //                     this.status = val;
-  //                   } else if (data == "category1") {
-  //                     this.category1 = val;
-  //                   } else if (data == "url") {
-  //                     this.url = val;
-  //                   }
-  //                   setState(() => data = val);
-  //                 }),
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Container _buildContainerListDark(String desc, String data) {
-  //   return Container(
-  //     margin: EdgeInsets.only(left: 25.0, right: 25.0),
-  //     // padding: EdgeInsets.all(14.0),
-  //     color: Hexcolor('#F8F6F4'),
-  //     child: Row(
-  //       children: <Widget>[
-  //         Container(
-  //           padding: EdgeInsets.only(left: 8.0),
-  //           width: 135,
-  //           child: Text(
-  //             desc,
-  //             style: TextStyle(
-  //               fontSize: 12.0,
-  //               fontWeight: FontWeight.bold,
-  //               fontStyle: FontStyle.normal,
-  //               color: Hexcolor('#3F4D55'),
-  //             ),
-  //           ),
-  //         ),
-  //         Expanded(
-  //           child: Container(
-  //             child: TextFormField(
-  //                 style: TextStyle(
-  //                   fontSize: 12.0,
-  //                   fontWeight: FontWeight.normal,
-  //                   fontStyle: FontStyle.normal,
-  //                   color: Hexcolor('#3F4D55'),
-  //                 ),
-  //                 decoration: InputDecoration(
-  //                   enabledBorder: UnderlineInputBorder(
-  //                       borderSide: BorderSide(color: const Color(0xF8F6F4))),
-  //                   focusedBorder: UnderlineInputBorder(
-  //                       borderSide: BorderSide(color: const Color(0xF8F6F4))),
-  //                   // filled: true,
-  //                   // fillColor: Hexcolor('#FFFFFF'),
-  //                 ),
-  //                 onChanged: (val) {
-  //                   if (data == "itemName") {
-  //                     this.itemName = val;
-  //                   } else if (data == "fabric") {
-  //                     this.fabric = val;
-  //                   } else if (data == "brand") {
-  //                     this.brand = val;
-  //                   } else if (data == "size") {
-  //                     this.size = val;
-  //                   } else if (data == "season") {
-  //                     this.season = val;
-  //                   } else if (data == "price") {
-  //                     this.price = val;
-  //                   } else if (data == "cost") {
-  //                     this.cost = val;
-  //                   } else if (data == "dateBought") {
-  //                     this.dateBought = val;
-  //                   } else if (data == "status") {
-  //                     this.status = val;
-  //                   } else if (data == "category1") {
-  //                     this.category1 = val;
-  //                   } else if (data == "url") {
-  //                     this.url = val;
-  //                   }
-  //                   setState(() => data = val);
-  //                 }),
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Container _buildContainerListLight(String desc, String data) {
-  //   return Container(
-  //     margin: EdgeInsets.only(left: 25.0, right: 25.0),
-  //     // padding: EdgeInsets.all(14.0),
-  //     color: Hexcolor('#FFFFFF'),
-  //     child: Row(
-  //       children: <Widget>[
-  //         Container(
-  //           padding: EdgeInsets.only(left: 8.0),
-  //           width: 135,
-  //           child: Text(
-  //             desc,
-  //             style: TextStyle(
-  //               fontSize: 12.0,
-  //               fontWeight: FontWeight.bold,
-  //               fontStyle: FontStyle.normal,
-  //               color: Hexcolor('#3F4D55'),
-  //             ),
-  //           ),
-  //         ),
-  //         Expanded(
-  //           child: Container(
-  //             child: TextFormField(
-  //                 style: TextStyle(
-  //                   fontSize: 12.0,
-  //                   fontWeight: FontWeight.normal,
-  //                   fontStyle: FontStyle.normal,
-  //                   color: Hexcolor('#3F4D55'),
-  //                 ),
-  //                 decoration: InputDecoration(
-  //                   enabledBorder: UnderlineInputBorder(
-  //                       borderSide: BorderSide(color: const Color(0xFFFFFF))),
-  //                   focusedBorder: UnderlineInputBorder(
-  //                       borderSide: BorderSide(color: const Color(0xFFFFFF))),
-  //                   // filled: true,
-  //                   // fillColor: Hexcolor('#FFFFFF'),
-  //                 ),
-  //                 onChanged: (val) {
-  //                   if (data == "itemName") {
-  //                     this.itemName = val;
-  //                   } else if (data == "fabric") {
-  //                     this.fabric = val;
-  //                   } else if (data == "brand") {
-  //                     this.brand = val;
-  //                   } else if (data == "size") {
-  //                     this.size = val;
-  //                   } else if (data == "season") {
-  //                     this.season = val;
-  //                   } else if (data == "price") {
-  //                     this.price = val;
-  //                   } else if (data == "cost") {
-  //                     this.cost = val;
-  //                   } else if (data == "dateBought") {
-  //                     this.dateBought = val;
-  //                   } else if (data == "status") {
-  //                     this.status = val;
-  //                   } else if (data == "category1") {
-  //                     this.category1 = val;
-  //                   } else if (data == "url") {
-  //                     this.url = val;
-  //                   }
-  //                   setState(() => data = val);
-  //                 }),
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Container _buildContainerListLightPrice(String desc, String data) {
-  //   return Container(
-  //     margin: EdgeInsets.only(left: 25.0, right: 25.0),
-  //     color: Hexcolor('#FFFFFF'),
-  //     child: Row(
-  //       children: <Widget>[
-  //         Container(
-  //           padding: EdgeInsets.only(left: 8.0),
-  //           width: 135,
-  //           child: Text(
-  //             desc,
-  //             style: TextStyle(
-  //               fontSize: 12.0,
-  //               fontWeight: FontWeight.bold,
-  //               fontStyle: FontStyle.normal,
-  //               color: Hexcolor('#3F4D55'),
-  //             ),
-  //           ),
-  //         ),
-  //         Expanded(
-  //           child: Container(
-  //             child: TextFormField(
-  //               keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
-  //               controller: _myController,
-  //                 style: TextStyle(
-  //                   fontSize: 12.0,
-  //                   fontWeight: FontWeight.normal,
-  //                   fontStyle: FontStyle.normal,
-  //                   color: Hexcolor('#3F4D55'),
-  //                 ),
-  //                 decoration: InputDecoration(
-  //                   enabledBorder: UnderlineInputBorder(
-  //                       borderSide: BorderSide(color: const Color(0xFFFFFF))),
-  //                   focusedBorder: UnderlineInputBorder(
-  //                       borderSide: BorderSide(color: const Color(0xFFFFFF))),
-  //                   // filled: true,
-  //                   // fillColor: Hexcolor('#FFFFFF'),
-  //                 ),
-  //                 onChanged: (val) {
-  //                   if (data == "itemName") {
-  //                     this.itemName = val;
-  //                   } else if (data == "fabric") {
-  //                     this.fabric = val;
-  //                   } else if (data == "brand") {
-  //                     this.brand = val;
-  //                   } else if (data == "size") {
-  //                     this.size = val;
-  //                   } else if (data == "season") {
-  //                     this.season = val;
-  //                   } else if (data == "price") {
-  //                     this.price = val;
-  //                   } else if (data == "cost") {
-  //                     this.cost = val;
-  //                   } else if (data == "dateBought") {
-  //                     this.dateBought = val;
-  //                   } else if (data == "status") {
-  //                     this.status = val;
-  //                   } else if (data == "category1") {
-  //                     this.category1 = val;
-  //                   } else if (data == "url") {
-  //                     this.url = val;
-  //                   }
-  //                   setState(() => data = val);
-  //                 }),
-  //           ),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
+  Container _buildContainerOutfit(String desc) {
+    return Container(
+      height: 40,
+      margin: EdgeInsets.only(left: 25.0, right: 25.0),
+      // padding: EdgeInsets.all(14.0),
+      color: Hexcolor('#FFFFFF'),
+      child: Row(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(left: 8.0),
+            width: 135,
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                color: Hexcolor('#3F4D55'),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: TextFormField(
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.normal,
+                    color: Hexcolor('#3F4D55'),
+                  ),
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: const Color(0xFFFFFF))),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: const Color(0xFFFFFF))),
+                    // filled: true,
+                    // fillColor: Hexcolor('#FFFFFF'),
+                  ),
+                  onChanged: (val) {
+                      this.name = val;
+                  }),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 
   Future<String> uploadPic() async {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
