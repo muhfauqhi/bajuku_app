@@ -90,15 +90,18 @@ class DatabaseService {
     });
   }
 
-  Future setOutfit( String image) async {
+  Future setOutfit(String image, String notes, String name, String totalCost, Map <String, String> tagging) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     return await firestoreInstance
         .collection('users')
         .document(firebaseUser.uid)
         .collection('outfits')
         .add({
-      // "outfitName": name,
+      "notes": notes,
+      "outfitName": name,
       "image": image,
+      "totalCost": totalCost,
+      "taggedClothes": tagging,
       "created": FieldValue.serverTimestamp(),
     });
   }
