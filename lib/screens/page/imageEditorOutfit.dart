@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/addItemDetail.dart';
@@ -15,11 +16,25 @@ class ImageEditorOutfit extends StatefulWidget {
 }
 
 class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
+  GlobalKey key = GlobalKey();
+
+  Rect myRect;
+  // int count = 1;
+
+  void getPositon() {
+    final RenderBox renderBox = key.currentContext.findRenderObject();
+    final position = renderBox.localToGlobal(Offset.zero);
+    print(position);
+  }
+
   @override
   Widget build(BuildContext context) {
+    // List<Widget> children = new List.generate(count, (int i) => new InputWidget(i));
+
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0.0,
         backgroundColor: Colors.white,
         title: Row(
@@ -30,7 +45,7 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
               child: Text(
                 'Cancel',
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Hexcolor('#3F4D55'),
                     fontSize: 16,
                     fontWeight: FontWeight.normal),
               ),
@@ -57,52 +72,67 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
                               fontSize: 16),
                         ),
                         actions: <Widget>[
-                         Row(
-                           children: <Widget>[
+                          Row(
+                            children: <Widget>[
                               GestureDetector(
-                            child: Container(
-                              child: Image.asset(
-                                'assets/images/keepWorkingButton.png',
-                                height: 62,
-                                width: 157.5,
+                                child: Container(
+                                  child: Image.asset(
+                                    'assets/images/keepWorkingButton.png',
+                                    height: 62,
+                                    width: 157.5,
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
                               ),
-                            ),
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                          GestureDetector(
-                            child: Container(
-                              child: Image.asset(
-                                'assets/images/cancelButton.png',
-                                height: 62,
-                                width: 157.5,
-                              ),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          new Home()));
-                            },
+                              GestureDetector(
+                                child: Container(
+                                  child: Image.asset(
+                                    'assets/images/cancelButton.png',
+                                    height: 62,
+                                    width: 157.5,
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              new Home()));
+                                },
+                              )
+                            ],
                           )
-                           ],
-                         )
                         ],
                       );
                     });
               },
             ),
-            Text(
-              'Import Image',
-              style: TextStyle(color: Colors.black),
+            Container(
+              margin: EdgeInsets.only(left: 40),
+              child: Text(
+                'Import Image',
+                style: TextStyle(
+                  color: Hexcolor('#3F4D55'),
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1.0,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 20),
+              constraints: BoxConstraints(
+                  minWidth: 20, minHeight: 20, maxHeight: 20, maxWidth: 20),
+              child: GestureDetector(
+                child: Image.asset('assets/images/helpicon.png'),
+              ),
             ),
             GestureDetector(
               child: Text(
                 'Save',
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Hexcolor('#3F4D55'),
                     fontSize: 16,
                     fontWeight: FontWeight.normal),
               ),
@@ -120,22 +150,56 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          color: Hexcolor('#FBFBFB'),
-          child: Column(
-            children: <Widget>[
+      body: Container(
+        color: Hexcolor('#FBFBFB'),
+        child: GestureDetector(
+          onTap: () {
+            getPositon();
+          },
+          onTapDown: (TapDownDetails details) {
+            var x = details.globalPosition.dx;
+            var y = details.globalPosition.dy;
+            setState(() {
+              myRect = Offset(x, y - 80) & const Size(20, 20);
+            });
+            print("tap down: " + x.toString() + y.toString());
+          },
+          child: Stack(
+            children: [
               Container(
-                height: 550,
-                width: 500,
+                key: key,
+                constraints: BoxConstraints(
+                    maxWidth: 450,
+                    maxHeight: 450,
+                    minWidth: 450,
+                    minHeight: 450),
                 child: Image.file(
                   widget.filePicture,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 ),
               ),
+              // children,
+              // Case buruknya kita bikin method positioned from rect divalidasi apakah sudah di klik apa belum..
+              // _buildWidgetTextTags(){
+              // if(tags != null){
+              // return Position.fromrect()
+              // }
+              // else{ return Text('')}
+              // }
+              // Case bagusnya kita bikin seperti builder agar bisa di build position rectnya berulang-ulang...
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget buildPositioned() {
+    return Positioned.fromRect(
+      rect: myRect,
+      child: Container(
+        color: Colors.black,
+        // child: Text('Test'),
       ),
     );
   }
