@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/page/imageEditor.dart';
-import 'package:bajuku_app/screens/page/imageEditorOutfit.dart';
+import 'package:bajuku_app/screens/page/outfit/imageEditorOutfit.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -75,7 +75,8 @@ class _PreviewImageState extends State<PreviewImage> {
                   Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (BuildContext context) => new ImageEditorOutfit(
+                          builder: (BuildContext context) =>
+                              new ImageEditorOutfit(
                                 filePicture: widget.fileImage,
                               )));
                 }

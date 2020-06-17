@@ -1,25 +1,29 @@
 import 'dart:io';
-import 'dart:ui';
 
-import 'package:bajuku_app/screens/home/home.dart';
-import 'package:bajuku_app/screens/page/addItemDetail.dart';
-import 'package:bajuku_app/screens/page/addOutfitDetail.dart';
+import 'package:bajuku_app/screens/page/outfit/buildTags.dart';
+import 'package:bajuku_app/screens/page/outfit/findSuggestionClothes.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class ImageEditorOutfit extends StatefulWidget {
-  final File filePicture;
-  ImageEditorOutfit({this.filePicture});
+class TagImage extends StatefulWidget {
+  final File file;
+
+  TagImage({this.file});
 
   @override
-  _ImageEditorOutfitState createState() => _ImageEditorOutfitState();
+  _TagImageState createState() => _TagImageState();
 }
 
-class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
+class _TagImageState extends State<TagImage> {
   GlobalKey key = GlobalKey();
 
+  String documentId;
+  String clothName;
+  String category;
+
   Rect myRect;
-  // int count = 1;
+  List<Widget> children = [];
+  Map<String, String> mapCloth = Map();
 
   void getPositon() {
     final RenderBox renderBox = key.currentContext.findRenderObject();
@@ -29,8 +33,6 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
 
   @override
   Widget build(BuildContext context) {
-    // List<Widget> children = new List.generate(count, (int i) => new InputWidget(i));
-
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
@@ -94,13 +96,7 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
                                     width: 157.5,
                                   ),
                                 ),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      new MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              new Home()));
-                                },
+                                onTap: () {},
                               )
                             ],
                           )
@@ -112,7 +108,7 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
             Container(
               margin: EdgeInsets.only(left: 40),
               child: Text(
-                'Import Image',
+                'Tag People',
                 style: TextStyle(
                   color: Hexcolor('#3F4D55'),
                   fontWeight: FontWeight.w600,
@@ -136,15 +132,7 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
                     fontSize: 16,
                     fontWeight: FontWeight.normal),
               ),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new AddOutfitDetail(
-                              fileUpload: widget.filePicture,
-                            )));
-              },
+              onTap: () {},
             ),
           ],
         ),
@@ -160,7 +148,7 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
             var x = details.globalPosition.dx;
             var y = details.globalPosition.dy;
             setState(() {
-              myRect = Offset(x, y - 80) & const Size(20, 20);
+              getClothesDetail(x, y);
             });
             print("tap down: " + x.toString() + y.toString());
           },
@@ -174,19 +162,13 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
                     minWidth: 450,
                     minHeight: 450),
                 child: Image.file(
-                  widget.filePicture,
+                  widget.file,
                   fit: BoxFit.cover,
                 ),
               ),
-              // children,
-              // Case buruknya kita bikin method positioned from rect divalidasi apakah sudah di klik apa belum..
-              // _buildWidgetTextTags(){
-              // if(tags != null){
-              // return Position.fromrect()
-              // }
-              // else{ return Text('')}
-              // }
-              // Case bagusnya kita bikin seperti builder agar bisa di build position rectnya berulang-ulang...
+              Stack(
+                children: children,
+              ),
             ],
           ),
         ),
@@ -194,13 +176,38 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
     );
   }
 
-  Widget buildPositioned() {
-    return Positioned.fromRect(
-      rect: myRect,
-      child: Container(
-        color: Colors.black,
-        // child: Text('Test'),
+  Future getClothesDetail(var x, var y) async {
+    Map results = await Navigator.push(
+      context,
+      new MaterialPageRoute(
+        builder: (BuildContext context) => new SuggestionClothes(),
       ),
     );
+    if (results != null) {
+      clothName = results['clothName'];
+      category = results['category'];
+      documentId = results['documentId'];
+      setState(() {
+        if (category.length > clothName.length) {
+          myRect = Offset(x, y - 80) &
+              Size(category.length * 6 / 1, category.length * 6 / 3);
+        } else {
+          myRect = Offset(x, y - 80) &
+              Size(clothName.length * 6 / 1, clothName.length * 6 / 3);
+        }
+        print(myRect.toString());
+        children.add(
+          new TagsPositioned(
+            myRect: myRect,
+            category: category,
+            clothName: clothName,
+            documentId: documentId,
+          ),
+        );
+        mapCloth.putIfAbsent(documentId, () => myRect.toString());
+      });
+    } else {}
+    // print(clothName + '\n' + category + '\n' + documentId);
+    print(mapCloth);
   }
 }
