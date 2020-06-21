@@ -257,7 +257,7 @@ class _TagImageState extends State<TagImage> {
         // rect.add(myRect.size.toString());
         // print(rect);
 
-        mapCloth.putIfAbsent(documentId, () => myRect.center.dx.toString() + ',' + myRect.center.dy.toString() + ',' + myRect.size.toString());
+        mapCloth.putIfAbsent(category, () => myRect.center.dx.toString() + ',' + myRect.center.dy.toString() + ',' + myRect.size.toString());
       });
     } else {}
     // print(clothName + '\n' + category + '\n' + documentId);

@@ -17,44 +17,51 @@ class TemplateDetailOutfit extends StatefulWidget {
 class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
   var formatter = new DateFormat('dd MMMM yyyy');
   List<Widget> children = [];
+  var notes, totalCost, outfitName;
 
   Rect myRect;
 
   GlobalKey key = GlobalKey();
 
-  void makeWidget() {
-    var values = widget.outfit.taggedClothes.values.toList();
-    // print(values.length);
-
-    for (var i in values) {
-      buildSplit(i);
-    }
-
-    var key = widget.outfit.taggedClothes.keys.toList();
-    // for(var i in values){
-    //   new TagsPositioned(myRect: ,);
-    // }
+  @override
+  void initState() {
+    notes = widget.outfit.notes;
+    totalCost = widget.outfit.totalCost;
+    outfitName = widget.outfit.outfitName;
+    super.initState();
   }
 
-  void buildSplit(var str) {
-    Rect rect;
-    var substr = str.substring(15, str.length - 1);
-    var left, top, right, bottom;
-    List<String> splitted = substr.split(", ");
-    for (int i = 0; i < splitted.length; i++) {
-      left = double.parse(splitted[0]);
-      top = double.parse(splitted[1]);
-      right = double.parse(splitted[2]);
-      bottom = double.parse(splitted[3]);
+  void makeWidget() {
+    var values = widget.outfit.taggedClothes.values.toList();
+    var keyName = widget.outfit.taggedClothesName.toList();
+    var keyCategory = widget.outfit.taggedClothes.keys.toList();
+
+    for (var i = 0; i < values.length; i++) {
+      buildSplit(values[i], keyName[i], keyCategory[i]);
     }
-    rect = Rect.fromLTRB(left, top, right, bottom);
-    // rect = Rect.fromCenter()
+
+  }
+
+  void buildSplit(var value, var key, var keyCategory) {
+    Rect rect;
+    var x, y, width, height;
+    String substr = value.replaceAll("Size", "");
+    String substr1 = substr.replaceAll("(", "");
+    String substr2 = substr1.replaceAll(")", "");
+    List<String> splitted = substr2.split(",");
+    for (int i = 0; i < splitted.length; i++) {
+      x = double.parse(splitted[0]);
+      y = double.parse(splitted[1]);
+      width = double.parse(splitted[2]);
+      height = double.parse(splitted[3]);
+    }
+    rect = Rect.fromCenter(center: Offset(x, y), width: width, height: height);
     setState(() {
       children.add(
         new TagsPositioned(
           myRect: rect,
-          clothName: '0',
-          category: '0',
+          clothName: key,
+          category: keyCategory,
         ),
       );
     });
@@ -125,7 +132,7 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
           Container(
             margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
             child: Text(
-              '\$123',
+              '€ ' + totalCost,
               style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
@@ -152,7 +159,7 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
           Container(
             margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
             child: Text(
-              'Working outfit1',
+              outfitName,
               style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
@@ -169,7 +176,7 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
       width: 600,
       child: Container(
           margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
-          child: Text("Start working again after WFH for so long")),
+          child: Text(notes)),
     );
   }
 
