@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bajuku_app/models/widgetrect.dart';
 import 'package:bajuku_app/screens/page/outfit/buildTags.dart';
 import 'package:bajuku_app/screens/page/outfit/findSuggestionClothes.dart';
 import 'package:bajuku_app/screens/page/outfit/imageEditorOutfit.dart';
@@ -26,9 +27,10 @@ class _TagImageState extends State<TagImage> {
 
   Rect myRect;
   List<Widget> children = [];
-  Map<String, String> mapCloth = Map();
+  Map mapCloth = Map();
   List<String> clothNameList = [];
   List<double> priceList = [];
+  String rect;
 
   void getPositon() {
     final RenderBox renderBox = key.currentContext.findRenderObject();
@@ -249,7 +251,13 @@ class _TagImageState extends State<TagImage> {
             documentId: documentId,
           ),
         );
-        mapCloth.putIfAbsent(documentId, () => myRect.toString());
+        // final widgetRect = WidgetRect(myRect.center.dx, myRect.center.dy, myRect.size);
+        // rect.add(myRect.center.dx.toString());
+        // rect.add(myRect.center.dx.toString());
+        // rect.add(myRect.size.toString());
+        // print(rect);
+
+        mapCloth.putIfAbsent(documentId, () => myRect.center.dx.toString() + ',' + myRect.center.dy.toString() + ',' + myRect.size.toString());
       });
     } else {}
     // print(clothName + '\n' + category + '\n' + documentId);

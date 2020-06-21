@@ -1,8 +1,10 @@
+import 'package:bajuku_app/models/outfit.dart';
 import 'package:bajuku_app/screens/Page/journal.dart';
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/page/add.dart';
 import 'package:bajuku_app/screens/page/sustainable.dart';
 import 'package:bajuku_app/screens/template/templateCategories.dart';
+import 'package:bajuku_app/screens/template/templateDetailOutfit.dart';
 import 'package:bajuku_app/services/auth.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -297,7 +299,24 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       ),
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Outfit outfit = new Outfit(
+                          snapshot.data.documents[index].data['image'],
+                          snapshot.data.documents[index].data['notes'],
+                          snapshot.data.documents[index].data['outfitName'],
+                          snapshot.data.documents[index].data['taggedClothes'],
+                          snapshot
+                              .data.documents[index].data['taggedClothesName'],
+                          snapshot.data.documents[index].data['totalCost'],
+                          snapshot.data.documents[index].data['created']);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  TemplateDetailOutfit(
+                                    outfit: outfit,
+                                  )));
+                    },
                   ),
                 );
               },

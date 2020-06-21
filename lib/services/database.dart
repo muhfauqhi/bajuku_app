@@ -89,7 +89,7 @@ class DatabaseService {
   }
 
   Future setOutfit(String image, String notes, String name, String totalCost,
-      Map<String, String> mapOfCloth, List<String> clothNameList) async {
+      Map mapOfCloth, List<String> clothNameList) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     return await firestoreInstance
         .collection('users')

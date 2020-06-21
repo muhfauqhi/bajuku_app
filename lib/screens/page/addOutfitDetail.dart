@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 class AddOutfitDetail extends StatefulWidget {
   final File fileUpload;
   final List<String> clothNameList;
-  final Map<String, String> mapOfCloth;
+  final Map mapOfCloth;
   final List<double> priceList;
 
   AddOutfitDetail({this.fileUpload, this.clothNameList, this.mapOfCloth, this.priceList});
