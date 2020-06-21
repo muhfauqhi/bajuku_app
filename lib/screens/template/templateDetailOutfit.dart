@@ -222,10 +222,11 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
       child: Column(
         children: [
           Container(
+            alignment: Alignment(-1, 0),
             margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
             child: Text(
               'Clothes you worn: ',
-              style: TextStyle(fontSize: 16, color: Hexcolor('#859289')),
+              style: TextStyle(fontSize: 12, color: Hexcolor('#3F4D55')),
             ),
           ),
           ListView.builder(
@@ -233,9 +234,20 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
               itemCount: widget.outfit.taggedClothes.length,
               itemBuilder: (context, index) {
                 return Container(
-                  child: Text(widget.outfit.taggedClothesName[index]),
+                  margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  alignment: Alignment(-1, 0),
+                  child: Text(
+                    widget.outfit.taggedClothesName[index],
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Hexcolor('#859289'),
+                    ),
+                  ),
                 );
-              })
+              }),
+          SizedBox(
+            height: 20,
+          )
         ],
       ),
     );
