@@ -11,8 +11,15 @@ class ImageEditorOutfit extends StatefulWidget {
   final File filePicture;
   final Map mapOfCloth;
   final List<Widget> children;
+  final List<String> clothNameList;
+  final List<double> priceList;
 
-  ImageEditorOutfit({this.filePicture, this.mapOfCloth, this.children});
+  ImageEditorOutfit(
+      {this.filePicture,
+      this.mapOfCloth,
+      this.children,
+      this.clothNameList,
+      this.priceList});
 
   @override
   _ImageEditorOutfitState createState() => _ImageEditorOutfitState();
@@ -24,7 +31,6 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
   String documentId;
   String clothName;
   String category;
-
 
   void getPositon() {
     final RenderBox renderBox = key.currentContext.findRenderObject();
@@ -146,6 +152,9 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
                     new MaterialPageRoute(
                         builder: (BuildContext context) => new AddOutfitDetail(
                               fileUpload: widget.filePicture,
+                              clothNameList: widget.clothNameList,
+                              mapOfCloth: widget.mapOfCloth,
+                              priceList: widget.priceList,
                             )));
               },
             ),
@@ -180,17 +189,18 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
           ),
         ),
       ),
-      bottomNavigationBar: CustomNavbarOutfit(file: widget.filePicture, children: widget.children,),
+      bottomNavigationBar: CustomNavbarOutfit(
+        file: widget.filePicture,
+        children: widget.children,
+      ),
     );
   }
 
-  List<Widget> validate(){
-    if(widget.children != null){
+  List<Widget> validate() {
+    if (widget.children != null) {
       return widget.children;
-    }
-    else{
+    } else {
       return [];
     }
   }
-
 }

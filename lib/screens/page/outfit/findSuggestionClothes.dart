@@ -11,6 +11,7 @@ class _SuggestionClothesState extends State<SuggestionClothes> {
   String clothName = '';
   String category = '';
   String documentId = '';
+  String price = '';
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +81,8 @@ class _SuggestionClothesState extends State<SuggestionClothes> {
                             title: Text(clothName),
                             subtitle: Text(category),
                             onTap: () {
+                              price =
+                                  snapshot.data.documents[index].data['price'];
                               category = snapshot
                                   .data.documents[index].data['category']
                                   .toString()
@@ -98,6 +101,7 @@ class _SuggestionClothesState extends State<SuggestionClothes> {
                                 'clothName': '$clothName',
                                 'category': '$category',
                                 'documentId': '$documentId',
+                                'price': '$price',
                               });
                             },
                           );

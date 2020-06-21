@@ -11,7 +11,11 @@ import 'package:intl/intl.dart';
 
 class AddOutfitDetail extends StatefulWidget {
   final File fileUpload;
-  AddOutfitDetail({this.fileUpload});
+  final List<String> clothNameList;
+  final Map<String, String> mapOfCloth;
+  final List<double> priceList;
+
+  AddOutfitDetail({this.fileUpload, this.clothNameList, this.mapOfCloth, this.priceList});
 
   @override
   _AddOutfitDetailState createState() => _AddOutfitDetailState();
@@ -27,11 +31,12 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
     var now;
     var formatter;
 
-    setState(() {
-      now = DateTime.now();
-      formatter = new DateFormat('dd MMMM yyyy');
-      date = formatter.format(now);
-    });
+    now = DateTime.now();
+    formatter = new DateFormat('dd MMMM yyyy');
+    date = formatter.format(now);
+    totalCost = getTotalCost();
+
+    // clothNameList = widget.clothNameList;
   }
 
   @override
@@ -40,11 +45,23 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
     super.dispose();
   }
 
+  String getTotalCost(){
+    double total = 0.0;
+    for (var i in widget.priceList) {
+      total = total + i;
+    }
+    return total.toString();
+  }
+
+  int getTotalClothes(){
+    return widget.clothNameList.length;
+  }
+
   String image;
   String name;
   String notes;
   String totalCost;
-  Map<String, String> tagging;
+  // List<String> clothNameList = [];
 
   final _myController = TextEditingController();
 
@@ -101,7 +118,7 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
                           onPressed: () async {
                             image = await uploadPic();
                             await DatabaseService().setOutfit(
-                                notes, name, image, totalCost, tagging);
+                                image, notes, name, totalCost, widget.mapOfCloth, widget.clothNameList);
                             Navigator.push(
                                 context,
                                 new MaterialPageRoute(
@@ -218,9 +235,9 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
               ),
             ),
           ),
-         Container(
+          Container(
             child: Text(
-              date,
+              getTotalClothes().toString() + ' clothes',
               style: TextStyle(
                 fontSize: 12.0,
                 fontWeight: FontWeight.normal,
@@ -255,9 +272,9 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
               ),
             ),
           ),
-           Container(
+          Container(
             child: Text(
-              date,
+              '€ ' + totalCost,
               style: TextStyle(
                 fontSize: 12.0,
                 fontWeight: FontWeight.normal,
@@ -310,7 +327,7 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
                     // fillColor: Hexcolor('#FFFFFF'),
                   ),
                   onChanged: (val) {
-                      this.name = val;
+                    this.name = val;
                   }),
             ),
           )

@@ -22,10 +22,13 @@ class _TagImageState extends State<TagImage> {
   String documentId;
   String clothName;
   String category;
+  String price;
 
   Rect myRect;
   List<Widget> children = [];
   Map<String, String> mapCloth = Map();
+  List<String> clothNameList = [];
+  List<double> priceList = [];
 
   void getPositon() {
     final RenderBox renderBox = key.currentContext.findRenderObject();
@@ -143,6 +146,8 @@ class _TagImageState extends State<TagImage> {
                         children: widget.children,
                         mapOfCloth: mapCloth,
                         filePicture: widget.file,
+                        clothNameList: clothNameList,
+                        priceList: priceList,
                       ),
                     ),
                   );
@@ -154,6 +159,8 @@ class _TagImageState extends State<TagImage> {
                         children: children,
                         mapOfCloth: mapCloth,
                         filePicture: widget.file,
+                        clothNameList: clothNameList,
+                        priceList: priceList,
                       ),
                     ),
                   );
@@ -221,6 +228,7 @@ class _TagImageState extends State<TagImage> {
       clothName = results['clothName'];
       category = results['category'];
       documentId = results['documentId'];
+      price = results['price'];
       setState(() {
         if (category.length > clothName.length) {
           myRect = Offset(x, y - 80) &
@@ -229,7 +237,10 @@ class _TagImageState extends State<TagImage> {
           myRect = Offset(x, y - 80) &
               Size(clothName.length * 6 / 1, clothName.length * 6 / 3);
         }
-        print(myRect.toString());
+        double priceParse;
+        priceParse = double.parse(price);
+        clothNameList.add(clothName);
+        priceList.add(priceParse);
         children.add(
           new TagsPositioned(
             myRect: myRect,

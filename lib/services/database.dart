@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -28,7 +27,6 @@ class DatabaseService {
       });
     });
   }
-  
 
   Future setUser(String firstName, String lastName, String email) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
@@ -90,7 +88,8 @@ class DatabaseService {
     });
   }
 
-  Future setOutfit(String image, String notes, String name, String totalCost, Map <String, String> tagging) async {
+  Future setOutfit(String image, String notes, String name, String totalCost,
+      Map<String, String> mapOfCloth, List<String> clothNameList) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     return await firestoreInstance
         .collection('users')
@@ -101,7 +100,8 @@ class DatabaseService {
       "outfitName": name,
       "image": image,
       "totalCost": totalCost,
-      "taggedClothes": tagging,
+      "taggedClothes": mapOfCloth,
+      "taggedClothesName": clothNameList,
       "created": FieldValue.serverTimestamp(),
     });
   }
@@ -160,12 +160,12 @@ class DatabaseService {
 
   Future getOutfit() async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
-      QuerySnapshot qn = await Firestore.instance
-          .collection('users')
-          .document(firebaseUser.uid)
-          .collection('outfits')
-          .getDocuments();
-      return qn;
+    QuerySnapshot qn = await Firestore.instance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('outfits')
+        .getDocuments();
+    return qn;
   }
 
   // Future <DocumentSnapshot> getDocuments() async {
