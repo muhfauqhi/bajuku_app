@@ -260,10 +260,10 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
         makeWidget();
         // buildSplit();
       },
-      child: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
               children: [
                 Container(
                   key: key,
@@ -277,18 +277,16 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
                     fit: BoxFit.fill,
                   ),
                 ),
-                buildContainerRowButton(),
-                buildContainerNotes(),
-                buildContainerRowOutfit(),
-                buildContainerRowTotalCost(),
-                buildClothesList(),
+                for(var item in children ) item
               ],
             ),
-          ),
-          Stack(
-            children: children,
-          ),
-        ],
+            buildContainerRowButton(),
+            buildContainerNotes(),
+            buildContainerRowOutfit(),
+            buildContainerRowTotalCost(),
+            buildClothesList(),
+          ],
+        ),
       ),
     );
   }
