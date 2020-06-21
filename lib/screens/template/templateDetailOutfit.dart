@@ -39,7 +39,6 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
     for (var i = 0; i < values.length; i++) {
       buildSplit(values[i], keyName[i], keyCategory[i]);
     }
-
   }
 
   void buildSplit(var value, var key, var keyCategory) {
@@ -175,8 +174,7 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
     return Container(
       width: 600,
       child: Container(
-          margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
-          child: Text(notes)),
+          margin: EdgeInsets.fromLTRB(20, 10, 20, 10), child: Text(notes)),
     );
   }
 
@@ -219,6 +217,30 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
     );
   }
 
+  Widget buildClothesList() {
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+            child: Text(
+              'Clothes you worn: ',
+              style: TextStyle(fontSize: 16, color: Hexcolor('#859289')),
+            ),
+          ),
+          ListView.builder(
+              shrinkWrap: true,
+              itemCount: widget.outfit.taggedClothes.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  child: Text(widget.outfit.taggedClothesName[index]),
+                );
+              })
+        ],
+      ),
+    );
+  }
+
   Widget buildContainerPhoto() {
     return GestureDetector(
       onTap: () {
@@ -247,6 +269,7 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
                 buildContainerNotes(),
                 buildContainerRowOutfit(),
                 buildContainerRowTotalCost(),
+                buildClothesList(),
               ],
             ),
           ),
