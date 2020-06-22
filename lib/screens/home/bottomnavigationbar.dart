@@ -1,7 +1,5 @@
-import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/addChoice.dart';
-import 'package:bajuku_app/screens/page/addItem/datePicker.dart';
-import 'package:bajuku_app/screens/page/addItem/dialogChipsSeason.dart';
+import 'package:bajuku_app/screens/page/sustainability/sustainablehome.dart';
 import 'package:bajuku_app/screens/template/templateDetailOutfit.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -36,7 +34,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new Home()));
+                        builder: (BuildContext context) => new SustainableHome(title: 'Sustainability',)));
               },
             ),
           ),

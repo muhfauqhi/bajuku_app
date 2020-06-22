@@ -18,35 +18,40 @@ class _TagsPositionedState extends State<TagsPositioned> {
   Widget build(BuildContext context) {
     return Positioned.fromRect(
       rect: widget.myRect,
-      child: Container(
-        padding: EdgeInsets.all(5),
-        color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                widget.clothName,
-                style: TextStyle(
-                  fontSize: 9.0,
-                  fontWeight: FontWeight.w600,
-                  color: Hexcolor('#3F4D55'),
+      child: GestureDetector(
+        onTap: (){
+          print(widget.clothName);
+        },
+        child: Container(
+          padding: EdgeInsets.all(5),
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  widget.clothName,
+                  style: TextStyle(
+                    fontSize: 9.0,
+                    fontWeight: FontWeight.w600,
+                    color: Hexcolor('#3F4D55'),
+                  ),
                 ),
               ),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                widget.category,
-                style: TextStyle(
-                  fontSize: 9.0,
-                  fontWeight: FontWeight.w600,
-                  color: Hexcolor('#859289'),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  widget.category,
+                  style: TextStyle(
+                    fontSize: 9.0,
+                    fontWeight: FontWeight.w600,
+                    color: Hexcolor('#859289'),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
