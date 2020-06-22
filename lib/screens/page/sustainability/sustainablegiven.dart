@@ -14,7 +14,7 @@ class _SustainableGivenState extends State<SustainableGiven> {
   Widget build(BuildContext context) {
     return SustainableTemplate(
       title: widget.title,
-      headerWidget: HeaderWidget(
+      headerWidget: HeaderWidgetSustainability(
         asset: 'buttongiven.png',
         title: widget.title + ' Items',
         headerButton: true,

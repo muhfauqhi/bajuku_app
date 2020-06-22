@@ -14,7 +14,7 @@ class _SustainableSaleState extends State<SustainableSale> {
   Widget build(BuildContext context) {
     return SustainableTemplate(
       title: widget.title,
-      headerWidget: HeaderWidget(
+      headerWidget: HeaderWidgetSustainability(
         asset: 'buttonsale.png',
         title: widget.title + ' Items',
         headerButton: true,
