@@ -16,7 +16,8 @@ class _SustainableSaleState extends State<SustainableSale> {
       title: widget.title,
       headerWidget: HeaderWidget(
         asset: 'buttonsale.png',
-        title: widget.title,
+        title: widget.title + ' Items',
+        headerButton: true,
       ),
       body: Text(''),
     );
