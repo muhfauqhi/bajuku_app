@@ -208,7 +208,7 @@ class Wardrobe extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => new TemplateCategories(
-                      categories: "All items",
+                      categories: "All Items",
                     )));
       },
     );

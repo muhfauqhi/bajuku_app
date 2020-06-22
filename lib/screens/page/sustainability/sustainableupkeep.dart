@@ -14,7 +14,7 @@ class _SustainableUpkeepState extends State<SustainableUpkeep> {
   Widget build(BuildContext context) {
     return SustainableTemplate(
       title: widget.title,
-      headerWidget: HeaderWidget(
+      headerWidget: HeaderWidgetSustainability(
         headerButton: false,
         title: 'Care & Repair',
       ),

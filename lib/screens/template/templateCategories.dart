@@ -1,5 +1,5 @@
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
-import 'package:bajuku_app/screens/home/home.dart';
+import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:bajuku_app/screens/template/templateDetail.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,127 +27,83 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
   @override
   Widget build(BuildContext context) {
     if (userRef != null) {
-      return Scaffold(
+      return MyScaffold(
+        title: 'Your Wardrobe',
+        headerWidget: [
+          buildHeader(),
+        ],
         bottomNavigationBar: CustomBottomNavigationBar(),
-        backgroundColor: Colors.white,
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              Container(
-                child: SliverAppBar(
-                  centerTitle: true,
-                  leading: IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    color: Hexcolor('#3F4D55'),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) => new Home()));
-                    },
-                  ),
-                  backgroundColor: Colors.white,
-                  expandedHeight: 50.0,
-                  floating: false,
-                  pinned: false,
-                  flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Text(
-                      'Your Wardrobe',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        letterSpacing: 1.0,
-                        fontWeight: FontWeight.w600,
-                        fontStyle: FontStyle.normal,
-                        color: Hexcolor('#3F4D55'),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  <Widget>[
-                    Container(
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 23.0, right: 22.0, top: 14.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  widget.categories,
-                                  style: TextStyle(
-                                    color: Hexcolor('#3F4D55'),
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 1.0,
-                                    fontStyle: FontStyle.normal,
-                                  ),
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    IconButton(
-                                      icon: Image.asset(
-                                          'assets/images/searchIcon.png'),
-                                      onPressed: () {},
-                                    ),
-                                    IconButton(
-                                      icon: Image.asset(
-                                          'assets/images/filterIcon.png'),
-                                      onPressed: () {},
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: 23),
-                                child: FutureBuilder(
-                                  future: DatabaseService()
-                                      .getClothes(widget.categories),
-                                  builder: (context, snapshot) {
-                                    if (!snapshot.hasData) {
-                                      return Text('');
-                                    } else {
-                                      return Text(
-                                        snapshot.data.documents.length
-                                                .toString() +
-                                            " Items",
-                                        style: TextStyle(
-                                          fontStyle: FontStyle.normal,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 12.0,
-                                          color: Hexcolor('#859289'),
-                                        ),
-                                      );
-                                    }
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ];
-          },
-          body: buildBody(),
-        ),
+        body: buildBody(),
       );
     } else {
       return Container(
         child: Text('Test'),
       );
     }
+  }
+
+  Widget buildHeader() {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 23.0, right: 22.0, top: 14.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  widget.categories,
+                  style: TextStyle(
+                    color: Hexcolor('#3F4D55'),
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.0,
+                    fontStyle: FontStyle.normal,
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Image.asset('assets/images/searchIcon.png'),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: Image.asset('assets/images/filterIcon.png'),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 23),
+                child: FutureBuilder(
+                  future: DatabaseService().getClothes(widget.categories),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Text('');
+                    } else {
+                      return Text(
+                        snapshot.data.documents.length.toString() + " Items",
+                        style: TextStyle(
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 12.0,
+                          color: Hexcolor('#859289'),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   Widget buildBody() {

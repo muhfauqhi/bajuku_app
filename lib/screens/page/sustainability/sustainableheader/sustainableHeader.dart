@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class HeaderWidget extends StatelessWidget {
+class HeaderWidgetSustainability extends StatelessWidget {
   final String asset;
   final String title;
   final bool headerButton;
-  HeaderWidget({this.asset, this.title, this.headerButton});
+  HeaderWidgetSustainability({this.asset, this.title, this.headerButton});
 
   @override
   Widget build(BuildContext context) {

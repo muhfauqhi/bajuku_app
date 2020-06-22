@@ -14,7 +14,7 @@ class _SustainableDonateState extends State<SustainableDonate> {
   Widget build(BuildContext context) {
     return SustainableTemplate(
       title: widget.title,
-      headerWidget: HeaderWidget(
+      headerWidget: HeaderWidgetSustainability(
         headerButton: false,
         title: 'Charity Oragnisations',
       ),
