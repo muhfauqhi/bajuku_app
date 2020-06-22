@@ -43,8 +43,7 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  new Home()));
+                              builder: (BuildContext context) => new Home()));
                     },
                   ),
                   backgroundColor: Colors.white,
@@ -141,56 +140,7 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
               ),
             ];
           },
-          body: FutureBuilder(
-            future: DatabaseService().getClothes(widget.categories),
-            builder: (_, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text('');
-              } else {
-                return GridView.builder(
-                  padding:
-                      EdgeInsets.only(left: 15, right: 15, top: 9, bottom: 120),
-                  shrinkWrap: true,
-                  itemCount: snapshot.data.documents.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 15.0,
-                      mainAxisSpacing: 15.0),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      // color: Colors.black,
-                      width: 150,
-                      height: 150,
-                      child: GestureDetector(
-                        child: ClipRRect(
-                          child: Card(
-                            child: Image.network(
-                              snapshot.data.documents[index].data['image'],
-                              fit: BoxFit.fitWidth,
-                            ),
-                            elevation: 2.0,
-                          ),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      new TemplateDetail(
-                                          documentId: snapshot
-                                              .data.documents[index].documentID,
-                                          categories: widget.categories,
-                                          idx: index)));
-                        },
-                      ),
-                    );
-                  },
-                );
-              }
-            },
-          ),
+          body: buildBody(),
         ),
       );
     } else {
@@ -198,6 +148,57 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
         child: Text('Test'),
       );
     }
+  }
+
+  Widget buildBody() {
+    return FutureBuilder(
+      future: DatabaseService().getClothes(widget.categories),
+      builder: (_, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text('');
+        } else {
+          return GridView.builder(
+            padding: EdgeInsets.only(left: 15, right: 15, top: 9, bottom: 120),
+            shrinkWrap: true,
+            itemCount: snapshot.data.documents.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 15.0,
+                mainAxisSpacing: 15.0),
+            itemBuilder: (context, index) {
+              return Container(
+                // color: Colors.black,
+                width: 150,
+                height: 150,
+                child: GestureDetector(
+                  child: ClipRRect(
+                    child: Card(
+                      child: Image.network(
+                        snapshot.data.documents[index].data['image'],
+                        fit: BoxFit.fitWidth,
+                      ),
+                      elevation: 2.0,
+                    ),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new TemplateDetail(
+                                    documentId: snapshot
+                                        .data.documents[index].documentID,
+                                    categories: widget.categories,
+                                    idx: index)));
+                  },
+                ),
+              );
+            },
+          );
+        }
+      },
+    );
   }
 
   Future<void> _getUserDoc() async {
