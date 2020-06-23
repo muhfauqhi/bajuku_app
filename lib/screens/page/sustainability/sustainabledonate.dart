@@ -17,6 +17,7 @@ class _SustainableDonateState extends State<SustainableDonate> {
       headerWidget: HeaderWidgetSustainability(
         headerButton: false,
         title: 'Charity Oragnisations',
+        titleActive: false,
       ),
       body: Text(''),
     );

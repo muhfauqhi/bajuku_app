@@ -5,11 +5,13 @@ class HeaderWidgetSustainability extends StatelessWidget {
   final String asset;
   final String title;
   final bool headerButton;
-  HeaderWidgetSustainability({this.asset, this.title, this.headerButton});
+  final bool titleActive;
+  HeaderWidgetSustainability(
+      {this.asset, this.title, this.headerButton, this.titleActive});
 
   @override
   Widget build(BuildContext context) {
-    return headerButton ? buildButton() : buildTitle();
+    return headerButton ? buildButton() : buildTitleWidget();
   }
 
   Widget buildButton() {
@@ -27,13 +29,29 @@ class HeaderWidgetSustainability extends StatelessWidget {
             },
           ),
         ),
-        buildTitle(),
+        buildTitleWidget(),
       ],
     );
   }
 
-  Widget buildTitle() {
-    return Column(
+  Widget buildTitle(var left) {
+    return Container(
+      width: 340,
+      margin: EdgeInsets.only(left: left, top: 12),
+      child: Text(
+        '$title',
+        style: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.0,
+          color: Hexcolor('#3F4D55'),
+        ),
+      ),
+    );
+  }
+
+  Widget buildTitleWidget() {
+    return titleActive ? buildTitle(0.0) : Column(
       children: [
         Divider(
           color: Hexcolor('#FFFFFF'),
@@ -41,19 +59,7 @@ class HeaderWidgetSustainability extends StatelessWidget {
         ),
         Row(
           children: <Widget>[
-            Container(
-              width: 340,
-              margin: EdgeInsets.only(left: 25, top: 12),
-              child: Text(
-                '$title',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.0,
-                  color: Hexcolor('#3F4D55'),
-                ),
-              ),
-            ),
+            buildTitle(25.0),
             Container(
               margin: EdgeInsets.only(top: 12),
               child: Image.asset(

@@ -1,3 +1,4 @@
+import 'package:bajuku_app/screens/page/sustainability/sustainabilitywidget/sustainabilitygridview.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablebuildtemplate.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainableheader/sustainableHeader.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,9 @@ class _SustainableGivenState extends State<SustainableGiven> {
         asset: 'buttongiven.png',
         title: widget.title + ' Items',
         headerButton: true,
+        titleActive: false,
       ),
-      body: Text(''),
+      body: GridViewSustainability(),
     );
   }
 }

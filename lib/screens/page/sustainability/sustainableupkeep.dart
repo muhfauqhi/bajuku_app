@@ -17,6 +17,7 @@ class _SustainableUpkeepState extends State<SustainableUpkeep> {
       headerWidget: HeaderWidgetSustainability(
         headerButton: false,
         title: 'Care & Repair',
+        titleActive: false,
       ),
       body: Text(''),
     );
