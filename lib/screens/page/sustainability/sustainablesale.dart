@@ -21,7 +21,16 @@ class _SustainableSaleState extends State<SustainableSale> {
         headerButton: true,
         titleActive: false,
       ),
-      body: GridViewSustainability(),
+      body: GridViewSustainability(
+        category: '',
+        cardLarge: false,
+        crossAxisCount: 2,
+        itemCount: 8,
+        mainAxisSpacing: 15.0,
+        crossAxisSpacing: 10.0,
+        childAspectRatio: MediaQuery.of(context).size.width /
+            (MediaQuery.of(context).size.height / 1.25),
+      ),
     );
   }
 }
