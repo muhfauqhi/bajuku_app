@@ -7,12 +7,14 @@ class SustainableTemplate extends StatelessWidget {
   final String title;
   final Widget body;
   final Widget headerWidget;
+  final Widget bottomNavigationBar;
 
-  SustainableTemplate({this.title, this.body, this.headerWidget});
+  SustainableTemplate({this.title, this.body, this.headerWidget, this.bottomNavigationBar});
 
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
+      bottomNavigationBar: bottomNavigationBar,
       title: title,
       headerWidget: [
         ProfileHeader(),
