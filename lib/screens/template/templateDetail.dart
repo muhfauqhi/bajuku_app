@@ -17,14 +17,13 @@ class TemplateDetail extends StatefulWidget {
 
 class _TemplateDetailState extends State<TemplateDetail> {
   String url;
+  DatabaseService dbObj = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
       title: 'Clothing Detail',
-      headerWidget: [
-        
-      ],
+      headerWidget: [],
       body: buildBody(),
     );
   }
@@ -135,7 +134,12 @@ class _TemplateDetailState extends State<TemplateDetail> {
                         left: 8.0, right: 8.0, top: 25.0, bottom: 25.0),
                     child: FlatButton(
                       child: Image.asset('assets/images/wornButton.png'),
-                      onPressed: () {},
+                      onPressed: () {
+                        dbObj.updateCloth(widget.documentId);
+                        setState(() {
+                          
+                        });
+                      },
                     ),
                   ),
                   _buildContainerListDark('Notes',

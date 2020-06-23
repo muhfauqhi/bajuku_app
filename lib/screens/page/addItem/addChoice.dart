@@ -1,4 +1,4 @@
-import 'package:bajuku_app/screens/page/add.dart';
+import 'package:bajuku_app/screens/page/addItem/add.dart';
 import 'package:flutter/material.dart';
 
 class AddChoiceDialog extends StatefulWidget {

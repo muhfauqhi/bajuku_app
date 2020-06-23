@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
-import 'package:bajuku_app/screens/page/imageEditor.dart';
-import 'package:bajuku_app/screens/page/outfit/imageEditorOutfit.dart';
+import 'package:bajuku_app/screens/page/image_editor/imageEditorOutfit.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:bajuku_app/screens/page/image_editor/imageEditorCloth.dart';
 
 class PreviewImage extends StatefulWidget {
   final File fileImage;

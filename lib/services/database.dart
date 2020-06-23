@@ -176,6 +176,17 @@ class DatabaseService {
     return qn;
   }
 
+   updateCloth(selectedDoc) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('clothes')
+        .document(selectedDoc)
+        .updateData({'updateDate': DateTime.now().toString(),
+        'worn': FieldValue.increment(1)});
+  }
+
   // Future <DocumentSnapshot> getDocuments() async {
   //   var firebaseUser = await FirebaseAuth.instance.currentUser();
   //   QuerySnapshot result = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').getDocuments();

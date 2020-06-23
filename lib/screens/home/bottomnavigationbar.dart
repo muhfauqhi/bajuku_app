@@ -1,4 +1,4 @@
-import 'package:bajuku_app/screens/page/addChoice.dart';
+import 'package:bajuku_app/screens/page/addItem/addChoice.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablehome.dart';
 import 'package:bajuku_app/screens/template/templateDetailOutfit.dart';
 import 'package:flutter/material.dart';

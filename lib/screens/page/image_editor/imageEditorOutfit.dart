@@ -1,8 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:bajuku_app/screens/home/home.dart';
-import 'package:bajuku_app/screens/page/addOutfitDetail.dart';
+import 'package:bajuku_app/screens/page/addItem/addOutfitDetail.dart';
 import 'package:bajuku_app/screens/page/outfit/navbarOutfit.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';

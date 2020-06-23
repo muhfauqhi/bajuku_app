@@ -6,7 +6,7 @@ import 'package:bajuku_app/screens/page/addItem/datePicker.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsCategories.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsFabrics.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsSeason.dart';
-import 'package:bajuku_app/screens/page/imageEditor.dart';
+import 'package:bajuku_app/screens/page/image_editor/imageEditorCloth.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';

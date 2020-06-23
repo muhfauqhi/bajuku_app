@@ -1,7 +1,7 @@
 import 'package:bajuku_app/models/outfit.dart';
 import 'package:bajuku_app/screens/Page/journal.dart';
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
-import 'package:bajuku_app/screens/page/add.dart';
+import 'package:bajuku_app/screens/page/addItem/add.dart';
 import 'package:bajuku_app/screens/page/homeContent/journal.dart';
 import 'package:bajuku_app/screens/page/homeContent/wardrobe.dart';
 import 'package:bajuku_app/screens/page/sustainable.dart';
@@ -115,7 +115,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           body: TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
-              Wardrobe(userRef: userRef,uid: uid,),
+              Wardrobe(
+                userRef: userRef,
+                uid: uid,
+              ),
               Journal()
             ],
           ),
@@ -144,15 +147,31 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       child: Container(
                         width: 60.0,
                         height: 60.0,
+                        padding: const EdgeInsets.all(2.0),
                         decoration: new BoxDecoration(
-                          border:
-                              Border.all(width: 3, color: Hexcolor('#F4D4B8')),
+                          color: Hexcolor('#F4D488'), // border color
                           shape: BoxShape.circle,
-                          image: new DecorationImage(
-                            fit: BoxFit.fitHeight,
-                            image: new NetworkImage(
-                                "https://cdn.vox-cdn.com/thumbor/U7zc79wuh0qCZxPhGAdi3eJ-q1g=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19228501/acastro_190919_1777_instagram_0003.0.jpg"),
-                          ),
+                        ),
+                        child: StreamBuilder(
+                          stream: userRef.document(uid).snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Text('');
+                            } else {
+                              return CircleAvatar(
+                                backgroundColor: Hexcolor('#37585A'),
+                                child: Text(
+                                  snapshot.data['firstName']
+                                          .toString()
+                                          .substring(0, 1) +
+                                      snapshot.data['lastName']
+                                          .toString()
+                                          .substring(0, 1),
+                                  style: TextStyle(color: Hexcolor('#C4C4C4')),
+                                ),
+                              );
+                            }
+                          },
                         ),
                       ),
                     ),

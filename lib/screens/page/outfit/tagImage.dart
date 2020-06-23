@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:bajuku_app/models/widgetrect.dart';
+import 'package:bajuku_app/screens/page/image_editor/imageEditorOutfit.dart';
 import 'package:bajuku_app/screens/page/outfit/buildTags.dart';
 import 'package:bajuku_app/screens/page/outfit/findSuggestionClothes.dart';
-import 'package:bajuku_app/screens/page/outfit/imageEditorOutfit.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 

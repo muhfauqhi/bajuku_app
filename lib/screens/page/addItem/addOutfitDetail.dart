@@ -1,8 +1,7 @@
 import 'dart:io';
 
 import 'package:bajuku_app/screens/home/home.dart';
-import 'package:bajuku_app/screens/page/imageEditor.dart';
-import 'package:bajuku_app/screens/page/outfit/imageEditorOutfit.dart';
+import 'package:bajuku_app/screens/page/image_editor/imageEditorOutfit.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
