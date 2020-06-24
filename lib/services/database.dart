@@ -107,32 +107,10 @@ class DatabaseService {
     });
   }
 
-  Future setGivenClothes(
-      String productDesc, String price, String condition) async {
-    Clothes clothes;
+  Future setGivenClothes(Clothes clothes, String productDesc, String price,
+      String condition) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
-    clothes = Clothes(
-        "Lyqh2pOdSF1wp8RexH5h",
-        "Nike",
-        ["Footwear", "Shoes"],
-        "Airmax",
-        "Color(0xffffffff)",
-        "123",
-        "dateBought",
-        "endDate",
-        ["fabric"],
-        "https://firebasestorage.googleapis.com/v0/b/bajukuapp-8e2fa.appspot.com/o/clothes%2F1592838649542?alt=media&token=8a37fd3a-42d6-4572-809c-923a51722d25",
-        "price",
-        "notes",
-        ["season"],
-        "size",
-        "startDate",
-        "status",
-        "updateDate",
-        "url",
-        2,
-        2);
-        
+
     updateGivenCloth(clothes.documentId);
     return await firestoreInstance
         .collection('users')
@@ -246,9 +224,7 @@ class DatabaseService {
         .document(firebaseUser.uid)
         .collection('clothes')
         .document(documentId)
-        .updateData({
-      'status': "Given"
-    });
+        .updateData({'status': "Given"});
   }
 
   // Future <DocumentSnapshot> getDocuments() async {
