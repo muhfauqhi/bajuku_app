@@ -212,7 +212,7 @@ class DatabaseService {
         .collection('clothes')
         .document(selectedDoc)
         .updateData({
-      'updateDate': DateTime.now().toString(),
+      'updateDate': DateTime.now(),
       'worn': FieldValue.increment(1)
     });
   }

@@ -206,6 +206,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                           child:
                               Image.asset('assets/images/itemsavedialog.png'),
                           onTap: () {
+                            Navigator.pop(context);
                             Navigator.push(
                                 context,
                                 new MaterialPageRoute(

@@ -7,13 +7,20 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
-class ClothesDetail extends StatelessWidget {
+class ClothesDetail extends StatefulWidget {
   final String title;
   final Clothes clothes;
   final bool buttonWorn;
 
   ClothesDetail({this.title, this.clothes, this.buttonWorn});
+
+  @override
+  _ClothesDetailState createState() => _ClothesDetailState();
+}
+
+class _ClothesDetailState extends State<ClothesDetail> {
   final DatabaseService databaseService = DatabaseService();
+
   final format = new DateFormat('dd MMMM yyyy');
 
   @override
@@ -21,7 +28,7 @@ class ClothesDetail extends StatelessWidget {
     return MyScaffold(
       titleStyle: false,
       leadingActive: true,
-      title: title,
+      title: widget.title,
       headerWidget: [],
       body: Container(
         color: Hexcolor('#FBFBFB'),
@@ -34,7 +41,6 @@ class ClothesDetail extends StatelessWidget {
                     icon: new Image.asset('assets/images/edit.png'),
                     onPressed: () {}),
               ),
-              // Image of Cloth detail
               Container(
                 width: 400,
                 height: 300,
@@ -43,7 +49,7 @@ class ClothesDetail extends StatelessWidget {
                   elevation: 2.0,
                   child: Container(
                     child: Image.network(
-                      clothes.image,
+                      widget.clothes.image,
                       fit: BoxFit.fitWidth,
                     ),
                     decoration: BoxDecoration(
@@ -60,7 +66,7 @@ class ClothesDetail extends StatelessWidget {
                       width: 355,
                       padding: EdgeInsets.only(top: 10),
                       child: Text(
-                        clothes.clothName,
+                        widget.clothes.clothName,
                         style: textStyle(16.0, '#3F4D55', FontWeight.bold,
                             FontStyle.normal, 1.0),
                       ),
@@ -71,7 +77,7 @@ class ClothesDetail extends StatelessWidget {
                           width: 200,
                           padding: EdgeInsets.only(left: 30.0, top: 10.0),
                           child: Text(
-                            clothes.worn.toString() + ' times worn',
+                            widget.clothes.worn.toString() + ' times worn',
                             style: textStyle(16.0, '#859289'),
                           ),
                         ),
@@ -80,7 +86,7 @@ class ClothesDetail extends StatelessWidget {
                           padding: EdgeInsets.only(top: 10.0),
                           child: Text(
                             'Last worn ' +
-                                clothes.worn.toString().toString() +
+                                widget.clothes.worn.toString().toString() +
                                 ' days ago',
                             textAlign: TextAlign.right,
                             style: textStyle(12.0, '#859289'),
@@ -92,48 +98,51 @@ class ClothesDetail extends StatelessWidget {
                 ),
               ),
               _buttonMiddle(context),
-              _buildField('Notes', clothes.notes, '#F8F6F4', false, false),
+              _buildField(
+                  'Notes', widget.clothes.notes, '#F8F6F4', false, false),
               _buildField(
                   'Fabric',
-                  clothes.fabric
-                      .toString()
-                      .substring(1, clothes.fabric.toString().length - 1),
+                  widget.clothes.fabric.toString().substring(
+                      1, widget.clothes.fabric.toString().length - 1),
                   '#FFFFFF',
                   false,
                   false),
-              _buildField('Brand', clothes.brand, '#F8F6F4', false, false),
-              _buildField('Size', clothes.size, '#FFFFFF', false, false),
+              _buildField(
+                  'Brand', widget.clothes.brand, '#F8F6F4', false, false),
+              _buildField('Size', widget.clothes.size, '#FFFFFF', false, false),
               _buildField(
                   'Season',
-                  clothes.season
-                      .toString()
-                      .substring(1, clothes.season.toString().length - 1),
+                  widget.clothes.season.toString().substring(
+                      1, widget.clothes.season.toString().length - 1),
                   '#F8F6F4',
                   false,
                   false),
-              _buildField(
-                  'Price', '€ ' + clothes.price, '#FFFFFF', false, false),
-              _buildField(
-                  'Value Cost', '€ ' + clothes.cost, '#F8F6F4', false, false),
+              _buildField('Price', '€ ' + widget.clothes.price, '#FFFFFF',
+                  false, false),
+              _buildField('Value Cost', '€ ' + widget.clothes.cost, '#F8F6F4',
+                  false, false),
               _buildField(
                   'Date Bought',
-                  format.format(clothes.dateBought.toDate()),
+                  format.format(widget.clothes.dateBought.toDate()),
                   '#FFFFFF',
                   false,
                   false),
-              _buildField('Color', clothes.color.substring(10, 16), '#F8F6F4',
-                  false, true),
-              _buildField('Used in Outfit', clothes.usedInOutfit.toString(),
-                  '#FFFFFF', false, false),
+              _buildField('Color', widget.clothes.color.substring(10, 16),
+                  '#F8F6F4', false, true),
+              _buildField(
+                  'Used in Outfit',
+                  widget.clothes.usedInOutfit.toString(),
+                  '#FFFFFF',
+                  false,
+                  false),
               _buildField(
                   'Tags Category',
-                  clothes.category
-                      .toString()
-                      .substring(1, clothes.category.toString().length - 1),
+                  widget.clothes.category.toString().substring(
+                      1, widget.clothes.category.toString().length - 1),
                   '#F8F6F4',
                   false,
                   false),
-              _buildField('URL', clothes.url, '#FFFFFF', false, false),
+              _buildField('URL', widget.clothes.url, '#FFFFFF', true, false),
               SizedBox(
                 height: 50,
               ),
@@ -146,11 +155,18 @@ class ClothesDetail extends StatelessWidget {
   }
 
   Widget _buttonMiddle(var context) {
-    return buttonWorn ? _buildButton('wornButton', context) : Text('');
+    return widget.buttonWorn ? _buildButton('wornButton', context) : Text('');
   }
 
   Widget _buttonBottom(var context) {
-    return buttonWorn ? Text('') : _buildButton('next', context);
+    return widget.buttonWorn ? Text('') : _buildButton('next', context);
+  }
+
+  onTapWorn() {
+    setState(() {
+      widget.clothes.worn++;
+    });
+    databaseService.updateWorn(widget.clothes.documentId);
   }
 
   Widget _buildButton(var asset, var context) {
@@ -159,15 +175,24 @@ class ClothesDetail extends StatelessWidget {
       child: FlatButton(
         child: Image.asset('assets/images/$asset.png'),
         onPressed: () {
-          return buttonWorn
-              ? databaseService.updateWorn(clothes.documentId)
-              : Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SustainAdd(clothes: clothes, title: title,)));
+          return widget.buttonWorn
+              ? onTapWorn()
+              : Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => SustainAdd(
+                      clothes: widget.clothes,
+                      title: widget.title,
+                    ),
+                  ),
+                );
         },
       ),
     );
   }
 
   Widget _buildFieldURL(var data, var url) {
+    print(widget.clothes.documentId);
     return url
         ? GestureDetector(
             child: Container(
@@ -184,10 +209,15 @@ class ClothesDetail extends StatelessWidget {
               }
             },
           )
-        : Container(
-            child: Text(
-              data,
-              style: textStyle(12.0, '#3F4D55'),
+        : Flexible(
+            child: Container(
+              child: Text(
+                data,
+                style: textStyle(12.0, '#3F4D55'),
+                overflow: TextOverflow.clip,
+                maxLines: 1,
+                softWrap: false,
+              ),
             ),
           );
   }
