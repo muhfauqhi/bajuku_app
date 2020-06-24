@@ -8,16 +8,16 @@ class Clothes {
   String color;
   String cost;
   Timestamp dateBought;
-  String endDate;
+  Timestamp endDate;
   List fabric;
   String image;
   String price;
   String notes;
   List season;
   String size;
-  String startDate;
+  Timestamp startDate;
   String status;
-  String updateDate;
+  Timestamp updateDate;
   String url;
   int usedInOutfit;
   int worn;
@@ -44,4 +44,29 @@ class Clothes {
     this.usedInOutfit,
     this.worn,
   );
+
+  Map<String, dynamic> givenClothMap() {
+    return {
+      "documentId": documentId,
+      "brand": brand,
+      "category": category,
+      "clothName": category,
+      "color": color,
+      "cost": cost,
+      "dateBought": dateBought,
+      "endDate": endDate,
+      "fabric": fabric,
+      "image": image,
+      "price": price,
+      "notes": notes,
+      "season": season,
+      "size": size,
+      "startDate": startDate,
+      "status": status,
+      "updateDate": updateDate,
+      "url": url,
+      "usedInOutfit": usedInOutfit,
+      "worn": worn
+    };
+  }
 }

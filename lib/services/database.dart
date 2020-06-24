@@ -1,3 +1,4 @@
+import 'package:bajuku_app/models/clothes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -106,6 +107,23 @@ class DatabaseService {
     });
   }
 
+  Future setGivenClothes(Clothes clothes, String productDesc, String price,
+      String condition) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+
+    updateGivenCloth(clothes.documentId);
+    return await firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('givenClothes')
+        .add({
+      "clothes": clothes.givenClothMap(),
+      "productDesc": productDesc,
+      "price": price,
+      "condition": condition
+    });
+  }
+
   Stream<QuerySnapshot> getClothesHome() async* {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     firestoreInstance
@@ -176,15 +194,37 @@ class DatabaseService {
     return qn;
   }
 
-   updateWorn(selectedDoc) async {
+  Future getGivenClothes() async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    QuerySnapshot qn = await Firestore.instance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('givenClothes')
+        .getDocuments();
+    return qn;
+  }
+
+  updateWorn(selectedDoc) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     firestoreInstance
         .collection('users')
         .document(firebaseUser.uid)
         .collection('clothes')
         .document(selectedDoc)
-        .updateData({'updateDate': DateTime.now().toString(),
-        'worn': FieldValue.increment(1)});
+        .updateData({
+      'updateDate': DateTime.now().toString(),
+      'worn': FieldValue.increment(1)
+    });
+  }
+
+  updateGivenCloth(documentId) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('clothes')
+        .document(documentId)
+        .updateData({'status': "Given"});
   }
 
   // Future <DocumentSnapshot> getDocuments() async {
