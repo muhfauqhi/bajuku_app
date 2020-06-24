@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Clothes {
   String documentId;
   String brand;
@@ -5,17 +7,17 @@ class Clothes {
   String clothName;
   String color;
   String cost;
-  String dateBought;
-  String endDate;
+  Timestamp dateBought;
+  Timestamp endDate;
   List fabric;
   String image;
   String price;
   String notes;
   List season;
   String size;
-  String startDate;
+  Timestamp startDate;
   String status;
-  String updateDate;
+  Timestamp updateDate;
   String url;
   int usedInOutfit;
   int worn;
