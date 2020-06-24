@@ -1,3 +1,4 @@
+import 'package:bajuku_app/models/clothes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -106,6 +107,45 @@ class DatabaseService {
     });
   }
 
+  Future setGivenClothes(
+      String productDesc, String price, String condition) async {
+    Clothes clothes;
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    clothes = Clothes(
+        "Lyqh2pOdSF1wp8RexH5h",
+        "Nike",
+        ["Footwear", "Shoes"],
+        "Airmax",
+        "Color(0xffffffff)",
+        "123",
+        "dateBought",
+        "endDate",
+        ["fabric"],
+        "https://firebasestorage.googleapis.com/v0/b/bajukuapp-8e2fa.appspot.com/o/clothes%2F1592838649542?alt=media&token=8a37fd3a-42d6-4572-809c-923a51722d25",
+        "price",
+        "notes",
+        ["season"],
+        "size",
+        "startDate",
+        "status",
+        "updateDate",
+        "url",
+        2,
+        2);
+        
+    updateGivenCloth(clothes.documentId);
+    return await firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('givenClothes')
+        .add({
+      "clothes": clothes.givenClothMap(),
+      "productDesc": productDesc,
+      "price": price,
+      "condition": condition
+    });
+  }
+
   Stream<QuerySnapshot> getClothesHome() async* {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     firestoreInstance
@@ -176,15 +216,39 @@ class DatabaseService {
     return qn;
   }
 
-   updateCloth(selectedDoc) async {
+  Future getGivenClothes() async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    QuerySnapshot qn = await Firestore.instance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('givenClothes')
+        .getDocuments();
+    return qn;
+  }
+
+  updateCloth(selectedDoc) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     firestoreInstance
         .collection('users')
         .document(firebaseUser.uid)
         .collection('clothes')
         .document(selectedDoc)
-        .updateData({'updateDate': DateTime.now().toString(),
-        'worn': FieldValue.increment(1)});
+        .updateData({
+      'updateDate': DateTime.now().toString(),
+      'worn': FieldValue.increment(1)
+    });
+  }
+
+  updateGivenCloth(documentId) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('clothes')
+        .document(documentId)
+        .updateData({
+      'status': "Given"
+    });
   }
 
   // Future <DocumentSnapshot> getDocuments() async {

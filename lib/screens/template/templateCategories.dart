@@ -116,7 +116,7 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
           return GridView.builder(
             padding: EdgeInsets.only(left: 15, right: 15, top: 9, bottom: 120),
             shrinkWrap: true,
-            itemCount: snapshot.data.documents.length,
+            itemCount: snapshot.data.document.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 15.0,
