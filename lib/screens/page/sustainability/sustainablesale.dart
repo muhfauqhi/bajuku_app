@@ -1,3 +1,4 @@
+import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitywidget/sustainabilitygridview.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablebuildtemplate.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainableheader/sustainableHeader.dart';
@@ -15,6 +16,7 @@ class _SustainableSaleState extends State<SustainableSale> {
   Widget build(BuildContext context) {
     return SustainableTemplate(
       title: widget.title,
+      bottomNavigationBar: CustomBottomNavigationBar(),
       headerWidget: HeaderWidgetSustainability(
         asset: 'buttonsale.png',
         title: widget.title + ' Items',

@@ -176,7 +176,7 @@ class DatabaseService {
     return qn;
   }
 
-   updateCloth(selectedDoc) async {
+   updateWorn(selectedDoc) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     firestoreInstance
         .collection('users')

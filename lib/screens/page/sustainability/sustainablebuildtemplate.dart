@@ -14,6 +14,8 @@ class SustainableTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
+      leadingActive: true,
+      titleStyle: false,
       bottomNavigationBar: bottomNavigationBar,
       title: title,
       headerWidget: [

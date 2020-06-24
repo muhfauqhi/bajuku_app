@@ -1,3 +1,4 @@
+import 'package:bajuku_app/screens/page/sustainability/sustainabilitywidget/addgiveorsell.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -11,10 +12,10 @@ class HeaderWidgetSustainability extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return headerButton ? buildButton() : buildTitleWidget();
+    return headerButton ? buildButton(context) : buildTitleWidget();
   }
 
-  Widget buildButton() {
+  Widget buildButton(var context) {
     return Column(
       children: <Widget>[
         Container(
@@ -25,7 +26,10 @@ class HeaderWidgetSustainability extends StatelessWidget {
               height: 50,
             ),
             onTap: () {
-              // TODO: implement onTap
+              showDialog(
+                context: context,
+                child: SimpleDialogAddGiveOrSell(),
+              );
             },
           ),
         ),
@@ -51,25 +55,27 @@ class HeaderWidgetSustainability extends StatelessWidget {
   }
 
   Widget buildTitleWidget() {
-    return titleActive ? buildTitle(0.0) : Column(
-      children: [
-        Divider(
-          color: Hexcolor('#FFFFFF'),
-          thickness: 2.0,
-        ),
-        Row(
-          children: <Widget>[
-            buildTitle(25.0),
-            Container(
-              margin: EdgeInsets.only(top: 12),
-              child: Image.asset(
-                'assets/images/jam_settings-alt.png',
-                height: 25,
+    return titleActive
+        ? buildTitle(0.0)
+        : Column(
+            children: [
+              Divider(
+                color: Hexcolor('#FFFFFF'),
+                thickness: 2.0,
               ),
-            )
-          ],
-        ),
-      ],
-    );
+              Row(
+                children: <Widget>[
+                  buildTitle(25.0),
+                  Container(
+                    margin: EdgeInsets.only(top: 12),
+                    child: Image.asset(
+                      'assets/images/jam_settings-alt.png',
+                      height: 25,
+                    ),
+                  )
+                ],
+              ),
+            ],
+          );
   }
 }

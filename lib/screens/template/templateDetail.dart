@@ -135,10 +135,8 @@ class _TemplateDetailState extends State<TemplateDetail> {
                     child: FlatButton(
                       child: Image.asset('assets/images/wornButton.png'),
                       onPressed: () {
-                        dbObj.updateCloth(widget.documentId);
-                        setState(() {
-                          
-                        });
+                        dbObj.updateWorn(widget.documentId);
+                        setState(() {});
                       },
                     ),
                   ),
