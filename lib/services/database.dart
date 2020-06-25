@@ -204,7 +204,7 @@ class DatabaseService {
     return qn;
   }
 
-  updateCloth(selectedDoc) async {
+  updateWorn(selectedDoc) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     firestoreInstance
         .collection('users')
@@ -212,7 +212,7 @@ class DatabaseService {
         .collection('clothes')
         .document(selectedDoc)
         .updateData({
-      'updateDate': DateTime.now().toString(),
+      'updateDate': DateTime.now(),
       'worn': FieldValue.increment(1)
     });
   }

@@ -28,10 +28,9 @@ class _SustainableGivenState extends State<SustainableGiven> {
       body: FutureBuilder(
         future: DatabaseService().getGivenClothes(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (!snapshot.hasData) {
             return Text('');
           } else {
-            print(snapshot.data.documents[0].data['clothes']['price']);
             List<GivenClothes> givenClothList = [];
             for (var i in snapshot.data.documents) {
               givenClothList.add(

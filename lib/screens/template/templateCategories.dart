@@ -1,3 +1,4 @@
+import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:bajuku_app/screens/template/templateDetail.dart';
@@ -28,6 +29,8 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
   Widget build(BuildContext context) {
     if (userRef != null) {
       return MyScaffold(
+        titleStyle: false,
+        leadingActive: true,
         title: 'Your Wardrobe',
         headerWidget: [
           buildHeader(),
@@ -113,24 +116,50 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Text('');
         } else {
+          List<Clothes> clothesList = [];
+          for (var i in snapshot.data.documents) {
+            clothesList.add(
+              Clothes(
+                i.documentID,
+                i.data['brand'],
+                i.data['category'],
+                i.data['clothName'],
+                i.data['color'],
+                i.data['cost'],
+                i.data['dateBought'],
+                i.data['endDate'],
+                i.data['fabric'],
+                i.data['image'],
+                i.data['price'],
+                i.data['notes'],
+                i.data['season'],
+                i.data['size'],
+                i.data['startDate'],
+                i.data['status'],
+                i.data['updateDate'],
+                i.data['url'],
+                i.data['usedInOutfit'],
+                i.data['worn'],
+              ),
+            );
+          }
           return GridView.builder(
             padding: EdgeInsets.only(left: 15, right: 15, top: 9, bottom: 120),
             shrinkWrap: true,
-            itemCount: snapshot.data.document.length,
+            itemCount: clothesList.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 15.0,
                 mainAxisSpacing: 15.0),
             itemBuilder: (context, index) {
               return Container(
-                // color: Colors.black,
                 width: 150,
                 height: 150,
                 child: GestureDetector(
                   child: ClipRRect(
                     child: Card(
                       child: Image.network(
-                        snapshot.data.documents[index].data['image'],
+                        clothesList.elementAt(index).image,
                         fit: BoxFit.fitWidth,
                       ),
                       elevation: 2.0,
@@ -139,14 +168,13 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
                   ),
                   onTap: () {
                     Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new TemplateDetail(
-                                    documentId: snapshot
-                                        .data.documents[index].documentID,
-                                    categories: widget.categories,
-                                    idx: index)));
+                      context,
+                      new MaterialPageRoute(
+                        builder: (BuildContext context) => TemplateDetail(
+                          clothes: clothesList[index],
+                        ),
+                      ),
+                    );
                   },
                 ),
               );

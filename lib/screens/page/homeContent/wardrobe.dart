@@ -9,7 +9,7 @@ class Wardrobe extends StatelessWidget {
   final CollectionReference userRef;
   final String uid;
   Wardrobe({this.userRef, this.uid});
-  
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -157,7 +157,6 @@ class Wardrobe extends StatelessWidget {
                     icon: new Image.asset('assets/images/seeall@3x.png'),
                     iconSize: 40,
                     onPressed: () {
-                      Navigator.of(context).pop();
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
@@ -180,15 +179,27 @@ class Wardrobe extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(top: 3.0),
-          child: _buildTemplateRowCategory('Tops', 'Jacket', 'assets/images/tops_asset.png', 'assets/images/jacket_asset.png', TemplateCategories(
-                                            categories: "Tops",
-                                          ), TemplateCategories(
-                                            categories: "Jackets and Hoodies",
-                                          )),
+          child: _buildTemplateRowCategory(
+              'Tops',
+              'Jacket',
+              'assets/images/tops_asset.png',
+              'assets/images/jacket_asset.png',
+              TemplateCategories(
+                categories: "Tops",
+              ),
+              TemplateCategories(
+                categories: "Jackets and Hoodies",
+              )),
         ),
         Padding(
           padding: EdgeInsets.only(top: 10.0),
-          child: _buildTemplateRowCategory('Jeans', 'Bags', 'assets/images/jeans_asset.png', 'assets/images/bags_asset.png', TemplateCategories(categories: "Jeans"), TemplateCategories(categories: "Bags")),
+          child: _buildTemplateRowCategory(
+              'Jeans',
+              'Bags',
+              'assets/images/jeans_asset.png',
+              'assets/images/bags_asset.png',
+              TemplateCategories(categories: "Jeans"),
+              TemplateCategories(categories: "Bags")),
         ),
       ],
     );
@@ -214,7 +225,13 @@ class Wardrobe extends StatelessWidget {
     );
   }
 
-  Widget _buildTemplateRowCategory(var leftCategory, var rightCategory,var leftAsset, var rightAsset, var leftCategoryRoute, var rightCategoryRoute){
+  Widget _buildTemplateRowCategory(
+      var leftCategory,
+      var rightCategory,
+      var leftAsset,
+      var rightAsset,
+      var leftCategoryRoute,
+      var rightCategoryRoute) {
     return Row(
       children: <Widget>[
         Column(
