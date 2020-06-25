@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Outfit{
   var image;
   var notes;
@@ -5,7 +7,7 @@ class Outfit{
   var taggedClothes;
   var taggedClothesName;
   var totalCost;
-  var created;
+  Timestamp created;
 
   Outfit(this.image, this.notes, this.outfitName, this.taggedClothes, this.taggedClothesName, this.totalCost, this.created);
 

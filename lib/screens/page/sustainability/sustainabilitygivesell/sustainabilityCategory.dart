@@ -1,14 +1,15 @@
 import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
-import 'package:bajuku_app/screens/page/sustainability/sustainabilitygivesell/sustainabilitydetail.dart';
+import 'package:bajuku_app/screens/page/sustainability/sustainabilitygivesell/sustainabilityWardrobe.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class SustainCategory extends StatelessWidget {
   final List<Clothes> clothesList;
   final String title;
+  final String type;
 
-  SustainCategory({this.clothesList, this.title});
+  SustainCategory({this.clothesList, this.title, this.type});
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
@@ -66,8 +67,10 @@ class SustainCategory extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (BuildContext context) => SustainDetail(
-                      clothes: clothesList[index], title: title,
+                    builder: (BuildContext context) => SustainDetailWardrobe(
+                      clothes: clothesList[index],
+                      title: title,
+                      type: type,
                     ),
                   ),
                 );

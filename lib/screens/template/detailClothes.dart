@@ -1,6 +1,6 @@
 import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
-import 'package:bajuku_app/screens/page/sustainability/sustainabilitygivesell/sustainabilityAdd.dart';
+import 'package:bajuku_app/screens/page/sustainability/sustainabilitygivesell/sustainabilityAddClothes.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -11,8 +11,9 @@ class ClothesDetail extends StatefulWidget {
   final String title;
   final Clothes clothes;
   final bool buttonWorn;
+  final String type;
 
-  ClothesDetail({this.title, this.clothes, this.buttonWorn});
+  ClothesDetail({this.title, this.clothes, this.buttonWorn, this.type});
 
   @override
   _ClothesDetailState createState() => _ClothesDetailState();
@@ -180,9 +181,10 @@ class _ClothesDetailState extends State<ClothesDetail> {
               : Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (BuildContext context) => SustainAdd(
+                    builder: (BuildContext context) => SustainAddClothes(
                       clothes: widget.clothes,
                       title: widget.title,
+                      type: widget.type,
                     ),
                   ),
                 );

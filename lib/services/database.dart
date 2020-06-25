@@ -107,7 +107,7 @@ class DatabaseService {
     });
   }
 
-  Future setGivenClothes(Clothes clothes, String productDesc, String price,
+  Future setGivenOrSellClothes(Clothes clothes, String productDesc, String price,
       String condition) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
 
