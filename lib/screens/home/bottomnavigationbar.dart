@@ -60,8 +60,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: GestureDetector(
               child: Image.asset('assets/images/profilenav.png'),
               onTap: () {
-                      // DatabaseService().setGivenClothes("new clothes", "123", "used");
-                      print("test");
+                
               },
             ),
           ),
