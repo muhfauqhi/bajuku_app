@@ -20,6 +20,7 @@ class _SustainableGivenState extends State<SustainableGiven> {
       bottomNavigationBar: CustomBottomNavigationBar(),
       title: widget.title,
       headerWidget: HeaderWidgetSustainability(
+        type: 'Given',
         asset: 'buttongiven.png',
         title: widget.title + ' Items',
         headerButton: true,

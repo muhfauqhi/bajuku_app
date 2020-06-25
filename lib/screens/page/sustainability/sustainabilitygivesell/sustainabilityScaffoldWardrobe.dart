@@ -5,7 +5,11 @@ import 'package:bajuku_app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class SustainScaffold extends StatelessWidget {
+class SustainScaffoldWardrobe extends StatelessWidget {
+  final String type;
+
+  SustainScaffoldWardrobe({Key key, this.type}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
@@ -104,6 +108,7 @@ class SustainScaffold extends StatelessWidget {
                             builder: (BuildContext context) => SustainCategory(
                               clothesList: clothesList,
                               title: category,
+                              type: type,
                             ),
                           ),
                         );

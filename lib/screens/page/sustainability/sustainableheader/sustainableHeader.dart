@@ -7,8 +7,9 @@ class HeaderWidgetSustainability extends StatelessWidget {
   final String title;
   final bool headerButton;
   final bool titleActive;
+  final String type;
   HeaderWidgetSustainability(
-      {this.asset, this.title, this.headerButton, this.titleActive});
+      {this.asset, this.title, this.headerButton, this.titleActive, this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,9 @@ class HeaderWidgetSustainability extends StatelessWidget {
             onTap: () {
               showDialog(
                 context: context,
-                child: SimpleDialogAddGiveOrSell(),
+                child: SimpleDialogAddGiveOrSell(
+                  type: type,
+                ),
               );
             },
           ),
