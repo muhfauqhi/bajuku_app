@@ -86,9 +86,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
                           width: 185,
                           padding: EdgeInsets.only(top: 10.0),
                           child: Text(
-                            'Last worn ' +
-                                DateTime.now().difference(widget.clothes.updateDate.toDate()).inDays.toString() +
-                                ' days ago',
+                            lastWornVal(),
                             textAlign: TextAlign.right,
                             style: textStyle(12.0, '#859289'),
                           ),
@@ -157,6 +155,19 @@ class _ClothesDetailState extends State<ClothesDetail> {
     );
   }
 
+  String lastWornVal() {
+    if (widget.clothes.worn > 0) {
+      return 'Last worn ' +
+          DateTime.now()
+              .difference(widget.clothes.updateDate.toDate())
+              .inDays
+              .toString() +
+          ' days ago';
+    } else {
+      return 'Last worn ' + '0 days ago';
+    }
+  }
+
   Widget _buttonMiddle(var context) {
     return widget.buttonWorn ? _buildButton('wornButton', context) : Text('');
   }
@@ -179,7 +190,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
         child: Image.asset('assets/images/$asset.png'),
         onPressed: () {
           return widget.buttonWorn
-              ? onTapWorn()
+              ? onTapWornVal()
               : Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -193,6 +204,14 @@ class _ClothesDetailState extends State<ClothesDetail> {
         },
       ),
     );
+  }
+
+  Widget onTapWornVal() {
+    if (widget.clothes.status == "Available") {
+      return onTapWorn();
+    } else {
+      return Text("");
+    }
   }
 
   Widget _buildFieldURL(var data, var url) {
