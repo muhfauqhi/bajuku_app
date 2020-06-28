@@ -105,7 +105,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   buildWidget(
-                      DatabaseService().getClothes('All Items'), "Pieces"),
+                      DatabaseService().getClothes('All Items'), "Clothes"),
                   buildWidget(DatabaseService().getOutfit(), "Outfits"),
                   Column(
                     children: <Widget>[

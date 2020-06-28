@@ -87,7 +87,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
                           padding: EdgeInsets.only(top: 10.0),
                           child: Text(
                             'Last worn ' +
-                                widget.clothes.worn.toString().toString() +
+                                DateTime.now().difference(widget.clothes.updateDate.toDate()).inDays.toString() +
                                 ' days ago',
                             textAlign: TextAlign.right,
                             style: textStyle(12.0, '#859289'),
