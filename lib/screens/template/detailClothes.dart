@@ -178,6 +178,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
 
   onTapWorn() {
     setState(() {
+      print(widget.clothes.updateDate.toString());
       widget.clothes.worn++;
     });
     databaseService.updateWorn(widget.clothes.documentId);
