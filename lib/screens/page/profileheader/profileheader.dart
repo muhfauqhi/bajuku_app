@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class ProfileHeader extends StatefulWidget {
   @override
   _ProfileHeaderState createState() => _ProfileHeaderState();
@@ -65,10 +64,10 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                             child: Text(
                               snapshot.data['firstName']
                                       .toString()
-                                      .substring(0, 1) +
+                                      .substring(0, 1).toUpperCase() +
                                   snapshot.data['lastName']
                                       .toString()
-                                      .substring(0, 1),
+                                      .substring(0, 1).toUpperCase(),
                               style: TextStyle(color: Hexcolor('#C4C4C4')),
                             ),
                           );
@@ -107,25 +106,34 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                   buildWidget(
                       DatabaseService().getClothes('All Items'), "Clothes"),
                   buildWidget(DatabaseService().getOutfit(), "Outfits"),
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        '10',
-                        style: TextStyle(
-                            color: Hexcolor('#3F4D55'),
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16),
-                      ),
-                      Text(
-                        'Points',
-                        style: TextStyle(
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16,
-                            color: Hexcolor('#859289')),
-                      )
-                    ],
-                  )
+                  // buildWidget(DatabaseService()., text)
+                  StreamBuilder(
+                      stream: userRef.document(uid).snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Text('');
+                        } else {
+                          return Column(
+                            children: <Widget>[
+                              Text(
+                                snapshot.data['points'].toString(),
+                                style: TextStyle(
+                                    color: Hexcolor('#3F4D55'),
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16),
+                              ),
+                              Text(
+                                'Points',
+                                style: TextStyle(
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 16,
+                                    color: Hexcolor('#859289')),
+                              )
+                            ],
+                          );
+                        }
+                      }),
                 ],
               ),
             ),
@@ -177,7 +185,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
 
     setState(() {
-    uid = firebaseUser.uid;
+      uid = firebaseUser.uid;
     });
   }
 }

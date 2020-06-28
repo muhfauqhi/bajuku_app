@@ -40,6 +40,7 @@ class DatabaseService {
       "email": email,
       "created": FieldValue.serverTimestamp(),
       "profilePicture": '',
+      "points": FieldValue.increment(0),
     });
   }
 
@@ -61,6 +62,7 @@ class DatabaseService {
       String url,
       String image) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
+    updatePoints(5);
     return await firestoreInstance
         .collection('users')
         .document(firebaseUser.uid)
@@ -92,6 +94,7 @@ class DatabaseService {
   Future setOutfit(String image, String notes, String name, String totalCost,
       Map mapOfCloth, List<String> clothNameList) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
+    updatePoints(3);
     return await firestoreInstance
         .collection('users')
         .document(firebaseUser.uid)
@@ -112,6 +115,7 @@ class DatabaseService {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
 
     updateGivenCloth(clothes.documentId, type);
+    updatePoints(10);
     return await firestoreInstance
         .collection('users')
         .document(firebaseUser.uid)
@@ -225,6 +229,14 @@ class DatabaseService {
         .updateData({'status': type});
   }
 
+  updatePoints(var points) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .updateData({'points': FieldValue.increment(points)});
+  }
+
   Future getClothesInSustainability(String category) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     if (category == 'All Items') {
@@ -240,7 +252,8 @@ class DatabaseService {
           .collection('users')
           .document(firebaseUser.uid)
           .collection('clothes')
-          .where('category', arrayContains: 'Jackets and Hoodies').where('status', isEqualTo: 'Available')
+          .where('category', arrayContains: 'Jackets and Hoodies')
+          .where('status', isEqualTo: 'Available')
           .getDocuments();
       return qn;
     } else {
@@ -248,7 +261,8 @@ class DatabaseService {
           .collection('users')
           .document(firebaseUser.uid)
           .collection('clothes')
-          .where('category', arrayContains: category).where('status', isEqualTo: 'Available')
+          .where('category', arrayContains: category)
+          .where('status', isEqualTo: 'Available')
           .getDocuments();
       return qn;
     }

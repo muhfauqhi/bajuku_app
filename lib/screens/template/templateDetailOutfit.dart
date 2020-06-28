@@ -121,21 +121,25 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
       child: Row(
         children: <Widget>[
           Container(
-            width: 200,
+            width: 160,
             margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
             child: Text(
               'Total Cost',
               style: TextStyle(fontSize: 16, color: Hexcolor('#859289')),
             ),
           ),
-          Container(
-            margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: Text(
-              '€ ' + totalCost,
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                  color: Hexcolor('#859289')),
+          Flexible(
+            child: Container(
+              width: 200,
+              margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+              child: Text(
+                '€ ' + totalCost,
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    color: Hexcolor('#859289')),
+              ),
             ),
           )
         ],
@@ -148,21 +152,26 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
       child: Row(
         children: <Widget>[
           Container(
-            width: 200,
+            width: 160,
             margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
             child: Text(
               'Outfit Name',
               style: TextStyle(fontSize: 16, color: Hexcolor('#859289')),
             ),
           ),
-          Container(
-            margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: Text(
-              outfitName,
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                  color: Hexcolor('#859289')),
+          Flexible(
+            child: Container(
+              width: 200,
+              margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+              child: Text(
+                outfitName,
+                textAlign: TextAlign.right,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    color: Hexcolor('#859289')),
+              ),
             ),
           )
         ],
@@ -277,7 +286,7 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
                     fit: BoxFit.fill,
                   ),
                 ),
-                for(var item in children ) item
+                for (var item in children) item
               ],
             ),
             buildContainerRowButton(),
