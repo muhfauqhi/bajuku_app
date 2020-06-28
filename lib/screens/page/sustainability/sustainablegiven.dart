@@ -27,7 +27,7 @@ class _SustainableGivenState extends State<SustainableGiven> {
         titleActive: false,
       ),
       body: FutureBuilder(
-        future: DatabaseService().getSustainabilityClothes(),
+        future: DatabaseService().getSustainabilityClothes('Given'),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Text('');

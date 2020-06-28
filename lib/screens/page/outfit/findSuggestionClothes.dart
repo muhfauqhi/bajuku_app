@@ -1,3 +1,4 @@
+import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -12,6 +13,7 @@ class _SuggestionClothesState extends State<SuggestionClothes> {
   String category = '';
   String documentId = '';
   String price = '';
+  List<Clothes> clothesList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -54,49 +56,75 @@ class _SuggestionClothesState extends State<SuggestionClothes> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Text('');
                     } else {
+                      for (var i in snapshot.data.documents) {
+                        clothesList.add(
+                          Clothes(
+                            i.documentID,
+                            i.data['brand'],
+                            i.data['category'],
+                            i.data['clothName'],
+                            i.data['color'],
+                            i.data['cost'],
+                            i.data['dateBought'],
+                            i.data['endDate'],
+                            i.data['fabric'],
+                            i.data['image'],
+                            i.data['price'],
+                            i.data['notes'],
+                            i.data['season'],
+                            i.data['size'],
+                            i.data['startDate'],
+                            i.data['status'],
+                            i.data['updateDate'],
+                            i.data['url'],
+                            i.data['usedInOutfit'],
+                            i.data['worn'],
+                          ),
+                        );
+                      }
                       return ListView.separated(
                         shrinkWrap: true,
                         separatorBuilder: (context, index) => Divider(),
-                        itemCount: snapshot.data.documents.length,
+                        itemCount: clothesList.length,
                         itemBuilder: (context, index) {
-                          category = snapshot
-                              .data.documents[index].data['category']
+                          category = clothesList
+                              .elementAt(index)
+                              .category
                               .toString()
                               .substring(
                                   1,
-                                  snapshot.data.documents[index]
-                                          .data['category']
+                                  clothesList
+                                          .elementAt(index)
+                                          .category
                                           .toString()
                                           .length -
                                       1);
-                          clothName =
-                              snapshot.data.documents[index].data['clothName'];
-                          documentId =
-                              snapshot.data.documents[index].documentID;
+                          clothName = clothesList.elementAt(index).clothName;
+                          documentId = clothesList.elementAt(index).documentId;
                           return ListTile(
                             leading: CircleAvatar(
                               backgroundImage: NetworkImage(
-                                  snapshot.data.documents[index].data['image']),
+                                  clothesList.elementAt(index).image),
                             ),
                             title: Text(clothName),
                             subtitle: Text(category),
                             onTap: () {
-                              price =
-                                  snapshot.data.documents[index].data['price'];
-                              category = snapshot
-                                  .data.documents[index].data['category']
+                              price = clothesList.elementAt(index).price;
+                              category = clothesList
+                                  .elementAt(index)
+                                  .category
                                   .toString()
                                   .substring(
                                       1,
-                                      snapshot.data.documents[index]
-                                              .data['category']
+                                      clothesList
+                                              .elementAt(index)
+                                              .category
                                               .toString()
                                               .length -
                                           1);
-                              clothName = snapshot
-                                  .data.documents[index].data['clothName'];
+                              clothName = clothesList.elementAt(index).clothName;
                               documentId =
-                                  snapshot.data.documents[index].documentID;
+                                  clothesList.elementAt(index).documentId;
                               Navigator.pop(context, {
                                 'clothName': '$clothName',
                                 'category': '$category',
