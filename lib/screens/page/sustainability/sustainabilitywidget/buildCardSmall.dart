@@ -90,27 +90,34 @@ class _CardSmallState extends State<CardSmall> {
                     StreamBuilder(
                         stream: userRef.document(uid).snapshots(),
                         builder: (context, snapshot) {
-                          return Container(
-                            child: CircleAvatar(
-                              radius: 14,
-                              backgroundColor: Hexcolor('#37585A'),
-                              child: Text(
-                                snapshot.data['firstName']
-                                        .toString()
-                                        .substring(0, 1) +
-                                    snapshot.data['lastName']
-                                        .toString()
-                                        .substring(0, 1),
-                                style: TextStyle(color: Hexcolor('#C4C4C4'), fontSize: 12),
+                          if (!snapshot.hasData) {
+                            return Text('');
+                          } else {
+                            return Container(
+                              child: CircleAvatar(
+                                radius: 14,
+                                backgroundColor: Hexcolor('#37585A'),
+                                child: Text(
+                                  snapshot.data['firstName']
+                                          .toString()
+                                          .substring(0, 1)
+                                          .toUpperCase() +
+                                      snapshot.data['lastName']
+                                          .toString()
+                                          .substring(0, 1)
+                                          .toUpperCase(),
+                                  style: TextStyle(
+                                      color: Hexcolor('#C4C4C4'), fontSize: 12),
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          }
                         }),
                     Container(
-                      width: 15,
-                      height: 15,
-                      margin: EdgeInsets.only(left: 100),
-                      child: Image.asset('assets/images/love.png'))
+                        width: 15,
+                        height: 15,
+                        margin: EdgeInsets.only(left: 100),
+                        child: Image.asset('assets/images/love.png'))
                   ],
                 ),
               )
@@ -121,11 +128,11 @@ class _CardSmallState extends State<CardSmall> {
     );
   }
 
-  String buildPriceText(){
-    if(widget.sustainabilityClothes.price=="Free"){
+  String buildPriceText() {
+    if (widget.sustainabilityClothes.price == "Free") {
       return widget.sustainabilityClothes.price;
-    }else{
-      return "€"+widget.sustainabilityClothes.price;
+    } else {
+      return "€" + widget.sustainabilityClothes.price;
     }
   }
 
