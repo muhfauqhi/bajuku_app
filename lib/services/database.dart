@@ -107,15 +107,15 @@ class DatabaseService {
     });
   }
 
-  Future setGivenOrSellClothes(Clothes clothes, String productDesc, String price,
-      String condition) async {
+  Future setGivenOrSellClothes(Clothes clothes, String productDesc,
+      String price, String condition, String type) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
 
-    updateGivenCloth(clothes.documentId);
+    updateGivenCloth(clothes.documentId, type);
     return await firestoreInstance
         .collection('users')
         .document(firebaseUser.uid)
-        .collection('givenClothes')
+        .collection('sustainability')
         .add({
       "clothes": clothes.givenClothMap(),
       "productDesc": productDesc,
@@ -194,12 +194,12 @@ class DatabaseService {
     return qn;
   }
 
-  Future getGivenClothes() async {
+  Future getSustainabilityClothes() async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     QuerySnapshot qn = await Firestore.instance
         .collection('users')
         .document(firebaseUser.uid)
-        .collection('givenClothes')
+        .collection('sustainability')
         .getDocuments();
     return qn;
   }
@@ -211,20 +211,47 @@ class DatabaseService {
         .document(firebaseUser.uid)
         .collection('clothes')
         .document(selectedDoc)
-        .updateData({
-      'updateDate': DateTime.now(),
-      'worn': FieldValue.increment(1)
-    });
+        .updateData(
+            {'updateDate': DateTime.now(), 'worn': FieldValue.increment(1)});
   }
 
-  updateGivenCloth(documentId) async {
+  updateGivenCloth(documentId, String type) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     firestoreInstance
         .collection('users')
         .document(firebaseUser.uid)
         .collection('clothes')
         .document(documentId)
-        .updateData({'status': "Given"});
+        .updateData({'status': type});
+  }
+
+  Future getClothesInSustainability(String category) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    if (category == 'All Items') {
+      QuerySnapshot qn = await Firestore.instance
+          .collection('users')
+          .document(firebaseUser.uid)
+          .collection('clothes')
+          .where('status', isEqualTo: 'Available')
+          .getDocuments();
+      return qn;
+    } else if (category == 'Jacket') {
+      QuerySnapshot qn = await Firestore.instance
+          .collection('users')
+          .document(firebaseUser.uid)
+          .collection('clothes')
+          .where('category', arrayContains: 'Jackets and Hoodies').where('status', isEqualTo: 'Available')
+          .getDocuments();
+      return qn;
+    } else {
+      QuerySnapshot qn = await Firestore.instance
+          .collection('users')
+          .document(firebaseUser.uid)
+          .collection('clothes')
+          .where('category', arrayContains: category).where('status', isEqualTo: 'Available')
+          .getDocuments();
+      return qn;
+    }
   }
 
   // Future <DocumentSnapshot> getDocuments() async {

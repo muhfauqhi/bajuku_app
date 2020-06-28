@@ -13,7 +13,8 @@ class BuildTextField extends StatefulWidget {
   final Clothes clothes;
   final Outfit outfit;
   final String type;
-  final Future buttonOnTap;
+  final Function onChanged;
+  final Function onTap;
 
   BuildTextField({
     Key key,
@@ -24,7 +25,8 @@ class BuildTextField extends StatefulWidget {
     this.clothes,
     this.outfit,
     this.type,
-    this.buttonOnTap,
+    this.onChanged,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -34,7 +36,7 @@ class BuildTextField extends StatefulWidget {
 class _BuildTextFieldState extends State<BuildTextField> {
   final format = new DateFormat('dd MMMM yyyy');
   final DatabaseService databaseService = DatabaseService();
-  String temp;
+
   @override
   Widget build(BuildContext context) {
     switch (widget.widget) {
@@ -69,14 +71,14 @@ class _BuildTextFieldState extends State<BuildTextField> {
         'assets/images/$asset.png',
         width: 350,
       ),
-      onTap: () {
-      },
+      onTap: widget.onTap,
     );
   }
 
   Widget _buildNotes(var type, var typeImage) {
     return Container(
       child: TextFormField(
+        onChanged: widget.onChanged,
         maxLines: 5,
         decoration: InputDecoration(
           enabledBorder: UnderlineInputBorder(
@@ -154,6 +156,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
       return Expanded(
         child: Container(
           child: TextFormField(
+            onChanged: widget.onChanged,
             keyboardType: TextInputType.number,
             style: textStyle(12.0, '#3F4D55'),
             decoration: InputDecoration(
@@ -171,6 +174,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
       return Expanded(
         child: Container(
           child: TextFormField(
+            onChanged: widget.onChanged,
             style: textStyle(12.0, '#3F4D55'),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(

@@ -1,9 +1,11 @@
 import 'package:bajuku_app/models/clothes.dart';
+import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:bajuku_app/screens/template/buildTextField.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class SustainAddClothes extends StatelessWidget {
   final Clothes clothes;
   final String title;
@@ -13,10 +15,11 @@ class SustainAddClothes extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
 
-  String price;
-  String notes;
-  String condition;
-  String location;
+  String price = '';
+  String productDesc = '';
+  String condition = '';
+  String location = '';
+  final DatabaseService databaseService = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +34,9 @@ class SustainAddClothes extends StatelessWidget {
           child: Column(
             children: [
               BuildTextField(
+                onChanged: (val) {
+                  productDesc = val;
+                },
                 type: 'Clothes',
                 clothes: clothes,
                 widget: 'notes',
@@ -44,11 +50,17 @@ class SustainAddClothes extends StatelessWidget {
               ),
               textFieldGivenOrSell(),
               BuildTextField(
+                onChanged: (val) {
+                  condition = val;
+                },
                 color: '#FFFFFF',
                 desc: 'Condition',
                 enabled: true,
               ),
               BuildTextField(
+                onChanged: (val) {
+                  location = val;
+                },
                 color: '#F8F6F4',
                 desc: 'Location',
                 enabled: true,
@@ -59,6 +71,21 @@ class SustainAddClothes extends StatelessWidget {
               BuildTextField(
                 widget: 'button',
                 type: type,
+                onTap: () {
+                  databaseService.setGivenOrSellClothes(
+                      clothes, productDesc, price, condition, type);
+                  showDialog(
+                    context: context,
+                    child: GestureDetector(
+                      onTap: () {
+                        print(type);
+                        Navigator.pop(context);
+                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Home(currentIndex: 0,)));
+                      },
+                      child: Image.asset('assets/images/${type}Post.png'),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -69,6 +96,7 @@ class SustainAddClothes extends StatelessWidget {
 
   Widget textFieldGivenOrSell() {
     if (type == 'Given') {
+      price = 'Free';
       return BuildTextField(
         widget: 'Free',
         color: '#F8F6F4',
@@ -77,6 +105,9 @@ class SustainAddClothes extends StatelessWidget {
       );
     } else {
       return BuildTextField(
+        onChanged: (val) {
+          price = val;
+        },
         color: '#F8F6F4',
         desc: 'Price',
         enabled: true,
