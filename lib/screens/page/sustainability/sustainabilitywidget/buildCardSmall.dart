@@ -1,11 +1,28 @@
 import 'package:bajuku_app/models/sustainabilityClothes.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class CardSmall extends StatelessWidget {
+class CardSmall extends StatefulWidget {
   final SustainabilityClothes sustainabilityClothes;
 
   CardSmall({this.sustainabilityClothes});
+
+  @override
+  _CardSmallState createState() => _CardSmallState();
+}
+
+class _CardSmallState extends State<CardSmall> {
+  CollectionReference userRef;
+  String uid;
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserDoc();
+    _getUid();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +37,7 @@ class CardSmall extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: Image.network(
-                sustainabilityClothes.clothes['image'],
+                widget.sustainabilityClothes.clothes['image'],
                 height: 130,
                 width: 140,
                 fit: BoxFit.cover,
@@ -37,7 +54,7 @@ class CardSmall extends StatelessWidget {
                       margin: EdgeInsets.only(left: 15.0),
                       width: 100,
                       child: Text(
-                        sustainabilityClothes.clothes['clothName'],
+                        widget.sustainabilityClothes.clothes['clothName'],
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 12.0,
@@ -49,14 +66,74 @@ class CardSmall extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Icon Settings TODO
+                  Container(
+                    width: 20,
+                    margin: EdgeInsets.only(right: 5),
+                    child: Image.asset('assets/images/more.png'),
+                  )
                 ],
               ),
-              
+              Container(
+                width: 140,
+                margin: EdgeInsets.only(left: 0, top: 5),
+                child: Text(
+                  widget.sustainabilityClothes.price,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 12, color: Hexcolor('#859289')),
+                ),
+              ),
+              Container(
+                width: 200,
+                margin: EdgeInsets.only(left: 13, top: 5),
+                child: Row(
+                  children: <Widget>[
+                    StreamBuilder(
+                        stream: userRef.document(uid).snapshots(),
+                        builder: (context, snapshot) {
+                          return Container(
+                            child: CircleAvatar(
+                              radius: 14,
+                              backgroundColor: Hexcolor('#37585A'),
+                              child: Text(
+                                snapshot.data['firstName']
+                                        .toString()
+                                        .substring(0, 1) +
+                                    snapshot.data['lastName']
+                                        .toString()
+                                        .substring(0, 1),
+                                style: TextStyle(color: Hexcolor('#C4C4C4'), fontSize: 12),
+                              ),
+                            ),
+                          );
+                        }),
+                    Container(
+                      width: 15,
+                      height: 15,
+                      margin: EdgeInsets.only(left: 100),
+                      child: Image.asset('assets/images/love.png'))
+                  ],
+                ),
+              )
             ],
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _getUserDoc() async {
+    final Firestore _firestore = Firestore.instance;
+
+    setState(() {
+      userRef = _firestore.collection('users');
+    });
+  }
+
+  Future<void> _getUid() async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+
+    setState(() {
+      uid = firebaseUser.uid;
+    });
   }
 }

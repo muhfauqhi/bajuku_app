@@ -1,4 +1,5 @@
 import 'package:bajuku_app/models/clothes.dart';
+import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitygivesell/sustainabilityAddClothes.dart';
 import 'package:bajuku_app/services/database.dart';
@@ -178,10 +179,30 @@ class _ClothesDetailState extends State<ClothesDetail> {
 
   onTapWorn() {
     setState(() {
-      print(widget.clothes.updateDate.toString());
       widget.clothes.worn++;
     });
     databaseService.updateWorn(widget.clothes.documentId);
+  }
+
+  Future buildShowDialogCannotWorn(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+            contentPadding: EdgeInsets.only(top: 0.0),
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top:35),
+                height: 100,
+                child: Text(
+                    "This item already " + widget.clothes.status.toString(),
+                    textAlign: TextAlign.center,),
+              )
+            ],
+          );
+        });
   }
 
   Widget _buildButton(var asset, var context) {
@@ -207,11 +228,11 @@ class _ClothesDetailState extends State<ClothesDetail> {
     );
   }
 
-  Widget onTapWornVal() {
+  onTapWornVal() {
     if (widget.clothes.status == "Available") {
       return onTapWorn();
     } else {
-      return Text("");
+      return buildShowDialogCannotWorn(context);
     }
   }
 

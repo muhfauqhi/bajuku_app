@@ -215,6 +215,17 @@ class DatabaseService {
             {'updateDate': DateTime.now(), 'worn': FieldValue.increment(1)});
   }
 
+  updateUsedInOutfit(selectedDoc) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('clothes')
+        .document(selectedDoc)
+        .updateData(
+            {'usedInOutfit': FieldValue.increment(1)});
+  }
+
   updateGivenCloth(documentId, String type) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     firestoreInstance
