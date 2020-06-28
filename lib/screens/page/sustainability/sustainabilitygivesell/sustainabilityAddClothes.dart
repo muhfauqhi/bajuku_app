@@ -72,6 +72,7 @@ class SustainAddClothes extends StatelessWidget {
                 widget: 'button',
                 type: type,
                 onTap: () {
+                  clothes.status = type;
                   databaseService.setGivenOrSellClothes(
                       clothes, productDesc, price, condition, type);
                   showDialog(
@@ -80,7 +81,12 @@ class SustainAddClothes extends StatelessWidget {
                       onTap: () {
                         print(type);
                         Navigator.pop(context);
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Home(currentIndex: 0,)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => Home(
+                                      currentIndex: 0,
+                                    )));
                       },
                       child: Image.asset('assets/images/${type}Post.png'),
                     ),

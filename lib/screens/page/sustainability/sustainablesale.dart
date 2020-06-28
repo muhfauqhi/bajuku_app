@@ -27,12 +27,22 @@ class _SustainableSaleState extends State<SustainableSale> {
         titleActive: false,
       ),
       body: FutureBuilder(
-          future: DatabaseService().getSustainabilityClothes(),
+          future: DatabaseService().getSustainabilityClothes('Sold'),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Text('');
             } else {
               List<SustainabilityClothes> sustainClothList = [];
+              for (var i in snapshot.data.documents) {
+                sustainClothList.add(
+                  SustainabilityClothes(
+                    i.data['clothes'],
+                    i.data['productDesc'],
+                    i.data['price'],
+                    i.data['condition'],
+                  ),
+                );
+              }
               return GridViewSustainability(
                 sustainabilityClothes: sustainClothList,
                 category: '',

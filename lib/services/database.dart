@@ -198,12 +198,13 @@ class DatabaseService {
     return qn;
   }
 
-  Future getSustainabilityClothes() async {
+  Future getSustainabilityClothes(String type) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     QuerySnapshot qn = await Firestore.instance
         .collection('users')
         .document(firebaseUser.uid)
         .collection('sustainability')
+        .where('clothes.status', isEqualTo: type)
         .getDocuments();
     return qn;
   }
