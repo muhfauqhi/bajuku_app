@@ -58,7 +58,7 @@ class SustainScaffoldWardrobe extends StatelessWidget {
 
   Widget buildWidget(var category, var asset) {
     return FutureBuilder(
-      future: DatabaseService().getClothes(category),
+      future: DatabaseService().getClothesInSustainability(category),
       builder: (context, snapshot) {
         return snapshot.hasData
             ? Container(

@@ -50,7 +50,7 @@ class Clothes {
       "documentId": documentId,
       "brand": brand,
       "category": category,
-      "clothName": category,
+      "clothName": clothName,
       "color": color,
       "cost": cost,
       "dateBought": dateBought,

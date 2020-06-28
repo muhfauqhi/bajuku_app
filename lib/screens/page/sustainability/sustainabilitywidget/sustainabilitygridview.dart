@@ -1,5 +1,5 @@
 import 'package:bajuku_app/models/company.dart';
-import 'package:bajuku_app/models/givenClothes.dart';
+import 'package:bajuku_app/models/sustainabilityClothes.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitywidget/buildCardLarge.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitywidget/buildCardSmall.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class GridViewSustainability extends StatelessWidget {
   final double childAspectRatio;
   final bool cardLarge;
   final String category;
-  final List<GivenClothes> givenCloth;
+  final List<SustainabilityClothes> sustainabilityClothes;
   GridViewSustainability({
     this.crossAxisCount,
     this.itemCount,
@@ -22,7 +22,7 @@ class GridViewSustainability extends StatelessWidget {
     this.childAspectRatio,
     this.cardLarge,
     this.category,
-    this.givenCloth
+    this.sustainabilityClothes
   });
 
   @override
@@ -52,7 +52,7 @@ class GridViewSustainability extends StatelessWidget {
                       company: company[index],
                     )
                   : CardSmall(
-                    givenClothes: givenCloth[index]
+                    sustainabilityClothes: sustainabilityClothes[index]
                   ),
             ),
           );

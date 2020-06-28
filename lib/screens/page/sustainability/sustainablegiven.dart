@@ -1,4 +1,4 @@
-import 'package:bajuku_app/models/givenClothes.dart';
+import 'package:bajuku_app/models/sustainabilityClothes.dart';
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitywidget/sustainabilitygridview.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablebuildtemplate.dart';
@@ -27,15 +27,15 @@ class _SustainableGivenState extends State<SustainableGiven> {
         titleActive: false,
       ),
       body: FutureBuilder(
-        future: DatabaseService().getGivenClothes(),
+        future: DatabaseService().getSustainabilityClothes(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Text('');
           } else {
-            List<GivenClothes> givenClothList = [];
+            List<SustainabilityClothes> sustainClothList = [];
             for (var i in snapshot.data.documents) {
-              givenClothList.add(
-                GivenClothes(
+              sustainClothList.add(
+                SustainabilityClothes(
                   i.data['clothes'],
                   i.data['productDesc'],
                   i.data['price'],
@@ -44,11 +44,11 @@ class _SustainableGivenState extends State<SustainableGiven> {
               );
             }
             return GridViewSustainability(
-              givenCloth: givenClothList,
+              sustainabilityClothes: sustainClothList,
               category: '',
               cardLarge: false,
               crossAxisCount: 2,
-              itemCount: givenClothList.length,
+              itemCount: sustainClothList.length,
               mainAxisSpacing: 15.0,
               crossAxisSpacing: 10.0,
               childAspectRatio: MediaQuery.of(context).size.width /

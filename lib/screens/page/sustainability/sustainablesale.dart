@@ -1,4 +1,4 @@
-import 'package:bajuku_app/models/givenClothes.dart';
+import 'package:bajuku_app/models/sustainabilityClothes.dart';
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitywidget/sustainabilitygridview.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablebuildtemplate.dart';
@@ -20,24 +20,25 @@ class _SustainableSaleState extends State<SustainableSale> {
       title: widget.title,
       bottomNavigationBar: CustomBottomNavigationBar(),
       headerWidget: HeaderWidgetSustainability(
+        type: 'Sold',
         asset: 'buttonsale.png',
         title: widget.title + ' Items',
         headerButton: true,
         titleActive: false,
       ),
       body: FutureBuilder(
-          future: DatabaseService().getGivenClothes(),
+          future: DatabaseService().getSustainabilityClothes(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Text('');
             } else {
-              List<GivenClothes> givenClothList = [];
+              List<SustainabilityClothes> sustainClothList = [];
               return GridViewSustainability(
-                givenCloth: givenClothList,
+                sustainabilityClothes: sustainClothList,
                 category: '',
                 cardLarge: false,
                 crossAxisCount: 2,
-                itemCount: givenClothList.length,
+                itemCount: sustainClothList.length,
                 mainAxisSpacing: 15.0,
                 crossAxisSpacing: 10.0,
                 childAspectRatio: MediaQuery.of(context).size.width /

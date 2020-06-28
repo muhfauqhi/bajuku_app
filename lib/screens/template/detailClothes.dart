@@ -131,19 +131,21 @@ class _ClothesDetailState extends State<ClothesDetail> {
               _buildField('Color', widget.clothes.color.substring(10, 16),
                   '#F8F6F4', false, true),
               _buildField(
+                  'Status', widget.clothes.status, '#FFFFFF', false, false),
+              _buildField(
                   'Used in Outfit',
                   widget.clothes.usedInOutfit.toString(),
-                  '#FFFFFF',
+                  '#F8F6F4',
                   false,
                   false),
               _buildField(
                   'Tags Category',
                   widget.clothes.category.toString().substring(
                       1, widget.clothes.category.toString().length - 1),
-                  '#F8F6F4',
+                  '#FFFFFF',
                   false,
                   false),
-              _buildField('URL', widget.clothes.url, '#FFFFFF', true, false),
+              _buildField('URL', widget.clothes.url, '#F8F6F4', true, false),
               SizedBox(
                 height: 50,
               ),
