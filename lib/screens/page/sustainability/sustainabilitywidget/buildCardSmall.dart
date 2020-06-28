@@ -77,7 +77,7 @@ class _CardSmallState extends State<CardSmall> {
                 width: 140,
                 margin: EdgeInsets.only(left: 0, top: 5),
                 child: Text(
-                  widget.sustainabilityClothes.price,
+                  buildPriceText(),
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 12, color: Hexcolor('#859289')),
                 ),
@@ -119,6 +119,14 @@ class _CardSmallState extends State<CardSmall> {
         ],
       ),
     );
+  }
+
+  String buildPriceText(){
+    if(widget.sustainabilityClothes.price=="Free"){
+      return widget.sustainabilityClothes.price;
+    }else{
+      return "€"+widget.sustainabilityClothes.price;
+    }
   }
 
   Future<void> _getUserDoc() async {
