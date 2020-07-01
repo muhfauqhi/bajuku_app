@@ -64,10 +64,12 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                             child: Text(
                               snapshot.data['firstName']
                                       .toString()
-                                      .substring(0, 1).toUpperCase() +
+                                      .substring(0, 1)
+                                      .toUpperCase() +
                                   snapshot.data['lastName']
                                       .toString()
-                                      .substring(0, 1).toUpperCase(),
+                                      .substring(0, 1)
+                                      .toUpperCase(),
                               style: TextStyle(color: Hexcolor('#C4C4C4')),
                             ),
                           );

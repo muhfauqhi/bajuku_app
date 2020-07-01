@@ -4,6 +4,7 @@ import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/page/addItem/add.dart';
 import 'package:bajuku_app/screens/page/homeContent/journal.dart';
 import 'package:bajuku_app/screens/page/homeContent/wardrobe.dart';
+import 'package:bajuku_app/screens/page/menu_burger/menuBurger.dart';
 import 'package:bajuku_app/screens/page/profileheader/profileheader.dart';
 import 'package:bajuku_app/screens/page/sustainable.dart';
 import 'package:bajuku_app/screens/template/templateCategories.dart';
@@ -126,10 +127,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(),
-      drawer: _buildDrawer(context),
+      drawer: MenuBurger(),
     );
   }
 
+  // _buildDrawer(context)
   Widget buildContainerProfile(BuildContext context) {
     if (_activeTabIndex == 1) {
       return ProfileHeader();
@@ -137,106 +139,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       return Container();
     }
   }
-
-  Drawer _buildDrawer(BuildContext context) {
-    return new Drawer(
-      child: ListView(
-        children: <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(color: Hexcolor('#2F4F55')),
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  Material(
-                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Image.network(
-                        'https://cdn3.iconfinder.com/data/icons/furniture-175/64/clothes-cabinet-storage-furniture-wardrobe-512.png',
-                        width: 70,
-                        height: 70,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text('Digidrobe',
-                        style: TextStyle(color: Colors.white, fontSize: 20.0)),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-            child: Container(
-              decoration: BoxDecoration(
-                  border:
-                      Border(bottom: BorderSide(color: Colors.grey.shade400))),
-              child: new ListTile(
-                title: Text(
-                  'Journal',
-                  style: TextStyle(fontSize: 17.0),
-                ),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new JournalPage()));
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-            child: Container(
-              decoration: BoxDecoration(
-                  border:
-                      Border(bottom: BorderSide(color: Colors.grey.shade400))),
-              child: new ListTile(
-                title: Text(
-                  'Sustainable',
-                  style: TextStyle(fontSize: 17.0),
-                ),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new SustainablePage()));
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-            child: Container(
-              decoration: BoxDecoration(
-                  border:
-                      Border(bottom: BorderSide(color: Colors.grey.shade400))),
-              child: new ListTile(
-                title: FlatButton.icon(
-                  icon: Icon(Icons.person),
-                  label: Text(
-                    'Logout',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  onPressed: () async {
-                    await _auth.signOut();
-                  },
-                ),
-                onTap: () {},
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
+  
   Future<void> _getUserDoc() async {
     final Firestore _firestore = Firestore.instance;
 
