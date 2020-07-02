@@ -15,14 +15,17 @@ class AddOutfitDetail extends StatefulWidget {
   final List<double> priceList;
   final List<Clothes> clothesList;
   final List<String> documentIdList;
+  final Map<dynamic, dynamic> tagged;
 
-  AddOutfitDetail(
-      {this.fileUpload,
-      this.clothNameList,
-      this.mapOfCloth,
-      this.priceList,
-      this.clothesList,
-      this.documentIdList});
+  AddOutfitDetail({
+    this.fileUpload,
+    this.clothNameList,
+    this.mapOfCloth,
+    this.priceList,
+    this.clothesList,
+    this.documentIdList,
+    this.tagged,
+  });
 
   @override
   _AddOutfitDetailState createState() => _AddOutfitDetailState();
@@ -123,12 +126,11 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
                               notes,
                               name,
                               totalCost,
-                              widget.mapOfCloth,
-                              widget.clothNameList,
-                              widget.documentIdList,
+                              widget.tagged,
                             );
-                            for (var i in widget.documentIdList) {
-                              await databaseService.updateUsedInOutfit(i);
+                            for (var i in widget.tagged.values) {
+                              await databaseService
+                                  .updateUsedInOutfit(i['documentId']);
                               databaseService.updatePoints(3);
                             }
                             Navigator.pop(context);

@@ -4,7 +4,6 @@ import 'package:bajuku_app/services/database.dart';
 import 'package:flutter/material.dart';
 
 class Journal extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -42,9 +41,7 @@ class Journal extends StatelessWidget {
                           snapshot.data.documents[index].data['image'],
                           snapshot.data.documents[index].data['notes'],
                           snapshot.data.documents[index].data['outfitName'],
-                          snapshot.data.documents[index].data['taggedClothes'],
-                          snapshot
-                              .data.documents[index].data['taggedClothesName'],
+                          snapshot.data.documents[index].data['tagged'],
                           snapshot.data.documents[index].data['totalCost'],
                           snapshot.data.documents[index].data['created']);
                       Navigator.push(

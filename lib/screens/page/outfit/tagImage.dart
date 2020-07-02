@@ -29,10 +29,10 @@ class _TagImageState extends State<TagImage> {
   Rect myRect;
   List<Widget> children = [];
   Map mapCloth = Map();
+  Map<dynamic, dynamic> tagged = {};
   List<String> clothNameList = [];
   List<double> priceList = [];
   String rect;
-  List<String> documentIdList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -92,12 +92,12 @@ class _TagImageState extends State<TagImage> {
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext context) => ImageEditorOutfit(
+                        tagged: tagged,
                         children: widget.children,
                         mapOfCloth: mapCloth,
                         filePicture: widget.file,
                         clothNameList: clothNameList,
                         priceList: priceList,
-                        documentIdList: documentIdList,
                       ),
                     ),
                   );
@@ -106,12 +106,12 @@ class _TagImageState extends State<TagImage> {
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext context) => ImageEditorOutfit(
+                        tagged: tagged,
                         children: children,
                         mapOfCloth: mapCloth,
                         filePicture: widget.file,
                         clothNameList: clothNameList,
                         priceList: priceList,
-                        documentIdList: documentIdList,
                       ),
                     ),
                   );
@@ -200,7 +200,13 @@ class _TagImageState extends State<TagImage> {
             documentId: documentId,
           ),
         );
-        documentIdList.add(documentId);
+        tagged.putIfAbsent(
+            myRect.center.dx.toString() +
+                ',' +
+                myRect.center.dy.toString() +
+                ',' +
+                myRect.size.toString(),
+            () => results.toMap());
         mapCloth.putIfAbsent(
             category,
             () =>

@@ -13,8 +13,8 @@ class ImageEditorOutfit extends StatefulWidget {
   final List<Widget> children;
   final List<String> clothNameList;
   final List<double> priceList;
+  final Map<dynamic, dynamic> tagged;
   final List<Clothes> clothesList;
-  final List<String> documentIdList;
 
   ImageEditorOutfit(
       {this.filePicture,
@@ -22,8 +22,8 @@ class ImageEditorOutfit extends StatefulWidget {
       this.children,
       this.clothNameList,
       this.priceList,
-      this.clothesList,
-      this.documentIdList});
+      this.tagged,
+      this.clothesList});
 
   @override
   _ImageEditorOutfitState createState() => _ImageEditorOutfitState();
@@ -94,12 +94,11 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
                       new MaterialPageRoute(
                           builder: (BuildContext context) =>
                               new AddOutfitDetail(
-                                clothesList: widget.clothesList,
+                                tagged: widget.tagged,
                                 fileUpload: widget.filePicture,
                                 clothNameList: widget.clothNameList,
                                 mapOfCloth: widget.mapOfCloth,
                                 priceList: widget.priceList,
-                                documentIdList: widget.documentIdList,
                               )));
                 } else {
                   return showDialog(
@@ -154,9 +153,9 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
         ),
       ),
       bottomNavigationBar: CustomNavbarOutfit(
+        clothesList: widget.clothesList,
         file: widget.filePicture,
         children: widget.children,
-        clothesList: widget.clothesList,
       ),
     );
   }
