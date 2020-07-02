@@ -35,7 +35,7 @@ class Clothes {
     this.image,
     this.price,
     this.notes,
-    this.season,
+    this.season,  
     this.size,
     this.startDate,
     this.status,
@@ -45,7 +45,7 @@ class Clothes {
     this.worn,
   );
 
-  Map<String, dynamic> givenClothMap() {
+  Map<String, dynamic> toMap() {
     return {
       "documentId": documentId,
       "brand": brand,
@@ -67,6 +67,12 @@ class Clothes {
       "url": url,
       "usedInOutfit": usedInOutfit,
       "worn": worn
+    };
+  }
+
+  Map<String, dynamic> toMapWithOffset(String offset) {
+    return {
+      offset: toMap(),
     };
   }
 }

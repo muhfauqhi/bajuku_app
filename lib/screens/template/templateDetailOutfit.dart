@@ -32,12 +32,22 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
   }
 
   void makeWidget() {
-    var values = widget.outfit.taggedClothes.values.toList();
-    var keyName = widget.outfit.taggedClothesName.toList();
-    var keyCategory = widget.outfit.taggedClothes.keys.toList();
-
-    for (var i = 0; i < values.length; i++) {
-      buildSplit(values[i], keyName[i], keyCategory[i]);
+    var keys = widget.outfit.tagged.keys.toList();
+    for (var i = 0; i < keys.length; i++) {
+      buildSplit(
+        keys[i],
+        widget.outfit.tagged.values.elementAt(i)['clothName'],
+        widget.outfit.tagged.values
+            .elementAt(i)['category']
+            .toString()
+            .substring(
+                1,
+                widget.outfit.tagged.values
+                        .elementAt(i)['category']
+                        .toString()
+                        .length -
+                    1),
+      );
     }
   }
 
@@ -64,12 +74,6 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
         ),
       );
     });
-  }
-
-  void getPosition() {
-    final RenderBox renderBox = key.currentContext.findRenderObject();
-    final position = renderBox.localToGlobal(Offset.zero);
-    print(position);
   }
 
   @override
@@ -189,7 +193,6 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
 
   Container buildContainerRowButton() {
     return Container(
-      // color: Colors.red,
       width: 600,
       height: 50,
       margin: EdgeInsets.all(0),
@@ -240,13 +243,14 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
           ),
           ListView.builder(
               shrinkWrap: true,
-              itemCount: widget.outfit.taggedClothes.length,
+              itemCount: widget.outfit.tagged.length,
               itemBuilder: (context, index) {
                 return Container(
                   margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
                   alignment: Alignment(-1, 0),
                   child: Text(
-                    widget.outfit.taggedClothesName[index],
+                    widget.outfit.tagged.values.elementAt(index)['clothName'],
+                    // widget.outfit.taggedClothesName[index],
                     style: TextStyle(
                       fontSize: 16.0,
                       color: Hexcolor('#859289'),
@@ -265,9 +269,7 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
   Widget buildContainerPhoto() {
     return GestureDetector(
       onTap: () {
-        getPosition();
         makeWidget();
-        // buildSplit();
       },
       child: SingleChildScrollView(
         child: Column(

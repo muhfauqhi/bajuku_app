@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/screens/page/outfit/tagImage.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -7,8 +8,9 @@ import 'package:hexcolor/hexcolor.dart';
 class CustomNavbarOutfit extends StatefulWidget {
   final File file;
   final List<Widget> children;
+  final List<Clothes> clothesList;
 
-  CustomNavbarOutfit({this.file, this.children});
+  CustomNavbarOutfit({this.file, this.children, this.clothesList});
 
   @override
   _CustomBottomNavigationBarState createState() =>
@@ -52,6 +54,7 @@ class _CustomBottomNavigationBarState extends State<CustomNavbarOutfit> {
                     builder: (context) => new TagImage(
                       file: widget.file,
                       children: widget.children,
+                      clothesList: widget.clothesList,
                     ),
                   ),
                 );

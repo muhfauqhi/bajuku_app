@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/screens/home/home.dart';
-import 'package:bajuku_app/screens/page/image_editor/imageEditorOutfit.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +13,19 @@ class AddOutfitDetail extends StatefulWidget {
   final List<String> clothNameList;
   final Map mapOfCloth;
   final List<double> priceList;
+  final List<Clothes> clothesList;
+  final List<String> documentIdList;
+  final Map<dynamic, dynamic> tagged;
 
-  AddOutfitDetail(
-      {this.fileUpload, this.clothNameList, this.mapOfCloth, this.priceList});
+  AddOutfitDetail({
+    this.fileUpload,
+    this.clothNameList,
+    this.mapOfCloth,
+    this.priceList,
+    this.clothesList,
+    this.documentIdList,
+    this.tagged,
+  });
 
   @override
   _AddOutfitDetailState createState() => _AddOutfitDetailState();
@@ -35,8 +45,6 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
     formatter = new DateFormat('dd MMMM yyyy');
     date = formatter.format(now);
     totalCost = getTotalCost();
-
-    // clothNameList = widget.clothNameList;
   }
 
   @override
@@ -57,11 +65,12 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
     return widget.clothNameList.length;
   }
 
+  final DatabaseService databaseService = DatabaseService();
+
   String image;
   String name;
   String notes;
   String totalCost;
-  // List<String> clothNameList = [];
 
   final _myController = TextEditingController();
 
@@ -84,12 +93,7 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
             icon: Icon(Icons.arrow_back),
             color: Hexcolor('#3F4D55'),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (BuildContext context) => new ImageEditorOutfit(
-                            filePicture: widget.fileUpload,
-                          )));
+              Navigator.pop(context);
             },
           ),
           centerTitle: true,
@@ -117,28 +121,24 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
                           child: Image.asset('assets/images/postButton.png'),
                           onPressed: () async {
                             image = await uploadPic();
-                            await DatabaseService().setOutfit(
-                                image,
-                                notes,
-                                name,
-                                totalCost,
-                                widget.mapOfCloth,
-                                widget.clothNameList);
-                            showDialog(
-                              context: context,
-                              child: GestureDetector(
-                                child: Image.asset(
-                                    'assets/images/outfitsaveddialog.png'),
-                                onTap: () {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                      context,
-                                      new MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              new Home()));
-                                },
-                              ),
+                            await databaseService.setOutfit(
+                              image,
+                              notes,
+                              name,
+                              totalCost,
+                              widget.tagged,
                             );
+                            for (var i in widget.tagged.values) {
+                              await databaseService
+                                  .updateUsedInOutfit(i['documentId']);
+                              databaseService.updatePoints(3);
+                            }
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        new Home()));
                           },
                         ),
                       ),

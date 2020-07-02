@@ -92,7 +92,7 @@ class DatabaseService {
   }
 
   Future setOutfit(String image, String notes, String name, String totalCost,
-      Map mapOfCloth, List<String> clothNameList) async {
+      dynamic clothesList) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     updatePoints(3);
     return await firestoreInstance
@@ -104,8 +104,7 @@ class DatabaseService {
       "outfitName": name,
       "image": image,
       "totalCost": totalCost,
-      "taggedClothes": mapOfCloth,
-      "taggedClothesName": clothNameList,
+      "tagged": clothesList,
       "created": FieldValue.serverTimestamp(),
     });
   }
@@ -121,7 +120,7 @@ class DatabaseService {
         .document(firebaseUser.uid)
         .collection('sustainability')
         .add({
-      "clothes": clothes.givenClothMap(),
+      "clothes": clothes.toMap(),
       "productDesc": productDesc,
       "price": price,
       "condition": condition
@@ -188,12 +187,23 @@ class DatabaseService {
     }
   }
 
+  Future getClothesAvailable() async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    QuerySnapshot qn = await Firestore.instance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('clothes')
+        .where('status', isEqualTo: 'Available')
+        .getDocuments();
+    return qn;
+  }
+
   Future getOutfit() async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     QuerySnapshot qn = await Firestore.instance
         .collection('users')
         .document(firebaseUser.uid)
-        .collection('outfits')
+        .collection('outfits').orderBy('created', descending: true)
         .getDocuments();
     return qn;
   }
@@ -227,8 +237,7 @@ class DatabaseService {
         .document(firebaseUser.uid)
         .collection('clothes')
         .document(selectedDoc)
-        .updateData(
-            {'usedInOutfit': FieldValue.increment(1)});
+        .updateData({'usedInOutfit': FieldValue.increment(1)});
   }
 
   updateGivenCloth(documentId, String type) async {
