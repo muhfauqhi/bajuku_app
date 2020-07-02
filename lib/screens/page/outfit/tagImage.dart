@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bajuku_app/models/widgetrect.dart';
+import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/screens/page/image_editor/imageEditorOutfit.dart';
 import 'package:bajuku_app/screens/page/outfit/buildTags.dart';
 import 'package:bajuku_app/screens/page/outfit/findSuggestionClothes.dart';
@@ -10,8 +10,9 @@ import 'package:hexcolor/hexcolor.dart';
 class TagImage extends StatefulWidget {
   final File file;
   final List<Widget> children;
+  final List<Clothes> clothesList;
 
-  TagImage({this.file, this.children});
+  TagImage({this.file, this.children, this.clothesList});
 
   @override
   _TagImageState createState() => _TagImageState();
@@ -31,12 +32,7 @@ class _TagImageState extends State<TagImage> {
   List<String> clothNameList = [];
   List<double> priceList = [];
   String rect;
-
-  void getPositon() {
-    final RenderBox renderBox = key.currentContext.findRenderObject();
-    final position = renderBox.localToGlobal(Offset.zero);
-    print(position);
-  }
+  List<String> documentIdList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -59,57 +55,7 @@ class _TagImageState extends State<TagImage> {
                     fontWeight: FontWeight.normal),
               ),
               onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text(
-                          'You\'ve made changes to this image.',
-                          style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w600,
-                              color: Hexcolor('#3F4D55'),
-                              fontSize: 16),
-                        ),
-                        content: Text(
-                          'Are you sure want to cancel?',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              color: Hexcolor('#3F4D55'),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16),
-                        ),
-                        actions: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              GestureDetector(
-                                child: Container(
-                                  child: Image.asset(
-                                    'assets/images/keepWorkingButton.png',
-                                    height: 62,
-                                    width: 157.5,
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              GestureDetector(
-                                child: Container(
-                                  child: Image.asset(
-                                    'assets/images/cancelButton.png',
-                                    height: 62,
-                                    width: 157.5,
-                                  ),
-                                ),
-                                onTap: () {},
-                              )
-                            ],
-                          )
-                        ],
-                      );
-                    });
+                buildShowDialogCancelFeedback(context);
               },
             ),
             Container(
@@ -140,6 +86,7 @@ class _TagImageState extends State<TagImage> {
                     fontWeight: FontWeight.normal),
               ),
               onTap: () {
+                Navigator.pop(context);
                 if (widget.children != null) {
                   Navigator.push(
                     context,
@@ -150,6 +97,7 @@ class _TagImageState extends State<TagImage> {
                         filePicture: widget.file,
                         clothNameList: clothNameList,
                         priceList: priceList,
+                        documentIdList: documentIdList,
                       ),
                     ),
                   );
@@ -163,6 +111,7 @@ class _TagImageState extends State<TagImage> {
                         filePicture: widget.file,
                         clothNameList: clothNameList,
                         priceList: priceList,
+                        documentIdList: documentIdList,
                       ),
                     ),
                   );
@@ -176,16 +125,12 @@ class _TagImageState extends State<TagImage> {
       body: Container(
         color: Hexcolor('#FBFBFB'),
         child: GestureDetector(
-          onTap: () {
-            getPositon();
-          },
           onTapDown: (TapDownDetails details) {
             var x = details.globalPosition.dx;
             var y = details.globalPosition.dy;
             setState(() {
               getClothesDetail(x, y);
             });
-            print("tap down: " + x.toString() + y.toString());
           },
           child: Stack(
             children: [
@@ -220,24 +165,28 @@ class _TagImageState extends State<TagImage> {
   }
 
   Future getClothesDetail(var x, var y) async {
-    Map results = await Navigator.push(
+    var results = await Navigator.push(
       context,
       new MaterialPageRoute(
-        builder: (BuildContext context) => new SuggestionClothes(),
+        builder: (BuildContext context) => new SuggestionClothes(
+          clothesList: widget.clothesList,
+        ),
       ),
     );
     if (results != null) {
-      clothName = results['clothName'];
-      category = results['category'];
-      documentId = results['documentId'];
-      price = results['price'];
+      clothName = results.clothName;
+      category = results.category
+          .toString()
+          .substring(1, results.category.toString().length - 1);
+      documentId = results.documentId;
+      price = results.price;
       setState(() {
         if (category.length > clothName.length) {
           myRect = Offset(x, y - 80) &
-              Size(category.length * 6 / 1, category.length * 6 / 3);
+              Size(category.length * 6 / 1, category.length * 7 / 3);
         } else {
           myRect = Offset(x, y - 80) &
-              Size(clothName.length * 6 / 1, clothName.length * 6 / 3);
+              Size(clothName.length * 6 / 1, clothName.length * 7 / 3);
         }
         double priceParse;
         priceParse = double.parse(price);
@@ -251,16 +200,73 @@ class _TagImageState extends State<TagImage> {
             documentId: documentId,
           ),
         );
-        // final widgetRect = WidgetRect(myRect.center.dx, myRect.center.dy, myRect.size);
-        // rect.add(myRect.center.dx.toString());
-        // rect.add(myRect.center.dx.toString());
-        // rect.add(myRect.size.toString());
-        // print(rect);
-
-        mapCloth.putIfAbsent(category, () => myRect.center.dx.toString() + ',' + myRect.center.dy.toString() + ',' + myRect.size.toString());
+        documentIdList.add(documentId);
+        mapCloth.putIfAbsent(
+            category,
+            () =>
+                myRect.center.dx.toString() +
+                ',' +
+                myRect.center.dy.toString() +
+                ',' +
+                myRect.size.toString());
       });
     } else {}
-    // print(clothName + '\n' + category + '\n' + documentId);
-    print(mapCloth);
+  }
+
+  Future buildShowDialogCancelFeedback(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          contentPadding: EdgeInsets.only(top: 0.0),
+          children: <Widget>[
+            Container(
+              color: Colors.transparent,
+              width: 280,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 30, bottom: 40),
+                    child: Image.asset(
+                      'assets/images/textCancelFeedback.png',
+                      width: 240,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        GestureDetector(
+                          child: Image.asset(
+                            'assets/images/keepWorkingButton.png',
+                            width: 140,
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        GestureDetector(
+                          child: Image.asset(
+                            'assets/images/cancelButton.png',
+                            width: 140,
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        );
+      },
+    );
   }
 }

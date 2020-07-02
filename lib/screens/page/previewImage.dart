@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/page/image_editor/imageEditorOutfit.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,8 @@ class PreviewImage extends StatefulWidget {
   final File fileImage;
   final String method;
   final String flagAdd;
-  PreviewImage({this.fileImage, this.method, this.flagAdd});
+  final List<Clothes> clothesList;
+  PreviewImage({this.fileImage, this.method, this.flagAdd, this.clothesList});
 
   @override
   _PreviewImageState createState() => _PreviewImageState();
@@ -40,7 +42,10 @@ class _PreviewImageState extends State<PreviewImage> {
               ),
               onTap: () {
                 if (widget.method == 'Camera') {
-                } else {}
+                  Navigator.pop(context);
+                } else {
+                  Navigator.pop(context);
+                }
               },
             ),
             Container(
@@ -63,7 +68,6 @@ class _PreviewImageState extends State<PreviewImage> {
                     fontWeight: FontWeight.normal),
               ),
               onTap: () {
-                Navigator.pop(context);
                 if (widget.flagAdd == 'Wardrobe') {
                   Navigator.push(
                       context,
@@ -78,6 +82,7 @@ class _PreviewImageState extends State<PreviewImage> {
                           builder: (BuildContext context) =>
                               new ImageEditorOutfit(
                                 filePicture: widget.fileImage,
+                                clothesList: widget.clothesList,
                               )));
                 }
               },

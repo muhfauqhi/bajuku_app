@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
-import 'package:bajuku_app/screens/home/home.dart';
+
+import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/screens/page/addItem/addOutfitDetail.dart';
 import 'package:bajuku_app/screens/page/outfit/navbarOutfit.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +13,17 @@ class ImageEditorOutfit extends StatefulWidget {
   final List<Widget> children;
   final List<String> clothNameList;
   final List<double> priceList;
+  final List<Clothes> clothesList;
+  final List<String> documentIdList;
 
   ImageEditorOutfit(
       {this.filePicture,
       this.mapOfCloth,
       this.children,
       this.clothNameList,
-      this.priceList});
+      this.priceList,
+      this.clothesList,
+      this.documentIdList});
 
   @override
   _ImageEditorOutfitState createState() => _ImageEditorOutfitState();
@@ -30,12 +35,6 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
   String documentId;
   String clothName;
   String category;
-
-  void getPositon() {
-    final RenderBox renderBox = key.currentContext.findRenderObject();
-    final position = renderBox.localToGlobal(Offset.zero);
-    print(position);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,63 +57,7 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
                     fontWeight: FontWeight.normal),
               ),
               onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text(
-                          'You\'ve made changes to this image.',
-                          style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w600,
-                              color: Hexcolor('#3F4D55'),
-                              fontSize: 16),
-                        ),
-                        content: Text(
-                          'Are you sure want to cancel?',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              color: Hexcolor('#3F4D55'),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16),
-                        ),
-                        actions: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              GestureDetector(
-                                child: Container(
-                                  child: Image.asset(
-                                    'assets/images/keepWorkingButton.png',
-                                    height: 62,
-                                    width: 157.5,
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              GestureDetector(
-                                child: Container(
-                                  child: Image.asset(
-                                    'assets/images/cancelButton.png',
-                                    height: 62,
-                                    width: 157.5,
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      new MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              new Home()));
-                                },
-                              )
-                            ],
-                          )
-                        ],
-                      );
-                    });
+                buildShowDialogCancelFeedback(context);
               },
             ),
             Container(
@@ -145,16 +88,41 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
                     fontWeight: FontWeight.normal),
               ),
               onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new AddOutfitDetail(
-                              fileUpload: widget.filePicture,
-                              clothNameList: widget.clothNameList,
-                              mapOfCloth: widget.mapOfCloth,
-                              priceList: widget.priceList,
-                            )));
+                if (widget.mapOfCloth != null) {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new AddOutfitDetail(
+                                clothesList: widget.clothesList,
+                                fileUpload: widget.filePicture,
+                                clothNameList: widget.clothNameList,
+                                mapOfCloth: widget.mapOfCloth,
+                                priceList: widget.priceList,
+                                documentIdList: widget.documentIdList,
+                              )));
+                } else {
+                  return showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SimpleDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          contentPadding: EdgeInsets.only(top: 0.0),
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(top: 35),
+                              height: 100,
+                              child: Text(
+                                "Please Tag At Least One Item ",
+                                textAlign: TextAlign.center,
+                              ),
+                            )
+                          ],
+                        );
+                      });
+                }
               },
             ),
           ],
@@ -164,9 +132,6 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
       body: Container(
         color: Hexcolor('#FBFBFB'),
         child: GestureDetector(
-          onTap: () {
-            getPositon();
-          },
           child: Stack(
             children: [
               Container(
@@ -191,6 +156,7 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
       bottomNavigationBar: CustomNavbarOutfit(
         file: widget.filePicture,
         children: widget.children,
+        clothesList: widget.clothesList,
       ),
     );
   }
@@ -201,5 +167,67 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
     } else {
       return [];
     }
+  }
+
+  Future buildShowDialogCancelFeedback(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          contentPadding: EdgeInsets.only(top: 0.0),
+          children: <Widget>[
+            Container(
+              color: Colors.transparent,
+              width: 280,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 30, bottom: 40),
+                    child: Image.asset(
+                      'assets/images/textCancelFeedback.png',
+                      width: 240,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        GestureDetector(
+                          child: Image.asset(
+                            'assets/images/keepWorkingButton.png',
+                            width: 140,
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        GestureDetector(
+                          child: Image.asset(
+                            'assets/images/cancelButton.png',
+                            width: 140,
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            // Navigator.push(
+                            //     context,
+                            //     new MaterialPageRoute(
+                            //         builder: (BuildContext context) =>
+                            //             new Home()));
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        );
+      },
+    );
   }
 }

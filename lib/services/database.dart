@@ -188,6 +188,16 @@ class DatabaseService {
     }
   }
 
+  Future getClothesAvailable() async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    QuerySnapshot qn = await Firestore.instance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('clothes').where('status', isEqualTo: 'Available')
+        .getDocuments();
+    return qn;
+  }
+
   Future getOutfit() async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     QuerySnapshot qn = await Firestore.instance
@@ -227,8 +237,7 @@ class DatabaseService {
         .document(firebaseUser.uid)
         .collection('clothes')
         .document(selectedDoc)
-        .updateData(
-            {'usedInOutfit': FieldValue.increment(1)});
+        .updateData({'usedInOutfit': FieldValue.increment(1)});
   }
 
   updateGivenCloth(documentId, String type) async {

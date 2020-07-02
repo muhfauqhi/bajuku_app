@@ -99,62 +99,61 @@ class _ImageEditorState extends State<ImageEditor> {
 
   Future buildShowDialogCancelFeedback(BuildContext context) {
     return showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return SimpleDialog(
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10))),
-                      contentPadding: EdgeInsets.only(top: 0.0),
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          contentPadding: EdgeInsets.only(top: 0.0),
+          children: <Widget>[
+            Container(
+              color: Colors.transparent,
+              width: 280,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 30, bottom: 40),
+                    child: Image.asset(
+                      'assets/images/textCancelFeedback.png',
+                      width: 240,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Container(
-                          color: Colors.transparent,
-                          width: 280,
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(top: 30,bottom: 40),
-                                child: Image.asset(
-                                  'assets/images/textCancelFeedback.png',
-                                  width: 240,
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.all(0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    GestureDetector(
-                                      child: Image.asset(
-                                        'assets/images/keepWorkingButton.png',
-                                        width: 140,
-                                      ),
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    GestureDetector(
-                                      child: Image.asset(
-                                        'assets/images/cancelButton.png',
-                                        width: 140,
-                                      ),
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            new MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        new Home()));
-                                      },
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
+                        GestureDetector(
+                          child: Image.asset(
+                            'assets/images/keepWorkingButton.png',
+                            width: 140,
                           ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        GestureDetector(
+                          child: Image.asset(
+                            'assets/images/cancelButton.png',
+                            width: 140,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        new Home()));
+                          },
                         )
                       ],
-                    );
-                  });
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        );
+      },
+    );
   }
 }
