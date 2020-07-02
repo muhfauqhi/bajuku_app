@@ -1,7 +1,10 @@
 import 'package:bajuku_app/models/sustainabilityClothes.dart';
+import 'package:bajuku_app/screens/home/home.dart';
+import 'package:clipboard_manager/clipboard_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class CardSmall extends StatefulWidget {
@@ -30,10 +33,7 @@ class _CardSmallState extends State<CardSmall> {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.only(
-              top: 10.0,
-              bottom: 10.0,
-            ),
+            padding: EdgeInsets.only(),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: Image.network(
@@ -46,36 +46,55 @@ class _CardSmallState extends State<CardSmall> {
           ),
           Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Container(
-                      margin: EdgeInsets.only(left: 15.0),
-                      width: 100,
-                      child: Text(
-                        widget.sustainabilityClothes.clothes['clothName'],
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.bold,
-                          color: Hexcolor('#3F4D55'),
+              Container(
+                height: 40,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 15.0),
+                        width: 100,
+                        child: Text(
+                          widget.sustainabilityClothes.clothes['clothName'],
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.bold,
+                            color: Hexcolor('#3F4D55'),
+                          ),
+                          softWrap: false,
+                          maxLines: 1,
                         ),
-                        softWrap: false,
-                        maxLines: 1,
                       ),
                     ),
-                  ),
-                  Container(
-                    width: 20,
-                    margin: EdgeInsets.only(right: 5),
-                    child: Image.asset('assets/images/more.png'),
-                  )
-                ],
+                    FlatButton(
+                      child: Image.asset(
+                        'assets/images/more.png',
+                        width: 20,
+                      ),
+                      onPressed: () {
+                        Clipboard.setData(ClipboardData(
+                                text:
+                                    "Hello, i sell this ${widget.sustainabilityClothes.clothes['clothName']} only €${widget.sustainabilityClothes.clothes['price']}. Check this out ${widget.sustainabilityClothes.clothes['image']} "))
+                            .then((result) {
+                          final snackBar = SnackBar(
+                            content: Text('Copied to Clipboard'),
+                            action: SnackBarAction(
+                              label: 'Undo',
+                              onPressed: () {},
+                            ),
+                          );
+                          Scaffold.of(context).showSnackBar(snackBar);
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
               Container(
+                margin: EdgeInsets.only(bottom: 2),
                 width: 140,
-                margin: EdgeInsets.only(left: 0, top: 5),
                 child: Text(
                   buildPriceText(),
                   textAlign: TextAlign.left,
@@ -84,42 +103,33 @@ class _CardSmallState extends State<CardSmall> {
               ),
               Container(
                 width: 200,
-                margin: EdgeInsets.only(left: 13, top: 5),
-                child: Row(
-                  children: <Widget>[
-                    StreamBuilder(
-                        stream: userRef.document(uid).snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return Text('');
-                          } else {
-                            return Container(
-                              child: CircleAvatar(
-                                radius: 14,
-                                backgroundColor: Hexcolor('#37585A'),
-                                child: Text(
-                                  snapshot.data['firstName']
-                                          .toString()
-                                          .substring(0, 1)
-                                          .toUpperCase() +
-                                      snapshot.data['lastName']
-                                          .toString()
-                                          .substring(0, 1)
-                                          .toUpperCase(),
-                                  style: TextStyle(
-                                      color: Hexcolor('#C4C4C4'), fontSize: 12),
-                                ),
-                              ),
-                            );
-                          }
-                        }),
-                    Container(
-                        width: 15,
-                        height: 15,
-                        margin: EdgeInsets.only(left: 100),
-                        child: Image.asset('assets/images/love.png'))
-                  ],
-                ),
+                child: StreamBuilder(
+                    stream: userRef.document(uid).snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Text('');
+                      } else {
+                        return Container(
+                          alignment: Alignment(-0.85, 0),
+                          child: CircleAvatar(
+                            radius: 14,
+                            backgroundColor: Hexcolor('#37585A'),
+                            child: Text(
+                              snapshot.data['firstName']
+                                      .toString()
+                                      .substring(0, 1)
+                                      .toUpperCase() +
+                                  snapshot.data['lastName']
+                                      .toString()
+                                      .substring(0, 1)
+                                      .toUpperCase(),
+                              style: TextStyle(
+                                  color: Hexcolor('#C4C4C4'), fontSize: 12),
+                            ),
+                          ),
+                        );
+                      }
+                    }),
               )
             ],
           ),

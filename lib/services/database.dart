@@ -123,7 +123,8 @@ class DatabaseService {
       "clothes": clothes.toMap(),
       "productDesc": productDesc,
       "price": price,
-      "condition": condition
+      "condition": condition,
+      "created": FieldValue.serverTimestamp(),
     });
   }
 
@@ -203,7 +204,8 @@ class DatabaseService {
     QuerySnapshot qn = await Firestore.instance
         .collection('users')
         .document(firebaseUser.uid)
-        .collection('outfits').orderBy('created', descending: true)
+        .collection('outfits')
+        .orderBy('created', descending: true)
         .getDocuments();
     return qn;
   }
