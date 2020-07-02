@@ -82,54 +82,70 @@ class _MenuBurgerState extends State<MenuBurger> {
 
   Container buildContainerHeader() {
     return Container(
-            margin: EdgeInsets.only(bottom: 7),
-            child: DrawerHeader(
-              decoration: BoxDecoration(color: Hexcolor('#E1C8B4')),
-              child: StreamBuilder(
-                stream: userRef.document(uid).snapshots(),
-                builder: (context, snapshot) {
-                  return Row(
-                    children: <Widget>[
-                      buildAvatar(snapshot),
-                      Container(
-                        margin: EdgeInsets.only(top: 45),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(left: 15),
-                              child: Text(
-                                snapshot.data['firstName'].toString() +
-                                    " " +
-                                    snapshot.data['lastName'].toString(),
+      margin: EdgeInsets.only(bottom: 7),
+      child: DrawerHeader(
+        decoration: BoxDecoration(color: Hexcolor('#E1C8B4')),
+        child: StreamBuilder(
+          stream: userRef.document(uid).snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Text("");
+            } else {
+              return Row(
+                children: <Widget>[
+                  buildAvatar(snapshot),
+                  Container(
+                    margin: EdgeInsets.only(top: 45),
+                    child: Container(
+                      margin: EdgeInsets.only(left: 15),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            snapshot.data['firstName'].toString() +
+                                " " +
+                                snapshot.data['lastName'].toString(),
+                            style: TextStyle(
+                                color: Hexcolor('#3F4D55'),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: Image.asset(
+                                      'assets/images/sustPoint.png')),
+                              Text(
+                                snapshot.data['points'].toString() + " pts",
                                 style: TextStyle(
-                                    color: Hexcolor('#3F4D55'),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    color: Hexcolor('#4AA081')),
                               ),
+                            ],
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 10),
+                            child: GestureDetector(
+                              child: Image.asset(
+                                'assets/images/editProfileSideMenu.png',
+                                height: 20,
+                                width: 45,
+                              ),
+                              onTap: (){},
                             ),
-                            Row(
-                              children: <Widget>[
-                                Image.asset('assets/images/sustPoint.png'),
-                                Text(
-                                  snapshot.data['points'].toString() + " pts",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color: Hexcolor('#4AA081')),
-                                ),
-                                Image.asset(
-                                    'assets/images/editProfileSideMenu.png'),
-                              ],
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  );
-                },
-              ),
-            ),
-          );
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              );
+            }
+          },
+        ),
+      ),
+    );
   }
 
   Widget buildAvatar(snapshot) {

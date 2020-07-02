@@ -14,7 +14,8 @@ class AddOutfitDetail extends StatefulWidget {
   final Map mapOfCloth;
   final List<double> priceList;
 
-  AddOutfitDetail({this.fileUpload, this.clothNameList, this.mapOfCloth, this.priceList});
+  AddOutfitDetail(
+      {this.fileUpload, this.clothNameList, this.mapOfCloth, this.priceList});
 
   @override
   _AddOutfitDetailState createState() => _AddOutfitDetailState();
@@ -44,7 +45,7 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
     super.dispose();
   }
 
-  String getTotalCost(){
+  String getTotalCost() {
     double total = 0.0;
     for (var i in widget.priceList) {
       total = total + i;
@@ -52,7 +53,7 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
     return total.toString();
   }
 
-  int getTotalClothes(){
+  int getTotalClothes() {
     return widget.clothNameList.length;
   }
 
@@ -117,12 +118,27 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
                           onPressed: () async {
                             image = await uploadPic();
                             await DatabaseService().setOutfit(
-                                image, notes, name, totalCost, widget.mapOfCloth, widget.clothNameList);
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        new Home()));
+                                image,
+                                notes,
+                                name,
+                                totalCost,
+                                widget.mapOfCloth,
+                                widget.clothNameList);
+                            showDialog(
+                              context: context,
+                              child: GestureDetector(
+                                child: Image.asset(
+                                    'assets/images/outfitsaveddialog.png'),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              new Home()));
+                                },
+                              ),
+                            );
                           },
                         ),
                       ),
