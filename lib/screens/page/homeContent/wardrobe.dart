@@ -21,7 +21,6 @@ class Wardrobe extends StatelessWidget {
                 icon: new Image.asset('assets/images/seeall@3x.png'),
                 iconSize: 40,
                 onPressed: () {
-                  Navigator.of(context).pop();
                   Navigator.push(
                       context,
                       new MaterialPageRoute(
@@ -257,7 +256,6 @@ class Wardrobe extends StatelessWidget {
                               elevation: 0.0,
                             ),
                             onTap: () {
-                              Navigator.of(context).pop();
                               Navigator.push(
                                   context,
                                   new MaterialPageRoute(
@@ -324,7 +322,6 @@ class Wardrobe extends StatelessWidget {
                               elevation: 0.0,
                             ),
                             onTap: () {
-                              Navigator.of(context).pop();
                               Navigator.push(
                                   context,
                                   new MaterialPageRoute(

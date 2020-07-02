@@ -119,12 +119,14 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
                           onPressed: () async {
                             image = await uploadPic();
                             await databaseService.setOutfit(
-                                image,
-                                notes,
-                                name,
-                                totalCost,
-                                widget.mapOfCloth,
-                                widget.clothNameList);
+                              image,
+                              notes,
+                              name,
+                              totalCost,
+                              widget.mapOfCloth,
+                              widget.clothNameList,
+                              widget.documentIdList,
+                            );
                             for (var i in widget.documentIdList) {
                               await databaseService.updateUsedInOutfit(i);
                               databaseService.updatePoints(3);

@@ -45,7 +45,7 @@ class Clothes {
     this.worn,
   );
 
-  Map<String, dynamic> givenClothMap() {
+  Map<String, dynamic> toMap() {
     return {
       "documentId": documentId,
       "brand": brand,

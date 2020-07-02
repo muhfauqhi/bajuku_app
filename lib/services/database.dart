@@ -92,7 +92,7 @@ class DatabaseService {
   }
 
   Future setOutfit(String image, String notes, String name, String totalCost,
-      Map mapOfCloth, List<String> clothNameList) async {
+      Map mapOfCloth, List<String> clothNameList, List<String> documentIdList) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     updatePoints(3);
     return await firestoreInstance
@@ -106,6 +106,7 @@ class DatabaseService {
       "totalCost": totalCost,
       "taggedClothes": mapOfCloth,
       "taggedClothesName": clothNameList,
+      "documentIdTaggedClothes": documentIdList,
       "created": FieldValue.serverTimestamp(),
     });
   }
@@ -121,7 +122,7 @@ class DatabaseService {
         .document(firebaseUser.uid)
         .collection('sustainability')
         .add({
-      "clothes": clothes.givenClothMap(),
+      "clothes": clothes.toMap(),
       "productDesc": productDesc,
       "price": price,
       "condition": condition

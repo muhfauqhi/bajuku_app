@@ -40,7 +40,7 @@ class _TemplateCategoriesState extends State<TemplateCategories> {
       );
     } else {
       return Container(
-        child: Text('Test'),
+        child: Text(''),
       );
     }
   }
