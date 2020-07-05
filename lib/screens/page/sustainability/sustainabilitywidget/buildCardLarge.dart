@@ -4,8 +4,9 @@ import 'package:hexcolor/hexcolor.dart';
 
 class CardLarge extends StatelessWidget {
   final Company company;
+  final Function onTap;
 
-  CardLarge({this.company});
+  CardLarge({this.company, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +69,14 @@ class CardLarge extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.only(left: 65.0),
-                child: Image.asset(
-                  'assets/images/${company.button}Button.png',
-                  height: 40.0,
+                child: GestureDetector(
+                  child: Image.asset(
+                    'assets/images/${company.button}Button.png',
+                    height: 40.0,
+                  ),
+                  onTap: () {
+                    onTap();
+                  },
                 ),
               )
             ],

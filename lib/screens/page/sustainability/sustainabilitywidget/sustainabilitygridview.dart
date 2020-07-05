@@ -14,16 +14,15 @@ class GridViewSustainability extends StatelessWidget {
   final bool cardLarge;
   final String category;
   final List<SustainabilityClothes> sustainabilityClothes;
-  GridViewSustainability({
-    this.crossAxisCount,
-    this.itemCount,
-    this.mainAxisSpacing,
-    this.crossAxisSpacing,
-    this.childAspectRatio,
-    this.cardLarge,
-    this.category,
-    this.sustainabilityClothes
-  });
+  GridViewSustainability(
+      {this.crossAxisCount,
+      this.itemCount,
+      this.mainAxisSpacing,
+      this.crossAxisSpacing,
+      this.childAspectRatio,
+      this.cardLarge,
+      this.category,
+      this.sustainabilityClothes});
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +49,76 @@ class GridViewSustainability extends StatelessWidget {
               child: cardLarge
                   ? CardLarge(
                       company: company[index],
+                      onTap: () {
+                        if (category == 'Donate') {
+                          showDialog(
+                            context: context,
+                            child: Container(
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Image.asset(
+                                      'assets/images/AskConfirmation.png',
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      showDialog(
+                                        context: context,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                            child: Image.asset(
+                                                'assets/images/Success.png'),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      alignment: Alignment(-0.2, 0.38),
+                                      child: Image.asset(
+                                        'assets/images/yes.png',
+                                        width: 312,
+                                      ),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      alignment: Alignment(-0.2, 0.6),
+                                      child: Image.asset(
+                                        'assets/images/cancel.png',
+                                        width: 312,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        } else {
+                          showDialog(
+                            context: context,
+                            child: GestureDetector(
+                              child: Image.asset(
+                                'assets/images/Redirecting.png',
+                              ),
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          );
+                        }
+                      },
                     )
                   : CardSmall(
-                    sustainabilityClothes: sustainabilityClothes[index]
-                  ),
+                      sustainabilityClothes: sustainabilityClothes[index]),
             ),
           );
         },
@@ -118,9 +183,7 @@ class GridViewSustainability extends StatelessWidget {
             'The Arc is the nation’s leading advocate for those with developmental disabilities. All the donation go toward public policy advocacy as well as inclusivity programs and services for the community.',
             'Contact'),
       );
-    } else {
-      
-    }
+    } else {}
     return company;
   }
 }
