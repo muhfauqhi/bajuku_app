@@ -1,4 +1,5 @@
 import 'package:bajuku_app/screens/home/home.dart';
+import 'package:bajuku_app/screens/page/menu_burger/routingPage/clothstats.dart';
 import 'package:bajuku_app/screens/page/menu_burger/templateTextMenu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -46,7 +47,8 @@ class _MenuBurgerState extends State<MenuBurger> {
               text: "Outfit Looks",
             ),
             TextMenu(
-              route: Home(),
+              route: ClothingStats(
+              ),
               text: "Clothing Stats",
             ),
             TextMenu(
@@ -132,7 +134,7 @@ class _MenuBurgerState extends State<MenuBurger> {
                                 height: 20,
                                 width: 45,
                               ),
-                              onTap: (){},
+                              onTap: () {},
                             ),
                           ),
                         ],

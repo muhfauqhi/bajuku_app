@@ -291,6 +291,16 @@ class DatabaseService {
     }
   }
 
+  Future getTotalClothes() async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    QuerySnapshot qn = await Firestore.instance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('clothes')
+        .getDocuments();
+    return qn;
+  }
+
   // Future <DocumentSnapshot> getDocuments() async {
   //   var firebaseUser = await FirebaseAuth.instance.currentUser();
   //   QuerySnapshot result = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').getDocuments();
