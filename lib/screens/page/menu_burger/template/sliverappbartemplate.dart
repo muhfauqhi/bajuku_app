@@ -103,7 +103,7 @@ class MenuBurgerScaffold extends StatelessWidget {
                       margin: EdgeInsets.only(top: 250),
                       alignment: Alignment.topCenter,
                       child: Text(
-                        profileCreated,
+                        "Joined since " + profileCreated,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w300,

@@ -1,5 +1,6 @@
 import 'package:bajuku_app/screens/page/addItem/addChoice.dart';
 import 'package:bajuku_app/screens/page/menu_burger/menuBurger.dart';
+import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
 import 'package:bajuku_app/screens/page/menu_burger/template/sliverappbartemplate.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablehome.dart';
 import 'package:bajuku_app/screens/template/templateDetailOutfit.dart';
@@ -68,7 +69,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     context,
                     new MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            new MenuBurgerScaffold()));
+                            new ProfilePage()));
               },
             ),
           ),
