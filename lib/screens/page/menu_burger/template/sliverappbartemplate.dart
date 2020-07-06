@@ -15,7 +15,16 @@ class MenuBurgerScaffold extends StatelessWidget {
   final Widget contentSliver;
   final Widget body;
 
-  MenuBurgerScaffold({this.title,this.body,this.leftBox,this.rightBox,this.contentSliver});
+  MenuBurgerScaffold(
+      {this.title,
+      this.body,
+      this.leftBox,
+      this.rightBox,
+      this.contentSliver,
+      this.profileCreated,
+      this.profileName,
+      this.profilePict});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,8 +152,7 @@ class MenuBurgerScaffold extends StatelessWidget {
                                 child: leftBox,
                               ),
                             ),
-                            VerticalDivider(
-                            ),
+                            VerticalDivider(),
                             Container(
                               height: 150,
                               width: MediaQuery.of(context).size.width * 0.4,
@@ -163,9 +171,7 @@ class MenuBurgerScaffold extends StatelessWidget {
             ),
             SliverList(
               delegate: SliverChildListDelegate(
-                <Widget>[
-                  contentSliver
-                ],
+                <Widget>[contentSliver],
               ),
             ),
           ];
