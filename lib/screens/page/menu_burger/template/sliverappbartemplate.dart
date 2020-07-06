@@ -6,7 +6,16 @@ class MenuBurgerScaffold extends StatelessWidget {
   // final Widget body;
 
   // const MenuBurgerScaffold({Key key, this.body}) : super(key: key);
+  final String title;
+  final Widget leftBox;
+  final Widget rightBox;
+  final String profileName;
+  final String profilePict;
+  final String profileCreated;
+  final Widget contentSliver;
+  final Widget body;
 
+  MenuBurgerScaffold({this.title,this.body,this.leftBox,this.rightBox,this.contentSliver});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +48,7 @@ class MenuBurgerScaffold extends StatelessWidget {
                       margin: EdgeInsets.only(top: 45),
                       alignment: Alignment.topCenter,
                       child: Text(
-                        'Profile',
+                        title,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -58,7 +67,7 @@ class MenuBurgerScaffold extends StatelessWidget {
                           radius: 50,
                           backgroundColor: Hexcolor('#37585A'),
                           child: Text(
-                            'TT',
+                            profilePict,
                             style: TextStyle(
                               color: Hexcolor('#C4C4C4'),
                               fontSize: 40,
@@ -72,7 +81,7 @@ class MenuBurgerScaffold extends StatelessWidget {
                       margin: EdgeInsets.only(top: 220),
                       alignment: Alignment.topCenter,
                       child: Text(
-                        'Test Toang',
+                        profileName,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -85,7 +94,7 @@ class MenuBurgerScaffold extends StatelessWidget {
                       margin: EdgeInsets.only(top: 250),
                       alignment: Alignment.topCenter,
                       child: Text(
-                        'Joined since 2019',
+                        profileCreated,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w300,
@@ -131,7 +140,7 @@ class MenuBurgerScaffold extends StatelessWidget {
                               height: 150,
                               width: MediaQuery.of(context).size.width * 0.4,
                               child: Center(
-                                child: Text('Test'),
+                                child: leftBox,
                               ),
                             ),
                             VerticalDivider(
@@ -140,7 +149,7 @@ class MenuBurgerScaffold extends StatelessWidget {
                               height: 150,
                               width: MediaQuery.of(context).size.width * 0.4,
                               child: Center(
-                                child: Text('Test'),
+                                child: rightBox,
                               ),
                             ),
                           ],
@@ -155,19 +164,13 @@ class MenuBurgerScaffold extends StatelessWidget {
             SliverList(
               delegate: SliverChildListDelegate(
                 <Widget>[
-                  Container(
-                    child: Column(
-                      children: [
-                        Container(),
-                      ],
-                    ),
-                  ),
+                  contentSliver
                 ],
               ),
             ),
           ];
         },
-        body: Text(''),
+        body: body,
       ),
     );
   }
