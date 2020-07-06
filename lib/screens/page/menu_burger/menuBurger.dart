@@ -1,5 +1,9 @@
 import 'package:bajuku_app/screens/home/home.dart';
+<<<<<<< HEAD
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
+=======
+import 'package:bajuku_app/screens/page/menu_burger/routingPage/clothstats.dart';
+>>>>>>> e71037e913367b5ab7b489d0946d4ef46fe3b20f
 import 'package:bajuku_app/screens/page/menu_burger/templateTextMenu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -47,7 +51,8 @@ class _MenuBurgerState extends State<MenuBurger> {
               text: "Outfit Looks",
             ),
             TextMenu(
-              route: Home(),
+              route: ClothingStats(
+              ),
               text: "Clothing Stats",
             ),
             TextMenu(
@@ -133,6 +138,7 @@ class _MenuBurgerState extends State<MenuBurger> {
                                 height: 20,
                                 width: 45,
                               ),
+<<<<<<< HEAD
                               onTap: () {
                                 Navigator.push(
                                     context,
@@ -140,6 +146,9 @@ class _MenuBurgerState extends State<MenuBurger> {
                                         builder: (BuildContext context) =>
                                             new ProfilePage()));
                               },
+=======
+                              onTap: () {},
+>>>>>>> e71037e913367b5ab7b489d0946d4ef46fe3b20f
                             ),
                           ),
                         ],
