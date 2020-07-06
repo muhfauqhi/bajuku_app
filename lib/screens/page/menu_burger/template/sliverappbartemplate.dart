@@ -7,7 +7,6 @@ class MenuBurgerScaffold extends StatelessWidget {
 
   // const MenuBurgerScaffold({Key key, this.body}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +16,7 @@ class MenuBurgerScaffold extends StatelessWidget {
           return <Widget>[
             SliverAppBar(
               backgroundColor: Colors.transparent,
-              expandedHeight: 300.0,
+              expandedHeight: 400.0,
               floating: false,
               pinned: false,
               snap: false,
@@ -25,10 +24,15 @@ class MenuBurgerScaffold extends StatelessWidget {
               flexibleSpace: FlexibleSpaceBar(
                 background: Stack(
                   children: [
-                    Positioned.fill(
-                      child: Image.asset(
-                        'assets/images/sliderimage3.png',
-                        fit: BoxFit.cover,
+                    Container(
+                      height: 350,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage(
+                            'assets/images/sliderimage3.png',
+                          ),
+                        ),
                       ),
                     ),
                     Container(
@@ -44,8 +48,9 @@ class MenuBurgerScaffold extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.center,
+                    Container(
+                      margin: EdgeInsets.only(top: 100),
+                      alignment: Alignment.topCenter,
                       child: CircleAvatar(
                         radius: 53,
                         backgroundColor: Hexcolor('#C4C4C4'),
@@ -64,8 +69,8 @@ class MenuBurgerScaffold extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 150),
-                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(top: 220),
+                      alignment: Alignment.topCenter,
                       child: Text(
                         'Test Toang',
                         style: TextStyle(
@@ -77,8 +82,8 @@ class MenuBurgerScaffold extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 200),
-                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(top: 250),
+                      alignment: Alignment.topCenter,
                       child: Text(
                         'Joined since 2019',
                         style: TextStyle(
@@ -102,17 +107,46 @@ class MenuBurgerScaffold extends StatelessWidget {
                         },
                       ),
                     ),
-                    // Positioned.fill(
-                    //   left: 50,
-                    //   right: 50,
-                    //   child: Container(
-                    //     margin: EdgeInsets.only(top: 150),
-                    //     decoration: BoxDecoration(
-                    //       color: Colors.white,
-                    //       borderRadius: BorderRadius.circular(12),
-                    //     ),
-                    //   ),
-                    // ),
+                    Center(
+                      child: Container(
+                        height: 150,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        margin: EdgeInsets.only(top: 300, bottom: 10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          shape: BoxShape.rectangle,
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(0.0, 1.0),
+                              blurRadius: 3.0,
+                            )
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              height: 150,
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              child: Center(
+                                child: Text('Test'),
+                              ),
+                            ),
+                            VerticalDivider(
+                            ),
+                            Container(
+                              height: 150,
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              child: Center(
+                                child: Text('Test'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 collapseMode: CollapseMode.pin,
@@ -123,7 +157,9 @@ class MenuBurgerScaffold extends StatelessWidget {
                 <Widget>[
                   Container(
                     child: Column(
-                      children: [],
+                      children: [
+                        Container(),
+                      ],
                     ),
                   ),
                 ],
