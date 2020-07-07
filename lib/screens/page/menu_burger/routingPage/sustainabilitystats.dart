@@ -4,18 +4,18 @@ import 'package:bajuku_app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class ClothingStats extends StatelessWidget {
+class SustainAbilityStats extends StatelessWidget {
   final DatabaseService databaseService = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
     return MenuBurgerScaffold(
-      title: 'Clothing Statistic',
-      profileName: 'Test Toang',
-      profilePict: 'TT',
-      profileCreated: '2020',
+      title: 'Sustainability Statistic',
+      profileName: 'Michella Yosephin',
+      profilePict: 'MY',
+      profileCreated: '2019',
       leftBox: FutureBuilder(
-        future: databaseService.getTotalClothes(),
+        future: databaseService.getProfile(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Text('');
@@ -26,7 +26,7 @@ class ClothingStats extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Item Counts',
+                    'Points',
                     style: myTextStyle(
                       FontWeight.w600,
                       16.0,
@@ -36,7 +36,7 @@ class ClothingStats extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    snapshot.data.documents.length.toString(),
+                    snapshot.data['points'].toString(),
                     style: myTextStyle(
                       FontWeight.w800,
                       20.0,
@@ -52,7 +52,7 @@ class ClothingStats extends StatelessWidget {
         },
       ),
       rightBox: FutureBuilder(
-        future: databaseService.getTotalClothes(),
+        future: databaseService.getSustainabilityClothes('Sold'),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Text('');
@@ -75,7 +75,7 @@ class ClothingStats extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Total Closet Value',
+                    'Total Earnings',
                     style: myTextStyle(
                       FontWeight.w600,
                       16.0,
@@ -105,9 +105,11 @@ class ClothingStats extends StatelessWidget {
         child: Column(
           children: [
             StatsListTemplate(
-              widget: 'color',
+              widget: 'normal',
               color: '#FBFBFB',
               marginTop: 5.0,
+              titleText: 'Clothes Given',
+              subtitleText: '',
             ),
             StatsListTemplate(
               widget: 'normal',
@@ -120,14 +122,14 @@ class ClothingStats extends StatelessWidget {
               widget: 'normal',
               color: '#FBFBFB',
               marginTop: 25.0,
-              titleText: 'Never used in Outfit',
+              titleText: 'Clothes donated',
               subtitleText: 'in 6 months',
             ),
             StatsListTemplate(
               widget: 'normal',
               color: '#F8F8F8',
               marginTop: 25.0,
-              titleText: 'Worn History',
+              titleText: 'Clothes sold',
               subtitleText: '',
             ),
             StatsListTemplate(

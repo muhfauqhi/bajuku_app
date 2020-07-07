@@ -1,22 +1,13 @@
-import 'package:bajuku_app/models/outfit.dart';
-import 'package:bajuku_app/screens/Page/journal.dart';
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
-import 'package:bajuku_app/screens/page/addItem/add.dart';
 import 'package:bajuku_app/screens/page/homeContent/journal.dart';
 import 'package:bajuku_app/screens/page/homeContent/wardrobe.dart';
 import 'package:bajuku_app/screens/page/menu_burger/menuBurger.dart';
 import 'package:bajuku_app/screens/page/profileheader/profileheader.dart';
-import 'package:bajuku_app/screens/page/sustainable.dart';
-import 'package:bajuku_app/screens/template/templateCategories.dart';
-import 'package:bajuku_app/screens/template/templateDetailOutfit.dart';
-import 'package:bajuku_app/services/auth.dart';
-import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:intl/intl.dart';
 
 class Home extends StatefulWidget {
   final int currentIndex;
@@ -47,7 +38,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _getUid();
   }
 
-  final AuthService _auth = AuthService();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,7 +130,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       return Container();
     }
   }
-  
+
   Future<void> _getUserDoc() async {
     final Firestore _firestore = Firestore.instance;
 

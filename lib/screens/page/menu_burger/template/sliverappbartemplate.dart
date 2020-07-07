@@ -28,6 +28,7 @@ class MenuBurgerScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Hexcolor('#FBFBFB'),
       drawer: MenuBurger(),
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
