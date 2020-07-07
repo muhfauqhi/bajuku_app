@@ -169,7 +169,6 @@ class StatsListTemplate extends StatelessWidget {
 
   Widget buildButtonRight() {
     return Container(
-      margin: EdgeInsets.only(bottom: 20.0),
       child: IconButton(
         icon: Icon(Icons.chevron_right),
         color: Hexcolor('#3F4D55'),
