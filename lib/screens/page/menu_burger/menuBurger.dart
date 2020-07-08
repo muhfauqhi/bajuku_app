@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/clothstats.dart';
+import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
 import 'package:bajuku_app/screens/page/menu_burger/templateTextMenu.dart';
 import 'package:bajuku_app/screens/page/profileheader/profileheader.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 
 class MenuBurger extends StatefulWidget {
   @override
@@ -48,8 +52,7 @@ class _MenuBurgerState extends State<MenuBurger> {
               text: "Outfit Looks",
             ),
             TextMenu(
-              route: ClothingStats(
-              ),
+              route: ClothingStats(),
               text: "Clothing Stats",
             ),
             TextMenu(
@@ -94,6 +97,8 @@ class _MenuBurgerState extends State<MenuBurger> {
             if (!snapshot.hasData) {
               return Text("");
             } else {
+              var y = snapshot.data['created'].toDate();
+              String year = new DateFormat('yyyy').format(y);
               return Row(
                 children: <Widget>[
                   buildAvatar(snapshot),
@@ -140,7 +145,24 @@ class _MenuBurgerState extends State<MenuBurger> {
                                     context,
                                     new MaterialPageRoute(
                                         builder: (BuildContext context) =>
-                                            new ProfileHeader()));
+                                            new ProfilePage(
+                                              profileCreated: year,
+                                              profileName: snapshot
+                                                      .data['firstName']
+                                                      .toString() +
+                                                  " " +
+                                                  snapshot.data['lastName']
+                                                      .toString(),
+                                              userPoints: snapshot
+                                                  .data['points']
+                                                  .toString(),
+                                              firstName: snapshot
+                                                  .data['firstName']
+                                                  .toString(),
+                                              lastName: snapshot
+                                                  .data['lastName']
+                                                  .toString(),
+                                            )));
                               },
                             ),
                           ),
