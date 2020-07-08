@@ -213,7 +213,6 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Row(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(right: 8, left: 8),
                     child: GestureDetector(
                       child: Image.asset(
                         'assets/images/disc50.png',
@@ -223,7 +222,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: 8, left: 8),
                     child: GestureDetector(
                       child: Image.asset(
                         'assets/images/disc25.png',
@@ -233,7 +231,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: 8, left: 8),
                     child: GestureDetector(
                       child: Image.asset(
                         'assets/images/disc20.png',
