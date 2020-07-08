@@ -1,10 +1,6 @@
 import 'package:bajuku_app/screens/page/addItem/addChoice.dart';
-import 'package:bajuku_app/screens/page/menu_burger/menuBurger.dart';
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
-import 'package:bajuku_app/screens/page/menu_burger/template/sliverappbartemplate.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablehome.dart';
-import 'package:bajuku_app/screens/template/templateDetailOutfit.dart';
-import 'package:bajuku_app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -65,11 +61,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: GestureDetector(
               child: Image.asset('assets/images/profilenav.png'),
               onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            new ProfilePage()));
               },
             ),
           ),

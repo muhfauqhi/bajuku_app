@@ -5,15 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class ClothingStats extends StatelessWidget {
+  final String profileName;
+  final String profilePict;
+  final String profileCreated;
   final DatabaseService databaseService = DatabaseService();
+
+  ClothingStats(
+      {Key key, this.profileName, this.profilePict, this.profileCreated})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MenuBurgerScaffold(
       title: 'Clothing Statistic',
-      profileName: 'Test Toang',
-      profilePict: 'TT',
-      profileCreated: '2020',
+      profileName: profileName,
+      profilePict: profilePict,
+      profileCreated: profileCreated,
       leftBox: FutureBuilder(
         future: databaseService.getTotalClothes(),
         builder: (context, snapshot) {
