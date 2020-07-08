@@ -13,12 +13,16 @@ class Wardrobe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: new Column(
+      child: Column(
         children: <Widget>[
           Container(
-            alignment: Alignment(0.9, 0),
+            alignment: Alignment(1, 0),
+            width: MediaQuery.of(context).size.width * 0.75,
             child: IconButton(
-              icon: new Image.asset('assets/images/seeall@3x.png'),
+              icon: Image.asset(
+                'assets/images/seeall@3x.png',
+                width: 40,
+              ),
               iconSize: 40,
               onPressed: () {
                 Navigator.push(
@@ -249,6 +253,7 @@ class Wardrobe extends StatelessWidget {
       var leftCategoryRoute,
       var rightCategoryRoute) {
     return Container(
+      margin: EdgeInsets.only(bottom: 30.0),
       child: Row(
         children: <Widget>[
           Column(
@@ -261,7 +266,6 @@ class Wardrobe extends StatelessWidget {
                     } else {
                       return Container(
                         width: MediaQuery.of(context).size.width * 0.5,
-                        alignment: Alignment(1, 0),
                         child: Column(
                           children: <Widget>[
                             Container(
@@ -284,8 +288,7 @@ class Wardrobe extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              alignment: Alignment(-0.9, 0),
-                              width: 150,
+                              width: MediaQuery.of(context).size.width * 0.35,
                               child: Text(
                                 leftCategory,
                                 style: TextStyle(
@@ -298,8 +301,7 @@ class Wardrobe extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              alignment: Alignment(-0.9, 0),
-                              width: 150,
+                              width: MediaQuery.of(context).size.width * 0.35,
                               child: Text(
                                 snapshot.data.documents.length.toString() +
                                     " Pieces",
@@ -351,8 +353,7 @@ class Wardrobe extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              alignment: Alignment(-0.9, 0),
-                              width: 150,
+                              width: MediaQuery.of(context).size.width * 0.35,
                               child: Text(
                                 rightCategory,
                                 style: TextStyle(
@@ -365,8 +366,7 @@ class Wardrobe extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              alignment: Alignment(-0.9, 0),
-                              width: 150,
+                              width: MediaQuery.of(context).size.width * 0.35,
                               child: Text(
                                 snapshot.data.documents.length.toString() +
                                     " Pieces",
