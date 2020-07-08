@@ -1,3 +1,4 @@
+import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,42 +25,42 @@ class _ProfileHeaderState extends State<ProfileHeader> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width,
       color: Hexcolor('#FBFBFB'),
       child: Row(
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 10),
-            width: 120,
-            height: 90,
-            child: Column(
-              children: <Widget>[
-                GestureDetector(
-                  child: Center(
-                    child: StreamBuilder(
-                      stream: userRef.document(uid).snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Text('');
-                        } else if (snapshot.data['profilePicture']
-                            .toString()
-                            .isNotEmpty) {
-                          return Container(
-                            width: 60.0,
-                            height: 60.0,
-                            decoration: new BoxDecoration(
-                              border: Border.all(
-                                  width: 3, color: Hexcolor('#F4D4B8')),
-                              shape: BoxShape.circle,
-                              image: new DecorationImage(
-                                fit: BoxFit.fitHeight,
-                                image: new NetworkImage(
-                                    "https://cdn.vox-cdn.com/thumbor/U7zc79wuh0qCZxPhGAdi3eJ-q1g=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19228501/acastro_190919_1777_instagram_0003.0.jpg"),
-                              ),
+            width: MediaQuery.of(context).size.width * 0.4,
+            height: 80,
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  StreamBuilder(
+                    stream: userRef.document(uid).snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Text('');
+                      } else if (snapshot.data['profilePicture']
+                          .toString()
+                          .isNotEmpty) {
+                        return Container(
+                          width: 60.0,
+                          height: 60.0,
+                          decoration: new BoxDecoration(
+                            border: Border.all(
+                                width: 3, color: Hexcolor('#F4D4B8')),
+                            shape: BoxShape.circle,
+                            image: new DecorationImage(
+                              fit: BoxFit.fitHeight,
+                              image: new NetworkImage(
+                                  "https://cdn.vox-cdn.com/thumbor/U7zc79wuh0qCZxPhGAdi3eJ-q1g=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19228501/acastro_190919_1777_instagram_0003.0.jpg"),
                             ),
-                          );
-                        } else {
-                          print(snapshot.data['profilePicture']);
-                          return CircleAvatar(
+                          ),
+                        );
+                      } else {
+                        return Container(
+                          child: CircleAvatar(
                             backgroundColor: Hexcolor('#37585A'),
                             child: Text(
                               snapshot.data['firstName']
@@ -70,17 +71,16 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                                       .toString()
                                       .substring(0, 1)
                                       .toUpperCase(),
-                              style: TextStyle(color: Hexcolor('#C4C4C4')),
+                              style: TextStyle(
+                                color: Hexcolor('#C4C4C4'),
+                              ),
                             ),
-                          );
-                        }
-                      },
-                    ),
+                          ),
+                        );
+                      }
+                    },
                   ),
-                  onTap: () {},
-                ),
-                Center(
-                  child: Container(
+                  Container(
                       margin: EdgeInsets.only(top: 5),
                       child: GestureDetector(
                         child: Text(
@@ -90,16 +90,22 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                             fontSize: 12,
                           ),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ProfilePage()));
+                        },
                       )),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 10),
-            width: 260,
-            height: 90,
+            width: MediaQuery.of(context).size.width * 0.6,
+            height: 80,
             child: Container(
               margin: EdgeInsets.only(top: 20),
               child: Row(
@@ -108,7 +114,6 @@ class _ProfileHeaderState extends State<ProfileHeader> {
                   buildWidget(
                       DatabaseService().getClothes('All Items'), "Clothes"),
                   buildWidget(DatabaseService().getOutfit(), "Outfits"),
-                  // buildWidget(DatabaseService()., text)
                   StreamBuilder(
                       stream: userRef.document(uid).snapshots(),
                       builder: (context, snapshot) {

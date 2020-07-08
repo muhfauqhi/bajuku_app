@@ -108,13 +108,13 @@ class _OutfitDetailState extends State<OutfitDetail> {
                 Container(
                   key: key,
                   constraints: BoxConstraints(
-                      maxWidth: 450,
-                      maxHeight: 450,
-                      minWidth: 450,
-                      minHeight: 450),
+                      maxWidth: 400,
+                      maxHeight: 300,
+                      minWidth: 400,
+                      minHeight: 300),
                   child: Image.network(
                     widget.outfit.image,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.fitWidth,
                   ),
                 ),
                 for (var item in children) item

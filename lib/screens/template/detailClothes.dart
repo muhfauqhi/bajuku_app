@@ -1,5 +1,6 @@
 import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/screens/home/home.dart';
+import 'package:bajuku_app/screens/page/menu_burger/template/boxcolor.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitygivesell/sustainabilityAddClothes.dart';
 import 'package:bajuku_app/services/database.dart';
@@ -44,9 +45,8 @@ class _ClothesDetailState extends State<ClothesDetail> {
                     onPressed: () {}),
               ),
               Container(
-                width: 400,
+                width: MediaQuery.of(context).size.width * 0.90,
                 height: 300,
-                padding: EdgeInsets.only(left: 20, right: 20),
                 child: Card(
                   elevation: 2.0,
                   child: Container(
@@ -65,7 +65,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      width: 355,
+                      width: MediaQuery.of(context).size.width * 0.85,
                       padding: EdgeInsets.only(top: 10),
                       child: Text(
                         widget.clothes.clothName,
@@ -73,26 +73,28 @@ class _ClothesDetailState extends State<ClothesDetail> {
                             FontStyle.normal, 1.0),
                       ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          width: 200,
-                          padding: EdgeInsets.only(left: 30.0, top: 10.0),
-                          child: Text(
-                            widget.clothes.worn.toString() + ' times worn',
-                            style: textStyle(16.0, '#859289'),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      padding: EdgeInsets.only(top: 10.0),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: Text(
+                              widget.clothes.worn.toString() + ' times worn',
+                              style: textStyle(16.0, '#859289'),
+                            ),
                           ),
-                        ),
-                        Container(
-                          width: 185,
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text(
-                            lastWornVal(),
-                            textAlign: TextAlign.right,
-                            style: textStyle(12.0, '#859289'),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            child: Text(
+                              lastWornVal(),
+                              textAlign: TextAlign.right,
+                              style: textStyle(12.0, '#859289'),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -194,11 +196,12 @@ class _ClothesDetailState extends State<ClothesDetail> {
             contentPadding: EdgeInsets.only(top: 0.0),
             children: <Widget>[
               Container(
-                padding: EdgeInsets.only(top:35),
+                padding: EdgeInsets.only(top: 35),
                 height: 100,
                 child: Text(
-                    "This item already " + widget.clothes.status.toString(),
-                    textAlign: TextAlign.center,),
+                  "This item already " + widget.clothes.status.toString(),
+                  textAlign: TextAlign.center,
+                ),
               )
             ],
           );
@@ -284,12 +287,8 @@ class _ClothesDetailState extends State<ClothesDetail> {
             ),
           ),
           colorField
-              ? Container(
-                  color: Hexcolor(data),
-                  child: Icon(
-                    Icons.crop_square,
-                    color: Hexcolor(data),
-                  ),
+              ? BoxColor(
+                  color: data,
                 )
               : _buildFieldURL(data, url),
         ],

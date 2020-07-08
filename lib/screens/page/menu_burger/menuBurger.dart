@@ -3,8 +3,11 @@ import 'dart:developer';
 import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/clothstats.dart';
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
+<<<<<<< HEAD
+=======
+import 'package:bajuku_app/screens/page/menu_burger/routingPage/sustainabilitystats.dart';
+>>>>>>> 8128d90a690f97528a650f8fd071927b84317cf6
 import 'package:bajuku_app/screens/page/menu_burger/templateTextMenu.dart';
-import 'package:bajuku_app/screens/page/profileheader/profileheader.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +59,7 @@ class _MenuBurgerState extends State<MenuBurger> {
               text: "Clothing Stats",
             ),
             TextMenu(
-              route: Home(),
+              route: SustainAbilityStats(),
               text: "Sustainability Stats",
             ),
             TextMenu(
@@ -77,7 +80,6 @@ class _MenuBurgerState extends State<MenuBurger> {
               text: "Help",
             ),
             TextMenu(
-              route: Home(),
               text: "Logout",
             ),
           ],
@@ -109,9 +111,9 @@ class _MenuBurgerState extends State<MenuBurger> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            snapshot.data['firstName'].toString() +
+                            snapshot.data['firstName'].toString().toUpperCase() +
                                 " " +
-                                snapshot.data['lastName'].toString(),
+                                snapshot.data['lastName'].toString().toUpperCase(),
                             style: TextStyle(
                                 color: Hexcolor('#3F4D55'),
                                 fontSize: 16,
@@ -145,6 +147,7 @@ class _MenuBurgerState extends State<MenuBurger> {
                                     context,
                                     new MaterialPageRoute(
                                         builder: (BuildContext context) =>
+<<<<<<< HEAD
                                             new ProfilePage(
                                               profileCreated: year,
                                               profileName: snapshot
@@ -163,6 +166,9 @@ class _MenuBurgerState extends State<MenuBurger> {
                                                   .data['lastName']
                                                   .toString(),
                                             )));
+=======
+                                            new ProfilePage()));
+>>>>>>> 8128d90a690f97528a650f8fd071927b84317cf6
                               },
                             ),
                           ),

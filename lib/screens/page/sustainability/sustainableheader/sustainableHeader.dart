@@ -13,7 +13,7 @@ class HeaderWidgetSustainability extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return headerButton ? buildButton(context) : buildTitleWidget();
+    return headerButton ? buildButton(context) : buildTitleWidget(context);
   }
 
   Widget buildButton(var context) {
@@ -36,14 +36,14 @@ class HeaderWidgetSustainability extends StatelessWidget {
             },
           ),
         ),
-        buildTitleWidget(),
+        buildTitleWidget(context),
       ],
     );
   }
 
-  Widget buildTitle(var left) {
+  Widget buildTitle(var left, var context) {
     return Container(
-      width: 340,
+      width: MediaQuery.of(context).size.width * 0.8,
       margin: EdgeInsets.only(left: left, top: 12),
       child: Text(
         '$title',
@@ -57,9 +57,9 @@ class HeaderWidgetSustainability extends StatelessWidget {
     );
   }
 
-  Widget buildTitleWidget() {
+  Widget buildTitleWidget(var context) {
     return titleActive
-        ? buildTitle(0.0)
+        ? buildTitle(0.0, context)
         : Column(
             children: [
               Divider(
@@ -68,7 +68,7 @@ class HeaderWidgetSustainability extends StatelessWidget {
               ),
               Row(
                 children: <Widget>[
-                  buildTitle(25.0),
+                  buildTitle(25.0, context),
                   Container(
                     margin: EdgeInsets.only(top: 12),
                     child: Image.asset(
