@@ -110,6 +110,9 @@ class SustainAbilityStats extends StatelessWidget {
               marginTop: 5.0,
               titleText: 'Clothes Given',
               subtitleText: '',
+              function: () {
+                print('Halo');
+              },
             ),
             StatsListTemplate(
               widget: 'normal',
@@ -117,6 +120,9 @@ class SustainAbilityStats extends StatelessWidget {
               marginTop: 25.0,
               titleText: 'Recently Added',
               subtitleText: '10 most recently added',
+              function: () {
+                print('Halo');
+              },
             ),
             StatsListTemplate(
               widget: 'normal',
@@ -124,6 +130,9 @@ class SustainAbilityStats extends StatelessWidget {
               marginTop: 25.0,
               titleText: 'Clothes donated',
               subtitleText: 'in 6 months',
+              function: () {
+                print('Halo');
+              },
             ),
             StatsListTemplate(
               widget: 'normal',
@@ -131,6 +140,9 @@ class SustainAbilityStats extends StatelessWidget {
               marginTop: 25.0,
               titleText: 'Clothes sold',
               subtitleText: '',
+              function: () {
+                print('Halo');
+              },
             ),
             StatsListTemplate(
               widget: 'custom',
@@ -140,6 +152,9 @@ class SustainAbilityStats extends StatelessWidget {
               subtitleText: 'The best and the worst',
               customTextStyle: myTextStyle(
                   FontWeight.normal, 12.0, FontStyle.normal, '#3F4D55', 1.0),
+              function: () {
+                print('Halo');
+              },
             ),
             StatsListTemplate(
               widget: 'custom',
@@ -149,6 +164,9 @@ class SustainAbilityStats extends StatelessWidget {
               subtitleText: 'The most expensive and least expensive',
               customTextStyle: myTextStyle(
                   FontWeight.normal, 12.0, FontStyle.normal, '#3F4D55', 1.0),
+              function: () {
+                print('Halo');
+              },
             ),
           ],
         ),

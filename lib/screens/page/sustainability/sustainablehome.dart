@@ -53,7 +53,6 @@ class _SustainableHomeState extends State<SustainableHome> {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.all(25),
               child: Column(
                 children: [
                   buildFeed('feed1', 'Ryan Young', sustain('Sale'), '20 Mins',
@@ -96,128 +95,134 @@ class _SustainableHomeState extends State<SustainableHome> {
 
   Widget buildFeed(var profile, var profileName, var sustain, var time,
       var title, var price, var likes) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.only(bottom: 5.0),
-          height: 50,
-          child: Row(
-            children: [
-              Container(
-                margin: EdgeInsets.only(left: 35.0),
-                child: Image.asset('assets/images/profile$profile.png'),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Text(
-                      profileName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.88,
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 20.0, bottom: 5.0),
+            height: 50,
+            child: Row(
+              children: [
+                Container(
+                  alignment: Alignment(0.9, 0),
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  child: Image.asset('assets/images/profile$profile.png'),
+                ),
+                Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Text(
+                          profileName,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Container(
-                    child: Text(
-                      '$time Ago',
-                      style: TextStyle(
-                        color: Hexcolor('#9D9D9D'),
-                        fontSize: 10.0,
+                      Container(
+                        child: Text(
+                          '$time Ago',
+                          style: TextStyle(
+                            color: Hexcolor('#9D9D9D'),
+                            fontSize: 10.0,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              Container(
-                width: 118,
-                margin: EdgeInsets.only(bottom: 15.0, left: 10),
-                child: Row(
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.28,
+                  margin: EdgeInsets.only(bottom: 15.0, left: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Created for ',
+                        style: TextStyle(
+                          color: Hexcolor('#9D9D9D'),
+                          fontSize: 12.0,
+                        ),
+                      ),
+                      sustain
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Image.asset(
+                    'assets/images/more.png',
+                    height: 13,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: 300,
+            child: Image.asset('assets/images/$profile.png'),
+          ),
+          Container(
+            height: 50,
+            margin: EdgeInsets.only(bottom: 50.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
                   children: [
-                    Text(
-                      'Created for ',
-                      style: TextStyle(
-                        color: Hexcolor('#9D9D9D'),
-                        fontSize: 12.0,
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.62,
+                      margin: EdgeInsets.only(left: 35.0),
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          letterSpacing: 1.0,
+                          color: Hexcolor('#3F4D55'),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),
                       ),
                     ),
-                    sustain
+                    Container(
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/love.png',
+                            height: 15.0,
+                          ),
+                          Text(
+                            likes,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1.0,
+                              color: Hexcolor('#859289'),
+                              fontSize: 12.0,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              Container(
-                child: Image.asset(
-                  'assets/images/more.png',
-                  height: 13,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          height: 300,
-          child: Image.asset('assets/images/$profile.png'),
-        ),
-        Container(
-          height: 50,
-          margin: EdgeInsets.only(bottom: 50.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 250,
-                    margin: EdgeInsets.only(left: 35.0),
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        letterSpacing: 1.0,
-                        color: Hexcolor('#3F4D55'),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                      ),
+                Container(
+                  alignment: Alignment(-1, 0),
+                  margin: EdgeInsets.only(left: 35.0),
+                  child: Text(
+                    price,
+                    style: TextStyle(
+                      letterSpacing: 1.0,
+                      color: Hexcolor('#859289'),
+                      fontSize: 16.0,
                     ),
                   ),
-                  Container(
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/love.png',
-                          height: 15.0,
-                        ),
-                        Text(
-                          likes,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1.0,
-                            color: Hexcolor('#859289'),
-                            fontSize: 12.0,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                alignment: Alignment(-1, 0),
-                margin: EdgeInsets.only(left: 35.0),
-                child: Text(
-                  price,
-                  style: TextStyle(
-                    letterSpacing: 1.0,
-                    color: Hexcolor('#859289'),
-                    fontSize: 16.0,
-                  ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

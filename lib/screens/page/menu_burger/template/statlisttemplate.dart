@@ -10,6 +10,7 @@ class StatsListTemplate extends StatelessWidget {
   final String titleText;
   final String subtitleText;
   final TextStyle customTextStyle;
+  final Function function;
 
   StatsListTemplate({
     Key key,
@@ -19,29 +20,40 @@ class StatsListTemplate extends StatelessWidget {
     this.titleText,
     this.subtitleText,
     this.customTextStyle,
+    this.function,
   }) : super(key: key);
 
   final DatabaseService databaseService = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Hexcolor(color),
-      height: 100,
-      width: MediaQuery.of(context).size.width,
-      child: Row(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: marginTop),
-            width: MediaQuery.of(context).size.width * 0.85,
-            child: Container(
-              margin: EdgeInsets.only(left: 25.0),
-              child: setWidget(),
+    return Column(
+      children: [
+        GestureDetector(
+          child: Container(
+            color: Hexcolor(color),
+            height: 100,
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: marginTop),
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  child: Container(
+                    margin: EdgeInsets.only(left: 25.0),
+                    child: setWidget(),
+                  ),
+                ),
+                buildButtonRight(),
+              ],
             ),
           ),
-          buildButtonRight(),
-        ],
-      ),
+          onTap: () {
+            function();
+          },
+        ),
+        Text(''),
+      ],
     );
   }
 
@@ -173,7 +185,9 @@ class StatsListTemplate extends StatelessWidget {
         icon: Icon(Icons.chevron_right),
         color: Hexcolor('#3F4D55'),
         iconSize: 30.0,
-        onPressed: () {},
+        onPressed: () {
+          function();
+        },
       ),
     );
   }

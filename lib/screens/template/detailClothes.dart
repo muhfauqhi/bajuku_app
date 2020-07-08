@@ -1,5 +1,6 @@
 import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/screens/home/home.dart';
+import 'package:bajuku_app/screens/page/menu_burger/template/boxcolor.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitygivesell/sustainabilityAddClothes.dart';
 import 'package:bajuku_app/services/database.dart';
@@ -284,13 +285,7 @@ class _ClothesDetailState extends State<ClothesDetail> {
             ),
           ),
           colorField
-              ? Container(
-                  color: Hexcolor(data),
-                  child: Icon(
-                    Icons.crop_square,
-                    color: Hexcolor(data),
-                  ),
-                )
+              ? BoxColor(color: data,)
               : _buildFieldURL(data, url),
         ],
       ),
