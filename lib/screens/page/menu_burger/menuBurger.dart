@@ -3,6 +3,7 @@ import 'package:bajuku_app/screens/page/menu_burger/routingPage/clothstats.dart'
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/sustainabilitystats.dart';
 import 'package:bajuku_app/screens/page/menu_burger/templateTextMenu.dart';
+import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,8 @@ class MenuBurger extends StatefulWidget {
 class _MenuBurgerState extends State<MenuBurger> {
   CollectionReference userRef;
   String uid;
+  String profileName = '', profilePict = '', profileCreated = '';
+  final DatabaseService databaseService = DatabaseService();
 
   @override
   void initState() {
@@ -27,63 +30,90 @@ class _MenuBurgerState extends State<MenuBurger> {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: Container(
-        color: Hexcolor('F4D4B8'),
-        child: ListView(
-          children: <Widget>[
-            buildContainerHeader(),
-            TextMenu(
-              route: Home(),
-              text: "Home",
+    return FutureBuilder(
+        future: databaseService.getProfile(),
+        builder: (context, snapshot) {
+          profileName = snapshot.data['firstName'].toString()[0].toUpperCase() +
+              snapshot.data['firstName'].toString().substring(1) +
+              ' ' +
+              snapshot.data['lastName'].toString()[0].toUpperCase() +
+              snapshot.data['lastName'].toString().substring(1);
+          profilePict = snapshot.data['firstName']
+                  .toString()
+                  .substring(0, 1)
+                  .toUpperCase() +
+              snapshot.data['lastName']
+                  .toString()
+                  .substring(0, 1)
+                  .toUpperCase();
+          var y = snapshot.data['created'].toDate();
+          profileCreated = new DateFormat('yyyy').format(y);
+          return Drawer(
+            child: Container(
+              color: Hexcolor('F4D4B8'),
+              child: ListView(
+                children: <Widget>[
+                  buildContainerHeader(),
+                  TextMenu(
+                    route: Home(),
+                    text: "Home",
+                  ),
+                  TextMenu(
+                    route: Home(),
+                    text: "Message",
+                  ),
+                  TextMenu(
+                    route: Home(),
+                    text: "Planner",
+                  ),
+                  TextMenu(
+                    route: Home(),
+                    text: "Outfit Looks",
+                  ),
+                  TextMenu(
+                    route: ClothingStats(
+                      profileCreated: profileCreated,
+                      profileName: profileName,
+                      profilePict: profilePict,
+                    ),
+                    text: "Clothing Stats",
+                  ),
+                  TextMenu(
+                    route: SustainAbilityStats(
+                      profileCreated: profileCreated,
+                      profileName: profileName,
+                      profilePict: profilePict,
+                    ),
+                    text: "Sustainability Stats",
+                  ),
+                  TextMenu(
+                    route: Home(),
+                    text: "Inspiration",
+                  ),
+                  TextMenu(
+                    route: Home(),
+                    text: "History",
+                  ),
+                  TextMenu(
+                    route: Home(),
+                    text: "My Rewards",
+                  ),
+                  Divider(),
+                  TextMenu(
+                    route: Home(),
+                    text: "Help",
+                  ),
+                  TextMenu(
+                    text: "Logout",
+                  ),
+                ],
+              ),
             ),
-            TextMenu(
-              route: Home(),
-              text: "Message",
-            ),
-            TextMenu(
-              route: Home(),
-              text: "Planner",
-            ),
-            TextMenu(
-              route: Home(),
-              text: "Outfit Looks",
-            ),
-            TextMenu(
-              route: ClothingStats(),
-              text: "Clothing Stats",
-            ),
-            TextMenu(
-              route: SustainAbilityStats(),
-              text: "Sustainability Stats",
-            ),
-            TextMenu(
-              route: Home(),
-              text: "Inspiration",
-            ),
-            TextMenu(
-              route: Home(),
-              text: "History",
-            ),
-            TextMenu(
-              route: Home(),
-              text: "My Rewards",
-            ),
-            Divider(),
-            TextMenu(
-              route: Home(),
-              text: "Help",
-            ),
-            TextMenu(
-              text: "Logout",
-            ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 
-  Container buildContainerHeader() {
+  Widget buildContainerHeader() {
     return Container(
       margin: EdgeInsets.only(bottom: 7),
       child: DrawerHeader(
@@ -106,9 +136,13 @@ class _MenuBurgerState extends State<MenuBurger> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            snapshot.data['firstName'].toString().toUpperCase() +
+                            snapshot.data['firstName']
+                                    .toString()
+                                    .toUpperCase() +
                                 " " +
-                                snapshot.data['lastName'].toString().toUpperCase(),
+                                snapshot.data['lastName']
+                                    .toString()
+                                    .toUpperCase(),
                             style: TextStyle(
                                 color: Hexcolor('#3F4D55'),
                                 fontSize: 16,
@@ -194,7 +228,6 @@ class _MenuBurgerState extends State<MenuBurger> {
         ),
       );
     } else {
-      print(snapshot.data['profilePicture']);
       return Container(
         margin: EdgeInsets.only(left: 10),
         child: CircleAvatar(

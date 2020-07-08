@@ -5,15 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class SustainAbilityStats extends StatelessWidget {
+  final String profileName;
+  final String profilePict;
+  final String profileCreated;
   final DatabaseService databaseService = DatabaseService();
+
+  SustainAbilityStats(
+      {Key key, this.profileName, this.profilePict, this.profileCreated})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MenuBurgerScaffold(
       title: 'Sustainability Statistic',
-      profileName: 'Michella Yosephin',
-      profilePict: 'MY',
-      profileCreated: '2019',
+      profileName: profileName,
+      profilePict: profilePict,
+      profileCreated: profileCreated,
       leftBox: FutureBuilder(
         future: databaseService.getProfile(),
         builder: (context, snapshot) {
