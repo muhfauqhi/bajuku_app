@@ -119,7 +119,13 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20),
+                margin: EdgeInsets.only(top: 10),
+                child: Text(widget.userPoints+" Points",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                        color: Hexcolor('#4AA081')))),
+            Container(
               child: SliderTheme(
                 data: SliderTheme.of(context).copyWith(
                   disabledActiveTrackColor: Hexcolor('#57686A'),
@@ -184,7 +190,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 50),
+              margin: EdgeInsets.only(left: 20, right: 20, top: 30),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
