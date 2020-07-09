@@ -1,13 +1,10 @@
 import 'package:bajuku_app/screens/page/addItem/addChoice.dart';
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablehome.dart';
-<<<<<<< HEAD
 import 'package:bajuku_app/screens/template/templateDetailOutfit.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-=======
->>>>>>> dba46f0e891204cb0f7c0a20a03231fba365793e
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -72,7 +69,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               },
             ),
           ),
-<<<<<<< HEAD
           StreamBuilder(
             stream: userRef.document(uid).snapshots(),
             builder: (context, snapshot) {
@@ -110,17 +106,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 );
               }
             },
-=======
-          Container(
-            margin: EdgeInsets.all(5),
-            height: 35,
-            width: 35,
-            child: GestureDetector(
-              child: Image.asset('assets/images/profilenav.png'),
-              onTap: () {
-              },
-            ),
->>>>>>> dba46f0e891204cb0f7c0a20a03231fba365793e
           ),
         ],
       ),
