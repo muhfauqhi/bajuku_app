@@ -90,10 +90,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                               builder: (BuildContext context) =>
                                   new ProfilePage(
                                     profileCreated: year,
-                                    profileName: snapshot.data['firstName']
-                                            .toString() +
-                                        " " +
-                                        snapshot.data['lastName'].toString(),
                                     userPoints:
                                         snapshot.data['points'].toString(),
                                     firstName:

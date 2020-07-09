@@ -5,7 +5,6 @@ import 'package:hexcolor/hexcolor.dart';
 
 class ProfilePage extends StatefulWidget {
   final String userPoints;
-  final String profileName;
   final String profileCreated;
   final String firstName;
   final String lastName;
@@ -13,7 +12,6 @@ class ProfilePage extends StatefulWidget {
   ProfilePage(
       {this.userPoints,
       this.profileCreated,
-      this.profileName,
       this.firstName,
       this.lastName});
 
@@ -26,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return MenuBurgerScaffold(
         title: ("Profile"),
-        profileName: widget.profileName,
+        profileName: widget.firstName.toString().toUpperCase()[0]+widget.firstName.substring(1)+" "+widget.lastName.toString().toUpperCase()[0]+widget.lastName.substring(1),
         profilePict: widget.firstName.substring(0, 1).toUpperCase() +
             widget.lastName.toString().substring(0, 1).toUpperCase(),
         profileCreated: widget.profileCreated,
