@@ -1,3 +1,6 @@
+import 'package:bajuku_app/screens/page/menu_burger/routingPage/clothstatspage/colorstorage.dart';
+import 'package:bajuku_app/screens/page/menu_burger/routingPage/clothstatspage/neverusedinoutfit.dart';
+import 'package:bajuku_app/screens/page/menu_burger/routingPage/clothstatspage/recentlyadded.dart';
 import 'package:bajuku_app/screens/page/menu_burger/template/sliverappbartemplate.dart';
 import 'package:bajuku_app/screens/page/menu_burger/template/statlisttemplate.dart';
 import 'package:bajuku_app/services/database.dart';
@@ -116,7 +119,10 @@ class ClothingStats extends StatelessWidget {
               color: '#FBFBFB',
               marginTop: 5.0,
               function: () {
-                print('Halo');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => ColorStorage()));
               },
             ),
             StatsListTemplate(
@@ -126,7 +132,10 @@ class ClothingStats extends StatelessWidget {
               titleText: 'Recently Added',
               subtitleText: '10 most recently added',
               function: () {
-                print('Halo');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => RecentlyAdded()));
               },
             ),
             StatsListTemplate(
@@ -136,7 +145,10 @@ class ClothingStats extends StatelessWidget {
               titleText: 'Never used in Outfit',
               subtitleText: 'in 6 months',
               function: () {
-                print('Halo');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => NeverUsed()));
               },
             ),
             StatsListTemplate(

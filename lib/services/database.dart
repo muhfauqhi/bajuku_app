@@ -86,7 +86,7 @@ class DatabaseService {
       "url": url,
       "startDate": FieldValue.serverTimestamp(),
       "endDate": FieldValue.serverTimestamp(),
-      "updateDate": FieldValue.serverTimestamp(),
+      "updateDate": Timestamp.fromDate(DateTime.now()),
       "image": image,
     });
   }
@@ -297,6 +297,7 @@ class DatabaseService {
         .collection('users')
         .document(firebaseUser.uid)
         .collection('clothes')
+        .orderBy('startDate', descending: true)
         .getDocuments();
     return qn;
   }
@@ -305,7 +306,8 @@ class DatabaseService {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     DocumentSnapshot qn = await Firestore.instance
         .collection('users')
-        .document(firebaseUser.uid).get();
+        .document(firebaseUser.uid)
+        .get();
     return qn;
   }
 
