@@ -43,6 +43,8 @@ dependencies:
   flutter_date_pickers: ^0.1.0
   flutter_local_notifications: ^1.4.4+1
   clipboard_manager: ^0.0.4
+  table_calendar: ^2.2.3
+  shared_preferences: ^0.5.8
 
 dev_dependencies:
   flutter_test:

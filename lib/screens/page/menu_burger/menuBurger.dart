@@ -1,5 +1,6 @@
 import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/clothstats.dart';
+import 'package:bajuku_app/screens/page/menu_burger/routingPage/planner.dart';
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/sustainabilitystats.dart';
 import 'package:bajuku_app/screens/page/menu_burger/templateTextMenu.dart';
@@ -67,7 +68,7 @@ class _MenuBurgerState extends State<MenuBurger> {
                       text: "Message",
                     ),
                     TextMenu(
-                      route: Home(),
+                      route: Planner(),
                       text: "Planner",
                     ),
                     TextMenu(
