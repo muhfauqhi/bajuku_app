@@ -33,83 +33,88 @@ class _MenuBurgerState extends State<MenuBurger> {
     return FutureBuilder(
         future: databaseService.getProfile(),
         builder: (context, snapshot) {
-          profileName = snapshot.data['firstName'].toString()[0].toUpperCase() +
-              snapshot.data['firstName'].toString().substring(1) +
-              ' ' +
-              snapshot.data['lastName'].toString()[0].toUpperCase() +
-              snapshot.data['lastName'].toString().substring(1);
-          profilePict = snapshot.data['firstName']
-                  .toString()
-                  .substring(0, 1)
-                  .toUpperCase() +
-              snapshot.data['lastName']
-                  .toString()
-                  .substring(0, 1)
-                  .toUpperCase();
-          var y = snapshot.data['created'].toDate();
-          profileCreated = new DateFormat('yyyy').format(y);
-          return Drawer(
-            child: Container(
-              color: Hexcolor('F4D4B8'),
-              child: ListView(
-                children: <Widget>[
-                  buildContainerHeader(),
-                  TextMenu(
-                    route: Home(),
-                    text: "Home",
-                  ),
-                  TextMenu(
-                    route: Home(),
-                    text: "Message",
-                  ),
-                  TextMenu(
-                    route: Home(),
-                    text: "Planner",
-                  ),
-                  TextMenu(
-                    route: Home(),
-                    text: "Outfit Looks",
-                  ),
-                  TextMenu(
-                    route: ClothingStats(
-                      profileCreated: profileCreated,
-                      profileName: profileName,
-                      profilePict: profilePict,
+          if (!snapshot.hasData) {
+            return Text("");
+          } else {
+            profileName =
+                snapshot.data['firstName'].toString()[0].toUpperCase() +
+                    snapshot.data['firstName'].toString().substring(1) +
+                    ' ' +
+                    snapshot.data['lastName'].toString()[0].toUpperCase() +
+                    snapshot.data['lastName'].toString().substring(1);
+            profilePict = snapshot.data['firstName']
+                    .toString()
+                    .substring(0, 1)
+                    .toUpperCase() +
+                snapshot.data['lastName']
+                    .toString()
+                    .substring(0, 1)
+                    .toUpperCase();
+            var y = snapshot.data['created'].toDate();
+            profileCreated = new DateFormat('yyyy').format(y);
+            return Drawer(
+              child: Container(
+                color: Hexcolor('F4D4B8'),
+                child: ListView(
+                  children: <Widget>[
+                    buildContainerHeader(),
+                    TextMenu(
+                      route: Home(),
+                      text: "Home",
                     ),
-                    text: "Clothing Stats",
-                  ),
-                  TextMenu(
-                    route: SustainAbilityStats(
-                      profileCreated: profileCreated,
-                      profileName: profileName,
-                      profilePict: profilePict,
+                    TextMenu(
+                      route: Home(),
+                      text: "Message",
                     ),
-                    text: "Sustainability Stats",
-                  ),
-                  TextMenu(
-                    route: Home(),
-                    text: "Inspiration",
-                  ),
-                  TextMenu(
-                    route: Home(),
-                    text: "History",
-                  ),
-                  TextMenu(
-                    route: Home(),
-                    text: "My Rewards",
-                  ),
-                  Divider(),
-                  TextMenu(
-                    route: Home(),
-                    text: "Help",
-                  ),
-                  TextMenu(
-                    text: "Logout",
-                  ),
-                ],
+                    TextMenu(
+                      route: Home(),
+                      text: "Planner",
+                    ),
+                    TextMenu(
+                      route: Home(),
+                      text: "Outfit Looks",
+                    ),
+                    TextMenu(
+                      route: ClothingStats(
+                        profileCreated: profileCreated,
+                        profileName: profileName,
+                        profilePict: profilePict,
+                      ),
+                      text: "Clothing Stats",
+                    ),
+                    TextMenu(
+                      route: SustainAbilityStats(
+                        profileCreated: profileCreated,
+                        profileName: profileName,
+                        profilePict: profilePict,
+                      ),
+                      text: "Sustainability Stats",
+                    ),
+                    TextMenu(
+                      route: Home(),
+                      text: "Inspiration",
+                    ),
+                    TextMenu(
+                      route: Home(),
+                      text: "History",
+                    ),
+                    TextMenu(
+                      route: Home(),
+                      text: "My Rewards",
+                    ),
+                    Divider(),
+                    TextMenu(
+                      route: Home(),
+                      text: "Help",
+                    ),
+                    TextMenu(
+                      text: "Logout",
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
+            );
+          }
         });
   }
 
@@ -178,12 +183,6 @@ class _MenuBurgerState extends State<MenuBurger> {
                                         builder: (BuildContext context) =>
                                             new ProfilePage(
                                               profileCreated: year,
-                                              profileName: snapshot
-                                                      .data['firstName']
-                                                      .toString() +
-                                                  " " +
-                                                  snapshot.data['lastName']
-                                                      .toString(),
                                               userPoints: snapshot
                                                   .data['points']
                                                   .toString(),
