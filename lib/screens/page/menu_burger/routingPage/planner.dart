@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:bajuku_app/models/clothes.dart';
+import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -58,7 +59,11 @@ class _PlannerState extends State<Planner> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MyScaffold(
+      leadingActive: true,
+      title: 'Planner',
+      titleStyle: false,
+      headerWidget: [],
       body: FutureBuilder(
           future: DatabaseService().getClothesAvailable(),
           builder: (context, snapshot) {
@@ -158,7 +163,7 @@ class _PlannerState extends State<Planner> {
                           date = formatter.format(date);
                           var values = _events.values.toList();
                           for (int i = 0; i < values.length; i++) {
-                            print(values[0][0]['clothName']);
+                            print(values.elementAt(i)[0].clothName);
                           }
                           return ListTile(
                             onTap: () {
@@ -167,16 +172,10 @@ class _PlannerState extends State<Planner> {
                                     _events.keys.elementAt(index));
                               });
                             },
-                            title: Text(_events.values
-                                .elementAt(index)
-                                .toString()
-                                .substring(
-                                    1,
-                                    (_events.values
-                                            .elementAt(index)
-                                            .toString()
-                                            .length) -
-                                        1)),
+                            title: Text(values
+                                .elementAt(index)[0]
+                                .clothName
+                                .toString()),
                             subtitle: Row(
                               children: <Widget>[
                                 Container(
@@ -185,44 +184,44 @@ class _PlannerState extends State<Planner> {
                                     date.toString(),
                                   ),
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 200),
-                                  child: GestureDetector(
-                                    child: Text("Change Plan"),
-                                    onTap: () {
-                                      showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(2015, 8),
-                                        lastDate: DateTime(2101),
-                                        confirmText: 'OK',
-                                        cancelText: '',
-                                        builder: (BuildContext context,
-                                            Widget child) {
-                                          return Theme(
-                                            data: ThemeData.dark().copyWith(
-                                              colorScheme: ColorScheme.dark(
-                                                primary: Hexcolor('#DBBEA7'),
-                                                onPrimary: Colors.white,
-                                                surface: Hexcolor('#3F4D55'),
-                                                onSurface: Hexcolor('#DBBEA7'),
-                                              ),
-                                              dialogBackgroundColor:
-                                                  Hexcolor('#3F4D55'),
-                                            ),
-                                            child: child,
-                                          );
-                                        },
-                                      ).then((value) {
-                                        setState(() {
-                                          // selectedDate = value;
-                                          // dateBoughtFormatted =
-                                          // formatter.format(value);
-                                        });
-                                      });
-                                    },
-                                  ),
-                                )
+                                // Container(
+                                //   margin: EdgeInsets.only(left: 200),
+                                //   child: GestureDetector(
+                                //     child: Text("Change Plan"),
+                                //     onTap: () {
+                                //       showDatePicker(
+                                //         context: context,
+                                //         initialDate: DateTime.now(),
+                                //         firstDate: DateTime(2015, 8),
+                                //         lastDate: DateTime(2101),
+                                //         confirmText: 'OK',
+                                //         cancelText: '',
+                                //         builder: (BuildContext context,
+                                //             Widget child) {
+                                //           return Theme(
+                                //             data: ThemeData.dark().copyWith(
+                                //               colorScheme: ColorScheme.dark(
+                                //                 primary: Hexcolor('#DBBEA7'),
+                                //                 onPrimary: Colors.white,
+                                //                 surface: Hexcolor('#3F4D55'),
+                                //                 onSurface: Hexcolor('#DBBEA7'),
+                                //               ),
+                                //               dialogBackgroundColor:
+                                //                   Hexcolor('#3F4D55'),
+                                //             ),
+                                //             child: child,
+                                //           );
+                                //         },
+                                //       ).then((value) {
+                                //         setState(() {
+                                //           // selectedDate = value;
+                                //           // dateBoughtFormatted =
+                                //           // formatter.format(value);
+                                //         });
+                                //       });
+                                //     },
+                                //   ),
+                                // )
                               ],
                             ),
                           );
