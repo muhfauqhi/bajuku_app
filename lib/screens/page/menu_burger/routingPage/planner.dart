@@ -4,6 +4,7 @@ import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -19,6 +20,8 @@ class _PlannerState extends State<Planner> {
   List<dynamic> _selectedEvents;
   TextEditingController _eventController;
   SharedPreferences prefs;
+  var date;
+  var selectedDate;
 
   @override
   void initState() {
@@ -150,6 +153,13 @@ class _PlannerState extends State<Planner> {
                   Expanded(
                     child: ListView.separated(
                         itemBuilder: (context, index) {
+                          date = _events.keys.elementAt(index);
+                          var formatter = new DateFormat('dd MMMM yyyy');
+                          date = formatter.format(date);
+                          var values = _events.values.toList();
+                          for (int i = 0; i < values.length; i++) {
+                            print(values[0][0]['clothName']);
+                          }
                           return ListTile(
                             onTap: () {
                               setState(() {
@@ -157,10 +167,64 @@ class _PlannerState extends State<Planner> {
                                     _events.keys.elementAt(index));
                               });
                             },
-                            title: Text(
-                                _events.values.elementAt(index).toString()),
-                            subtitle:
-                                Text(_events.keys.elementAt(index).toString()),
+                            title: Text(_events.values
+                                .elementAt(index)
+                                .toString()
+                                .substring(
+                                    1,
+                                    (_events.values
+                                            .elementAt(index)
+                                            .toString()
+                                            .length) -
+                                        1)),
+                            subtitle: Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(top: 5),
+                                  child: Text(
+                                    date.toString(),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 200),
+                                  child: GestureDetector(
+                                    child: Text("Change Plan"),
+                                    onTap: () {
+                                      showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2015, 8),
+                                        lastDate: DateTime(2101),
+                                        confirmText: 'OK',
+                                        cancelText: '',
+                                        builder: (BuildContext context,
+                                            Widget child) {
+                                          return Theme(
+                                            data: ThemeData.dark().copyWith(
+                                              colorScheme: ColorScheme.dark(
+                                                primary: Hexcolor('#DBBEA7'),
+                                                onPrimary: Colors.white,
+                                                surface: Hexcolor('#3F4D55'),
+                                                onSurface: Hexcolor('#DBBEA7'),
+                                              ),
+                                              dialogBackgroundColor:
+                                                  Hexcolor('#3F4D55'),
+                                            ),
+                                            child: child,
+                                          );
+                                        },
+                                      ).then((value) {
+                                        setState(() {
+                                          // selectedDate = value;
+                                          // dateBoughtFormatted =
+                                          // formatter.format(value);
+                                        });
+                                      });
+                                    },
+                                  ),
+                                )
+                              ],
+                            ),
                           );
                         },
                         separatorBuilder: (context, index) {
@@ -218,7 +282,7 @@ class _PlannerState extends State<Planner> {
       if (data[e.endDate.toDate()] == null) {
         data[e.endDate.toDate()] = [];
       }
-      data[e.endDate.toDate()].add(e.clothName.toString());
+      data[e.endDate.toDate()].add(e);
     });
     return data;
   }
