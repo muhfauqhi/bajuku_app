@@ -162,9 +162,6 @@ class _PlannerState extends State<Planner> {
                           var formatter = new DateFormat('dd MMMM yyyy');
                           date = formatter.format(date);
                           var values = _events.values.toList();
-                          for (int i = 0; i < values.length; i++) {
-                            print(values.elementAt(i)[0].clothName);
-                          }
                           return ListTile(
                             onTap: () {
                               setState(() {
@@ -184,44 +181,43 @@ class _PlannerState extends State<Planner> {
                                     date.toString(),
                                   ),
                                 ),
-                                // Container(
-                                //   margin: EdgeInsets.only(left: 200),
-                                //   child: GestureDetector(
-                                //     child: Text("Change Plan"),
-                                //     onTap: () {
-                                //       showDatePicker(
-                                //         context: context,
-                                //         initialDate: DateTime.now(),
-                                //         firstDate: DateTime(2015, 8),
-                                //         lastDate: DateTime(2101),
-                                //         confirmText: 'OK',
-                                //         cancelText: '',
-                                //         builder: (BuildContext context,
-                                //             Widget child) {
-                                //           return Theme(
-                                //             data: ThemeData.dark().copyWith(
-                                //               colorScheme: ColorScheme.dark(
-                                //                 primary: Hexcolor('#DBBEA7'),
-                                //                 onPrimary: Colors.white,
-                                //                 surface: Hexcolor('#3F4D55'),
-                                //                 onSurface: Hexcolor('#DBBEA7'),
-                                //               ),
-                                //               dialogBackgroundColor:
-                                //                   Hexcolor('#3F4D55'),
-                                //             ),
-                                //             child: child,
-                                //           );
-                                //         },
-                                //       ).then((value) {
-                                //         setState(() {
-                                //           // selectedDate = value;
-                                //           // dateBoughtFormatted =
-                                //           // formatter.format(value);
-                                //         });
-                                //       });
-                                //     },
-                                //   ),
-                                // )
+                                Container(
+                                  margin: EdgeInsets.only(left: 200),
+                                  child: GestureDetector(
+                                    child: Text("Change Plan"),
+                                    onTap: () {
+                                      showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2015, 8),
+                                        lastDate: DateTime(2101),
+                                        confirmText: 'OK',
+                                        cancelText: '',
+                                        builder: (BuildContext context,
+                                            Widget child) {
+                                          return Theme(
+                                            data: ThemeData.dark().copyWith(
+                                              colorScheme: ColorScheme.dark(
+                                                primary: Hexcolor('#DBBEA7'),
+                                                onPrimary: Colors.white,
+                                                surface: Hexcolor('#3F4D55'),
+                                                onSurface: Hexcolor('#DBBEA7'),
+                                              ),
+                                              dialogBackgroundColor:
+                                                  Hexcolor('#3F4D55'),
+                                            ),
+                                            child: child,
+                                          );
+                                        },
+                                      ).then((value) {
+                                        setState(() {
+                                          selectedDate = value;
+                                          DatabaseService().updatePlannerDate(values.elementAt(index)[0].documentId, value);
+                                        });
+                                      });
+                                    },
+                                  ),
+                                )
                               ],
                             ),
                           );

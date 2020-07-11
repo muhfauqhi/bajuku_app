@@ -232,6 +232,17 @@ class DatabaseService {
             {'updateDate': DateTime.now(), 'worn': FieldValue.increment(1)});
   }
 
+  updatePlannerDate(selectedDoc,selectedDate) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('clothes')
+        .document(selectedDoc)
+        .updateData(
+            {'endDate': selectedDate});
+  }
+
   updateUsedInOutfit(selectedDoc) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     firestoreInstance
