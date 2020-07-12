@@ -61,7 +61,7 @@ class _TagImageState extends State<TagImage> {
             Container(
               margin: EdgeInsets.only(left: 40),
               child: Text(
-                'Tag People',
+                'Tag Clothes',
                 style: TextStyle(
                   color: Hexcolor('#3F4D55'),
                   fontWeight: FontWeight.w600,

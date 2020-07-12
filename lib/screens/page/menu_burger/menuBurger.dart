@@ -142,13 +142,7 @@ class _MenuBurgerState extends State<MenuBurger> {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            snapshot.data['firstName']
-                                    .toString()
-                                    .toUpperCase() +
-                                " " +
-                                snapshot.data['lastName']
-                                    .toString()
-                                    .toUpperCase(),
+                           profileName,
                             style: TextStyle(
                                 color: Hexcolor('#3F4D55'),
                                 fontSize: 16,

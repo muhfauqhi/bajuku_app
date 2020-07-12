@@ -33,10 +33,10 @@ class _CustomBottomNavigationBarState extends State<CustomNavbarOutfit> {
         children: <Widget>[
           Container(
             margin: EdgeInsets.all(5),
-            height: 35,
-            width: 35,
+            height: 40,
+            width: 40,
             child: GestureDetector(
-              child: Image.asset('assets/images/homenav.png'),
+              child: Image.asset('assets/images/uil_image-edit.png'),
               onTap: () {},
             ),
           ),
@@ -63,19 +63,19 @@ class _CustomBottomNavigationBarState extends State<CustomNavbarOutfit> {
           ),
           Container(
             margin: EdgeInsets.all(5),
-            height: 35,
-            width: 35,
+            height: 30,
+            width: 30,
             child: GestureDetector(
-              child: Image.asset('assets/images/profilenav.png'),
+              child: Image.asset('assets/images/undo.png'),
               onTap: () {},
             ),
           ),
           Container(
             margin: EdgeInsets.all(5),
-            height: 35,
-            width: 35,
+            height: 30,
+            width: 30,
             child: GestureDetector(
-              child: Image.asset('assets/images/profilenav.png'),
+              child: Image.asset('assets/images/redo.png'),
               onTap: () {},
             ),
           ),
