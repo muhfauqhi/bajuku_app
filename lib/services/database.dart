@@ -63,6 +63,7 @@ class DatabaseService {
       String image) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     updatePoints(5);
+    var date = DateTime.now();
     return await firestoreInstance
         .collection('users')
         .document(firebaseUser.uid)
@@ -85,7 +86,7 @@ class DatabaseService {
       "usedInOutfit": usedInOutfit,
       "url": url,
       "startDate": FieldValue.serverTimestamp(),
-      "endDate": FieldValue.serverTimestamp(),
+      "endDate": DateTime(date.year, date.month + 6, date.day),
       "updateDate": Timestamp.fromDate(DateTime.now()),
       "image": image,
     });
