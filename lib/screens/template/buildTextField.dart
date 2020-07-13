@@ -15,6 +15,7 @@ class BuildTextField extends StatefulWidget {
   final String type;
   final Function onChanged;
   final Function onTap;
+  final controller;
 
   BuildTextField({
     Key key,
@@ -27,6 +28,7 @@ class BuildTextField extends StatefulWidget {
     this.type,
     this.onChanged,
     this.onTap,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -78,6 +80,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
   Widget _buildNotes(var type, var typeImage) {
     return Container(
       child: TextFormField(
+        controller: widget.controller,
         onChanged: widget.onChanged,
         maxLines: 5,
         decoration: InputDecoration(
@@ -156,6 +159,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
       return Expanded(
         child: Container(
           child: TextFormField(
+            controller: widget.controller,
             onChanged: widget.onChanged,
             keyboardType: TextInputType.number,
             style: textStyle(12.0, '#3F4D55'),
@@ -174,6 +178,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
       return Expanded(
         child: Container(
           child: TextFormField(
+            controller: widget.controller,
             onChanged: widget.onChanged,
             style: textStyle(12.0, '#3F4D55'),
             decoration: InputDecoration(

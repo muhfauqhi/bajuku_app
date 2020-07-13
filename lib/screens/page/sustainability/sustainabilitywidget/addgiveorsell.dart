@@ -12,10 +12,6 @@ class SimpleDialogAddGiveOrSell extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          buttonImage('TakeaPicture', context, ''),
-          Divider(height: 2),
-          buttonImage('ChoosefromAlbum', context, ''),
-          Divider(height: 2),
           buttonImage('ChoosefromWardrobe', context, SustainScaffoldWardrobe(type: type,)),
           Divider(height: 2),
           buttonImage('ChoosefromMyJournal', context, SustainScaffoldJournal(type: type)),

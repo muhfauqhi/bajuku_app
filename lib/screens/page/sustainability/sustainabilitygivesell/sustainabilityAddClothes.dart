@@ -5,7 +5,6 @@ import 'package:bajuku_app/screens/template/buildTextField.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class SustainAddClothes extends StatelessWidget {
   final Clothes clothes;
   final String title;
@@ -72,14 +71,14 @@ class SustainAddClothes extends StatelessWidget {
                 widget: 'button',
                 type: type,
                 onTap: () {
+                  databaseService.updateGivenJournal(type, clothes.documentId);
                   clothes.status = type;
                   databaseService.setGivenOrSellClothes(
-                      clothes, productDesc, price, condition, type);
+                      clothes, productDesc, price, condition, type, location);
                   showDialog(
                     context: context,
                     child: GestureDetector(
                       onTap: () {
-                        print(type);
                         Navigator.pop(context);
                         Navigator.push(
                             context,

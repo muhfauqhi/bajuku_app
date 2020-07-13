@@ -111,9 +111,8 @@ class DatabaseService {
   }
 
   Future setGivenOrSellClothes(Clothes clothes, String productDesc,
-      String price, String condition, String type) async {
+      String price, String condition, String type, String location) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
-
     updateGivenCloth(clothes.documentId, type);
     updatePoints(10);
     return await firestoreInstance
@@ -121,11 +120,12 @@ class DatabaseService {
         .document(firebaseUser.uid)
         .collection('sustainability')
         .add({
-      "clothes": clothes.toMap(),
+      "created": FieldValue.serverTimestamp(),
       "productDesc": productDesc,
       "price": price,
       "condition": condition,
-      "created": FieldValue.serverTimestamp(),
+      'location': location,
+      "clothes": clothes.toMap(),
     });
   }
 
@@ -146,7 +146,6 @@ class DatabaseService {
         .document(firebaseUser.uid)
         .collection('outfits')
         .snapshots();
-    print(firebaseUser.uid);
   }
 
   Future<String> getUid() async {
@@ -255,12 +254,39 @@ class DatabaseService {
 
   updateGivenCloth(documentId, String type) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
+    updateGivenJournal(type, documentId);
     firestoreInstance
         .collection('users')
         .document(firebaseUser.uid)
         .collection('clothes')
         .document(documentId)
         .updateData({'status': type});
+  }
+
+  updateGivenJournal(String type, documentId) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    QuerySnapshot result = await firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('outfits')
+        .getDocuments();
+    result.documents.forEach((e) {
+      e.data['tagged'].forEach((k, v) {
+        if (documentId == v['documentId']) {
+          v['status'] = type;
+          firestoreInstance
+              .collection('users')
+              .document(firebaseUser.uid)
+              .collection('outfits')
+              .document(e.documentID)
+              .setData({
+            'tagged': {
+              '$k': v,
+            }
+          }, merge: true);
+        }
+      });
+    });
   }
 
   updatePoints(var points) async {

@@ -120,10 +120,10 @@ class _OutfitDetailState extends State<OutfitDetail> {
                 for (var item in children) item
               ],
             ),
-            buildContainerRowButton(),
+            // buildContainerRowButton(),
             buildContainerNotes(),
             buildContainerRowOutfit(),
-            buildContainerRowTotalCost(),
+            // buildContainerRowTotalCost(),
             Divider(
               color: Hexcolor('#FFFFFF'),
               thickness: 2.0,
@@ -191,24 +191,40 @@ class _OutfitDetailState extends State<OutfitDetail> {
 
   Widget buildContainerRowOutfit() {
     return Container(
+      width: MediaQuery.of(context).size.width,
       child: Row(
         children: <Widget>[
           Container(
-            width: 200,
-            margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+            width: MediaQuery.of(context).size.width * 0.5,
+            margin: EdgeInsets.only(
+              left: 20,
+              top: 10,
+              bottom: 20,
+            ),
             child: Text(
               'Outfit Name',
               style: TextStyle(fontSize: 16, color: Hexcolor('#859289')),
             ),
           ),
-          Container(
-            margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: Text(
-              widget.outfit.outfitName,
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                  color: Hexcolor('#859289')),
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.only(
+                right: 20,
+                top: 10,
+                bottom: 20,
+              ),
+              width: MediaQuery.of(context).size.width * 0.5,
+              child: Text(
+                widget.outfit.outfitName,
+                overflow: TextOverflow.fade,
+                softWrap: true,
+                maxLines: 1,
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    color: Hexcolor('#859289')),
+              ),
             ),
           )
         ],
@@ -279,20 +295,40 @@ class _OutfitDetailState extends State<OutfitDetail> {
                 Text('Clothes you worn: ', style: textStyle('#3F4D55', 12.0)),
           ),
           ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: widget.outfit.tagged.length,
               itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                  alignment: Alignment(-1, 0),
-                  child: Text(
-                    widget.outfit.tagged.values.elementAt(index)['clothName'],
-                    style: textStyle(
-                      '#859289',
-                      16.0,
+                if (widget.outfit.tagged.values.elementAt(index)['status'] ==
+                    'Available') {
+                  return Container(
+                    margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    alignment: Alignment(-1, 0),
+                    child: Text(
+                      widget.outfit.tagged.values
+                              .elementAt(index)['clothName'] +
+                          ' [${widget.outfit.tagged.values.elementAt(index)['status']}]',
+                      style: textStyle(
+                        '#3F4D55',
+                        16.0,
+                      ),
                     ),
-                  ),
-                );
+                  );
+                } else {
+                  return Container(
+                    margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    alignment: Alignment(-1, 0),
+                    child: Text(
+                      widget.outfit.tagged.values
+                              .elementAt(index)['clothName'] +
+                          ' [${widget.outfit.tagged.values.elementAt(index)['status']}]',
+                      style: textStyle(
+                        '#859289',
+                        16.0,
+                      ),
+                    ),
+                  );
+                }
               }),
           SizedBox(
             height: 20,
