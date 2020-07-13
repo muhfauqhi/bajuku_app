@@ -1,8 +1,10 @@
 class SustainabilityClothes {
-  Map clothes;
+  var clothes;
   String productDesc;
   String price;
   String condition;
+  String location;
 
-  SustainabilityClothes(this.clothes,this.productDesc,this.price,this.condition);
+  SustainabilityClothes(this.clothes, this.productDesc, this.price,
+      this.condition, this.location);
 }

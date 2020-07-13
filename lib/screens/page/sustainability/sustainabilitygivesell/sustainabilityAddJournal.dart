@@ -1,5 +1,6 @@
 import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/models/outfit.dart';
+import 'package:bajuku_app/models/sustainabilityClothes.dart';
 import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:bajuku_app/screens/template/buildTextField.dart';
@@ -53,58 +54,44 @@ class _SustainAddJournalState extends State<SustainAddJournal> {
               type: widget.type,
               onTap: () {
                 var index = 0;
-                for (var i in clothesList) {
-                  if (i.status == 'Available') {
-                    // print(productDescList);
-                    // print(price);
-                    // print(condition);
-                    // print(location);
-                    // print(testVal);
-                    // print(productDescList.last);
-                    // databaseService.updateGivenJournal(
-                    //     widget.type, i.documentId);
-                    // i.status = widget.type;
-                    // databaseService.setGivenOrSellClothes(i, productDesc[index],
-                    //     price[index], condition[index], widget.type);
-                    index++;
-                    // productDescList.clear();
-                    // price.clear();
-                    // condition.clear();
-                    // location.clear();
-                  }
-                  // print(productDescList);
-                  // for(var i in productDescList){
-                  //   if(i.){
-
-                  //   }
-                  // }
+                List<SustainabilityClothes> sustainClothes = [];
+                for (var i = 0; i < clothesList.length; i++) {
+                  sustainClothes.add(
+                    SustainabilityClothes(
+                        clothesList[i],
+                        controller[index].text,
+                        controller[index + 1].text,
+                        controller[index + 2].text,
+                        controller[index + 3].text),
+                  );
+                  index += 4;
                 }
-                // showDialog(
-                //   context: context,
-                //   child: GestureDetector(
-                //     onTap: () {
-                //       Navigator.pop(context);
-                //       Navigator.push(
-                //           context,
-                //           MaterialPageRoute(
-                //               builder: (BuildContext context) => Home(
-                //                     currentIndex: 0,
-                //                   )));
-                //     },
-                //     child: Image.asset('assets/images/${widget.type}Post.png'),
-                //   ),
-                // );
-                // print(productDescList);
-                // for (var i = 1; i < productDescList.length; i++) {
-                //   if (productDescList[i].length %
-                //           productDescList[i].length - 1 ==
-                //       0) {
-                //     print(productDescList[i].length);
-                //     print(productDescList[
-                //         i + (productDescList[i].length % 10 + 1)]);
-                //   }
-                // }
-                // print(controller[0].text);
+                for (int i = 0; i < clothesList.length; i++) {
+                  databaseService.updateGivenJournal(widget.type, clothesList[i].documentId);
+                  clothesList[i].status = widget.type;
+                  databaseService.setGivenOrSellClothes(
+                      sustainClothes[i].clothes,
+                      sustainClothes[i].productDesc,
+                      sustainClothes[i].price,
+                      sustainClothes[i].condition,
+                      widget.type,
+                      sustainClothes[i].location);
+                }
+                showDialog(
+                  context: context,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => Home(
+                                    currentIndex: 0,
+                                  )));
+                    },
+                    child: Image.asset('assets/images/${widget.type}Post.png'),
+                  ),
+                );
               },
             ),
           ),
@@ -119,7 +106,7 @@ class _SustainAddJournalState extends State<SustainAddJournal> {
     for (var i in widget.outfit.tagged.values.toList()) {
       if (i['status'] == 'Available') {
         clothesList.add(Clothes(
-          i['documentID'],
+          i['documentId'],
           i['brand'],
           i['category'],
           i['clothName'],

@@ -9,7 +9,6 @@ class SustainScaffoldJournal extends StatelessWidget {
   final String type;
   SustainScaffoldJournal({this.type});
 
-  final List<Outfit> outfitList = [];
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
@@ -41,22 +40,29 @@ class SustainScaffoldJournal extends StatelessWidget {
         child: FutureBuilder(
           future: DatabaseService().getOutfit(),
           builder: (context, snapshot) {
+            List<Outfit> outfitList = [];
+
             if (snapshot.hasData) {
               for (var i in snapshot.data.documents) {
-                outfitList.add(
-                  Outfit(
-                    i.data['image'],
-                    i.data['notes'],
-                    i.data['outfitName'],
-                    i.data['tagged'],
-                    i.data['totalCost'],
-                    i.data['created'],
-                  ),
-                );
+                var a = 0;
+                if (i.data['tagged'].values.toList()[a]['status'] ==
+                    'Available') {
+                  outfitList.add(
+                    Outfit(
+                      i.data['image'],
+                      i.data['notes'],
+                      i.data['outfitName'],
+                      i.data['tagged'],
+                      i.data['totalCost'],
+                      i.data['created'],
+                    ),
+                  );
+                }
+                a++;
               }
               return GridView.builder(
                   shrinkWrap: true,
-                  itemCount: snapshot.data.documents.length,
+                  itemCount: outfitList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     mainAxisSpacing: 10.0,

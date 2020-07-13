@@ -36,10 +36,11 @@ class _SustainableGivenState extends State<SustainableGiven> {
             for (var i in snapshot.data.documents) {
               sustainClothList.add(
                 SustainabilityClothes(
-                  i.data['clothes'],
                   i.data['productDesc'],
                   i.data['price'],
                   i.data['condition'],
+                  i.data['clothes'],
+                  i.data['location'],
                 ),
               );
             }

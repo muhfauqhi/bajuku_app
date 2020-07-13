@@ -40,6 +40,7 @@ class _SustainableSaleState extends State<SustainableSale> {
                     i.data['productDesc'],
                     i.data['price'],
                     i.data['condition'],
+                    i.data['location'],
                   ),
                 );
               }
