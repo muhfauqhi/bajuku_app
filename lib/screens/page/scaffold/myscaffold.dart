@@ -10,6 +10,7 @@ class MyScaffold extends StatelessWidget {
   final TextStyle titleTextStyle;
   final bool leadingActive;
   final List<Widget> actions;
+  final Widget floatingActionButton;
 
   MyScaffold(
       {this.body,
@@ -19,11 +20,13 @@ class MyScaffold extends StatelessWidget {
       this.titleTextStyle,
       this.titleStyle,
       this.leadingActive,
-      this.actions});
+      this.actions,
+      this.floatingActionButton});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
+      floatingActionButton: floatingActionButton,
       bottomNavigationBar: bottomNavigationBar,
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
