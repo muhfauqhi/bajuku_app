@@ -152,81 +152,83 @@ class _PlannerState extends State<Planner> {
                     ),
                     calendarController: _controller,
                   ),
-                  // ..._selectedEvents.map((event) => ListTile(
-                  //       title: Text(event),
-                  //     )),
-                  Expanded(
-                    child: ListView.separated(
-                        itemBuilder: (context, index) {
-                          date = _events.keys.elementAt(index);
-                          var formatter = new DateFormat('dd MMMM yyyy');
-                          date = formatter.format(date);
-                          var values = _events.values.toList();
-                          return ListTile(
-                            onTap: () {
-                              setState(() {
-                                _controller.setSelectedDay(
-                                    _events.keys.elementAt(index));
-                              });
-                            },
-                            title: Text(values
-                                .elementAt(index)[0]
-                                .clothName
-                                .toString()),
-                            subtitle: Row(
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    date.toString(),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 200),
-                                  child: GestureDetector(
-                                    child: Text("Change Plan"),
-                                    onTap: () {
-                                      showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(2015, 8),
-                                        lastDate: DateTime(2101),
-                                        confirmText: 'OK',
-                                        cancelText: '',
-                                        builder: (BuildContext context,
-                                            Widget child) {
-                                          return Theme(
-                                            data: ThemeData.dark().copyWith(
-                                              colorScheme: ColorScheme.dark(
-                                                primary: Hexcolor('#DBBEA7'),
-                                                onPrimary: Colors.white,
-                                                surface: Hexcolor('#3F4D55'),
-                                                onSurface: Hexcolor('#DBBEA7'),
-                                              ),
-                                              dialogBackgroundColor:
-                                                  Hexcolor('#3F4D55'),
-                                            ),
-                                            child: child,
-                                          );
-                                        },
-                                      ).then((value) {
-                                        setState(() {
-                                          selectedDate = value;
-                                          DatabaseService().updatePlannerDate(values.elementAt(index)[0].documentId, value);
-                                        });
-                                      });
-                                    },
-                                  ),
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return Divider();
-                        },
-                        itemCount: _events.length),
-                  )
+                  ..._selectedEvents.map((event) => showListTile(event)),
+                  // Expanded(
+                  //   child: ListView.separated(
+                  //       itemBuilder: (context, index) {
+                  //         date = _events.keys.elementAt(index);
+                  //         var formatter = new DateFormat('dd MMMM yyyy');
+                  //         date = formatter.format(date);
+                  //         var values = _events.values.toList();
+                  //         return ListTile(
+                  //           onTap: () {
+                  //             setState(() {
+                  //               _controller.setSelectedDay(
+                  //                   _events.keys.elementAt(index));
+                  //             });
+                  //           },
+                  //           title: Text(values
+                  //               .elementAt(index)[0]
+                  //               .clothName
+                  //               .toString()),
+                  //           subtitle: Row(
+                  //             children: <Widget>[
+                  //               Container(
+                  //                 margin: EdgeInsets.only(top: 5),
+                  //                 child: Text(
+                  //                   date.toString(),
+                  //                 ),
+                  //               ),
+                  //               Container(
+                  //                 margin: EdgeInsets.only(left: 200),
+                  //                 child: GestureDetector(
+                  //                   child: Text("Change Plan"),
+                  //                   onTap: () {
+                  //                     showDatePicker(
+                  //                       context: context,
+                  //                       initialDate: DateTime.now(),
+                  //                       firstDate: DateTime(2015, 8),
+                  //                       lastDate: DateTime(2101),
+                  //                       confirmText: 'OK',
+                  //                       cancelText: '',
+                  //                       builder: (BuildContext context,
+                  //                           Widget child) {
+                  //                         return Theme(
+                  //                           data: ThemeData.dark().copyWith(
+                  //                             colorScheme: ColorScheme.dark(
+                  //                               primary: Hexcolor('#DBBEA7'),
+                  //                               onPrimary: Colors.white,
+                  //                               surface: Hexcolor('#3F4D55'),
+                  //                               onSurface: Hexcolor('#DBBEA7'),
+                  //                             ),
+                  //                             dialogBackgroundColor:
+                  //                                 Hexcolor('#3F4D55'),
+                  //                           ),
+                  //                           child: child,
+                  //                         );
+                  //                       },
+                  //                     ).then((value) {
+                  //                       setState(() {
+                  //                         selectedDate = value;
+                  //                         DatabaseService().updatePlannerDate(
+                  //                             values
+                  //                                 .elementAt(index)[0]
+                  //                                 .documentId,
+                  //                             value);
+                  //                       });
+                  //                     });
+                  //                   },
+                  //                 ),
+                  //               )
+                  //             ],
+                  //           ),
+                  //         );
+                  //       },
+                  //       separatorBuilder: (context, index) {
+                  //         return Divider();
+                  //       },
+                  //       itemCount: _events.length),
+                  // )
                 ],
               );
             }
@@ -280,5 +282,60 @@ class _PlannerState extends State<Planner> {
       data[e.endDate.toDate()].add(e);
     });
     return data;
+  }
+
+  Widget showListTile(var event) {
+    date = event.endDate.toDate();
+    var formatter = new DateFormat('dd MMMM yyyy');
+    date = formatter.format(date);
+    return ListTile(
+      title: Text(event.clothName),
+      subtitle: Row(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 5),
+            child: Text(
+              date.toString(),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 200),
+            child: GestureDetector(
+              child: Text("Change Plan"),
+              onTap: () {
+                showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2015, 8),
+                  lastDate: DateTime(2101),
+                  confirmText: 'OK',
+                  cancelText: '',
+                  builder: (BuildContext context, Widget child) {
+                    return Theme(
+                      data: ThemeData.dark().copyWith(
+                        colorScheme: ColorScheme.dark(
+                          primary: Hexcolor('#DBBEA7'),
+                          onPrimary: Colors.white,
+                          surface: Hexcolor('#3F4D55'),
+                          onSurface: Hexcolor('#DBBEA7'),
+                        ),
+                        dialogBackgroundColor: Hexcolor('#3F4D55'),
+                      ),
+                      child: child,
+                    );
+                  },
+                ).then((value) {
+                  setState(() {
+                    selectedDate = value;
+                    DatabaseService().updatePlannerDate(
+                        event.documentId, value);
+                  });
+                });
+              },
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
