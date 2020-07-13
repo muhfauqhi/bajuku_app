@@ -291,15 +291,14 @@ class _PlannerState extends State<Planner> {
     return ListTile(
       title: Text(event.clothName),
       subtitle: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(top: 5),
             child: Text(
               date.toString(),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 200),
             child: GestureDetector(
               child: Text("Change Plan"),
               onTap: () {
