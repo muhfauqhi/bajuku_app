@@ -233,10 +233,10 @@ class _PlannerState extends State<Planner> {
               );
             }
           }),
-      // floatingActionButton: FloatingActionButton(
-      //   child: Icon(Icons.add),
-      //   onPressed: _showAddDialog,
-      // ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: showAddDialog,
+      ),
     );
   }
 
@@ -271,6 +271,54 @@ class _PlannerState extends State<Planner> {
       _selectedEvents = _events[_controller.selectedDay];
       print(_controller.selectedDay);
     });
+  }
+
+  showAddDialog() async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          scrollable: true,
+          title: Text('Choose Cloth :'),
+          content: FutureBuilder(
+              future: DatabaseService().getClothesAvailable(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Text("");
+                } else {
+                  return Container(
+                    height: 400.0,
+                    width: 650.0,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                snapshot.data.documents[index].data['image']),
+                          ),
+                          title: Text(
+                              snapshot.data.documents[index].data['clothName']),
+                          onTap: () {
+                            print(snapshot.data.documents[index].documentID
+                                    .toString() +
+                                _controller.selectedDay.toString());
+                            DatabaseService().updatePlannerDate(
+                                snapshot.data.documents[index].documentID,
+                                _controller.selectedDay);
+
+                            Navigator.pop(context);
+                          },
+                        );
+                      },
+                    ),
+                  );
+                }
+              }),
+        );
+      },
+    );
   }
 
   Map<DateTime, List<dynamic>> getData(List<Clothes> events) {
@@ -326,8 +374,8 @@ class _PlannerState extends State<Planner> {
                 ).then((value) {
                   setState(() {
                     selectedDate = value;
-                    DatabaseService().updatePlannerDate(
-                        event.documentId, value);
+                    DatabaseService()
+                        .updatePlannerDate(event.documentId, value);
                   });
                 });
               },
