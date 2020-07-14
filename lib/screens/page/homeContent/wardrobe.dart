@@ -1,14 +1,18 @@
+import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/screens/template/templateCategories.dart';
 import 'package:bajuku_app/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Wardrobe extends StatelessWidget {
   final CollectionReference userRef;
   final String uid;
   Wardrobe({this.userRef, this.uid});
+
+  final DatabaseService databaseService = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
@@ -226,23 +230,100 @@ class Wardrobe extends StatelessWidget {
   }
 
   Widget _buildAllItems(var context) {
-    return GestureDetector(
-      child: Container(
-        alignment: Alignment(0, 0),
-        child: Image.asset(
-          'assets/images/allitems.png',
-          fit: BoxFit.cover,
-        ),
-      ),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => new TemplateCategories(
-                      categories: "All Items",
-                    )));
-      },
-    );
+    return StreamBuilder(
+        stream: userRef
+            .document(uid)
+            .collection('clothes')
+            .orderBy('startDate', descending: false)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return GestureDetector(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: AspectRatio(
+                  aspectRatio: 2 / 2,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Image.asset(
+                      'assets/images/allitems.png',
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+              ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            new TemplateCategories(
+                              categories: "All Items",
+                            )));
+              },
+            );
+          } else {
+            List<Clothes> clothesList = [];
+            for (var i in snapshot.data.documents) {
+              if (i.data['status'] == 'Available') {
+                clothesList.add(
+                  Clothes(
+                    i.documentID,
+                    i.data['brand'],
+                    i.data['category'],
+                    i.data['clothName'],
+                    i.data['color'],
+                    i.data['cost'],
+                    i.data['dateBought'],
+                    i.data['endDate'],
+                    i.data['fabric'],
+                    i.data['image'],
+                    i.data['price'],
+                    i.data['notes'],
+                    i.data['season'],
+                    i.data['size'],
+                    i.data['startDate'],
+                    i.data['status'],
+                    i.data['updateDate'],
+                    i.data['url'],
+                    i.data['usedInOutfit'],
+                    i.data['worn'],
+                  ),
+                );
+              }
+            }
+            return GestureDetector(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Image.network(
+                      '${clothesList[0].image}',
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+              ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            new TemplateCategories(
+                              categories: "All Items",
+                            )));
+              },
+            );
+          }
+        });
+  }
+
+  Future<String> getCurrentUID() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    final String uid = user.uid;
+    return uid;
   }
 
   Widget _buildTemplateRowCategory(

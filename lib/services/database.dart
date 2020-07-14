@@ -129,36 +129,11 @@ class DatabaseService {
     });
   }
 
-  Stream<QuerySnapshot> getClothesHome() async* {
-    var firebaseUser = await FirebaseAuth.instance.currentUser();
-    firestoreInstance
-        .collection('users')
-        .document(firebaseUser.uid)
-        .collection('clothes')
-        .snapshots();
-    print(firebaseUser.uid);
-  }
-
-  Stream<QuerySnapshot> getOutfitHome() async* {
-    var firebaseUser = await FirebaseAuth.instance.currentUser();
-    firestoreInstance
-        .collection('users')
-        .document(firebaseUser.uid)
-        .collection('outfits')
-        .snapshots();
-  }
-
   Future<String> getUid() async {
     final FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
     final String uid = firebaseUser.uid;
     return uid;
   }
-
-  // Stream<QuerySnapshot> getClothes() async* {
-  //   var firebaseUser = await FirebaseAuth.instance.currentUser();
-  //   firestoreInstance.collection('users').document(firebaseUser.uid).collection('clothes').snapshots();
-  //   print(firebaseUser.uid);
-  // }
 
   Future getClothes(String category) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
@@ -357,10 +332,4 @@ class DatabaseService {
         .get();
     return qn;
   }
-
-  // Future <DocumentSnapshot> getDocuments() async {
-  //   var firebaseUser = await FirebaseAuth.instance.currentUser();
-  //   QuerySnapshot result = await Firestore.instance.collection('users').document(firebaseUser.uid).collection('clothes').getDocuments();
-  //   List<DocumentSnapshot> data = result.data;
-  // }
 }

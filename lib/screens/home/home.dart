@@ -122,7 +122,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     );
   }
 
-  // _buildDrawer(context)
   Widget buildContainerProfile(BuildContext context) {
     if (_activeTabIndex == 1) {
       return ProfileHeader();

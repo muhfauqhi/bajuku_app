@@ -190,8 +190,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                           onPressed: () async {
                             setState(() => loading = true);
                             image = await uploadPic();
-                            cost = price;
-                            dynamic result = await DatabaseService().setClothes(
+                            await DatabaseService().setClothes(
                                 itemName,
                                 brand,
                                 fabricsList,
@@ -208,9 +207,8 @@ class _AddItemDetailState extends State<AddItemDetail> {
                                 usedInOutfit,
                                 url,
                                 image);
-                            if (result == null) {
-                              setState(() => loading = true);
-                            } else {
+                            cost = price;
+                            if (image != null) {
                               setState(() {
                                 loading = false;
                                 showDialog(
@@ -1118,10 +1116,8 @@ class _AddItemDetailState extends State<AddItemDetail> {
     if (uploadTask.isComplete) {
       String img = imageURL.toString();
       return img;
+    } else {
+      return null;
     }
-    // setState((){
-    //   Scaffold.of(context).showSnackBar(SnackBar(content: Text("Profile Picture Uploaded")));
-    // });
-    return '';
   }
 }

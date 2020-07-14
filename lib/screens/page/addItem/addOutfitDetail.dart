@@ -127,26 +127,20 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
                               onPressed: () async {
                                 setState(() => loading = true);
                                 image = await uploadPic();
-                                dynamic result =
-                                    await databaseService.setOutfit(
+                                await databaseService.setOutfit(
                                   image,
                                   notes,
                                   name,
                                   totalCost,
                                   widget.tagged,
                                 );
-                                if (result == null) {
-                                  setState(() {
-                                    loading = true;
-                                  });
-                                } else {
+                                if (image != null) {
                                   setState(
-                                    () async {
+                                    () {
                                       loading = false;
                                       for (var i in widget.tagged.values) {
-                                        await databaseService
-                                            .updateUsedInOutfit(
-                                                i['documentId']);
+                                        databaseService.updateUsedInOutfit(
+                                            i['documentId']);
                                         databaseService.updatePoints(3);
                                       }
                                       showDialog(
@@ -391,10 +385,8 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
     if (uploadTask.isComplete) {
       String img = imageURL.toString();
       return img;
+    } else {
+      return '';
     }
-    // setState((){
-    //   Scaffold.of(context).showSnackBar(SnackBar(content: Text("Profile Picture Uploaded")));
-    // });
-    return '';
   }
 }
