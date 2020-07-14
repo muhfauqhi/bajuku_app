@@ -56,18 +56,30 @@ class _SustainAddJournalState extends State<SustainAddJournal> {
                 var index = 0;
                 List<SustainabilityClothes> sustainClothes = [];
                 for (var i = 0; i < clothesList.length; i++) {
-                  sustainClothes.add(
-                    SustainabilityClothes(
-                        clothesList[i],
-                        controller[index].text,
-                        controller[index + 1].text,
-                        controller[index + 2].text,
-                        controller[index + 3].text),
-                  );
+                  if (widget.type == 'Given') {
+                    sustainClothes.add(
+                      SustainabilityClothes(
+                          clothesList[i],
+                          controller[index].text,
+                          'Free',
+                          controller[index + 2].text,
+                          controller[index + 3].text),
+                    );
+                  } else {
+                    sustainClothes.add(
+                      SustainabilityClothes(
+                          clothesList[i],
+                          controller[index].text,
+                          controller[index + 1].text,
+                          controller[index + 2].text,
+                          controller[index + 3].text),
+                    );
+                  }
                   index += 4;
                 }
                 for (int i = 0; i < clothesList.length; i++) {
-                  databaseService.updateGivenJournal(widget.type, clothesList[i].documentId);
+                  databaseService.updateGivenJournal(
+                      widget.type, clothesList[i].documentId);
                   clothesList[i].status = widget.type;
                   databaseService.setGivenOrSellClothes(
                       sustainClothes[i].clothes,

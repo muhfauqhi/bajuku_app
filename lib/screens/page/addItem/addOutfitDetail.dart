@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/services/database.dart';
+import 'package:bajuku_app/shared/loading.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -34,6 +35,7 @@ class AddOutfitDetail extends StatefulWidget {
 class _AddOutfitDetailState extends State<AddOutfitDetail> {
   final _formKey = GlobalKey<FormState>();
   String date;
+  bool loading = false;
 
   @override
   void initState() {
@@ -76,82 +78,109 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          title: Text(
-            "New Journal",
-            style: TextStyle(
-              color: Hexcolor('#3f4d55'),
-              letterSpacing: 1,
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600,
-              fontStyle: FontStyle.normal,
-            ),
-          ),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            color: Hexcolor('#3F4D55'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.white,
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            child: Form(
-              key: _formKey,
-              child: Column(children: <Widget>[
-                //Add Notes
-                buildInputNotes(),
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      buildDate(),
-                      _buildContainerTagging('Tagging'),
-                      _buildContainerOutfit('Outfit Name'),
-                      _buildContainerTotalCost('Total Cost'),
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: 8.0, right: 8.0, top: 25.0, bottom: 25.0),
-                        margin: EdgeInsets.only(top: 200),
-                        child: FlatButton(
-                          child: Image.asset('assets/images/postButton.png'),
-                          onPressed: () async {
-                            image = await uploadPic();
-                            await databaseService.setOutfit(
-                              image,
-                              notes,
-                              name,
-                              totalCost,
-                              widget.tagged,
-                            );
-                            for (var i in widget.tagged.values) {
-                              await databaseService
-                                  .updateUsedInOutfit(i['documentId']);
-                              databaseService.updatePoints(3);
-                            }
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        new Home()));
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 80,
-                      ),
-                    ],
-                  ),
+    return loading
+        ? Loading()
+        : Scaffold(
+            appBar: AppBar(
+              elevation: 0.0,
+              title: Text(
+                "New Journal",
+                style: TextStyle(
+                  color: Hexcolor('#3f4d55'),
+                  letterSpacing: 1,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                  fontStyle: FontStyle.normal,
                 ),
-              ]),
+              ),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                color: Hexcolor('#3F4D55'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              centerTitle: true,
+              backgroundColor: Colors.white,
             ),
-          ),
-        ));
+            body: SingleChildScrollView(
+              child: Container(
+                child: Form(
+                  key: _formKey,
+                  child: Column(children: <Widget>[
+                    //Add Notes
+                    buildInputNotes(),
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          buildDate(),
+                          _buildContainerTagging('Tagging'),
+                          _buildContainerOutfit('Outfit Name'),
+                          _buildContainerTotalCost('Total Cost'),
+                          Container(
+                            padding: EdgeInsets.only(
+                                left: 8.0, right: 8.0, top: 25.0, bottom: 25.0),
+                            margin: EdgeInsets.only(top: 200),
+                            child: FlatButton(
+                              child:
+                                  Image.asset('assets/images/postButton.png'),
+                              onPressed: () async {
+                                setState(() => loading = true);
+                                image = await uploadPic();
+                                dynamic result =
+                                    await databaseService.setOutfit(
+                                  image,
+                                  notes,
+                                  name,
+                                  totalCost,
+                                  widget.tagged,
+                                );
+                                if (result == null) {
+                                  setState(() {
+                                    loading = true;
+                                  });
+                                } else {
+                                  setState(
+                                    () async {
+                                      loading = false;
+                                      for (var i in widget.tagged.values) {
+                                        await databaseService
+                                            .updateUsedInOutfit(
+                                                i['documentId']);
+                                        databaseService.updatePoints(3);
+                                      }
+                                      showDialog(
+                                        context: context,
+                                        child: GestureDetector(
+                                          child: Image.asset(
+                                              'assets/images/itemsavedialog.png'),
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                            Navigator.push(
+                                                context,
+                                                new MaterialPageRoute(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        new Home()));
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            height: 80,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ]),
+                ),
+              ),
+            ));
   }
 
   Container buildDate() {

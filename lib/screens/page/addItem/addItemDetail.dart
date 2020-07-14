@@ -8,6 +8,7 @@ import 'package:bajuku_app/screens/page/addItem/dialogChipsFabrics.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsSeason.dart';
 import 'package:bajuku_app/screens/page/image_editor/imageEditorCloth.dart';
 import 'package:bajuku_app/services/database.dart';
+import 'package:bajuku_app/shared/loading.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -24,6 +25,8 @@ class AddItemDetail extends StatefulWidget {
 
 class _AddItemDetailState extends State<AddItemDetail> {
   final _formKey = GlobalKey<FormState>();
+  bool loading = false;
+
   String date;
   String dateBoughtFormatted;
   var now;
@@ -72,161 +75,173 @@ class _AddItemDetailState extends State<AddItemDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: CustomBottomNavigationBar(),
-      appBar: AppBar(
-        elevation: 0.0,
-        title: Text(
-          "Item Detail",
-          style: TextStyle(
-            color: Hexcolor('#3f4d55'),
-            letterSpacing: 1,
-            fontSize: 16.0,
-            fontWeight: FontWeight.w600,
-            fontStyle: FontStyle.normal,
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          color: Hexcolor('#3F4D55'),
-          onPressed: () {
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (BuildContext context) => new ImageEditor(
-                          filePicture: widget.fileUpload,
-                        )));
-          },
-        ),
-        centerTitle: true,
-        actions: [
-          Container(
-            margin: EdgeInsets.only(right: 10),
-            constraints: BoxConstraints(
-                minWidth: 25, minHeight: 25, maxHeight: 25, maxWidth: 25),
-            child: GestureDetector(
-              child: Image.asset('assets/images/helpicon.png'),
-            ),
-          )
-        ],
-        backgroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                //Add Notes
-                buildInputNotes(),
+    return loading
+        ? Loading()
+        : Scaffold(
+            bottomNavigationBar: CustomBottomNavigationBar(),
+            appBar: AppBar(
+              elevation: 0.0,
+              title: Text(
+                "Item Detail",
+                style: TextStyle(
+                  color: Hexcolor('#3f4d55'),
+                  letterSpacing: 1,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                  fontStyle: FontStyle.normal,
+                ),
+              ),
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                color: Hexcolor('#3F4D55'),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) => new ImageEditor(
+                                filePicture: widget.fileUpload,
+                              )));
+                },
+              ),
+              centerTitle: true,
+              actions: [
                 Container(
+                  margin: EdgeInsets.only(right: 10),
+                  constraints: BoxConstraints(
+                      minWidth: 25, minHeight: 25, maxHeight: 25, maxWidth: 25),
+                  child: GestureDetector(
+                    child: Image.asset('assets/images/helpicon.png'),
+                  ),
+                )
+              ],
+              backgroundColor: Colors.white,
+            ),
+            body: SingleChildScrollView(
+              child: Container(
+                child: Form(
+                  key: _formKey,
                   child: Column(
                     children: <Widget>[
+                      //Add Notes
+                      buildInputNotes(),
                       Container(
-                        color: Hexcolor('#FFFFFF'),
-                        height: 45,
-                        margin: EdgeInsets.only(left: 25.0, right: 25.0),
-                        child: Row(
+                        child: Column(
                           children: <Widget>[
                             Container(
-                              padding: EdgeInsets.only(left: 8.0),
-                              width: 135,
-                              child: Text(
-                                'Date',
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.normal,
-                                  color: Hexcolor('#3F4D55'),
-                                ),
+                              color: Hexcolor('#FFFFFF'),
+                              height: 45,
+                              margin: EdgeInsets.only(left: 25.0, right: 25.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.only(left: 8.0),
+                                    width: 135,
+                                    child: Text(
+                                      'Date',
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FontStyle.normal,
+                                        color: Hexcolor('#3F4D55'),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      date,
+                                      style: TextStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.normal,
+                                        fontStyle: FontStyle.normal,
+                                        color: Hexcolor('#3F4D55'),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Container(
-                              child: Text(
-                                date,
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.normal,
-                                  fontStyle: FontStyle.normal,
-                                  color: Hexcolor('#3F4D55'),
-                                ),
-                              ),
-                            ),
+                            _buildContainerListDark('Name', "itemName"),
+                            _buildContainerListLightFabric('Fabric'),
+                            _buildContainerListDark('Brand', "brand"),
+                            _buildContainerListLight('Size', "size"),
+                            // _buildContainerListDark('Season', "season"),
+                            _buildContainerListDarkSeason('Season'),
+                            _buildContainerListLightPrice('Price', "price"),
+                            _buildContainerListDarkValueCost(
+                                'Value Cost', "cost"),
+                            _buildContainerListLightDate(
+                                'Date bought', "dateBought"),
+                            _buildColorPicker(),
+                            // _buildContainerListLightDisabled('Status', "status"),
+                            _buildContainerListLightStatus('Status'),
+                            _buildContainerListDarkDisabled(
+                                'Used in Outfit', "usedInOutfit"),
+                            _buildContainerListLightDisabled('Worn', "worn"),
+                            _buildContainerListDarkCategory('Tags Category'),
+                            _buildContainerListLight('URL', "url"),
                           ],
                         ),
                       ),
-                      _buildContainerListDark('Name', "itemName"),
-                      _buildContainerListLightFabric('Fabric'),
-                      _buildContainerListDark('Brand', "brand"),
-                      _buildContainerListLight('Size', "size"),
-                      // _buildContainerListDark('Season', "season"),
-                      _buildContainerListDarkSeason('Season'),
-                      _buildContainerListLightPrice('Price', "price"),
-                      _buildContainerListDarkValueCost('Value Cost', "cost"),
-                      _buildContainerListLightDate('Date bought', "dateBought"),
-                      _buildColorPicker(),
-                      // _buildContainerListLightDisabled('Status', "status"),
-                      _buildContainerListLightStatus('Status'),
-                      _buildContainerListDarkDisabled(
-                          'Used in Outfit', "usedInOutfit"),
-                      _buildContainerListLightDisabled('Worn', "worn"),
-                      _buildContainerListDarkCategory('Tags Category'),
-                      _buildContainerListLight('URL', "url"),
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: 8.0, right: 8.0, top: 25.0, bottom: 25.0),
+                        child: FlatButton(
+                          child: Image.asset('assets/images/buttonSave.png'),
+                          onPressed: () async {
+                            setState(() => loading = true);
+                            image = await uploadPic();
+                            cost = price;
+                            dynamic result = await DatabaseService().setClothes(
+                                itemName,
+                                brand,
+                                fabricsList,
+                                worn,
+                                notes,
+                                categoryList,
+                                size,
+                                seasonList,
+                                price,
+                                cost,
+                                selectedDate,
+                                currentColor.toString(),
+                                status,
+                                usedInOutfit,
+                                url,
+                                image);
+                            if (result == null) {
+                              setState(() => loading = true);
+                            } else {
+                              setState(() {
+                                loading = false;
+                                showDialog(
+                                  context: context,
+                                  child: GestureDetector(
+                                    child: Image.asset(
+                                        'assets/images/itemsavedialog.png'),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  new Home()));
+                                    },
+                                  ),
+                                );
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 80,
+                      ),
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(
-                      left: 8.0, right: 8.0, top: 25.0, bottom: 25.0),
-                  child: FlatButton(
-                    child: Image.asset('assets/images/buttonSave.png'),
-                    onPressed: () async {
-                      image = await uploadPic();
-                      cost = price;
-                      await DatabaseService().setClothes(
-                          itemName,
-                          brand,
-                          fabricsList,
-                          worn,
-                          notes,
-                          categoryList,
-                          size,
-                          seasonList,
-                          price,
-                          cost,
-                          selectedDate,
-                          currentColor.toString(),
-                          status,
-                          usedInOutfit,
-                          url,
-                          image);
-                      showDialog(
-                        context: context,
-                        child: GestureDetector(
-                          child:
-                              Image.asset('assets/images/itemsavedialog.png'),
-                          onTap: () {
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        new Home()));
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 80,
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
   }
 
   Color currentColor = Colors.white;
