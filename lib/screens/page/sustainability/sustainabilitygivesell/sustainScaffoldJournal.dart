@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:bajuku_app/models/outfit.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitygivesell/sustainabiilityJournal.dart';
@@ -44,21 +46,21 @@ class SustainScaffoldJournal extends StatelessWidget {
 
             if (snapshot.hasData) {
               for (var i in snapshot.data.documents) {
-                var a = 0;
-                if (i.data['tagged'].values.toList()[a]['status'] ==
-                    'Available') {
-                  outfitList.add(
-                    Outfit(
-                      i.data['image'],
-                      i.data['notes'],
-                      i.data['outfitName'],
-                      i.data['tagged'],
-                      i.data['totalCost'],
-                      i.data['created'],
-                    ),
-                  );
+                for (var a in i.data['tagged'].values.toList()) {
+                  if (a['status'] == 'Available') {
+                    outfitList.add(
+                      Outfit(
+                        i.data['image'],
+                        i.data['notes'],
+                        i.data['outfitName'],
+                        i.data['tagged'],
+                        i.data['totalCost'],
+                        i.data['created'],
+                      ),
+                    );
+                    break;
+                  }
                 }
-                a++;
               }
               return GridView.builder(
                   shrinkWrap: true,

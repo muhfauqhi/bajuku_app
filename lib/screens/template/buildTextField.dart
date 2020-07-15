@@ -38,6 +38,7 @@ class BuildTextField extends StatefulWidget {
 class _BuildTextFieldState extends State<BuildTextField> {
   final format = new DateFormat('dd MMMM yyyy');
   final DatabaseService databaseService = DatabaseService();
+  FocusNode focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -79,44 +80,50 @@ class _BuildTextFieldState extends State<BuildTextField> {
 
   Widget _buildNotes(var type, var typeImage) {
     return Container(
-      child: TextFormField(
-        controller: widget.controller,
-        onChanged: widget.onChanged,
-        maxLines: 5,
-        decoration: InputDecoration(
-          enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: const Color(0xF8F6F4))),
-          focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: const Color(0xF8F6F4))),
-          filled: true,
-          fillColor: Hexcolor('#F8F6F4'),
-          labelText: type,
-          labelStyle: textStyle(
-            14.0,
-            '#3F4D55',
-            FontWeight.bold,
-          ),
-          contentPadding: EdgeInsets.fromLTRB(60, 30, 0, 0),
-          hintText: 'Write your product description here',
-          hintStyle: textStyle(
-            12.0,
-            '#9D9D9D',
-            FontWeight.normal,
-            FontStyle.italic,
-            1.0,
-          ),
-          prefixIcon: Padding(
-            padding: EdgeInsets.fromLTRB(21, 22, 24, 28),
-            child: Card(
-              child: Image.network(
-                typeImage,
-                height: 70.0,
-                width: 70.0,
-                fit: BoxFit.fitWidth,
+      child: Stack(
+        children: [
+          TextFormField(
+            autofocus: true,
+            controller: widget.controller,
+            onChanged: widget.onChanged,
+            maxLines: 5,
+            decoration: InputDecoration(
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: const Color(0xF8F6F4))),
+              focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: const Color(0xF8F6F4))),
+              filled: true,
+              fillColor: Hexcolor('#F8F6F4'),
+              labelText: type,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              labelStyle: textStyle(
+                14.0,
+                '#3F4D55',
+                FontWeight.bold,
+              ),
+              contentPadding: EdgeInsets.fromLTRB(60, 30, 0, 0),
+              hintText: 'Write your product description here',
+              hintStyle: textStyle(
+                12.0,
+                '#9D9D9D',
+                FontWeight.normal,
+                FontStyle.italic,
+                1.0,
+              ),
+              prefixIcon: Padding(
+                padding: EdgeInsets.fromLTRB(21, 22, 24, 28),
+                child: Card(
+                  child: Image.network(
+                    typeImage,
+                    height: 70.0,
+                    width: 70.0,
+                    fit: BoxFit.fitWidth,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

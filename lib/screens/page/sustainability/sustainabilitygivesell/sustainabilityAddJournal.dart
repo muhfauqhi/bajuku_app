@@ -48,7 +48,7 @@ class _SustainAddJournalState extends State<SustainAddJournal> {
         child: Column(children: [
           for (var item in textFieldCount) item,
           Container(
-            margin: EdgeInsets.only(bottom: 30.0),
+            margin: EdgeInsets.only(top: 40.0, bottom: 30.0),
             child: BuildTextField(
               widget: 'button',
               type: widget.type,
@@ -182,51 +182,6 @@ class _SustainAddJournalState extends State<SustainAddJournal> {
       }
     }
   }
-
-  // Widget test(var clothes, var outfitName, var controller) {
-  //   return Column(
-  //     children: [
-  //       BuildTextField(
-  //         controller: controller,
-  //         onChanged: (val) {
-  //           testVal = val;
-  //         },
-  //         type: 'Clothes',
-  //         clothes: clothes,
-  //         widget: 'notes',
-  //         color: '#F8F6F4',
-  //         enabled: false,
-  //       ),
-  //       BuildTextField(
-  //         widget: 'date',
-  //         color: '#F8F6F4',
-  //         enabled: false,
-  //       ),
-  //       textFieldGivenOrSell(controller),
-  //       BuildTextField(
-  //         controller: controller,
-  //         onChanged: (val) {
-  //           condition.add(val);
-  //         },
-  //         color: '#F8F6F4',
-  //         desc: 'Condition',
-  //         enabled: true,
-  //       ),
-  //       BuildTextField(
-  //         controller: controller,
-  //         onChanged: (val) {
-  //           location.add(val);
-  //         },
-  //         color: '#FFFFFF',
-  //         desc: 'Location',
-  //         enabled: true,
-  //       ),
-  //       BuildTextField(
-  //         widget: 'sizedOfBox',
-  //       ),
-  //     ],
-  //   );
-  // }
 
   Widget textFieldGivenOrSell(var controller) {
     if (widget.type == 'Given') {

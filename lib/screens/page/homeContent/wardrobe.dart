@@ -67,8 +67,7 @@ class Wardrobe extends StatelessWidget {
                         Row(
                           children: <Widget>[
                             Padding(
-                              padding:
-                                  EdgeInsets.only(left: 50, right: 83),
+                              padding: EdgeInsets.only(left: 50, right: 83),
                               child: Text(
                                 'Pieces',
                                 style: TextStyle(
@@ -301,7 +300,7 @@ class Wardrobe extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
                     child: Image.network(
-                      '${clothesList[0].image}',
+                      '${clothesList[clothesList.length - 1].image}',
                       fit: BoxFit.fill,
                     ),
                   ),
