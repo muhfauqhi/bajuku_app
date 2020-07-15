@@ -68,7 +68,7 @@ class Wardrobe extends StatelessWidget {
                           children: <Widget>[
                             Padding(
                               padding:
-                                  const EdgeInsets.only(left: 50, right: 83),
+                                  EdgeInsets.only(left: 50, right: 83),
                               child: Text(
                                 'Pieces',
                                 style: TextStyle(
@@ -95,6 +95,7 @@ class Wardrobe extends StatelessWidget {
                     return Column(
                       children: <Widget>[
                         Container(
+                          margin: EdgeInsets.only(top: 20.0),
                           width: MediaQuery.of(context).size.width * 0.75,
                           child: Row(
                             children: <Widget>[

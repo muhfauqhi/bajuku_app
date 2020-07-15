@@ -44,15 +44,14 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
     return 'Tidak ditemukan';
   }
 
-  static List<String> categoryListTitle;
-  static List<String> subCategoryList;
+  List<String> categoryListTitle;
+  List<String> subCategoryList;
 
   @override
   void initState() {
     super.initState();
     categoryListTitle = cariJumlahTitle(categoryList);
     subCategoryList = cariJumlahSubCategory(categoryList);
-    print(tagsTopCategory);
   }
 
   @override
@@ -64,8 +63,10 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
 
   List<String> getTags() {
     List<String> tagsCategory = [];
-    tagsCategory.add(tagsTopCategory);
-    tagsCategory.add(tags);
+    if (tagsTopCategory != null && tags != null) {
+      tagsCategory.add(tagsTopCategory);
+      tagsCategory.add(tags);
+    }
     return tagsCategory;
   }
 
@@ -88,7 +89,7 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
                 subtitle: ChipsChoice<String>.single(
                     value: tags,
                     itemConfig: ChipsChoiceItemConfig(
-                      selectedColor: Hexcolor('#E1C8B4'),
+                      selectedColor: Hexcolor('#3F4D55'),
                       unselectedColor: Hexcolor('#3F4D55'),
                       labelStyle: TextStyle(
                         color: Hexcolor('#3F4D55'),
@@ -118,7 +119,7 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
           title: Text('Result'),
           subtitle: ChipsChoice<String>.single(
               itemConfig: ChipsChoiceItemConfig(
-                selectedColor: Hexcolor('#DFC2AA'),
+                selectedColor: Hexcolor('#3F4D55'),
                 unselectedColor: Hexcolor('#3F4D55'),
                 labelStyle: TextStyle(
                   color: Hexcolor('#3F4D55'),
@@ -145,28 +146,30 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
 
   Widget buildChip() {
     if (tags != null) {
-      return Row(
-        children: [
-          Container(
-            width: 316,
-            alignment: Alignment(-0.9, 0),
-            child: InputChip(
-              label: Text(
-                tags,
-                style: TextStyle(
-                  color: Hexcolor('#DFC2AA'),
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.normal,
-                ),
+      return Center(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.7,
+          child: InputChip(
+            onPressed: () {
+              setState(() {
+                tags = null;
+              });
+            },
+            label: Text(
+              tags,
+              style: TextStyle(
+                color: Hexcolor('#3F4D55'),
+                fontSize: 12.0,
+                fontWeight: FontWeight.normal,
               ),
-              showCheckmark: true,
-              checkmarkColor: Hexcolor('#DFC2AA'),
-              selected: true,
-              selectedColor: Hexcolor('#FFFFFF'),
-              elevation: 5.0,
             ),
+            showCheckmark: true,
+            checkmarkColor: Hexcolor('#3F4D55'),
+            selected: true,
+            selectedColor: Hexcolor('#FFFFFF'),
+            elevation: 5.0,
           ),
-        ],
+        ),
       );
     } else {
       return Text('');
@@ -177,8 +180,7 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
   Widget build(BuildContext context) {
     return SimpleDialog(children: [
       Container(
-        height: 300,
-        width: 300,
+        height: MediaQuery.of(context).size.height * 0.7,
         child: Column(
           children: [
             Container(
@@ -212,9 +214,15 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
                     suffixIcon: Icon(Icons.search)),
               ),
             ),
-            // buildChip(),
+            buildChip(),
             Divider(),
             suggestionList(),
+            FlatButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Image.asset('assets/images/ok.png'),
+            ),
           ],
         ),
       ),

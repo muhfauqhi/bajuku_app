@@ -8,16 +8,9 @@ class DialogChipSeason extends StatefulWidget {
 }
 
 class _DialogChipSeasonState extends State<DialogChipSeason> {
-  static List<String> season = [
-    'Summer',
-    'Autumn',
-    'Spring',
-    'Winter'
-  ];
-  bool flag=true;
-  String temp;
+  static List<String> season = ['Summer', 'Autumn', 'Spring', 'Winter'];
+  bool flag = true;
   static List<String> tags;
-  final _myController = TextEditingController();
 
   List<String> getTags() {
     return tags;
@@ -33,10 +26,10 @@ class _DialogChipSeasonState extends State<DialogChipSeason> {
       return Row(
         children: [
           Container(
-            width: 316,
+            width: MediaQuery.of(context).size.width * 0.7,
             child: ChipsChoice<String>.multiple(
                 itemConfig: ChipsChoiceItemConfig(
-                  selectedColor: Hexcolor('#DFC2AA'),
+                  selectedColor: Hexcolor('#3F4D55'),
                   unselectedColor: Hexcolor('#3F4D55'),
                   labelStyle: TextStyle(
                     color: Hexcolor('#3F4D55'),
@@ -62,44 +55,19 @@ class _DialogChipSeasonState extends State<DialogChipSeason> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      children: <Widget>[
+      children: [
         Container(
-          height: 300,
-          width: 300,
+          height: 125,
           child: Column(
-            children: <Widget>[
-            //   Container(
-            //   padding: EdgeInsets.all(14.0),
-            //   child: TextFormField(
-            //     onSaved: (val) {
-            //       return tags;
-            //     },
-            //     onChanged: (val) {
-            //       if (val.isNotEmpty) {
-            //         setState(() {
-            //           flag = false;
-            //           temp = val;
-            //         });
-            //       } else {
-            //         setState(() {
-            //           flag = true;
-            //           temp = val;
-            //         });
-            //       }
-            //     },
-            //     controller: _myController,
-            //     style: TextStyle(
-            //       fontSize: 12.0,
-            //       fontWeight: FontWeight.normal,
-            //       fontStyle: FontStyle.normal,
-            //       color: Hexcolor('#3F4D55'),
-            //     ),
-            //     decoration: InputDecoration(
-            //         hintText: 'Search your fabric',
-            //         suffixIcon: Icon(Icons.search)),
-            //   ),
-            // ),
-            buildChip()
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildChip(),
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Image.asset('assets/images/ok.png'),
+              ),
             ],
           ),
         )

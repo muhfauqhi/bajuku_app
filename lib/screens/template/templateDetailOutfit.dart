@@ -1,6 +1,4 @@
 import 'package:bajuku_app/models/outfit.dart';
-import 'package:bajuku_app/models/widgetrect.dart';
-import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/outfit/buildTags.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -120,7 +118,7 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
     );
   }
 
-  Container buildContainerRowTotalCost() {
+  Widget buildContainerRowTotalCost() {
     return Container(
       child: Row(
         children: <Widget>[
@@ -151,7 +149,7 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
     );
   }
 
-  Container buildContainerRowOutfit() {
+  Widget buildContainerRowOutfit() {
     return Container(
       child: Row(
         children: <Widget>[
@@ -183,19 +181,18 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
     );
   }
 
-  Container buildContainerNotes() {
+  Widget buildContainerNotes() {
     return Container(
-      width: 600,
+      width: MediaQuery.of(context).size.width,
       child: Container(
           margin: EdgeInsets.fromLTRB(20, 10, 20, 10), child: Text(notes)),
     );
   }
 
-  Container buildContainerRowButton() {
+  Widget buildContainerRowButton() {
     return Container(
-      width: 600,
+      width: MediaQuery.of(context).size.width,
       height: 50,
-      margin: EdgeInsets.all(0),
       child: Row(
         children: <Widget>[
           Container(
@@ -210,20 +207,20 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
               ),
             ),
           ),
-          GestureDetector(
-            child: Container(
-              margin: EdgeInsets.only(left: 220),
-              child: Image.asset('assets/images/shareButton.png'),
-            ),
-            onTap: () {},
-          ),
-          GestureDetector(
-            child: Container(
-              margin: EdgeInsets.only(left: 20),
-              child: Image.asset('assets/images/optionButton.png'),
-            ),
-            onTap: () {},
-          ),
+          // GestureDetector(
+          //   child: Container(
+          //     margin: EdgeInsets.only(left: 220),
+          //     child: Image.asset('assets/images/shareButton.png'),
+          //   ),
+          //   onTap: () {},
+          // ),
+          // GestureDetector(
+          //   child: Container(
+          //     margin: EdgeInsets.only(left: 20),
+          //     child: Image.asset('assets/images/optionButton.png'),
+          //   ),
+          //   onTap: () {},
+          // ),
         ],
       ),
     );
@@ -235,32 +232,56 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
         children: [
           Container(
             alignment: Alignment(-1, 0),
-            margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+            margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
             child: Text(
               'Clothes you worn: ',
               style: TextStyle(fontSize: 12, color: Hexcolor('#3F4D55')),
             ),
           ),
           ListView.builder(
-              shrinkWrap: true,
-              itemCount: widget.outfit.tagged.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                  alignment: Alignment(-1, 0),
-                  child: Text(
-                    widget.outfit.tagged.values.elementAt(index)['clothName'],
-                    // widget.outfit.taggedClothesName[index],
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Hexcolor('#859289'),
-                    ),
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: widget.outfit.tagged.length,
+            itemBuilder: (context, index) {
+              return Container(
+                child: Text(
+                  widget.outfit.tagged.values.elementAt(index)['clothName'],
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Hexcolor('#859289'),
                   ),
-                );
-              }),
-          SizedBox(
-            height: 20,
-          )
+                ),
+                padding: EdgeInsets.only(left: 20.0, top: 0, bottom: 10.0),
+              );
+            },
+          ),
+          Container(
+            margin: EdgeInsets.only(
+              top: 20.0,
+              left: 20.0,
+              right: 20.0,
+              bottom: 50.0,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Points Earned',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Hexcolor('#859289'),
+                  ),
+                ),
+                Text(
+                  '${widget.outfit.tagged.length * 3 + 3}',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      color: Hexcolor('#859289')),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -279,10 +300,10 @@ class _TemplateDetailOutfitState extends State<TemplateDetailOutfit> {
                 Container(
                   key: key,
                   constraints: BoxConstraints(
-                      maxWidth: 400,
-                      maxHeight: 300,
-                      minWidth: 400,
-                      minHeight: 300),
+                      maxWidth: 450,
+                      maxHeight: 450,
+                      minWidth: 450,
+                      minHeight: 450),
                   child: Image.network(
                     widget.outfit.image,
                     fit: BoxFit.fitWidth,

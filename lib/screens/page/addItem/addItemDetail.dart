@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/home/home.dart';
-import 'package:bajuku_app/screens/page/addItem/datePicker.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsCategories.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsFabrics.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsSeason.dart';
@@ -47,23 +46,23 @@ class _AddItemDetailState extends State<AddItemDetail> {
     super.dispose();
   }
 
-  String itemName;
-  String brand;
+  String itemName = '';
+  String brand = '';
   int worn = 0;
-  String notes;
-  String size;
-  String season;
-  String price;
-  String cost;
-  DateTime selectedDate;
-  String color;
+  String notes = '';
+  String size = '';
+  String season = '';
+  String price = '';
+  String cost = '';
+  DateTime selectedDate = DateTime.now();
+  String color = '';
   String status = 'Available';
   int usedInOutfit = 0;
-  String url;
-  String image;
-  List<String> fabricsList;
-  List<String> categoryList;
-  List<String> seasonList;
+  String url = '';
+  String image = '';
+  List<String> fabricsList = [];
+  List<String> categoryList = [];
+  List<String> seasonList = [];
   final _myController = TextEditingController();
   List<String> allStatus = [
     'Available',
@@ -164,7 +163,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                             _buildContainerListLightFabric('Fabric'),
                             _buildContainerListDark('Brand', "brand"),
                             _buildContainerListLight('Size', "size"),
-                            // _buildContainerListDark('Season', "season"),
                             _buildContainerListDarkSeason('Season'),
                             _buildContainerListLightPrice('Price', "price"),
                             _buildContainerListDarkValueCost(
@@ -172,13 +170,12 @@ class _AddItemDetailState extends State<AddItemDetail> {
                             _buildContainerListLightDate(
                                 'Date bought', "dateBought"),
                             _buildColorPicker(),
-                            // _buildContainerListLightDisabled('Status', "status"),
                             _buildContainerListLightStatus('Status'),
                             _buildContainerListDarkDisabled(
                                 'Used in Outfit', "usedInOutfit"),
                             _buildContainerListLightDisabled('Worn', "worn"),
                             _buildContainerListDarkCategory('Tags Category'),
-                            _buildContainerListLight('URL', "url"),
+                            _buildContainerListLight('URL', 'url'),
                           ],
                         ),
                       ),
@@ -188,6 +185,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                         child: FlatButton(
                           child: Image.asset('assets/images/buttonSave.png'),
                           onPressed: () async {
+                            cost = price;
                             setState(() => loading = true);
                             image = await uploadPic();
                             await DatabaseService().setClothes(
@@ -207,7 +205,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                                 usedInOutfit,
                                 url,
                                 image);
-                            cost = price;
                             if (image != null) {
                               setState(() {
                                 loading = false;
@@ -299,18 +296,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                     dateBoughtFormatted = formatter.format(value);
                   });
                 });
-                // showDialog(
-                //   context: context,
-                //   child: DatePicker(),
-                // ).whenComplete(() {
-                //   setState(() {
-                //     // var f = new DateFormat('dd MMMM yyyy');
-                //     // dateBoughtFormatted = f
-                //     //     .format(DatePicker().createState().getSelectedDate());
-                //     // print(dateBoughtFormatted+"halo");
-                //     print(DatePicker().createState().getSelectedDate());
-                //   });
-                // });
               },
             ),
           )
@@ -604,6 +589,14 @@ class _AddItemDetailState extends State<AddItemDetail> {
                           onColorChanged: changeColor,
                         ),
                       ),
+                      actions: [
+                        FlatButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Image.asset('assets/images/ok.png'),
+                        ),
+                      ],
                     );
                   },
                 );

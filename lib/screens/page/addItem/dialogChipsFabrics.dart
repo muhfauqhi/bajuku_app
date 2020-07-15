@@ -106,7 +106,7 @@ class _DialogChipFabricState extends State<DialogChipFabric> {
                 ),
                 subtitle: ChipsChoice<String>.multiple(
                     itemConfig: ChipsChoiceItemConfig(
-                      selectedColor: Hexcolor('#E1C8B4'),
+                      selectedColor: Hexcolor('#3F4D55'),
                       unselectedColor: Hexcolor('#3F4D55'),
                       labelStyle: TextStyle(
                         color: Hexcolor('#3F4D55'),
@@ -164,10 +164,10 @@ class _DialogChipFabricState extends State<DialogChipFabric> {
       return Row(
         children: [
           Container(
-            width: 316,
+            width: MediaQuery.of(context).size.width * 0.7,
             child: ChipsChoice<String>.multiple(
                 itemConfig: ChipsChoiceItemConfig(
-                  selectedColor: Hexcolor('#DFC2AA'),
+                  selectedColor: Hexcolor('#3F4D55'),
                   unselectedColor: Hexcolor('#3F4D55'),
                   labelStyle: TextStyle(
                     color: Hexcolor('#3F4D55'),
@@ -192,49 +192,56 @@ class _DialogChipFabricState extends State<DialogChipFabric> {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(children: [
-      Container(
-        height: 300,
-        width: 300,
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(14.0),
-              child: TextFormField(
-                onSaved: (val) {
-                  return tags;
-                },
-                onChanged: (val) {
-                  if (val.isNotEmpty) {
-                    setState(() {
-                      flag = false;
-                      temp = val;
-                    });
-                  } else {
-                    setState(() {
-                      flag = true;
-                      temp = val;
-                    });
-                  }
-                },
-                controller: _myController,
-                style: TextStyle(
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.normal,
-                  fontStyle: FontStyle.normal,
-                  color: Hexcolor('#3F4D55'),
+    return SimpleDialog(
+      children: [
+        Container(
+          height: MediaQuery.of(context).size.height * 0.7,
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.all(14.0),
+                child: TextFormField(
+                  onSaved: (val) {
+                    return tags;
+                  },
+                  onChanged: (val) {
+                    if (val.isNotEmpty) {
+                      setState(() {
+                        flag = false;
+                        temp = val;
+                      });
+                    } else {
+                      setState(() {
+                        flag = true;
+                        temp = val;
+                      });
+                    }
+                  },
+                  controller: _myController,
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.normal,
+                    color: Hexcolor('#3F4D55'),
+                  ),
+                  decoration: InputDecoration(
+                      hintText: 'Search your fabric',
+                      suffixIcon: Icon(Icons.search)),
                 ),
-                decoration: InputDecoration(
-                    hintText: 'Search your fabric',
-                    suffixIcon: Icon(Icons.search)),
               ),
-            ),
-            buildChip(),
-            Divider(),
-            suggestionList(),
-          ],
+              buildChip(),
+              Divider(),
+              suggestionList(),
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Image.asset('assets/images/ok.png'),
+              ),
+            ],
+          ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }
