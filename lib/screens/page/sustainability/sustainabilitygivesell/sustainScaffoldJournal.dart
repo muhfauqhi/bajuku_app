@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:bajuku_app/models/outfit.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitygivesell/sustainabiilityJournal.dart';
