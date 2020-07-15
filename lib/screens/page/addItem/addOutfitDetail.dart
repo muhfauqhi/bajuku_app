@@ -70,9 +70,9 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
   final DatabaseService databaseService = DatabaseService();
 
   String image;
-  String name;
-  String notes;
-  String totalCost;
+  String name = '';
+  String notes = '';
+  String totalCost = '';
 
   final _myController = TextEditingController();
 
