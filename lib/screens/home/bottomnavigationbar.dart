@@ -1,8 +1,6 @@
 import 'package:bajuku_app/screens/page/addItem/addChoice.dart';
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablehome.dart';
-import 'package:bajuku_app/screens/template/templateDetailOutfit.dart';
-import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

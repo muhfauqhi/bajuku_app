@@ -23,8 +23,8 @@ class _AddChoiceDialogState extends State<AddChoiceDialog> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                height: 70,
-                width: 70,
+                height: 90,
+                width: 90,
                 child: GestureDetector(
                   child: Image.asset('assets/images/addclothes.png'),
                   onTap: () {
@@ -41,8 +41,8 @@ class _AddChoiceDialogState extends State<AddChoiceDialog> {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Container(
-                      height: 70,
-                      width: 70,
+                      height: 90,
+                      width: 90,
                       child: GestureDetector(
                         child: Image.asset('assets/images/addjournal.png'),
                       ),
@@ -76,8 +76,8 @@ class _AddChoiceDialogState extends State<AddChoiceDialog> {
                       );
                     }
                     return Container(
-                      height: 70,
-                      width: 70,
+                      height: 90,
+                      width: 90,
                       child: GestureDetector(
                         child: Image.asset('assets/images/addjournal.png'),
                         onTap: () {
