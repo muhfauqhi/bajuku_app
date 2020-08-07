@@ -19,26 +19,6 @@ class Wardrobe extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          Container(
-            alignment: Alignment(1, 0),
-            width: MediaQuery.of(context).size.width * 0.75,
-            child: IconButton(
-              icon: Image.asset(
-                'assets/images/seeall@3x.png',
-                width: 40,
-              ),
-              iconSize: 40,
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            new TemplateCategories(
-                              categories: "All Items",
-                            )));
-              },
-            ),
-          ),
           _buildAllItems(context),
           Container(
             width: MediaQuery.of(context).size.width,
@@ -230,98 +210,101 @@ class Wardrobe extends StatelessWidget {
   }
 
   Widget _buildAllItems(var context) {
-    return StreamBuilder(
-        stream: userRef
-            .document(uid)
-            .collection('clothes')
-            .orderBy('startDate', descending: false)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.data.documents.isEmpty) {
-              return GestureDetector(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: AspectRatio(
-                    aspectRatio: 2 / 2,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Image.asset(
-                        'assets/images/allitems.png',
-                        fit: BoxFit.cover,
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 30.0),
+      child: StreamBuilder(
+          stream: userRef
+              .document(uid)
+              .collection('clothes')
+              .orderBy('startDate', descending: false)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.data.documents.isEmpty) {
+                return GestureDetector(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: AspectRatio(
+                      aspectRatio: 2 / 2,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Image.asset(
+                          'assets/images/allitems.png',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new TemplateCategories(
-                                categories: "All Items",
-                              )));
-                },
-              );
-            } else {
-              List<Clothes> clothesList = [];
-              for (var i in snapshot.data.documents) {
-                if (i.data['status'] == 'Available') {
-                  clothesList.add(
-                    Clothes(
-                      i.documentID,
-                      i.data['brand'],
-                      i.data['category'],
-                      i.data['clothName'],
-                      i.data['color'],
-                      i.data['cost'],
-                      i.data['dateBought'],
-                      i.data['endDate'],
-                      i.data['fabric'],
-                      i.data['image'],
-                      i.data['price'],
-                      i.data['notes'],
-                      i.data['season'],
-                      i.data['size'],
-                      i.data['startDate'],
-                      i.data['status'],
-                      i.data['updateDate'],
-                      i.data['url'],
-                      i.data['usedInOutfit'],
-                      i.data['worn'],
-                    ),
-                  );
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new TemplateCategories(
+                                  categories: "All Items",
+                                )));
+                  },
+                );
+              } else {
+                List<Clothes> clothesList = [];
+                for (var i in snapshot.data.documents) {
+                  if (i.data['status'] == 'Available') {
+                    clothesList.add(
+                      Clothes(
+                        i.documentID,
+                        i.data['brand'],
+                        i.data['category'],
+                        i.data['clothName'],
+                        i.data['color'],
+                        i.data['cost'],
+                        i.data['dateBought'],
+                        i.data['endDate'],
+                        i.data['fabric'],
+                        i.data['image'],
+                        i.data['price'],
+                        i.data['notes'],
+                        i.data['season'],
+                        i.data['size'],
+                        i.data['startDate'],
+                        i.data['status'],
+                        i.data['updateDate'],
+                        i.data['url'],
+                        i.data['usedInOutfit'],
+                        i.data['worn'],
+                      ),
+                    );
+                  }
                 }
-              }
-              return GestureDetector(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Image.network(
-                        '${clothesList[clothesList.length - 1].image}',
-                        fit: BoxFit.cover,
+                return GestureDetector(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Image.network(
+                          '${clothesList[clothesList.length - 1].image}',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new TemplateCategories(
-                                categories: "All Items",
-                              )));
-                },
-              );
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new TemplateCategories(
+                                  categories: "All Items",
+                                )));
+                  },
+                );
+              }
+            } else {
+              return Text('');
             }
-          } else {
-            return Text('');
-          }
-        });
+          }),
+    );
   }
 
   Future<String> getCurrentUID() async {
