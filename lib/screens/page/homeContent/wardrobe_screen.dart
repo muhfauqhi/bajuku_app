@@ -1,8 +1,10 @@
 import 'package:bajuku_app/models/homescreen.dart';
+import 'package:bajuku_app/screens/template/templateCategories.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:bajuku_app/shared/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class WardrobeScreen extends StatefulWidget {
   @override
@@ -30,6 +32,7 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
   Future getData() async {
     List<String> categories = [];
     QuerySnapshot data = await _databaseService.getClothesByCategory();
+    DocumentSnapshot user = await _databaseService.getProfile();
     Set<Map<String, Object>> categoryWithImage = {};
     int index = 0;
     var documents = data.documents;
@@ -37,11 +40,23 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
     if (documents.isEmpty) {
       return null;
     } else {
+      Timestamp timestamp = user.data['created'];
+      DateTime date = timestamp.toDate();
+      String month = DateFormat('MMMM').format(date);
+      String year = DateFormat('yy').format(date);
+      String memberSince = month + ' \'' + year;
+      String urlLastImage;
+
       documents.forEach((e) {
         var category = e.data['category'][0];
+        var status = e.data['status'];
 
         if (!categories.any((element) => element.contains(category))) {
           categories.add(category);
+        }
+
+        if (status == 'Available') {
+          urlLastImage = e.data['image'];
         }
       });
 
@@ -75,15 +90,15 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
         index++;
       });
       addModel(HomeScreenModel.model(
-          documents.length, DateTime.now(), categoryWithImage));
+          documents.length, memberSince, categoryWithImage, urlLastImage));
       return 'Success';
     }
   }
 
   void addModel(HomeScreenModel model) {
     setState(() {
-      _homeScreenModel = HomeScreenModel.model(
-          model.clothesCount, model.memberSince, model.categories);
+      _homeScreenModel = HomeScreenModel.model(model.clothesCount,
+          model.memberSince, model.categories, model.imageUrl);
     });
   }
 
@@ -113,18 +128,29 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
         Column(
           children: <Widget>[
             Container(
-              height: 380,
               padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                elevation: 4.0,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                        'https://stockx.imgix.net/products/streetwear/Supreme-Box-Logo-Hoodie-Heather-Grey.jpg?fit=fill&bg=FFFFFF&w=700&h=500&auto=format,compress&q=90&dpr=2&trim=color&updated_at=1538080256'),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => TemplateCategories(
+                                categories: "All Items",
+                              )));
+                },
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  elevation: 4.0,
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Image(
+                        fit: BoxFit.cover,
+                        image: NetworkImage('${_homeScreenModel.imageUrl}'),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -157,7 +183,7 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                     ],
                   ),
                   Text(
-                    'Since September \'20',
+                    'Since ${_homeScreenModel.memberSince}',
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       color: Color(0xff859289),
@@ -186,7 +212,15 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      new TemplateCategories(
+                                        categories: "All Items",
+                                      )));
+                        },
                         child: Text(
                           'See All',
                           textAlign: TextAlign.right,
@@ -215,7 +249,15 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            new TemplateCategories(
+                                              categories: "${_homeScreenModel.categories.toList().elementAt(i).keys.elementAt(0)}",
+                                            )));
+                              },
                               child: Card(
                                 elevation: 3.0,
                                 shape: RoundedRectangleBorder(
@@ -279,10 +321,12 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
     return ListView(
       children: <Widget>[
         Container(
-          height: 400,
           padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
-          child: Image(
-            image: AssetImage('assets/images/blank area.png'),
+          child: AspectRatio(
+            aspectRatio: 1,
+            child: Image(
+              image: AssetImage('assets/images/blank area.png'),
+            ),
           ),
         ),
       ],

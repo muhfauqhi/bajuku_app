@@ -154,14 +154,6 @@ class DatabaseService {
           .collection('clothes')
           .getDocuments();
       return qn;
-    } else if (category == 'Jacket') {
-      QuerySnapshot qn = await Firestore.instance
-          .collection('users')
-          .document(firebaseUser.uid)
-          .collection('clothes')
-          .where('category', arrayContains: 'Jackets and Hoodies')
-          .getDocuments();
-      return qn;
     } else {
       QuerySnapshot qn = await Firestore.instance
           .collection('users')
