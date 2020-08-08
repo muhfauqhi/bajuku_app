@@ -76,19 +76,18 @@ class SustainAddClothes extends StatelessWidget {
                   databaseService.setGivenOrSellClothes(
                       clothes, productDesc, price, condition, type, location);
                   showDialog(
-                    context: context,
-                    child: GestureDetector(
-                      onTap: () {
+                    builder: (context) {
+                      Future.delayed(Duration(seconds: 3), () {
+                        Navigator.of(context).pop(true);
                         Navigator.pop(context);
                         Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) => Home(
-                                      currentIndex: 0,
-                                    )));
-                      },
-                      child: Image.asset('assets/images/${type}Post.png'),
-                    ),
+                            new MaterialPageRoute(
+                                builder: (BuildContext context) => new Home()));
+                      });
+                      return Image.asset('assets/images/${type}Post.png');
+                    },
+                    context: context,
                   );
                 },
               ),

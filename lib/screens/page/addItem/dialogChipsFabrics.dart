@@ -231,7 +231,7 @@ class _DialogChipFabricState extends State<DialogChipFabric> {
               ),
               buildChip(),
               Divider(),
-              suggestionList(),
+              // suggestionList(),
               FlatButton(
                 onPressed: () {
                   Navigator.pop(context);

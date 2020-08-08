@@ -90,19 +90,18 @@ class _SustainAddJournalState extends State<SustainAddJournal> {
                       sustainClothes[i].location);
                 }
                 showDialog(
-                  context: context,
-                  child: GestureDetector(
-                    onTap: () {
+                  builder: (context) {
+                    Future.delayed(Duration(seconds: 3), () {
+                      Navigator.of(context).pop(true);
                       Navigator.pop(context);
                       Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => Home(
-                                    currentIndex: 0,
-                                  )));
-                    },
-                    child: Image.asset('assets/images/${widget.type}Post.png'),
-                  ),
+                          new MaterialPageRoute(
+                              builder: (BuildContext context) => new Home()));
+                    });
+                    return Image.asset('assets/images/${widget.type}Post.png');
+                  },
+                  context: context,
                 );
               },
             ),

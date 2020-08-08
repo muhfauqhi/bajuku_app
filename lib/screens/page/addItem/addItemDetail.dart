@@ -122,7 +122,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                   child: Column(
                     children: <Widget>[
                       //Add Notes
-                      buildInputNotes(),
+                      buildInputClothName(),
                       Container(
                         child: Column(
                           children: <Widget>[
@@ -159,7 +159,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
                                 ],
                               ),
                             ),
-                            _buildContainerListDark('Name', "itemName"),
                             _buildContainerListLightFabric('Fabric'),
                             _buildContainerListDark('Brand', "brand"),
                             _buildContainerListLight('Size', "size"),
@@ -171,11 +170,9 @@ class _AddItemDetailState extends State<AddItemDetail> {
                                 'Date bought', "dateBought"),
                             _buildColorPicker(),
                             _buildContainerListLightStatus('Status'),
-                            _buildContainerListDarkDisabled(
-                                'Used in Outfit', "usedInOutfit"),
-                            _buildContainerListLightDisabled('Worn', "worn"),
                             _buildContainerListDarkCategory('Tags Category'),
                             _buildContainerListLight('URL', 'url'),
+                            _buildContainerListDark('Notes', "notes"),
                           ],
                         ),
                       ),
@@ -209,19 +206,20 @@ class _AddItemDetailState extends State<AddItemDetail> {
                               setState(() {
                                 loading = false;
                                 showDialog(
-                                  context: context,
-                                  child: GestureDetector(
-                                    child: Image.asset(
-                                        'assets/images/itemsavedialog.png'),
-                                    onTap: () {
+                                  builder: (context) {
+                                    Future.delayed(Duration(seconds: 3), () {
+                                      Navigator.of(context).pop(true);
                                       Navigator.pop(context);
                                       Navigator.push(
                                           context,
                                           new MaterialPageRoute(
                                               builder: (BuildContext context) =>
                                                   new Home()));
-                                    },
-                                  ),
+                                    });
+                                    return Image.asset(
+                                        'assets/images/itemsavedialog.png');
+                                  },
+                                  context: context,
                                 );
                               });
                             }
@@ -632,7 +630,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
     );
   }
 
-  Container buildInputNotes() {
+  Container buildInputClothName() {
     return Container(
       padding: EdgeInsets.only(bottom: 20),
       child: TextFormField(
@@ -645,7 +643,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
             filled: true,
             fillColor: Hexcolor('#F8F6F4'),
             contentPadding: EdgeInsets.fromLTRB(115, 30, 0, 0),
-            hintText: 'Write your notes here',
+            hintText: 'Write your cloth name here',
             hintStyle: TextStyle(
               color: Hexcolor('#3f4d55'),
               letterSpacing: 1,
@@ -666,7 +664,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
             ),
           ),
           onChanged: (val) {
-            setState(() => notes = val);
+            setState(() => itemName = val);
           }),
     );
   }
