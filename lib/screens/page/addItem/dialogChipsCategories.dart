@@ -41,7 +41,7 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
         return cL.elementAt(i).categoryName;
       }
     }
-    return 'Tidak ditemukan';
+    return 'Not found';
   }
 
   List<String> categoryListTitle;
