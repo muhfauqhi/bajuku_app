@@ -216,7 +216,7 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
             ),
             buildChip(),
             Divider(),
-            suggestionList(),
+            // suggestionList(),
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
