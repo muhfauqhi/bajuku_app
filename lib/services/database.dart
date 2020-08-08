@@ -5,6 +5,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 class DatabaseService {
   // Collection reference
   final firestoreInstance = Firestore.instance;
+  final CollectionReference _userRef = Firestore.instance.collection('users');
+
+  Future getClothesByCategory() async {
+    final FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
+    return await _userRef
+        .document(firebaseUser.uid)
+        .collection('clothes')
+        .orderBy('startDate', descending: true)
+        .getDocuments();
+  }
 
   Future createUser(String firstName, String lastName, String email) async {
     return await firestoreInstance.collection("users").add({
