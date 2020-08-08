@@ -144,11 +144,10 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
                                         databaseService.updatePoints(3);
                                       }
                                       showDialog(
-                                        context: context,
-                                        child: GestureDetector(
-                                          child: Image.asset(
-                                              'assets/images/itemsavedialog.png'),
-                                          onTap: () {
+                                        builder: (context) {
+                                          Future.delayed(Duration(seconds: 3),
+                                              () {
+                                            Navigator.of(context).pop(true);
                                             Navigator.pop(context);
                                             Navigator.push(
                                                 context,
@@ -156,8 +155,11 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
                                                     builder: (BuildContext
                                                             context) =>
                                                         new Home()));
-                                          },
-                                        ),
+                                          });
+                                          return Image.asset(
+                                              'assets/images/outfitsaveddialog.png');
+                                        },
+                                        context: context,
                                       );
                                     },
                                   );
