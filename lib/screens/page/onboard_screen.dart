@@ -27,7 +27,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
 
   void changePage() {
     Timer.periodic(Duration(seconds: 5), (timer) {
-      if (_currentPageView < 2) {
+      if (_currentPageView < slideList.length - 1) {
         _currentPageView++;
       } else {
         _currentPageView = 0;
@@ -90,7 +90,6 @@ class _OnboardScreenState extends State<OnboardScreen> {
                             ),
                             child: Image.asset("assets/images/ButtonLogin.png"),
                             onPressed: () {
-                              // Navigator.pop(context);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

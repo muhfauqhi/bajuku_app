@@ -1,5 +1,5 @@
 import 'package:bajuku_app/models/homescreen.dart';
-import 'package:bajuku_app/screens/template/templateCategories.dart';
+import 'package:bajuku_app/screens/template/categories_screen.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:bajuku_app/shared/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,11 +21,11 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
   }
 
   Future check() async {
-    String check = await getData();
-    if (check == null) {
-      return null;
+    bool check = await getData();
+    if (!check) {
+      return false;
     } else {
-      return 'Success';
+      return true;
     }
   }
 
@@ -38,7 +38,7 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
     var documents = data.documents;
 
     if (documents.isEmpty) {
-      return null;
+      return false;
     } else {
       Timestamp timestamp = user.data['created'];
       DateTime date = timestamp.toDate();
@@ -91,7 +91,7 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
       });
       addModel(HomeScreenModel.model(
           documents.length, memberSince, categoryWithImage, urlLastImage));
-      return 'Success';
+      return true;
     }
   }
 
@@ -106,13 +106,15 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
   Widget build(BuildContext context) {
     return Container(
       child: FutureBuilder(
-        future: check(),
+        future: getData(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data == null) {
+            if (snapshot.data) {
+              return _buildWardrobeWithItem();
+            } else if (!snapshot.data) {
               return _buildWardrobeNoItem();
             } else {
-              return _buildWardrobeWithItem();
+              return Loading();
             }
           } else {
             return Loading();
@@ -134,8 +136,9 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) => TemplateCategories(
-                                categories: "All Items",
+                          builder: (context) => CategoriesScreen(
+                                category:
+                                    'All Items',
                               )));
                 },
                 child: Card(
@@ -216,9 +219,8 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      new TemplateCategories(
-                                        categories: "All Items",
+                                  builder: (context) => CategoriesScreen(
+                                        category: 'All Items',
                                       )));
                         },
                         child: Text(
@@ -253,9 +255,9 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            new TemplateCategories(
-                                              categories: "${_homeScreenModel.categories.toList().elementAt(i).keys.elementAt(0)}",
+                                        builder: (context) => CategoriesScreen(
+                                              category:
+                                                  '${_homeScreenModel.categories.toList().elementAt(i).keys.elementAt(0)}',
                                             )));
                               },
                               child: Card(

@@ -1,6 +1,5 @@
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/page/homeContent/journal.dart';
-import 'package:bajuku_app/screens/page/homeContent/wardrobe.dart';
 import 'package:bajuku_app/screens/page/homeContent/wardrobe_screen.dart';
 import 'package:bajuku_app/screens/page/menu_burger/menuBurger.dart';
 import 'package:bajuku_app/screens/page/profileheader/profileheader.dart';

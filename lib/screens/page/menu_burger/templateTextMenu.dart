@@ -30,11 +30,9 @@ class _TextMenuState extends State<TextMenu> {
           ),
         ),
       ),
-      onTap: () {
+      onTap: () async {
         if (widget.text == 'Logout') {
-          setState(() async {
-            await _auth.signOut();
-          });
+          await _auth.signOut();
         } else {
           Navigator.pop(context);
           Navigator.push(
