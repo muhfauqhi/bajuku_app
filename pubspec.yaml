@@ -47,7 +47,6 @@ dependencies:
   table_calendar: ^2.2.3
   shared_preferences: ^0.5.8
   fl_chart: ^0.10.1
-  shimmer: ^1.1.1
 
 dev_dependencies:
   flutter_test:
