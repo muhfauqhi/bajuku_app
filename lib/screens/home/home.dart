@@ -1,8 +1,8 @@
 import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
-import 'package:bajuku_app/screens/page/homeContent/journal.dart';
+import 'package:bajuku_app/screens/page/homeContent/journal_screen.dart';
 import 'package:bajuku_app/screens/page/homeContent/wardrobe_screen.dart';
 import 'package:bajuku_app/screens/page/menu_burger/menuBurger.dart';
-import 'package:bajuku_app/screens/page/profileheader/profileheader.dart';
+import 'package:bajuku_app/screens/page/profileheader/headerprofile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -48,32 +48,30 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
-              Container(
-                child: SliverAppBar(
+              SliverAppBar(
+                centerTitle: true,
+                leading: FlatButton(
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                  padding: EdgeInsets.all(0.0),
+                  child: Image.asset(
+                    'assets/images/burger_menu.png',
+                    height: 35.0,
+                    width: 35.0,
+                  ),
+                ),
+                iconTheme: IconThemeData(
+                  color: Hexcolor('#3F4D55'),
+                ),
+                backgroundColor: Hexcolor('#FBFBFB'),
+                expandedHeight: 50.0,
+                floating: false,
+                pinned: false,
+                flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
-                  leading: FlatButton(
-                    onPressed: () => Scaffold.of(context).openDrawer(),
-                    padding: EdgeInsets.all(0.0),
-                    child: Image.asset(
-                      'assets/images/burger_menu.png',
-                      height: 35.0,
-                      width: 35.0,
-                    ),
-                  ),
-                  iconTheme: IconThemeData(
-                    color: Hexcolor('#3F4D55'),
-                  ),
-                  backgroundColor: Hexcolor('#FBFBFB'),
-                  expandedHeight: 50.0,
-                  floating: false,
-                  pinned: false,
-                  flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Image.asset(
-                      'assets/images/logo@3x.png',
-                      width: 100,
-                      height: 30,
-                    ),
+                  title: Image.asset(
+                    'assets/images/logo@3x.png',
+                    width: 100,
+                    height: 30,
                   ),
                 ),
               ),
@@ -112,7 +110,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               //   uid: uid,
               // ),
               WardrobeScreen(),
-              Journal()
+              JournalScreen()
             ],
           ),
         ),
@@ -124,7 +122,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   Widget buildContainerProfile(BuildContext context) {
     if (_activeTabIndex == 1) {
-      return ProfileHeader();
+      return HeaderProfile();
     } else {
       return Container();
     }
