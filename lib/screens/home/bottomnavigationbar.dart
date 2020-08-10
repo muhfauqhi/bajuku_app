@@ -6,8 +6,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
+  final int indexNow;
+  CustomBottomNavigationBar({this.indexNow});
+
   @override
   _CustomBottomNavigationBarState createState() =>
       _CustomBottomNavigationBarState();
@@ -16,6 +21,8 @@ class CustomBottomNavigationBar extends StatefulWidget {
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   CollectionReference userRef;
   String uid;
+  GlobalKey _one = GlobalKey();
+  GlobalKey _two = GlobalKey();
 
   @override
   void initState() {
@@ -31,6 +38,26 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
+    SharedPreferences preferences;
+
+    displayShowcase() async {
+      preferences = await SharedPreferences.getInstance();
+      bool showCaseVisibilityStatus = preferences.getBool("displayShowcase");
+
+      if (showCaseVisibilityStatus == null) {
+        preferences.setBool("displayShowcase", false);
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+    displayShowcase().then((status) {
+        if (status) {
+          ShowCaseWidget.of(context).startShowCase([_one, _two]);
+        }
+      });
+
     return Container(
       color: Hexcolor('#F8F8F8'),
       padding: EdgeInsets.all(5),
@@ -53,18 +80,23 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               },
             ),
           ),
-          Container(
-            margin: EdgeInsets.all(5),
-            height: 35,
-            width: 35,
-            child: GestureDetector(
-              child: Image.asset('assets/images/addnav.png'),
-              onTap: () {
-                showDialog(
-                  context: context,
-                  child: AddChoiceDialog(),
-                );
-              },
+          Showcase(
+            key: widget.indexNow == 0 ? _one : _two,
+            description:
+                widget.indexNow == 0 ? 'Add clothes here' : 'Add outfit here',
+            child: Container(
+              margin: EdgeInsets.all(5),
+              height: 35,
+              width: 35,
+              child: GestureDetector(
+                child: Image.asset('assets/images/addnav.png'),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    child: AddChoiceDialog(),
+                  );
+                },
+              ),
             ),
           ),
           StreamBuilder(

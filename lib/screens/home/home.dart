@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class Home extends StatefulWidget {
   final int currentIndex;
@@ -20,7 +21,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   CollectionReference userRef;
   String uid;
-  int _activeTabIndex;
+  int _activeTabIndex=0;
 
   final List<Tab> myTabs = <Tab>[
     new Tab(
@@ -38,7 +39,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _getUid();
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,7 +117,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      bottomNavigationBar: ShowCaseWidget(
+        builder: Builder(builder: (context) => CustomBottomNavigationBar(indexNow:_activeTabIndex)),
+      ),
       drawer: MenuBurger(),
     );
   }
