@@ -11,17 +11,23 @@ class MyScaffold extends StatelessWidget {
   final bool leadingActive;
   final List<Widget> actions;
   final Widget floatingActionButton;
+  final bool isTitleWidget;
+  final Widget titleWidget;
 
-  MyScaffold(
-      {this.body,
-      this.headerWidget,
-      this.title,
-      this.bottomNavigationBar,
-      this.titleTextStyle,
-      this.titleStyle,
-      this.leadingActive,
-      this.actions,
-      this.floatingActionButton});
+  MyScaffold({
+    Key key,
+    this.body,
+    this.headerWidget,
+    this.title,
+    this.bottomNavigationBar,
+    this.titleTextStyle,
+    this.titleStyle = false,
+    this.leadingActive = true,
+    this.actions,
+    this.floatingActionButton,
+    this.isTitleWidget = true,
+    this.titleWidget,
+  });
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,10 +46,13 @@ class MyScaffold extends StatelessWidget {
                 expandedHeight: 50.0,
                 floating: false,
                 pinned: false,
-                flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  title: titleWithStyle(title, titleTextStyle),
-                ),
+                title: isTitleWidget ? titleWithStyle(title, titleTextStyle) : titleWidget,
+                // flexibleSpace: FlexibleSpaceBar(
+                //   centerTitle: true,
+                //   title: isTitleWidget
+                //       ? titleWithStyle(title, titleTextStyle)
+                //       : titleWidget,
+                // ),
               ),
             ),
             SliverList(

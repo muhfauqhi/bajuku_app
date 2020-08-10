@@ -15,6 +15,9 @@ class MyApp extends StatelessWidget {
     return StreamProvider<User>.value(
       value: AuthService().user,
       child: MaterialApp(
+        theme: ThemeData(
+          fontFamily: 'Proxima Nova'
+        ),
         debugShowCheckedModeBanner: false,
         home: SplashScreen(),
         ),

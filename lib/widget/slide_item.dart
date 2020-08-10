@@ -8,13 +8,37 @@ class SlideItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200.0,
-      height: 200.0,
       decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
         image: DecorationImage(
-          image: AssetImage(slideList[index].imageUrl),
-          fit: BoxFit.cover
+            image: AssetImage(slideList[index].imageUrl), fit: BoxFit.cover),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: 70.0),
+            Text(
+              '${slideList[index].firstText}',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xff3F4D55),
+                fontSize: 26.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 20.0),
+            Text(
+              '${slideList[index].secondText}',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xff3F4D55),
+                fontWeight: FontWeight.w300,
+                fontSize: 16.0,
+                letterSpacing: 1.0,
+              ),
+            ),
+          ],
         ),
       ),
     );
