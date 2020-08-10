@@ -1,3 +1,4 @@
+import 'package:bajuku_app/screens/page/profileheader/headerprofile.dart';
 import 'package:bajuku_app/screens/page/profileheader/profileheader.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,7 +20,7 @@ class SustainableTemplate extends StatelessWidget {
       bottomNavigationBar: bottomNavigationBar,
       title: title,
       headerWidget: [
-        ProfileHeader(),
+        HeaderProfile(),
         headerWidget,
       ],
       body: body,

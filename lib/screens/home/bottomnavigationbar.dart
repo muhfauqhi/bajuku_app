@@ -22,8 +22,8 @@ class CustomBottomNavigationBar extends StatefulWidget {
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   CollectionReference userRef;
   String uid;
-  GlobalKey _one = GlobalKey();
-  GlobalKey _two = GlobalKey();
+  final GlobalKey _one = GlobalKey();
+  final GlobalKey _two = GlobalKey();
 
   @override
   void initState() {

@@ -23,7 +23,7 @@ class _PreviewImageState extends State<PreviewImage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      // bottomNavigationBar: CustomBottomNavigationBar(),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0.0,

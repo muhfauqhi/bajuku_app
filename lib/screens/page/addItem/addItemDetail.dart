@@ -77,7 +77,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
     return loading
         ? Loading()
         : Scaffold(
-            bottomNavigationBar: CustomBottomNavigationBar(),
+            // bottomNavigationBar: CustomBottomNavigationBar(),
             appBar: AppBar(
               elevation: 0.0,
               title: Text(
