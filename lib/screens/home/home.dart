@@ -3,6 +3,7 @@ import 'package:bajuku_app/screens/page/homeContent/journal.dart';
 import 'package:bajuku_app/screens/page/homeContent/wardrobe_screen.dart';
 import 'package:bajuku_app/screens/page/menu_burger/menuBurger.dart';
 import 'package:bajuku_app/screens/page/profileheader/profileheader.dart';
+import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   CollectionReference userRef;
   String uid;
-  int _activeTabIndex=0;
+  int _activeTabIndex = 0;
 
   final List<Tab> myTabs = <Tab>[
     new Tab(
@@ -118,8 +119,21 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           ),
         ),
       ),
-      bottomNavigationBar: ShowCaseWidget(
-        builder: Builder(builder: (context) => CustomBottomNavigationBar(indexNow:_activeTabIndex)),
+      bottomNavigationBar: FutureBuilder(
+        future: DatabaseService().getTotalClothes(),
+        builder: (_, snapshot) {
+          if (snapshot.hasData) {
+            return ShowCaseWidget(
+              builder: Builder(
+                  builder: (context) => CustomBottomNavigationBar(
+                        indexNow: _activeTabIndex,
+                        totalItem: snapshot.data.documents.length,
+                      )),
+            );
+          } else {
+            return Text("");
+          }
+        },
       ),
       drawer: MenuBurger(),
     );

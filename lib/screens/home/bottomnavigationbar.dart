@@ -11,7 +11,8 @@ import 'package:showcaseview/showcaseview.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   final int indexNow;
-  CustomBottomNavigationBar({this.indexNow});
+  final int totalItem;
+  CustomBottomNavigationBar({this.indexNow, this.totalItem});
 
   @override
   _CustomBottomNavigationBarState createState() =>
@@ -27,6 +28,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   void initState() {
     super.initState();
+    if (widget.totalItem == 0) {
+      WidgetsBinding.instance.addPostFrameCallback(
+          (_) => ShowCaseWidget.of(context).startShowCase([_one, _two]));
+    }
     _getUserDoc();
     _getUid();
   }
@@ -38,26 +43,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    SharedPreferences preferences;
-
-    displayShowcase() async {
-      preferences = await SharedPreferences.getInstance();
-      bool showCaseVisibilityStatus = preferences.getBool("displayShowcase");
-
-      if (showCaseVisibilityStatus == null) {
-        preferences.setBool("displayShowcase", false);
-        return true;
-      }else{
-        return false;
-      }
-    }
-
-    displayShowcase().then((status) {
-        if (status) {
-          ShowCaseWidget.of(context).startShowCase([_one, _two]);
-        }
-      });
-
     return Container(
       color: Hexcolor('#F8F8F8'),
       padding: EdgeInsets.all(5),
@@ -82,8 +67,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           ),
           Showcase(
             key: widget.indexNow == 0 ? _one : _two,
-            description:
-                widget.indexNow == 0 ? 'Add clothes here' : 'Add outfit here',
+            description: widget.indexNow == 0
+                ? 'Add your first clothes here'
+                : 'Add your first outfit here',
             child: Container(
               margin: EdgeInsets.all(5),
               height: 35,
