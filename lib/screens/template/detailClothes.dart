@@ -45,22 +45,40 @@ class _ClothesDetailState extends State<ClothesDetail> {
                     onPressed: () {}),
               ),
               Container(
-                width: MediaQuery.of(context).size.width * 0.90,
-                height: 300,
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
                 child: Card(
-                  elevation: 2.0,
-                  child: Container(
-                    child: Image.network(
-                      widget.clothes.image,
-                      fit: BoxFit.fitWidth,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Hexcolor('#FFFFFF'),
-                      borderRadius: BorderRadius.circular(5.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Image(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(widget.clothes.image),
+                      ),
                     ),
                   ),
                 ),
               ),
+              // Container(
+              //   width: MediaQuery.of(context).size.width * 0.90,
+              //   height: 300,
+              //   child: Card(
+              //     elevation: 2.0,
+              //     child: Container(
+              //       child: Image.network(
+              //         widget.clothes.image,
+              //         fit: BoxFit.fitWidth,
+              //       ),
+              //       decoration: BoxDecoration(
+              //         color: Hexcolor('#FFFFFF'),
+              //         borderRadius: BorderRadius.circular(5.0),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Container(
                 child: Column(
                   children: <Widget>[

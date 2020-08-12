@@ -78,9 +78,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 child: Image.asset('assets/images/addnav.png'),
                 onTap: () {
                   showModalBottomSheet(
-                    backgroundColor: Colors.transparent,
-                    isDismissible: true,
-                    enableDrag: false,
+                      backgroundColor: Colors.transparent,
+                      isDismissible: true,
+                      enableDrag: false,
                       context: context,
                       builder: (context) => AddChoiceDialog());
                 },

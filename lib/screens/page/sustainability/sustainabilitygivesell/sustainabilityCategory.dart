@@ -135,7 +135,7 @@ class SustainCategory extends StatelessWidget {
                               builder: (BuildContext context) =>
                                   SustainDetailWardrobe(
                                 clothes: clothes,
-                                title: clothes.clothName,
+                                title: title,
                                 type: type,
                               ),
                             ),
