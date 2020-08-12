@@ -15,7 +15,7 @@ class _SustainableUpkeepState extends State<SustainableUpkeep> {
   @override
   Widget build(BuildContext context) {
     return SustainableTemplate(
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      // bottomNavigationBar: CustomBottomNavigationBar(),
       title: widget.title,
       headerWidget: HeaderWidgetSustainability(
         headerButton: false,
