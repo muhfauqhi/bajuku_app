@@ -15,7 +15,7 @@ class _SustainableDonateState extends State<SustainableDonate> {
   @override
   Widget build(BuildContext context) {
     return SustainableTemplate(
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      // bottomNavigationBar: CustomBottomNavigationBar(),
       title: widget.title,
       headerWidget: HeaderWidgetSustainability(
         headerButton: false,

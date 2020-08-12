@@ -18,7 +18,7 @@ class _SustainableSaleState extends State<SustainableSale> {
   Widget build(BuildContext context) {
     return SustainableTemplate(
       title: widget.title,
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      // bottomNavigationBar: CustomBottomNavigationBar(),
       headerWidget: HeaderWidgetSustainability(
         type: 'Sold',
         asset: 'buttonsale.png',

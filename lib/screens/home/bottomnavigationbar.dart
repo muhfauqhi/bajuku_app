@@ -1,4 +1,4 @@
-import 'package:bajuku_app/screens/page/addItem/addChoice.dart';
+import 'package:bajuku_app/screens/page/addItem/addChoiceDialog.dart';
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablehome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -77,10 +77,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               child: GestureDetector(
                 child: Image.asset('assets/images/addnav.png'),
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    child: AddChoiceDialog(),
-                  );
+                  showModalBottomSheet(
+                    backgroundColor: Colors.transparent,
+                    isDismissible: true,
+                    enableDrag: false,
+                      context: context,
+                      builder: (context) => AddChoiceDialog());
                 },
               ),
             ),

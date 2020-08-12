@@ -17,7 +17,7 @@ class _SustainableGivenState extends State<SustainableGiven> {
   @override
   Widget build(BuildContext context) {
     return SustainableTemplate(
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      // bottomNavigationBar: CustomBottomNavigationBar(),
       title: widget.title,
       headerWidget: HeaderWidgetSustainability(
         type: 'Given',
