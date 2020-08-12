@@ -83,6 +83,13 @@ class _BuildTextFieldState extends State<BuildTextField> {
       child: Stack(
         children: [
           TextFormField(
+            validator: (val) {
+              if (val.isEmpty) {
+                return "The product description field is required";
+              } else {
+                return null;
+              }
+            },
             autofocus: true,
             controller: widget.controller,
             onChanged: widget.onChanged,
@@ -166,6 +173,13 @@ class _BuildTextFieldState extends State<BuildTextField> {
       return Expanded(
         child: Container(
           child: TextFormField(
+            validator: (val) {
+              if (val.isEmpty) {
+                return "The price field is required";
+              } else {
+                return null;
+              }
+            },
             controller: widget.controller,
             onChanged: widget.onChanged,
             keyboardType: TextInputType.number,
@@ -185,6 +199,17 @@ class _BuildTextFieldState extends State<BuildTextField> {
       return Expanded(
         child: Container(
           child: TextFormField(
+            validator: (val) {
+              if (val.isEmpty) {
+                if (widget.desc == "Location") {
+                  return "The location field is required";
+                } else {
+                  return "The condition field is required";
+                }
+              } else {
+                return null;
+              }
+            },
             controller: widget.controller,
             onChanged: widget.onChanged,
             style: textStyle(12.0, '#3F4D55'),

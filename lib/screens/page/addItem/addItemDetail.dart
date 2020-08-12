@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsCategories.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsFabrics.dart';
@@ -967,6 +965,8 @@ class _AddItemDetailState extends State<AddItemDetail> {
                       this.status = val;
                     } else if (data == "url") {
                       this.url = val;
+                    } else if (data == "notes") {
+                      this.notes = val;
                     }
                     setState(() => data = val);
                   }),

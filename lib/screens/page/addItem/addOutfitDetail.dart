@@ -125,44 +125,48 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
                               child:
                                   Image.asset('assets/images/postButton.png'),
                               onPressed: () async {
-                                setState(() => loading = true);
-                                image = await uploadPic();
-                                await databaseService.setOutfit(
-                                  image,
-                                  notes,
-                                  name,
-                                  totalCost,
-                                  widget.tagged,
-                                );
-                                if (image != null) {
-                                  setState(
-                                    () {
-                                      loading = false;
-                                      for (var i in widget.tagged.values) {
-                                        databaseService.updateUsedInOutfit(
-                                            i['documentId']);
-                                        databaseService.updatePoints(3);
-                                      }
-                                      showDialog(
-                                        builder: (context) {
-                                          Future.delayed(Duration(seconds: 3),
-                                              () {
-                                            Navigator.of(context).pop(true);
-                                            Navigator.pop(context);
-                                            Navigator.push(
-                                                context,
-                                                new MaterialPageRoute(
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        new Home()));
-                                          });
-                                          return Image.asset(
-                                              'assets/images/outfitsaveddialog.png');
-                                        },
-                                        context: context,
-                                      );
-                                    },
+                                if (_formKey.currentState.validate()) {
+                                  setState(() => loading = true);
+                                  image = await uploadPic();
+                                  await databaseService.setOutfit(
+                                    image,
+                                    notes,
+                                    name,
+                                    totalCost,
+                                    widget.tagged,
                                   );
+                                  if (image != null) {
+                                    setState(
+                                      () {
+                                        loading = false;
+                                        for (var i in widget.tagged.values) {
+                                          databaseService.updateUsedInOutfit(
+                                              i['documentId']);
+                                          databaseService.updatePoints(3);
+                                        }
+                                        showDialog(
+                                          builder: (context) {
+                                            Future.delayed(Duration(seconds: 3),
+                                                () {
+                                              Navigator.of(context).pop(true);
+                                              Navigator.pop(context);
+                                              Navigator.push(
+                                                  context,
+                                                  new MaterialPageRoute(
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          new Home()));
+                                            });
+                                            return Image.asset(
+                                                'assets/images/outfitsaveddialog.png');
+                                          },
+                                          context: context,
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return null;
+                                  }
                                 }
                               },
                             ),
@@ -219,6 +223,13 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
     return Container(
       padding: EdgeInsets.only(bottom: 20),
       child: TextFormField(
+          validator: (val) {
+            if (val.isEmpty) {
+              return "The notes field is required";
+            } else {
+              return null;
+            }
+          },
           maxLines: 5,
           decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
@@ -352,6 +363,13 @@ class _AddOutfitDetailState extends State<AddOutfitDetail> {
           Expanded(
             child: Container(
               child: TextFormField(
+                  validator: (val) {
+                    if (val.isEmpty) {
+                      return "The name field is required";
+                    } else {
+                      return null;
+                    }
+                  },
                   style: TextStyle(
                     fontSize: 12.0,
                     fontWeight: FontWeight.normal,

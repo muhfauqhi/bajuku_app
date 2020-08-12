@@ -47,14 +47,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       color: Hexcolor('#F8F8F8'),
       padding: EdgeInsets.all(5),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Container(
             margin: EdgeInsets.all(5),
-            height: 35,
-            width: 35,
+            height: 65,
+            width: 65,
             child: GestureDetector(
-              child: Image.asset('assets/images/homenav.png'),
+              child: Image.asset('assets/images/sustainabilitybottom.png'),
               onTap: () {
                 Navigator.push(
                     context,
@@ -71,11 +71,11 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 ? 'Add your first clothes here'
                 : 'Add your first outfit here',
             child: Container(
-              margin: EdgeInsets.all(5),
-              height: 35,
-              width: 35,
+              margin: EdgeInsets.fromLTRB(5, 5, 10, 5),
+              height: 60,
+              width: 60,
               child: GestureDetector(
-                child: Image.asset('assets/images/addnav.png'),
+                child: Image.asset('assets/images/menubottom.png'),
                 onTap: () {
                   showDialog(
                     context: context,
@@ -93,10 +93,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               } else {
                 return Container(
                   margin: EdgeInsets.all(5),
-                  height: 35,
-                  width: 35,
+                  height: 55,
+                  width: 55,
                   child: GestureDetector(
-                    child: Image.asset('assets/images/profilenav.png'),
+                    child: Image.asset('assets/images/profilebottom.png'),
                     onTap: () {
                       var y = snapshot.data['created'].toDate();
                       String year = new DateFormat('yyyy').format(y);

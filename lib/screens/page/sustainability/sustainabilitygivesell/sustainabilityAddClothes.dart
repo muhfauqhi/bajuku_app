@@ -71,24 +71,30 @@ class SustainAddClothes extends StatelessWidget {
                 widget: 'button',
                 type: type,
                 onTap: () {
-                  databaseService.updateGivenJournal(type, clothes.documentId);
-                  clothes.status = type;
-                  databaseService.setGivenOrSellClothes(
-                      clothes, productDesc, price, condition, type, location);
-                  showDialog(
-                    builder: (context) {
-                      Future.delayed(Duration(seconds: 3), () {
-                        Navigator.of(context).pop(true);
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (BuildContext context) => new Home()));
-                      });
-                      return Image.asset('assets/images/${type}Post.png');
-                    },
-                    context: context,
-                  );
+                  if (_formKey.currentState.validate()) {
+                    databaseService.updateGivenJournal(
+                        type, clothes.documentId);
+                    clothes.status = type;
+                    databaseService.setGivenOrSellClothes(
+                        clothes, productDesc, price, condition, type, location);
+                    showDialog(
+                      builder: (context) {
+                        Future.delayed(Duration(seconds: 3), () {
+                          Navigator.of(context).pop(true);
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      new Home()));
+                        });
+                        return Image.asset('assets/images/${type}Post.png');
+                      },
+                      context: context,
+                    );
+                  }else{
+                    return null;
+                  }
                 },
               ),
             ],
