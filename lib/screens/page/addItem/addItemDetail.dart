@@ -127,7 +127,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
                         child: Column(
                           children: <Widget>[
                             Container(
-                              color: Hexcolor('#FFFFFF'),
+                              color: Hexcolor('#F8F6F4'),
                               height: 45,
                               margin: EdgeInsets.only(left: 25.0, right: 25.0),
                               child: Row(
@@ -160,8 +160,10 @@ class _AddItemDetailState extends State<AddItemDetail> {
                               ),
                             ),
                             _buildContainerListLightFabric('Fabric'),
-                            _buildContainerListDark('Brand', "brand"),
-                            _buildContainerListLight('Size', "size"),
+                            _buildContainerListDark('Brand', "brand",
+                                'The brand field is required'),
+                            _buildContainerListLight(
+                                'Size', "size", 'The size field is required'),
                             _buildContainerListDarkSeason('Season'),
                             _buildContainerListLightPrice('Price', "price"),
                             _buildContainerListDarkValueCost(
@@ -171,8 +173,10 @@ class _AddItemDetailState extends State<AddItemDetail> {
                             _buildColorPicker(),
                             _buildContainerListLightStatus('Status'),
                             _buildContainerListDarkCategory('Tags Category'),
-                            _buildContainerListLight('URL', 'url'),
-                            _buildContainerListDark('Notes', "notes"),
+                            _buildContainerListLight(
+                                'URL', 'url', 'The url field is required'),
+                            _buildContainerListDark('Notes', "notes",
+                                'The notes field is required'),
                           ],
                         ),
                       ),
@@ -182,46 +186,51 @@ class _AddItemDetailState extends State<AddItemDetail> {
                         child: FlatButton(
                           child: Image.asset('assets/images/buttonSave.png'),
                           onPressed: () async {
-                            cost = price;
-                            setState(() => loading = true);
-                            image = await uploadPic();
-                            await DatabaseService().setClothes(
-                                itemName,
-                                brand,
-                                fabricsList,
-                                worn,
-                                notes,
-                                categoryList,
-                                size,
-                                seasonList,
-                                price,
-                                cost,
-                                selectedDate,
-                                currentColor.toString(),
-                                status,
-                                usedInOutfit,
-                                url,
-                                image);
-                            if (image != null) {
-                              setState(() {
-                                loading = false;
-                                showDialog(
-                                  builder: (context) {
-                                    Future.delayed(Duration(seconds: 3), () {
-                                      Navigator.of(context).pop(true);
-                                      Navigator.pop(context);
-                                      Navigator.push(
-                                          context,
-                                          new MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  new Home()));
-                                    });
-                                    return Image.asset(
-                                        'assets/images/itemsavedialog.png');
-                                  },
-                                  context: context,
-                                );
-                              });
+                            if (_formKey.currentState.validate()) {
+                              cost = price;
+                              setState(() => loading = true);
+                              image = await uploadPic();
+                              await DatabaseService().setClothes(
+                                  itemName,
+                                  brand,
+                                  fabricsList,
+                                  worn,
+                                  notes,
+                                  categoryList,
+                                  size,
+                                  seasonList,
+                                  price,
+                                  cost,
+                                  selectedDate,
+                                  currentColor.toString(),
+                                  status,
+                                  usedInOutfit,
+                                  url,
+                                  image);
+                              if (image != null) {
+                                setState(() {
+                                  loading = false;
+                                  showDialog(
+                                    builder: (context) {
+                                      Future.delayed(Duration(seconds: 3), () {
+                                        Navigator.of(context).pop(true);
+                                        Navigator.pop(context);
+                                        Navigator.push(
+                                            context,
+                                            new MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        new Home()));
+                                      });
+                                      return Image.asset(
+                                          'assets/images/itemsavedialog.png');
+                                    },
+                                    context: context,
+                                  );
+                                });
+                              }
+                            } else {
+                              return null;
                             }
                           },
                         ),
@@ -634,6 +643,12 @@ class _AddItemDetailState extends State<AddItemDetail> {
     return Container(
       padding: EdgeInsets.only(bottom: 20),
       child: TextFormField(
+          validator: (val) {
+            if (val.isEmpty) {
+              return 'The name field is required';
+            }
+            return null;
+          },
           maxLines: 5,
           decoration: InputDecoration(
             enabledBorder: UnderlineInputBorder(
@@ -891,7 +906,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
     );
   }
 
-  Container _buildContainerListDark(String desc, String data) {
+  Container _buildContainerListDark(String desc, String data, String message) {
     return Container(
       margin: EdgeInsets.only(left: 25.0, right: 25.0),
       // padding: EdgeInsets.all(14.0),
@@ -914,6 +929,13 @@ class _AddItemDetailState extends State<AddItemDetail> {
           Expanded(
             child: Container(
               child: TextFormField(
+                  validator: (val) {
+                    if (val.isEmpty) {
+                      return message;
+                    } else {
+                      return null;
+                    }
+                  },
                   style: TextStyle(
                     fontSize: 12.0,
                     fontWeight: FontWeight.normal,
@@ -955,7 +977,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
     );
   }
 
-  Container _buildContainerListLight(String desc, String data) {
+  Container _buildContainerListLight(String desc, String data, String message) {
     return Container(
       margin: EdgeInsets.only(left: 25.0, right: 25.0),
       // padding: EdgeInsets.all(14.0),
@@ -978,6 +1000,13 @@ class _AddItemDetailState extends State<AddItemDetail> {
           Expanded(
             child: Container(
               child: TextFormField(
+                  validator: (val) {
+                    if (val.isEmpty) {
+                      return message;
+                    } else {
+                      return null;
+                    }
+                  },
                   style: TextStyle(
                     fontSize: 12.0,
                     fontWeight: FontWeight.normal,
@@ -1052,6 +1081,13 @@ class _AddItemDetailState extends State<AddItemDetail> {
           Expanded(
             child: Container(
               child: TextFormField(
+                  validator: (val) {
+                    if (val.isEmpty) {
+                      return 'The price field is required';
+                    } else {
+                      return null;
+                    }
+                  },
                   keyboardType: TextInputType.numberWithOptions(
                       signed: false, decimal: true),
                   controller: _myController,
