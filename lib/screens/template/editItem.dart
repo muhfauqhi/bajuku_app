@@ -116,6 +116,12 @@ class _EditItemScreenState extends State<EditItemScreen> {
               height: 120,
               color: Color(0xffF8F6F4),
               child: TextFormField(
+                validator: (val) {
+                  if (val.isEmpty) {
+                    return 'The clothes name field is required';
+                  }
+                  return null;
+                },
                 style: TextStyle(
                     color: Color(0xff3F4D55),
                     letterSpacing: 1.0,
