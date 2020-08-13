@@ -108,52 +108,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   key: _key,
-    //   appBar: AppBar(
-    //     title: _isSearching ? _appBarSearch() : _appBarTitle(),
-    //     centerTitle: true,
-    //     leading: IconButton(
-    //       icon: Icon(
-    //         Icons.arrow_back,
-    //         color: Color(
-    //           0xff3F4D55,
-    //         ),
-    //         size: 30.0,
-    //       ),
-    //       onPressed: () {
-    //         Navigator.pop(context);
-    //       },
-    //     ),
-    //     elevation: 0.0,
-    //     backgroundColor: Color(0xffFBFBFB),
-    //   ),
-    // body: FutureBuilder(
-    //   future: getData(),
-    //   builder: (context, snapshot) {
-    //     if (snapshot.hasData) {
-    //       if (snapshot.data != null) {
-    //         return ListView(
-    //           children: <Widget>[
-    //             if (searchresult.length != 0 || _controller.text.isNotEmpty)
-    //               _buildTitle(searchresult)
-    //             else
-    //               _buildTitle(snapshot.data),
-    //             SizedBox(height: 10.0),
-    //             searchresult.length != 0 || _controller.text.isNotEmpty
-    //                 ? _buildItems(searchresult)
-    //                 : _buildItems(snapshot.data),
-    //           ],
-    //         );
-    //       } else {
-    //         return Loading();
-    //       }
-    //     } else {
-    //       return Loading();
-    //     }
-    //   },
-    // ),
-    // );
     return FutureBuilder(
       future: getData(),
       builder: (context, snapshot) {
@@ -315,6 +269,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         shrinkWrap: true,
         itemBuilder: (context, i) {
           Clothes clothes = _addClothes(data, i);
+          var status = data[i]['status'];
           return GestureDetector(
             onTap: () {
               Navigator.push(
@@ -324,21 +279,43 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             clothes: clothes,
                           )));
             },
-            child: Card(
-              elevation: 3.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image(
-                    fit: BoxFit.cover,
-                    image: NetworkImage('${data[i]['image']}'),
+            child: Stack(
+              children: <Widget>[
+                Card(
+                  elevation: 3.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: ColorFiltered(
+                        colorFilter: status == 'Sold' || status == 'Given'
+                            ? ColorFilter.mode(Colors.grey, BlendMode.color)
+                            : ColorFilter.mode(
+                                Colors.transparent, BlendMode.color),
+                        child: Image(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                            '${data[i]['image']}',
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                // if (status == 'Sold' || status == 'Given')
+                //   Center(
+                //     child: Text(
+                //       status,
+                //       style: TextStyle(
+                //         color: Color(0xffD96969),
+                //         fontSize: 16.0,
+                //       ),
+                //     ),
+                //   ),
+              ],
             ),
           );
         },
