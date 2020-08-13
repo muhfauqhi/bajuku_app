@@ -3,6 +3,7 @@ import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/menu_burger/template/boxcolor.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitygivesell/sustainabilityAddClothes.dart';
+import 'package:bajuku_app/screens/template/editItem.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -42,10 +43,16 @@ class _ClothesDetailState extends State<ClothesDetail> {
                 margin: EdgeInsets.only(left: 330),
                 child: IconButton(
                     icon: new Image.asset('assets/images/edit.png'),
-                    onPressed: () {}),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  EditItemScreen(clothes: widget.clothes)));
+                    }),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
+              Padding(
+                padding: EdgeInsets.all(20.0),
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -54,9 +61,16 @@ class _ClothesDetailState extends State<ClothesDetail> {
                     aspectRatio: 1,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
-                      child: Image(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(widget.clothes.image),
+                      child: ColorFiltered(
+                        colorFilter: widget.clothes.status == 'Sold' ||
+                                widget.clothes.status == 'Given'
+                            ? ColorFilter.mode(Colors.grey, BlendMode.color)
+                            : ColorFilter.mode(
+                                Colors.transparent, BlendMode.color),
+                        child: Image(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(widget.clothes.image),
+                        ),
                       ),
                     ),
                   ),

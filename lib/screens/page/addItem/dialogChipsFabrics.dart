@@ -163,25 +163,27 @@ class _DialogChipFabricState extends State<DialogChipFabric> {
     if (tags != null) {
       return Row(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: ChipsChoice<String>.multiple(
-                itemConfig: ChipsChoiceItemConfig(
-                  selectedColor: Hexcolor('#3F4D55'),
-                  unselectedColor: Hexcolor('#3F4D55'),
-                  labelStyle: TextStyle(
-                    color: Hexcolor('#3F4D55'),
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.normal,
+          Expanded(
+            child: Container(
+              // width: MediaQuery.of(context).size.width,
+              child: ChipsChoice<String>.multiple(
+                  itemConfig: ChipsChoiceItemConfig(
+                    selectedColor: Hexcolor('#3F4D55'),
+                    unselectedColor: Hexcolor('#3F4D55'),
+                    labelStyle: TextStyle(
+                      color: Hexcolor('#3F4D55'),
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    elevation: 5.0,
                   ),
-                  elevation: 5.0,
-                ),
-                value: tags,
-                options: ChipsChoiceOption.listFrom<String, String>(
-                    source: tags, value: (i, v) => v, label: (i, v) => v),
-                onChanged: (val) => setState(() {
-                      tags = val;
-                    })),
+                  value: tags,
+                  options: ChipsChoiceOption.listFrom<String, String>(
+                      source: tags, value: (i, v) => v, label: (i, v) => v),
+                  onChanged: (val) => setState(() {
+                        tags = val;
+                      })),
+            ),
           ),
         ],
       );
@@ -196,6 +198,7 @@ class _DialogChipFabricState extends State<DialogChipFabric> {
       children: [
         Container(
           height: MediaQuery.of(context).size.height * 0.7,
+          width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
               Container(
@@ -231,7 +234,7 @@ class _DialogChipFabricState extends State<DialogChipFabric> {
               ),
               buildChip(),
               Divider(),
-              // suggestionList(),
+              suggestionList(),
               FlatButton(
                 onPressed: () {
                   Navigator.pop(context);

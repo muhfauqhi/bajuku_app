@@ -656,7 +656,7 @@ class _AddItemDetailState extends State<AddItemDetail> {
             filled: true,
             fillColor: Hexcolor('#F8F6F4'),
             contentPadding: EdgeInsets.fromLTRB(115, 30, 0, 0),
-            hintText: 'Write your cloth name here',
+            hintText: 'Name of your clothes',
             hintStyle: TextStyle(
               color: Hexcolor('#3f4d55'),
               letterSpacing: 1,

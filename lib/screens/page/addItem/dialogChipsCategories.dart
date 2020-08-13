@@ -146,29 +146,27 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
 
   Widget buildChip() {
     if (tags != null) {
-      return Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.7,
-          child: InputChip(
-            onPressed: () {
-              setState(() {
-                tags = null;
-              });
-            },
-            label: Text(
-              tags,
-              style: TextStyle(
-                color: Hexcolor('#3F4D55'),
-                fontSize: 12.0,
-                fontWeight: FontWeight.normal,
-              ),
+      return Container(
+        width: MediaQuery.of(context).size.width * 0.7,
+        child: InputChip(
+          onPressed: () {
+            setState(() {
+              tags = null;
+            });
+          },
+          label: Text(
+            tags,
+            style: TextStyle(
+              color: Hexcolor('#3F4D55'),
+              fontSize: 12.0,
+              fontWeight: FontWeight.normal,
             ),
-            showCheckmark: true,
-            checkmarkColor: Hexcolor('#3F4D55'),
-            selected: true,
-            selectedColor: Hexcolor('#FFFFFF'),
-            elevation: 5.0,
           ),
+          showCheckmark: true,
+          checkmarkColor: Hexcolor('#3F4D55'),
+          selected: true,
+          selectedColor: Hexcolor('#FFFFFF'),
+          elevation: 5.0,
         ),
       );
     } else {
@@ -181,6 +179,7 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
     return SimpleDialog(children: [
       Container(
         height: MediaQuery.of(context).size.height * 0.7,
+        width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
             Container(
@@ -216,7 +215,7 @@ class _DialogChipCategoriesState extends State<DialogChipCategories> {
             ),
             buildChip(),
             Divider(),
-            // suggestionList(),
+            suggestionList(),
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
