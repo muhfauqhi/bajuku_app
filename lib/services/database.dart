@@ -198,6 +198,16 @@ class DatabaseService {
     return qn;
   }
 
+  deleteClothes(selectedDoc) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('clothes')
+        .document(selectedDoc)
+        .delete();
+  }
+
   updateWorn(selectedDoc) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     firestoreInstance

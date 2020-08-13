@@ -166,8 +166,9 @@ class _ClothesDetailState extends State<ClothesDetail> {
                   false),
               _buildField('URL', widget.clothes.url, '#F8F6F4', true, false),
               SizedBox(
-                height: 50,
+                height: 20,
               ),
+              _buttonDelete(context),
               _buttonBottom(context),
             ],
           ),
@@ -195,6 +196,10 @@ class _ClothesDetailState extends State<ClothesDetail> {
 
   Widget _buttonBottom(var context) {
     return widget.buttonWorn ? Text('') : _buildButton('next', context);
+  }
+
+  Widget _buttonDelete(var context) {
+    return widget.buttonWorn ? _buildButtonDelete() : Text('');
   }
 
   onTapWorn() {
@@ -244,6 +249,94 @@ class _ClothesDetailState extends State<ClothesDetail> {
                     ),
                   ),
                 );
+        },
+      ),
+    );
+  }
+
+  Future buildShowDialogDelete(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          contentPadding: EdgeInsets.only(top: 0.0),
+          children: <Widget>[
+            Container(
+              color: Colors.transparent,
+              width: 280,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 30, bottom: 40),
+                    child: Image.asset(
+                      'assets/images/textCancelFeedback.png',
+                      width: 240,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        GestureDetector(
+                          child: Image.asset(
+                            'assets/images/cancelbut.png',
+                            width: 140,
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        GestureDetector(
+                          child: Image.asset(
+                            'assets/images/deletebutton.png',
+                            width: 140,
+                          ),
+                          onTap: () {
+                            databaseService
+                                .deleteClothes(widget.clothes.documentId);
+                            showDialog(
+                              builder: (context) {
+                                Future.delayed(Duration(seconds: 3), () {
+                                  Navigator.of(context).pop(true);
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              new Home()));
+                                });
+                                return Image.asset(
+                                    'assets/images/deleteFeedback.png');
+                              },
+                              context: context,
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildButtonDelete() {
+    return Container(
+      margin: EdgeInsets.only(top: 0),
+      child: GestureDetector(
+        child: Text(
+          'Delete this item',
+          style: TextStyle(fontSize: 12, color: Hexcolor('#D96969')),
+        ),
+        onTap: () {
+          return buildShowDialogDelete(context);
         },
       ),
     );
