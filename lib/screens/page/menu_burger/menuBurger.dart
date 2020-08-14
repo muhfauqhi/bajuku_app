@@ -6,7 +6,6 @@ import 'package:bajuku_app/screens/page/menu_burger/routingPage/sustainabilityst
 import 'package:bajuku_app/screens/page/menu_burger/templateTextMenu.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -17,245 +16,214 @@ class MenuBurger extends StatefulWidget {
 }
 
 class _MenuBurgerState extends State<MenuBurger> {
-  CollectionReference userRef;
-  String uid;
-  String profileName = '', profilePict = '', profileCreated = '';
-  final DatabaseService databaseService = DatabaseService();
+  final DatabaseService _databaseService = DatabaseService();
 
-  @override
-  void initState() {
-    super.initState();
-    _getUserDoc();
-    _getUid();
+  Future fetchData() async {
+    Map<String, dynamic> data;
+    int totalClothes;
+    DocumentSnapshot snapshot = await _databaseService.getProfile();
+    QuerySnapshot documents = await _databaseService.getClothesByCategory();
+
+    totalClothes = documents.documents.length;
+
+    data = snapshot.data;
+    data.putIfAbsent('totalClothes', () => totalClothes);
+
+    return snapshot.data;
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: databaseService.getProfile(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Text("");
-          } else {
-            profileName =
-                snapshot.data['firstName'].toString()[0].toUpperCase() +
-                    snapshot.data['firstName'].toString().substring(1) +
-                    ' ' +
-                    snapshot.data['lastName'].toString()[0].toUpperCase() +
-                    snapshot.data['lastName'].toString().substring(1);
-            profilePict = snapshot.data['firstName']
-                    .toString()
-                    .substring(0, 1)
-                    .toUpperCase() +
-                snapshot.data['lastName']
-                    .toString()
-                    .substring(0, 1)
-                    .toUpperCase();
-            var y = snapshot.data['created'].toDate();
-            profileCreated = new DateFormat('yyyy').format(y);
-            return Drawer(
-              child: Container(
-                color: Hexcolor('F4D4B8'),
-                child: ListView(
-                  children: <Widget>[
-                    buildContainerHeader(),
-                    TextMenu(
-                      route: Home(),
-                      text: "Home",
-                    ),
-                    TextMenu(
-                      route: Home(),
-                      text: "Message",
-                    ),
-                    TextMenu(
-                      route: Planner(),
-                      text: "Planner",
-                    ),
-                    TextMenu(
-                      route: Home(),
-                      text: "Outfit Looks",
-                    ),
-                    TextMenu(
-                      route: ClothingStats(
-                        profileCreated: profileCreated,
-                        profileName: profileName,
-                        profilePict: profilePict,
-                      ),
-                      text: "Clothing Stats",
-                    ),
-                    TextMenu(
-                      route: SustainAbilityStats(
-                        profileCreated: profileCreated,
-                        profileName: profileName,
-                        profilePict: profilePict,
-                      ),
-                      text: "Sustainability Stats",
-                    ),
-                    TextMenu(
-                      route: Home(),
-                      text: "Inspiration",
-                    ),
-                    TextMenu(
-                      route: Home(),
-                      text: "History",
-                    ),
-                    TextMenu(
-                      route: Home(),
-                      text: "My Rewards",
-                    ),
-                    Divider(),
-                    TextMenu(
-                      route: Home(),
-                      text: "Help",
-                    ),
-                    TextMenu(
-                      text: "Logout",
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-        });
+      future: fetchData(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Text('');
+        } else {
+          String profilePict = (snapshot.data['firstName'].toString()[0] +
+                  snapshot.data['lastName'].toString()[0])
+              .toUpperCase();
+          String profileName =
+              (snapshot.data['firstName'].toString()[0].toUpperCase() +
+                  snapshot.data['firstName'].toString().substring(1) +
+                  ' ' +
+                  snapshot.data['lastName'].toString()[0].toUpperCase() +
+                  snapshot.data['lastName'].toString().substring(1));
+          String profileCreated =
+              DateFormat('yyyy').format(snapshot.data['created'].toDate());
+          String points = snapshot.data['points'].toString();
+          return _buildDrawer(profilePict, points, profileName, profileCreated);
+        }
+      },
+    );
   }
 
-  Widget buildContainerHeader() {
-    return Container(
-      margin: EdgeInsets.only(bottom: 7),
-      child: DrawerHeader(
-        decoration: BoxDecoration(color: Hexcolor('#E1C8B4')),
-        child: StreamBuilder(
-          stream: userRef.document(uid).snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Text("");
-            } else {
-              var y = snapshot.data['created'].toDate();
-              String year = new DateFormat('yyyy').format(y);
-              return Row(
-                children: <Widget>[
-                  buildAvatar(snapshot),
-                  Container(
-                    margin: EdgeInsets.only(top: 45),
-                    child: Container(
-                      margin: EdgeInsets.only(left: 15),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                           profileName,
-                            style: TextStyle(
-                                color: Hexcolor('#3F4D55'),
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(right: 10),
-                                  child: Image.asset(
-                                      'assets/images/sustPoint.png')),
-                              Text(
-                                snapshot.data['points'].toString() + " pts",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                    color: Hexcolor('#4AA081')),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 10),
-                            child: GestureDetector(
-                              child: Image.asset(
-                                'assets/images/editProfileSideMenu.png',
-                                height: 20,
-                                width: 45,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    new MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            new ProfilePage(
-                                              profileCreated: year,
-                                              userPoints: snapshot
-                                                  .data['points']
-                                                  .toString(),
-                                              firstName: snapshot
-                                                  .data['firstName']
-                                                  .toString(),
-                                              lastName: snapshot
-                                                  .data['lastName']
-                                                  .toString(),
-                                            )));
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              );
-            }
-          },
+  Widget _buildDrawer(String profilePict, String points, String profileName,
+      String profileCreated) {
+    return Drawer(
+      child: Container(
+        color: Hexcolor('F4D4B8'),
+        child: ListView(
+          children: <Widget>[
+            _buildContainerHeader(profilePict, points, profileName),
+            TextMenu(
+              route: Home(),
+              text: "Home",
+            ),
+            TextMenu(
+              route: Home(),
+              text: "Message",
+            ),
+            TextMenu(
+              route: Planner(),
+              text: "Planner",
+            ),
+            TextMenu(
+              route: Home(),
+              text: "Outfit Looks",
+            ),
+            TextMenu(
+              route: ClothingStats(
+                profileCreated: profileCreated,
+                profileName: profileName,
+                profilePict: profilePict,
+              ),
+              text: "Clothing Stats",
+            ),
+            TextMenu(
+              route: SustainAbilityStats(
+                profileCreated: profileCreated,
+                profileName: profileName,
+                profilePict: profilePict,
+              ),
+              text: "Sustainability Stats",
+            ),
+            TextMenu(
+              route: Home(),
+              text: "Inspiration",
+            ),
+            TextMenu(
+              route: Home(),
+              text: "History",
+            ),
+            TextMenu(
+              route: Home(),
+              text: "My Rewards",
+            ),
+            Divider(),
+            TextMenu(
+              route: Home(),
+              text: "Help",
+            ),
+            TextMenu(
+              text: "Logout",
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget buildAvatar(snapshot) {
-    if (!snapshot.hasData) {
-      return Text('');
-    } else if (snapshot.data['profilePicture'].toString().isNotEmpty) {
-      return Container(
-        width: 60.0,
-        height: 60.0,
-        decoration: new BoxDecoration(
-          border: Border.all(width: 3, color: Hexcolor('#F4D4B8')),
+  Widget _buildContainerHeader(
+      String profilePict, String points, String profileName) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 7),
+      child: DrawerHeader(
+        decoration: BoxDecoration(color: Hexcolor('#E1C8B4')),
+        child: Row(
+          children: <Widget>[
+            _buildAvatar(profilePict),
+            Container(
+              margin: EdgeInsets.only(top: 45),
+              child: Container(
+                margin: EdgeInsets.only(left: 15),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      profileName,
+                      style: TextStyle(
+                          color: Hexcolor('#3F4D55'),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                            margin: EdgeInsets.only(right: 10),
+                            child: Image.asset('assets/images/sustPoint.png')),
+                        Text(
+                          points + " pts",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 12,
+                              color: Hexcolor('#4AA081')),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: GestureDetector(
+                        child: Image.asset(
+                          'assets/images/editProfileSideMenu.png',
+                          height: 20,
+                          width: 45,
+                        ),
+                        onTap: () {},
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAvatar(String profilePict) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ProfilePage()));
+      },
+      child: Container(
+        decoration: BoxDecoration(
           shape: BoxShape.circle,
-          image: new DecorationImage(
-            fit: BoxFit.fitHeight,
-            image: new NetworkImage(
-                "https://cdn.vox-cdn.com/thumbor/U7zc79wuh0qCZxPhGAdi3eJ-q1g=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19228501/acastro_190919_1777_instagram_0003.0.jpg"),
+          gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            colors: [
+              Color(0xffCEB39E),
+              Color(0xffFFDEBF),
+            ],
           ),
         ),
-      );
-    } else {
-      return Container(
-        margin: EdgeInsets.only(left: 10),
-        child: CircleAvatar(
-          radius: 30,
-          backgroundColor: Hexcolor('#37585A'),
-          child: Text(
-            snapshot.data['firstName']
-                    .toString()
-                    .substring(0, 1)
-                    .toUpperCase() +
-                snapshot.data['lastName']
-                    .toString()
-                    .substring(0, 1)
-                    .toUpperCase(),
-            style: TextStyle(color: Hexcolor('#C4C4C4')),
+        padding: EdgeInsets.all(3.0),
+        child: Container(
+          height: 60,
+          width: 60,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              colors: [
+                Color(0xff1C3949),
+                Color(0xff557A6D),
+              ],
+            ),
+          ),
+          child: Center(
+            child: Text(
+              profilePict,
+              style: TextStyle(
+                color: Color(0xffC4C4C4),
+                fontSize: 20.0,
+                letterSpacing: 1.0,
+              ),
+            ),
           ),
         ),
-      );
-    }
-  }
-
-  Future<void> _getUserDoc() async {
-    final Firestore _firestore = Firestore.instance;
-
-    setState(() {
-      userRef = _firestore.collection('users');
-    });
-  }
-
-  Future<void> _getUid() async {
-    var firebaseUser = await FirebaseAuth.instance.currentUser();
-
-    setState(() {
-      uid = firebaseUser.uid;
-    });
+      ),
+    );
   }
 }

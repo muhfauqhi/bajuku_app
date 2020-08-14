@@ -1,4 +1,5 @@
 import 'package:bajuku_app/models/profilemodel.dart';
+import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:bajuku_app/shared/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,11 +12,6 @@ class HeaderProfile extends StatefulWidget {
 
 class _HeaderProfileState extends State<HeaderProfile> {
   final DatabaseService _databaseService = DatabaseService();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   Future<ProfileModel> getData() async {
     QuerySnapshot totalItems = await _databaseService.getTotalClothes();
@@ -65,38 +61,44 @@ class _HeaderProfileState extends State<HeaderProfile> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              colors: [
-                Color(0xffCEB39E),
-                Color(0xffFFDEBF),
-              ],
-            ),
-          ),
-          padding: EdgeInsets.all(3.0),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ProfilePage()));
+          },
           child: Container(
-            height: 60,
-            width: 60,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: LinearGradient(
                 begin: Alignment.bottomLeft,
                 colors: [
-                  Color(0xff1C3949),
-                  Color(0xff557A6D),
+                  Color(0xffCEB39E),
+                  Color(0xffFFDEBF),
                 ],
               ),
             ),
-            child: Center(
-              child: Text(
-                name,
-                style: TextStyle(
-                  color: Color(0xffC4C4C4),
-                  fontSize: 20.0,
-                  letterSpacing: 1.0,
+            padding: EdgeInsets.all(3.0),
+            child: Container(
+              height: 60,
+              width: 60,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: Alignment.bottomLeft,
+                  colors: [
+                    Color(0xff1C3949),
+                    Color(0xff557A6D),
+                  ],
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  name,
+                  style: TextStyle(
+                    color: Color(0xffC4C4C4),
+                    fontSize: 20.0,
+                    letterSpacing: 1.0,
+                  ),
                 ),
               ),
             ),

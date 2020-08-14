@@ -67,26 +67,7 @@ class MenuBurgerScaffold extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 100),
-                      alignment: Alignment.topCenter,
-                      child: CircleAvatar(
-                        radius: 53,
-                        backgroundColor: Hexcolor('#C4C4C4'),
-                        child: CircleAvatar(
-                          radius: 50,
-                          backgroundColor: Hexcolor('#37585A'),
-                          child: Text(
-                            profilePict,
-                            style: TextStyle(
-                              color: Hexcolor('#C4C4C4'),
-                              fontSize: 40,
-                              letterSpacing: 1.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    _buildProfilePicture(),
                     Container(
                       margin: EdgeInsets.only(top: 220),
                       alignment: Alignment.topCenter,
@@ -178,6 +159,49 @@ class MenuBurgerScaffold extends StatelessWidget {
           ];
         },
         body: body,
+      ),
+    );
+  }
+
+  Container _buildProfilePicture() {
+    return Container(
+      padding: EdgeInsets.all(3.0),
+      margin: EdgeInsets.only(top: 100),
+      alignment: Alignment.topCenter,
+      height: 100,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          begin: Alignment.bottomLeft,
+          colors: [
+            Color(0xffCEB39E),
+            Color(0xffFFDEBF),
+          ],
+        ),
+      ),
+      child: Container(
+        height: 100,
+        width: 100,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            colors: [
+              Color(0xff1C3949),
+              Color(0xff557A6D),
+            ],
+          ),
+        ),
+        child: Center(
+          child: Text(
+            profilePict,
+            style: TextStyle(
+              color: Hexcolor('#C4C4C4'),
+              fontSize: 40,
+              letterSpacing: 1.0,
+            ),
+          ),
+        ),
       ),
     );
   }

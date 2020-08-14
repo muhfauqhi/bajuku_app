@@ -102,6 +102,23 @@ class DatabaseService {
     });
   }
 
+  Future setOutfits(String notes, String name, String image, String totalCost, List<dynamic> taggedClothes) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    updatePoints(3);
+    return await firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('outfits')
+        .add({
+          'notes': notes,
+          'outfitName': name,
+          'image': image,
+          'totalCost': totalCost,
+          'tagged': taggedClothes,
+          'created': FieldValue.serverTimestamp(),
+        });
+  }
+
   Future setOutfit(String image, String notes, String name, String totalCost,
       dynamic clothesList) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
