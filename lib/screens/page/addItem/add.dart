@@ -1,16 +1,14 @@
 import 'dart:io';
 
-import 'package:bajuku_app/models/clothes.dart';
 import 'package:bajuku_app/screens/home/home.dart';
-import 'package:bajuku_app/screens/page/previewImage.dart';
+import 'package:bajuku_app/screens/page/image_editor/previewImage.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddItemDialog extends StatefulWidget {
   final String flagAdd;
-  final List<Clothes> clothesList;
-  AddItemDialog({this.flagAdd, this.clothesList});
+  AddItemDialog({this.flagAdd});
   @override
   _AddItemDialogState createState() => _AddItemDialogState();
 }
@@ -26,11 +24,9 @@ class _AddItemDialogState extends State<AddItemDialog> {
         Navigator.push(
             context,
             new MaterialPageRoute(
-                builder: (BuildContext context) => new PreviewImage(
-                      flagAdd: widget.flagAdd,
-                      fileImage: _image,
-                      method: 'Gallery',
-                      clothesList: widget.clothesList,
+                builder: (BuildContext context) => PreviewImage(
+                      flag: widget.flagAdd,
+                      image: _image,
                     )));
       } else {
         Navigator.of(context).pop();
@@ -51,10 +47,8 @@ class _AddItemDialogState extends State<AddItemDialog> {
             context,
             new MaterialPageRoute(
                 builder: (BuildContext context) => new PreviewImage(
-                      flagAdd: widget.flagAdd,
-                      fileImage: _image,
-                      method: 'Camera',
-                      clothesList: widget.clothesList,
+                      flag: widget.flagAdd,
+                      image: _image,
                     )));
       } else {
         Navigator.of(context).pop();

@@ -85,7 +85,6 @@ class _AddChoiceDialogState extends State<AddChoiceDialog> {
                             context: context,
                             child: AddItemDialog(
                               flagAdd: 'Journal',
-                              clothesList: clothesList,
                             ),
                           );
                         },

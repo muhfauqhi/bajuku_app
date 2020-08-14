@@ -210,12 +210,6 @@ class _ImageEditorOutfitState extends State<ImageEditorOutfit> {
                           ),
                           onTap: () {
                             Navigator.pop(context);
-                            Navigator.pop(context);
-                            // Navigator.push(
-                            //     context,
-                            //     new MaterialPageRoute(
-                            //         builder: (BuildContext context) =>
-                            //             new Home()));
                           },
                         )
                       ],
