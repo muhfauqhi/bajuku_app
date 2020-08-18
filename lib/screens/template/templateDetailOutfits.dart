@@ -1,4 +1,6 @@
 import 'package:bajuku_app/models/outfit.dart';
+import 'package:bajuku_app/screens/page/image_editor/imageEditorOutfits.dart';
+import 'package:bajuku_app/screens/page/sustainability/sustainabilitygivesell/sustainabilityAddJournal.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:bajuku_app/shared/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,22 +18,43 @@ class DetailOutfits extends StatefulWidget {
 
 class _DetailOutfitsState extends State<DetailOutfits> {
   final DatabaseService _databaseService = DatabaseService();
+  List<DragItem> _children = List();
   @override
   void initState() {
     super.initState();
-    fetchData();
   }
 
   Future<List<String>> fetchData() async {
     List<String> name = [];
     for (var i in widget.outfit.tagged) {
+      List<String> offset = i.keys
+          .toString()
+          .substring(8, i.keys.toString().length - 2)
+          .split(', ');
       String docId =
           i.values.toString().substring(1, i.values.toString().length - 1);
       DocumentSnapshot snapshot = await _databaseService.getCloth(docId);
       var data = snapshot.data;
       name.add(data['clothName']);
+      double left = double.parse(offset[0]);
+      double top = double.parse(offset[1]);
+      String category = data['category']
+          .toString()
+          .substring(1, data['category'].toString().length - 1);
+      setOffset(data['clothName'], category.toString(), left, top);
     }
     return name;
+  }
+
+  void setOffset(String name, String category, double dx, double dy) {
+    _children.add(
+      DragItem(
+        draggable: false,
+        name: name,
+        category: category,
+        locationWidget: Offset(dx, dy),
+      ),
+    );
   }
 
   @override
@@ -42,6 +65,7 @@ class _DetailOutfitsState extends State<DetailOutfits> {
           icon: Icon(Icons.arrow_back),
           color: Color(0xff3F4D55),
           onPressed: () {
+            _children.clear();
             Navigator.of(context).pop();
           },
         ),
@@ -64,12 +88,17 @@ class _DetailOutfitsState extends State<DetailOutfits> {
             if (snapshot.hasData) {
               return ListView(
                 children: <Widget>[
-                  AspectRatio(
-                    aspectRatio: 0.85,
-                    child: Image(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(widget.outfit.image),
-                    ),
+                  Stack(
+                    children: <Widget>[
+                      AspectRatio(
+                        aspectRatio: 0.85,
+                        child: Image(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(widget.outfit.image),
+                        ),
+                      ),
+                      for (var i in _children) i,
+                    ],
                   ),
                   SizedBox(height: 20.0),
                   Container(
@@ -90,6 +119,7 @@ class _DetailOutfitsState extends State<DetailOutfits> {
                         SizedBox(height: 20.0),
                         Text(
                           widget.outfit.notes,
+                          maxLines: 3,
                           style: TextStyle(
                             fontSize: 16.0,
                           ),
@@ -114,18 +144,46 @@ class _DetailOutfitsState extends State<DetailOutfits> {
                             ],
                           ),
                         ),
+                        SizedBox(height: 20.0),
                         ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: widget.outfit.tagged.length,
                           itemBuilder: (context, i) {
                             String name = snapshot.data[i];
-                            return Text(
-                              name,
-                              style: TextStyle(
-                                color: Color(0xff859289),
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 10.0),
+                              child: Text(
+                                name,
+                                style: TextStyle(
+                                  color: Color(0xff859289),
+                                  fontSize: 16.0,
+                                ),
                               ),
                             );
                           },
+                        ),
+                        SizedBox(height: 10.0),
+                        _buildRowOutfit('Points earned',
+                            (snapshot.data.length * 3 + 3).toString()),
+                        SizedBox(height: 50.0),
+                        FlatButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    SustainAddJournal(
+                                  outfit: widget.outfit,
+                                  title: 'Journal',
+                                  type: 'Given',
+                                ),
+                              ),
+                            );
+                          },
+                          child: Image(
+                            image: AssetImage('assets/images/next.png'),
+                          ),
                         ),
                       ],
                     ),

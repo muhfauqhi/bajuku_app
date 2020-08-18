@@ -680,6 +680,9 @@ class _TaggingScreenState extends State<TaggingScreen> {
   }
 }
 
+RenderBox renderBox = keyImage.currentContext.findRenderObject();
+final size = renderBox.size;
+
 class DragItem extends StatefulWidget {
   final data;
   Offset locationWidget;
@@ -713,6 +716,25 @@ class _DragItemState extends State<DragItem> {
     super.initState();
     widget.top = widget.locationWidget.dy;
     widget.left = widget.locationWidget.dx;
+    if (widget.left < (size.width / 2)) {
+      if (widget.top > size.height / 2) {
+        widget.nipLocation = NipLocation.TOP_RIGHT;
+      } else if (widget.left < size.height / 2) {
+        widget.nipLocation = NipLocation.BOTTOM_RIGHT;
+      } else {
+        widget.nipLocation = NipLocation.RIGHT;
+      }
+    } else if (widget.left > (size.width / 2)) {
+      if (widget.top > size.height / 2) {
+        widget.nipLocation = NipLocation.TOP_LEFT;
+      } else if (widget.top < size.height / 2) {
+        widget.nipLocation = NipLocation.BOTTOM_LEFT;
+      } else {
+        widget.nipLocation = NipLocation.LEFT;
+      }
+    } else {
+      widget.nipLocation = NipLocation.TOP;
+    }
   }
 
   @override
@@ -747,10 +769,7 @@ class _DragItemState extends State<DragItem> {
             onDragCompleted: () {},
             onDragEnd: (drag) {
               setState(() {
-                RenderBox renderBox =
-                    keyImage.currentContext.findRenderObject();
                 RenderBox widgets = key.currentContext.findRenderObject();
-                final size = renderBox.size;
                 final sizeWidget = widgets.size;
 
                 if ((widget.top + drag.offset.dy - sizeWidget.height) >
