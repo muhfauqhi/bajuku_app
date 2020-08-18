@@ -1,5 +1,6 @@
 import 'package:bajuku_app/models/outfit.dart';
 import 'package:bajuku_app/screens/template/templateDetailOutfit.dart';
+import 'package:bajuku_app/screens/template/templateDetailOutfits.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -66,11 +67,13 @@ class _JournalScreenState extends State<JournalScreen> {
         return GestureDetector(
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => TemplateDetailOutfit(
-                          outfit: snapshot.data[i],
-                        )));
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailOutfits(
+                  outfit: snapshot.data[i],
+                ),
+              ),
+            );
           },
           child: Card(
             elevation: 0.0,
