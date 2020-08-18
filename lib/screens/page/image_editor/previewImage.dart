@@ -18,56 +18,61 @@ class PreviewImage extends StatelessWidget {
         elevation: 0.0,
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            GestureDetector(
-              child: Text(
-                'Retake',
-                style: TextStyle(
-                    color: Color(0xff3F4D55),
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal),
+        title: Padding(
+          padding: EdgeInsets.only(right: 15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              GestureDetector(
+                child: Text(
+                  'Retake',
+                  style: TextStyle(
+                      color: Color(0xff3F4D55),
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
               ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 15),
-              child: Text(
-                'Import Image',
-                style: TextStyle(
-                  color: Color(0xff3F4D55),
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 1.0,
+              Container(
+                margin: EdgeInsets.only(left: 15),
+                child: Text(
+                  'Import Image',
+                  style: TextStyle(
+                    color: Color(0xff3F4D55),
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.0,
+                  ),
                 ),
               ),
-            ),
-            GestureDetector(
-              child: Text(
-                'Use Photo',
-                style: TextStyle(
-                    color: Color(0xff3F4D55),
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal),
-              ),
-              onTap: () {
-                if (flag == 'Wardrobe') {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => ImageEditor()));
-                } else {
-                  Navigator.pushReplacement(
+              GestureDetector(
+                child: Text(
+                  'Use Photo',
+                  style: TextStyle(
+                      color: Color(0xff3F4D55),
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal),
+                ),
+                onTap: () {
+                  if (flag == 'Wardrobe') {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => ImageEditor()));
+                  } else {
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ImageEditorOutifts(
-                                image: image,
-                              )));
-                }
-              },
-            ),
-          ],
+                        builder: (context) => ImageEditorOutifts(
+                          image: image,
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
       body: Container(

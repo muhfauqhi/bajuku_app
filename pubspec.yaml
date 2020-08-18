@@ -48,6 +48,8 @@ dependencies:
   shared_preferences: ^0.5.8
   fl_chart: ^0.10.1
   showcaseview: ^0.1.5
+  speech_bubble: ^0.0.6
+
 
 dev_dependencies:
   flutter_test:
