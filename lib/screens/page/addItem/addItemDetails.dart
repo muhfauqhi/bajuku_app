@@ -1,33 +1,37 @@
-import 'package:bajuku_app/models/clothes.dart';
+import 'dart:io';
+import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsCategories.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsFabrics.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsSeason.dart';
+import 'package:bajuku_app/screens/page/image_editor/imageEditorCloth.dart';
 import 'package:bajuku_app/screens/page/menu_burger/template/boxcolor.dart';
+import 'package:bajuku_app/services/database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 
-class EditItemScreen extends StatefulWidget {
-  final Clothes clothes;
-
-  EditItemScreen({Key key, this.clothes}) : super(key: key);
-
+class AddItemDetails extends StatefulWidget {
+  final File fileUpload;
+  AddItemDetails({this.fileUpload});
   @override
-  _EditItemScreenState createState() => _EditItemScreenState();
+  _AddItemDetailsState createState() => _AddItemDetailsState();
 }
 
-class _EditItemScreenState extends State<EditItemScreen> {
-  final _key = GlobalKey<FormState>();
-  List<TextEditingController> _controller = List<TextEditingController>(12);
-  String status = '';
+class _AddItemDetailsState extends State<AddItemDetails> {
+  final _formKey = GlobalKey<FormState>();
+  List<TextEditingController> _controller = List<TextEditingController>(13);
+  Map<String, dynamic> _mapController = {};
+  bool loading = false;
+  DateTime selectedDate = DateTime.now();
+  Color currentColor = Colors.white;
+  String status = 'Available';
   List<String> fabric = [];
   List<String> season = [];
   List<String> category = [];
-  DateTime selectedDate = DateTime.now();
-  Color currentColor = Colors.white;
-
-  List<String> _statusMenu = [
+  final _myController = TextEditingController();
+  List<String> allStatus = [
     'Available',
     'Washing',
     'Given',
@@ -36,42 +40,31 @@ class _EditItemScreenState extends State<EditItemScreen> {
   ];
 
   void fetchData() {
-    _controller[0] = TextEditingController(text: widget.clothes.clothName);
-    _controller[1] = TextEditingController(
-        text: DateFormat('dd MMMM yyyy')
-            .format(widget.clothes.startDate.toDate())
-            .toString());
-    _controller[2] = TextEditingController(
-        text: widget.clothes.fabric
-            .toString()
-            .substring(1, widget.clothes.fabric.toString().length - 1));
-    _controller[3] = TextEditingController(text: widget.clothes.brand);
-    _controller[4] = TextEditingController(text: widget.clothes.size);
-    _controller[5] = TextEditingController(
-        text: widget.clothes.season
-            .toString()
-            .substring(1, widget.clothes.season.toString().length - 1));
-    _controller[6] = TextEditingController(text: widget.clothes.price);
-    _controller[7] = TextEditingController(
-        text: DateFormat('dd MMMM yyyy')
-            .format(widget.clothes.dateBought.toDate())
-            .toString());
-    _controller[8] = TextEditingController(
-        text: widget.clothes.color
-            .toString()
-            .substring(10, widget.clothes.color.toString().length - 1));
-    status = widget.clothes.status;
-    _controller[9] = TextEditingController(
-        text: widget.clothes.category
-            .toString()
-            .substring(1, widget.clothes.category.toString().length - 1));
-    _controller[10] =
-        TextEditingController(text: widget.clothes.url.toString());
-    _controller[11] =
-        TextEditingController(text: widget.clothes.notes.toString());
-
-    currentColor = Hexcolor(_controller[8].text);
+    _mapController = {
+      'clothName': _controller[0] = TextEditingController(),
+      'date': _controller[1] = TextEditingController(
+          text: DateFormat('dd MMMM yyyy').format(DateTime.now()).toString()),
+      'fabric': _controller[2] = TextEditingController(),
+      'brand': _controller[3] = TextEditingController(),
+      'size': _controller[4] = TextEditingController(),
+      'season': _controller[5] = TextEditingController(),
+      'price': _controller[6] = TextEditingController(),
+      'dateBought': _controller[7] = TextEditingController(),
+      'color': _controller[8] = TextEditingController(
+          text: currentColor
+              .toString()
+              .substring(10, currentColor.toString().length - 1)),
+      'status': _controller[9] = TextEditingController(text: 'Available'),
+      'category': _controller[10] = TextEditingController(),
+      'url': _controller[11] = TextEditingController(),
+      'notes': _controller[12] = TextEditingController(),
+    };
   }
+
+  String date;
+  String dateBoughtFormatted;
+  var now;
+  var formatter;
 
   @override
   void initState() {
@@ -80,34 +73,54 @@ class _EditItemScreenState extends State<EditItemScreen> {
   }
 
   @override
+  void dispose() {
+    _myController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffFBFBFB),
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Color(0xff3F4D55),
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        elevation: 0.0,
         title: Text(
-          'Edit Item Detail',
+          "Item Detail",
           style: TextStyle(
-            color: Color(0xff3F4D55),
+            color: Hexcolor('#3f4d55'),
+            letterSpacing: 1,
             fontSize: 16.0,
             fontWeight: FontWeight.w600,
-            letterSpacing: 1.0,
+            fontStyle: FontStyle.normal,
           ),
         ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Hexcolor('#3F4D55'),
+          onPressed: () {
+            Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (BuildContext context) => new ImageEditor(
+                          filePicture: widget.fileUpload,
+                        )));
+          },
+        ),
         centerTitle: true,
-        backgroundColor: Color(0xffFBFBFB),
-        elevation: 0.0,
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 10),
+            constraints: BoxConstraints(
+                minWidth: 25, minHeight: 25, maxHeight: 25, maxWidth: 25),
+            child: GestureDetector(
+              child: Image.asset('assets/images/helpicon.png'),
+            ),
+          )
+        ],
+        backgroundColor: Colors.white,
       ),
       body: Form(
-        key: _key,
+        key: _formKey,
         child: ListView(
           children: <Widget>[
             // Clothes Name
@@ -127,7 +140,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     letterSpacing: 1.0,
                     fontSize: 12.0,
                     fontStyle: FontStyle.italic),
-                controller: _controller[0],
+                controller: _mapController['clothName'],
                 maxLines: 5,
                 decoration: InputDecoration(
                   hintText: 'Name of your clothes',
@@ -155,30 +168,18 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   ),
                   prefixIcon: Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      // TODO change image
-                      onTap: () {},
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                        ),
-                        elevation: 3.0,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(5.0),
-                          child: ColorFiltered(
-                            colorFilter: status == 'Sold' || status == 'Given'
-                                ? ColorFilter.mode(Colors.grey, BlendMode.color)
-                                : ColorFilter.mode(
-                                    Colors.transparent, BlendMode.color),
-                            child: Image(
-                              height: 70.0,
-                              width: 70.0,
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                widget.clothes.image,
-                              ),
-                            ),
-                          ),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      elevation: 3.0,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5.0),
+                        child: Image.file(
+                          widget.fileUpload,
+                          height: 70.0,
+                          width: 70.0,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
@@ -191,31 +192,81 @@ class _EditItemScreenState extends State<EditItemScreen> {
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 children: <Widget>[
-                  _buildTextFormField('Date', true, true, _controller[1]),
-                  _buildTextFormField('Fabric', false, true, _controller[2]),
-                  _buildTextFormField('Brand', true, false, _controller[3]),
-                  _buildTextFormField('Size', false, false, _controller[4]),
-                  _buildTextFormField('Season', true, true, _controller[5]),
-                  _buildTextFormField('Price', false, false, _controller[6]),
                   _buildTextFormField(
-                      'Date Bought', true, true, _controller[7]),
-                  _buildTextFormField('Color', false, true, _controller[8]),
-                  _buildDropdownButtonFormField(),
+                      'Date', true, true, _mapController['date']),
                   _buildTextFormField(
-                      'Tags Category', false, true, _controller[9]),
-                  _buildTextFormField('URL', true, false, _controller[10]),
-                  _buildTextFormField('Notes', false, false, _controller[11]),
+                      'Fabric', false, true, _mapController['fabric']),
+                  _buildTextFormField(
+                      'Brand', true, false, _mapController['brand']),
+                  _buildTextFormField(
+                      'Size', false, false, _mapController['size']),
+                  _buildTextFormField(
+                      'Season', true, true, _mapController['season']),
+                  _buildTextFormField(
+                      'Price', false, false, _mapController['price']),
+                  _buildTextFormField(
+                      'Date Bought', true, true, _mapController['dateBought']),
+                  _buildTextFormField(
+                      'Color', false, true, _mapController['color']),
+                  _buildTextFormField(
+                      'Status', true, true, _mapController['status']),
+                  _buildTextFormField(
+                      'Tags Category', false, true, _mapController['category']),
+                  _buildTextFormField(
+                      'URL', true, false, _mapController['url']),
+                  _buildTextFormField(
+                      'Notes', false, false, _mapController['notes']),
                 ],
               ),
             ),
             SizedBox(height: 50.0),
             FlatButton(
-              onPressed: () {
-                if (_key.currentState.validate()) {
-                  print('yes');
-                  print(_controller[1].text);
+              onPressed: () async {
+                if (_formKey.currentState.validate()) {
+                String itemName = _mapController['clothName'].text;
+                String brand = _mapController['brand'].text;
+                String notes = _mapController['notes'].text;
+                String size = _mapController['size'].text;
+                String price = _mapController['price'].text;
+                String url = _mapController['url'].text;
+                  setState(() => loading = true);
+                  String image = await uploadPic();
+                  await DatabaseService().setClothes(
+                      itemName,
+                      brand,
+                      fabric,
+                      notes,
+                      category,
+                      size,
+                      season,
+                      price,
+                      selectedDate,
+                      currentColor.toString(),
+                      status,
+                      url,
+                      image);
+                  if (image != null) {
+                    setState(() {
+                      loading = false;
+                      showDialog(
+                        builder: (context) {
+                          Future.delayed(Duration(seconds: 3), () {
+                            // Navigator.of(context).pop(true);
+                            Navigator.pushReplacement(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        new Home()));
+                          });
+                          return Image.asset(
+                              'assets/images/itemsavedialog.png');
+                        },
+                        context: context,
+                      );
+                    });
+                  }
                 } else {
-                  print('no');
+                  return null;
                 }
               },
               child: Image(
@@ -227,45 +278,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  DropdownButtonFormField<String> _buildDropdownButtonFormField() {
-    return DropdownButtonFormField<String>(
-      value: status,
-      hint: status == 'Sold' || status == 'Given'
-          ? Text(
-              status,
-              style: TextStyle(
-                fontSize: 12.0,
-                color: status == 'Sold' || status == 'Given'
-                    ? Color(0xffD96969)
-                    : Color(0xff3F4D55),
-              ),
-            )
-          : null,
-      decoration: _inputDecoration('Status', true),
-      items: _statusMenu
-          .map(
-            (label) => DropdownMenuItem(
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12.0,
-                  color: label == 'Sold' || label == 'Given'
-                      ? Color(0xffD96969)
-                      : Color(0xff3F4D55),
-                ),
-              ),
-              value: label,
-            ),
-          )
-          .toList(),
-      onChanged: status == 'Sold' || status == 'Given'
-          ? null
-          : (val) {
-              status = val;
-            },
     );
   }
 
@@ -288,7 +300,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   setState(() {
                     fabric = DialogChipFabric().createState().getTags();
                     String text = getList(fabric);
-                    _controller[2].text = text;
+                    _mapController['fabric'].text = text;
                   });
                 });
               } else if (desc == 'Season') {
@@ -299,7 +311,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   setState(() {
                     season = DialogChipSeason().createState().getTags();
                     String text = getList(season);
-                    _controller[5].text = text;
+                    _mapController['season'].text = text;
                   });
                 });
               } else if (desc == 'Tags Category') {
@@ -310,13 +322,13 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   setState(() {
                     category = DialogChipCategories().createState().getTags();
                     String text = getList(category);
-                    _controller[9].text = text;
+                    _mapController['category'].text = text;
                   });
                 });
               } else if (desc == 'Date Bought') {
                 showDatePicker(
                   context: context,
-                  initialDate: widget.clothes.dateBought.toDate(),
+                  initialDate: DateTime.now(),
                   firstDate: DateTime(2015, 8),
                   lastDate: DateTime(2101),
                   confirmText: 'OK',
@@ -338,7 +350,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                 ).then((value) {
                   setState(() {
                     selectedDate = value;
-                    _controller[7].text =
+                    _mapController['dateBought'].text =
                         DateFormat('dd MMMM yyyy').format(value);
                   });
                 });
@@ -350,16 +362,13 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       title: Text('Select a color'),
                       content: SingleChildScrollView(
                         child: ColorPicker(
-                          pickerColor: Hexcolor(_controller[8].text),
+                          pickerColor: Hexcolor('FFFFFF'),
                           onColorChanged: (color) {
                             setState(() {
                               currentColor = color;
-                              _controller[8].text = currentColor
+                              _mapController['color'].text = currentColor
                                   .toString()
-                                  .substring(
-                                      10,
-                                      widget.clothes.color.toString().length -
-                                          1);
+                                  .substring(10, color.toString().length - 1);
                             });
                           },
                         ),
@@ -392,7 +401,9 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
   InputDecoration _inputDecoration(String desc, bool isDark) {
     return InputDecoration(
-      prefix: desc == 'Color' ? BoxColor(color: _controller[8].text) : null,
+      prefix: desc == 'Color'
+          ? BoxColor(color: _mapController['color'].text)
+          : null,
       contentPadding: EdgeInsets.all(15.0),
       fillColor: isDark ? Color(0xffF8F6F4) : Color(0xffFFFFFF),
       filled: true,
@@ -437,5 +448,21 @@ class _EditItemScreenState extends State<EditItemScreen> {
       text = text + i + '; ';
     }
     return text;
+  }
+
+  Future<String> uploadPic() async {
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    StorageReference firebaseStrorageRef =
+        FirebaseStorage.instance.ref().child('clothes/' + fileName);
+    StorageUploadTask uploadTask =
+        firebaseStrorageRef.putFile(widget.fileUpload);
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+    var imageURL = await taskSnapshot.ref.getDownloadURL();
+    if (uploadTask.isComplete) {
+      String img = imageURL.toString();
+      return img;
+    } else {
+      return null;
+    }
   }
 }

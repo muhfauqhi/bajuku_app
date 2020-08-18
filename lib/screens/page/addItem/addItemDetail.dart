@@ -192,17 +192,14 @@ class _AddItemDetailState extends State<AddItemDetail> {
                                   itemName,
                                   brand,
                                   fabricsList,
-                                  worn,
                                   notes,
                                   categoryList,
                                   size,
                                   seasonList,
                                   price,
-                                  cost,
                                   selectedDate,
                                   currentColor.toString(),
                                   status,
-                                  usedInOutfit,
                                   url,
                                   image);
                               if (image != null) {
@@ -723,77 +720,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
     );
   }
 
-  Container _buildContainerListLightDisabled(String desc, String data) {
-    return Container(
-      margin: EdgeInsets.only(left: 25.0, right: 25.0),
-      color: Hexcolor('#FFFFFF'),
-      child: Row(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 8.0),
-            width: 135,
-            child: Text(
-              desc,
-              style: TextStyle(
-                fontSize: 12.0,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.normal,
-                color: Hexcolor('#3F4D55'),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              child: TextFormField(
-                  enabled: false,
-                  style: TextStyle(
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.normal,
-                    fontStyle: FontStyle.normal,
-                    color: Hexcolor('#3F4D55'),
-                  ),
-                  decoration: InputDecoration(
-                    hintText: '',
-                    hintStyle: TextStyle(
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.normal,
-                      fontStyle: FontStyle.normal,
-                      color: Hexcolor('#3F4D55'),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: const Color(0xF8F6F4))),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: const Color(0xF8F6F4))),
-                    filled: true,
-                    fillColor: Hexcolor('#FFFFFF'),
-                  ),
-                  onChanged: (val) {
-                    if (data == "itemName") {
-                      this.itemName = val;
-                    } else if (data == "brand") {
-                      this.brand = val;
-                    } else if (data == "size") {
-                      this.size = val;
-                    } else if (data == "season") {
-                      this.season = val;
-                    } else if (data == "price") {
-                      this.price = val;
-                    } else if (data == "cost") {
-                      this.cost = val;
-                    } else if (data == "status") {
-                      this.status = val;
-                    } else if (data == "url") {
-                      this.url = val;
-                    }
-                    setState(() => data = val);
-                  }),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   Container _buildContainerListDarkValueCost(String desc, String data) {
     return Container(
       margin: EdgeInsets.only(left: 25.0, right: 25.0),
@@ -827,78 +753,6 @@ class _AddItemDetailState extends State<AddItemDetail> {
               ),
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Container _buildContainerListDarkDisabled(String desc, String data) {
-    return Container(
-      margin: EdgeInsets.only(left: 25.0, right: 25.0),
-      // padding: EdgeInsets.all(14.0),
-      color: Hexcolor('#F8F6F4'),
-      child: Row(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 8.0),
-            width: 135,
-            child: Text(
-              desc,
-              style: TextStyle(
-                fontSize: 12.0,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.normal,
-                color: Hexcolor('#3F4D55'),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              child: TextFormField(
-                  enabled: false,
-                  style: TextStyle(
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.normal,
-                    fontStyle: FontStyle.normal,
-                    color: Hexcolor('#3F4D55'),
-                  ),
-                  decoration: InputDecoration(
-                    hintText: '',
-                    hintStyle: TextStyle(
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.normal,
-                      fontStyle: FontStyle.normal,
-                      color: Hexcolor('#3F4D55'),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: const Color(0xF8F6F4))),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: const Color(0xF8F6F4))),
-                    filled: true,
-                    fillColor: Hexcolor('#F8F6F4'),
-                  ),
-                  onChanged: (val) {
-                    if (data == "itemName") {
-                      this.itemName = val;
-                    } else if (data == "brand") {
-                      this.brand = val;
-                    } else if (data == "size") {
-                      this.size = val;
-                    } else if (data == "season") {
-                      this.season = val;
-                    } else if (data == "price") {
-                      this.price = val;
-                    } else if (data == "cost") {
-                      this.cost = val;
-                    } else if (data == "status") {
-                      this.status = val;
-                    } else if (data == "url") {
-                      this.url = val;
-                    }
-                    setState(() => data = val);
-                  }),
-            ),
-          )
         ],
       ),
     );

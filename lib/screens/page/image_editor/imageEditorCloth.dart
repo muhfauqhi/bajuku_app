@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/addItem/addItemDetail.dart';
+import 'package:bajuku_app/screens/page/addItem/addItemDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -70,7 +71,7 @@ class _ImageEditorState extends State<ImageEditor> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new AddItemDetail(
+                        builder: (BuildContext context) => new AddItemDetails(
                               fileUpload: widget.filePicture,
                             )));
               },
