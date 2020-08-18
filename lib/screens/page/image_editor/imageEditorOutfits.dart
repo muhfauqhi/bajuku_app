@@ -78,17 +78,20 @@ class _ImageEditorOutiftsState extends State<ImageEditorOutifts> {
                   ),
                 ),
                 onTap: () {
-                  // print(_children[0]);
-                  // print(_children.);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddOutfitDetailScreen(
-                        image: widget.image,
-                        children: _children,
+                  if (_children.length > 0) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddOutfitDetailScreen(
+                          image: widget.image,
+                          children: _children,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  } else {
+                    // TODO feedback showdialog harus tag clothes
+                    print('no');
+                  }
                 },
               ),
             ],
@@ -117,6 +120,10 @@ class _ImageEditorOutiftsState extends State<ImageEditorOutifts> {
             ),
             child: Text(
               DateFormat('dd MMMM yyyy').format(DateTime.now()),
+              style: TextStyle(
+                color: Color(0xff3F4D55),
+                fontSize: 12.0,
+              ),
             ),
           ),
           SizedBox(height: 20.0),
@@ -164,33 +171,9 @@ class _ImageEditorOutiftsState extends State<ImageEditorOutifts> {
           var data = await getData();
           if (data != null) {
             for (var i in data) {
-              // dynamic d = i.data;
-              // String name = i.name;
-              // String category = i.category;
-              // Offset location = i.locationWidget;
-              // var nipLocation = i.nipLocation;
               setState(() {
                 _children = data;
-                // _children.add(
-                //   DragItem(
-                //     data: d,
-                //     top: location.dy,
-                //     left: location.dx,
-                //     name: name,
-                //     category: category,
-                //     nipLocation: nipLocation,
-                //     locationWidget: location,
-                //   ),
-                //   // Positioned(
-                //   //   top: location.dy,
-                //   //   left: location.dx,
-                //   //   child: Bubble(
-                //   //     name: name,
-                //   //     category: category,
-                //   //     nipLocation: nipLocation,
-                //   //   ),
-                //   // ),
-                // );
+                i.draggable = false;
               });
             }
           }
@@ -259,6 +242,11 @@ class _ImageEditorOutiftsState extends State<ImageEditorOutifts> {
 
   Future getData() async {
     var results;
+    for (var i in _children) {
+      setState(() {
+        i.draggable = true;
+      });
+    }
     if (_children.length < 0) {
       results = await Navigator.push(
         context,
@@ -510,7 +498,6 @@ class TaggingScreen extends StatefulWidget {
   _TaggingScreenState createState() => _TaggingScreenState();
 }
 
-// GlobalKey key = GlobalKey();
 GlobalKey keyImage = GlobalKey();
 
 class _TaggingScreenState extends State<TaggingScreen> {
@@ -548,11 +535,10 @@ class _TaggingScreenState extends State<TaggingScreen> {
                       fontWeight: FontWeight.normal),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
-                  // return showDialog(
-                  //   context: context,
-                  //   child: buildShowDialogCancelFeedback(context),
-                  // );
+                  return showDialog(
+                    context: context,
+                    child: buildShowDialogCancelFeedback(context),
+                  );
                 },
               ),
               Container(
@@ -629,6 +615,64 @@ class _TaggingScreenState extends State<TaggingScreen> {
     );
   }
 
+  Widget buildShowDialogCancelFeedback(BuildContext context) {
+    return SimpleDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10))),
+      contentPadding: EdgeInsets.only(top: 0.0),
+      children: <Widget>[
+        Container(
+          color: Colors.transparent,
+          width: 280,
+          child: Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 30, bottom: 40),
+                child: Image.asset(
+                  'assets/images/textCancelFeedback.png',
+                  width: 240,
+                ),
+              ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Image.asset(
+                        'assets/images/keepWorkingButton.png',
+                        width: 140,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    GestureDetector(
+                      child: Image.asset(
+                        'assets/images/cancelButton.png',
+                        width: 140,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ImageEditorOutifts(
+                              image: widget.image,
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
   Future getData() async {
     var results = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => TagClothes()));
@@ -644,6 +688,7 @@ class DragItem extends StatefulWidget {
   final String category;
   double top = 0;
   double left = 0;
+  bool draggable;
   DragItem({
     Key key,
     this.name,
@@ -653,6 +698,7 @@ class DragItem extends StatefulWidget {
     this.top,
     this.left,
     this.data,
+    this.draggable = true,
   }) : super(key: key);
 
   @override
@@ -671,82 +717,92 @@ class _DragItemState extends State<DragItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Draggable(
-      child: Container(
-        padding: EdgeInsets.only(top: widget.top, left: widget.left),
-        child: Bubble(
-          nipLocation: widget.nipLocation,
-          name: widget.name,
-          category: widget.category,
-        ),
-      ),
-      feedback: Container(
-        padding: EdgeInsets.only(top: widget.top, left: widget.left),
-        child: Bubble(
-          nipLocation: widget.nipLocation,
-          name: widget.name,
-          category: widget.category,
-        ),
-      ),
-      childWhenDragging: Container(
-        padding: EdgeInsets.only(top: widget.top, left: widget.left),
-        child: Bubble(
-          key: key,
-          nipLocation: widget.nipLocation,
-          name: widget.name,
-          category: widget.category,
-        ),
-      ),
-      onDragCompleted: () {},
-      onDragEnd: (drag) {
-        setState(() {
-          RenderBox renderBox = keyImage.currentContext.findRenderObject();
-          RenderBox widgets = key.currentContext.findRenderObject();
-          final size = renderBox.size;
-          final sizeWidget = widgets.size;
+    return widget.draggable
+        ? Draggable(
+            child: Container(
+              padding: EdgeInsets.only(top: widget.top, left: widget.left),
+              child: Bubble(
+                nipLocation: widget.nipLocation,
+                name: widget.name,
+                category: widget.category,
+              ),
+            ),
+            feedback: Container(
+              padding: EdgeInsets.only(top: widget.top, left: widget.left),
+              child: Bubble(
+                nipLocation: widget.nipLocation,
+                name: widget.name,
+                category: widget.category,
+              ),
+            ),
+            childWhenDragging: Container(
+              padding: EdgeInsets.only(top: widget.top, left: widget.left),
+              child: Bubble(
+                key: key,
+                nipLocation: widget.nipLocation,
+                name: widget.name,
+                category: widget.category,
+              ),
+            ),
+            onDragCompleted: () {},
+            onDragEnd: (drag) {
+              setState(() {
+                RenderBox renderBox =
+                    keyImage.currentContext.findRenderObject();
+                RenderBox widgets = key.currentContext.findRenderObject();
+                final size = renderBox.size;
+                final sizeWidget = widgets.size;
 
-          if ((widget.top + drag.offset.dy - sizeWidget.height) >
-              (size.height)) {
-            widget.top = size.height - sizeWidget.height - 10.0;
-          } else if ((widget.top + drag.offset.dy - 80.0) < 0.0) {
-            widget.top = 0;
-          } else {
-            widget.top = widget.top + drag.offset.dy - 80.0;
-          }
-          if ((widget.left + drag.offset.dx + sizeWidget.width) >
-              (size.width)) {
-            widget.left = size.width - sizeWidget.width;
-          } else if ((widget.left + drag.offset.dx) < 0.0) {
-            widget.left = 0;
-          } else {
-            widget.left = widget.left + drag.offset.dx;
-            Offset location = Offset(widget.left, widget.top);
-            setState(() {
-              if (location.dx < (size.width / 2)) {
-                if (location.dy > size.height / 2) {
-                  widget.nipLocation = NipLocation.TOP_RIGHT;
-                } else if (location.dy < size.height / 2) {
-                  widget.nipLocation = NipLocation.BOTTOM_RIGHT;
+                if ((widget.top + drag.offset.dy - sizeWidget.height) >
+                    (size.height)) {
+                  widget.top = size.height - sizeWidget.height - 10.0;
+                } else if ((widget.top + drag.offset.dy - 80.0) < 0.0) {
+                  widget.top = 0;
                 } else {
-                  widget.nipLocation = NipLocation.RIGHT;
+                  widget.top = widget.top + drag.offset.dy - 80.0;
                 }
-              } else if (location.dx > (size.width / 2)) {
-                if (location.dy > size.height / 2) {
-                  widget.nipLocation = NipLocation.TOP_LEFT;
-                } else if (location.dy < size.height / 2) {
-                  widget.nipLocation = NipLocation.BOTTOM_LEFT;
+                if ((widget.left + drag.offset.dx + sizeWidget.width) >
+                    (size.width)) {
+                  widget.left = size.width - sizeWidget.width;
+                } else if ((widget.left + drag.offset.dx) < 0.0) {
+                  widget.left = 0;
                 } else {
-                  widget.nipLocation = NipLocation.LEFT;
+                  widget.left = widget.left + drag.offset.dx;
+                  Offset location = Offset(widget.left, widget.top);
+                  setState(() {
+                    if (location.dx < (size.width / 2)) {
+                      if (location.dy > size.height / 2) {
+                        widget.nipLocation = NipLocation.TOP_RIGHT;
+                      } else if (location.dy < size.height / 2) {
+                        widget.nipLocation = NipLocation.BOTTOM_RIGHT;
+                      } else {
+                        widget.nipLocation = NipLocation.RIGHT;
+                      }
+                    } else if (location.dx > (size.width / 2)) {
+                      if (location.dy > size.height / 2) {
+                        widget.nipLocation = NipLocation.TOP_LEFT;
+                      } else if (location.dy < size.height / 2) {
+                        widget.nipLocation = NipLocation.BOTTOM_LEFT;
+                      } else {
+                        widget.nipLocation = NipLocation.LEFT;
+                      }
+                    } else {
+                      widget.nipLocation = NipLocation.TOP;
+                    }
+                  });
                 }
-              } else {
-                widget.nipLocation = NipLocation.TOP;
-              }
-            });
-          }
-          setLocation(Offset(widget.left, widget.top));
-        });
-      },
-    );
+                setLocation(Offset(widget.left, widget.top));
+              });
+            },
+          )
+        : Container(
+            padding: EdgeInsets.only(top: widget.top, left: widget.left),
+            child: Bubble(
+              nipLocation: widget.nipLocation,
+              name: widget.name,
+              category: widget.category,
+            ),
+          );
   }
 
   setLocation(Offset location) {
@@ -774,38 +830,36 @@ class Bubble extends StatefulWidget {
 class _BubbleState extends State<Bubble> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: SpeechBubble(
-        color: Colors.white,
-        borderRadius: 0,
-        nipLocation: widget.nipLocation,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  '${widget.name}',
-                  style: TextStyle(
-                    color: Color(0xff3F4D55),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 9.0,
-                  ),
+    return SpeechBubble(
+      color: Colors.white,
+      borderRadius: 0,
+      nipLocation: widget.nipLocation,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                '${widget.name}',
+                style: TextStyle(
+                  color: Color(0xff3F4D55),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 9.0,
                 ),
-                Text(
-                  '${widget.category}',
-                  style: TextStyle(
-                    color: Color(0xff859289),
-                    fontSize: 9.0,
-                  ),
+              ),
+              Text(
+                '${widget.category}',
+                style: TextStyle(
+                  color: Color(0xff859289),
+                  fontSize: 9.0,
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

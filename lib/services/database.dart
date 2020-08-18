@@ -16,6 +16,15 @@ class DatabaseService {
         .getDocuments();
   }
 
+  Future getCloth(String documentId) async {
+    final FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
+    return await _userRef
+        .document(firebaseUser.uid)
+        .collection('clothes')
+        .document(documentId)
+        .get();
+  }
+
   Future createUser(String firstName, String lastName, String email) async {
     return await firestoreInstance.collection("users").add({
       "firstName": firstName,
@@ -99,7 +108,8 @@ class DatabaseService {
     });
   }
 
-  Future setOutfits(String notes, String name, String image, String totalCost, List<dynamic> taggedClothes) async {
+  Future setOutfits(String notes, String name, String image, String totalCost,
+      List<dynamic> taggedClothes) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     updatePoints(3);
     return await firestoreInstance
@@ -107,13 +117,13 @@ class DatabaseService {
         .document(firebaseUser.uid)
         .collection('outfits')
         .add({
-          'notes': notes,
-          'outfitName': name,
-          'image': image,
-          'totalCost': totalCost,
-          'tagged': taggedClothes,
-          'created': FieldValue.serverTimestamp(),
-        });
+      'notes': notes,
+      'outfitName': name,
+      'image': image,
+      'totalCost': totalCost,
+      'tagged': taggedClothes,
+      'created': FieldValue.serverTimestamp(),
+    });
   }
 
   Future setOutfit(String image, String notes, String name, String totalCost,

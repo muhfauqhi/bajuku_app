@@ -96,17 +96,17 @@ class SustainCategory extends StatelessWidget {
             future: fetchData(),
             builder: (context, snapshot) {
               var data = snapshot.data;
-              return GridView.builder(
-                shrinkWrap: true,
-                itemCount: 1,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10.0,
-                  crossAxisSpacing: 10.0,
-                  childAspectRatio: 1,
-                ),
-                itemBuilder: (context, index) {
-                  if (snapshot.hasData) {
+              if (snapshot.hasData) {
+                return GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10.0,
+                    crossAxisSpacing: 10.0,
+                    childAspectRatio: 1,
+                  ),
+                  itemBuilder: (context, index) {
                     if (snapshot.data == null) {
                       return Loading();
                     } else {
@@ -143,11 +143,11 @@ class SustainCategory extends StatelessWidget {
                         },
                       );
                     }
-                  } else {
-                    return Loading();
-                  }
-                },
-              );
+                  },
+                );
+              } else {
+                return Loading();
+              }
             }),
       ),
     );
