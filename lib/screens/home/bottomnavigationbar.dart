@@ -1,12 +1,8 @@
 import 'package:bajuku_app/screens/page/addItem/addChoiceDialog.dart';
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablehome.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {

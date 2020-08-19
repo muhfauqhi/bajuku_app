@@ -58,7 +58,7 @@ class PreviewImage extends StatelessWidget {
                 onTap: () {
                   if (flag == 'Wardrobe') {
                     Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => ImageEditor()));
+                        MaterialPageRoute(builder: (context) => ImageEditor(filePicture: image)));
                   } else {
                     Navigator.pushReplacement(
                       context,
