@@ -64,10 +64,29 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             ),
           ),
           Showcase(
+            titleTextStyle: TextStyle(
+              color:
+                  widget.indexNow == 0 ? Color(0xff3F4D55) : Color(0xffE1C8B4),
+              fontSize: 12.0,
+              fontWeight: FontWeight.w600,
+            ),
+            overlayColor: Colors.white,
+            descTextStyle: TextStyle(
+              color:
+                  widget.indexNow == 0 ? Color(0xff3F4D55) : Color(0xffE1C8B4),
+              fontSize: 12.0,
+              fontWeight: FontWeight.w600,
+            ),
+            overlayOpacity: 0.1,
+            showcaseBackgroundColor:
+                widget.indexNow == 0 ? Color(0xffE1C8B4) : Color(0xff3F4D55),
+            disableAnimation: true,
+            shapeBorder: BeveledRectangleBorder(),
+            textColor:
+                widget.indexNow == 0 ? Color(0xff3F4D55) : Color(0xffFFDEBF),
+            title: 'Add your first',
             key: widget.indexNow == 0 ? _one : _two,
-            description: widget.indexNow == 0
-                ? 'Add your first clothes here'
-                : 'Add your first outfit here',
+            description: widget.indexNow == 0 ? 'clothes here' : 'outfit here',
             child: Container(
               margin: EdgeInsets.fromLTRB(5, 5, 10, 5),
               height: 60,
