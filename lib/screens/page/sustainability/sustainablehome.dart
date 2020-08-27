@@ -1,3 +1,5 @@
+import 'package:bajuku_app/screens/page/mockup/profilemockup.dart';
+import 'package:bajuku_app/screens/page/mockup/salemockup.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitywidget/loadmore.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablebuildtemplate.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabledonate.dart';
@@ -104,22 +106,42 @@ class _SustainableHomeState extends State<SustainableHome> {
             height: 50,
             child: Row(
               children: [
-                Container(
-                  alignment: Alignment(0.9, 0),
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  child: Image.asset('assets/images/profile$profile.png'),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfileMockup(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    alignment: Alignment(0.9, 0),
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    child: Image.asset('assets/images/profile$profile.png'),
+                  ),
                 ),
                 Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        child: Text(
-                          profileName,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfileMockup(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          child: Text(
+                            profileName,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
                           ),
                         ),
                       ),
@@ -160,9 +182,19 @@ class _SustainableHomeState extends State<SustainableHome> {
               ],
             ),
           ),
-          Container(
-            height: 300,
-            child: Image.asset('assets/images/$profile.png'),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SaleMockup(),
+                ),
+              );
+            },
+            child: Container(
+              height: 300,
+              child: Image.asset('assets/images/$profile.png'),
+            ),
           ),
           Container(
             height: 50,
