@@ -1,10 +1,12 @@
 import 'package:bajuku_app/models/outfit.dart';
+import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/image_editor/imageEditorOutfits.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitygivesell/sustainabilityAddJournal.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:bajuku_app/shared/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 
 class DetailOutfits extends StatefulWidget {
@@ -21,6 +23,7 @@ class _DetailOutfitsState extends State<DetailOutfits> {
   List<DragItem> _children = List();
   @override
   void initState() {
+    print(widget.outfit.documentId.toString());
     super.initState();
   }
 
@@ -167,6 +170,9 @@ class _DetailOutfitsState extends State<DetailOutfits> {
                         _buildRowOutfit('Points earned',
                             (snapshot.data.length * 3 + 3).toString()),
                         SizedBox(height: 50.0),
+                        Center(child: Container(
+                          margin: EdgeInsets.only(bottom: 20),
+                          child: _buildButtonDelete())),
                         FlatButton(
                           onPressed: () {
                             Navigator.pushReplacement(
@@ -221,6 +227,93 @@ class _DetailOutfitsState extends State<DetailOutfits> {
           ),
         ),
       ],
+    );
+  }
+
+   Widget _buildButtonDelete() {
+    return Container(
+      margin: EdgeInsets.only(top: 0),
+      child: GestureDetector(
+        child: Text(
+          'Delete this item',
+          style: TextStyle(fontSize: 12, color: Hexcolor('#D96969')),
+        ),
+        onTap: () {
+          return buildShowDialogDelete(context);
+        },
+      ),
+    );
+  }
+
+  Future buildShowDialogDelete(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          contentPadding: EdgeInsets.only(top: 0.0),
+          children: <Widget>[
+            Container(
+              color: Colors.transparent,
+              width: 280,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 30, bottom: 40),
+                    child: Image.asset(
+                      'assets/images/textCancelFeedback.png',
+                      width: 240,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        GestureDetector(
+                          child: Image.asset(
+                            'assets/images/cancelbut.png',
+                            width: 140,
+                          ),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        GestureDetector(
+                          child: Image.asset(
+                            'assets/images/deletebutton.png',
+                            width: 140,
+                          ),
+                          onTap: () {
+                            DatabaseService().deleteOutfit(widget.outfit.documentId);
+                            showDialog(
+                              builder: (context) {
+                                Future.delayed(Duration(seconds: 3), () {
+                                  Navigator.of(context).pop(true);
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              new Home()));
+                                });
+                                return Image.asset(
+                                    'assets/images/deleteFeedback.png');
+                              },
+                              context: context,
+                            );
+                          },
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }

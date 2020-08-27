@@ -38,6 +38,7 @@ class Journal extends StatelessWidget {
                     ),
                     onTap: () {
                       Outfit outfit = new Outfit(
+                          snapshot.data.documents[index].documentID,
                           snapshot.data.documents[index].data['image'],
                           snapshot.data.documents[index].data['notes'],
                           snapshot.data.documents[index].data['outfitName'],
