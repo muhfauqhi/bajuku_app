@@ -230,34 +230,50 @@ class DatabaseService {
         .collection('clothes')
         .document(selectedDoc)
         .delete();
-    // updateClothesInOutfits(selectedDoc);
+    updateClothesInOutfits(selectedDoc);
   }
 
-  updateClothesInOutfits() async {
+  updateClothesInOutfits(selectedDoc) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
-    // List<String> outfitsDocs = await this.getOutfit();
-    print('halo');
-    firestoreInstance
-        .collection('users')
-        .document(firebaseUser.uid)
-        .collection('outfits')
-        .document('J95cdpuKVHrUqS7ZcbTD')
-        .updateData({
-      'tagged': FieldValue.arrayRemove([{'Offset(71.2, 67.4)':'5v9weSMSBnzKisOuB1Hh'}])
-      // "test.test": FieldValue.delete(),
+    List<String> outfitDoc = [];
+    QuerySnapshot outfitsDocs = await this.getOutfit();
+    var docs = outfitsDocs.documents;
+    List<dynamic> listDoc = [];
+
+    docs.forEach((element) {
+      var dataTagged = element.data['tagged'];
+      for (var i in dataTagged) {
+        String docTemp =
+            i.values.toString().substring(1, i.values.toString().length - 1);
+        if (docTemp == selectedDoc) {
+          outfitDoc.add(element.documentID);
+          listDoc.add(i);
+        }
+      }
     });
-    // if (outfitsDocs.length != 0) {
-    //   for (int i = 0; i < outfitsDocs.length; i++) {
-    //     firestoreInstance
-    //         .collection('users')
-    //         .document(firebaseUser.uid)
-    //         .collection('outfits')
-    //         .document(outfitsDocs[i])
-    //         .updateData({
-    //       "tagged.Offset(71.2, 67.4)": FieldValue.delete(),
-    //     });
-    //   }
-    // }
+
+    for (int i = 0; i < outfitDoc.length; i++) {
+      String keys = listDoc[i]
+          .keys
+          .toString()
+          .substring(1, listDoc[i].keys.toString().length - 1);
+      String values = listDoc[i]
+          .values
+          .toString()
+          .substring(1, listDoc[i].values.toString().length - 1);
+      print(keys);
+      print(values);
+      firestoreInstance
+          .collection('users')
+          .document(firebaseUser.uid)
+          .collection('outfits')
+          .document(outfitDoc[i])
+          .updateData({
+        'tagged': FieldValue.arrayRemove([
+          {keys: values}
+        ])
+      });
+    }
   }
 
   deleteOutfit(selectedDoc) async {
@@ -405,17 +421,5 @@ class DatabaseService {
         .document(firebaseUser.uid)
         .get();
     return qn;
-  }
-
-  updateOutfit(String documentId) async {
-    var firebaseUser = await FirebaseAuth.instance.currentUser();
-    firestoreInstance
-        .collection('users')
-        .document(firebaseUser.uid)
-        .collection('outfits')
-        .document('J95cdpuKVHrUqS7ZcbTD')
-        .updateData({
-      'tagged': FieldValue.arrayRemove(['3'])
-    });
   }
 }
