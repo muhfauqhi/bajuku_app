@@ -1,6 +1,7 @@
 import 'package:bajuku_app/screens/page/addItem/addChoiceDialog.dart';
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablehome.dart';
+import 'package:bajuku_app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -107,6 +108,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: GestureDetector(
               child: Image.asset('assets/images/profilebottom.png'),
               onTap: () {
+                DatabaseService().updateClothesInOutfits();
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
