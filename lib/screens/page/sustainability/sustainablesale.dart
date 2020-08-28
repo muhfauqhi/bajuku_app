@@ -1,5 +1,4 @@
 import 'package:bajuku_app/models/sustainabilityClothes.dart';
-import 'package:bajuku_app/screens/home/bottomnavigationbar.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitywidget/sustainabilitygridview.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablebuildtemplate.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainableheader/sustainableHeader.dart';

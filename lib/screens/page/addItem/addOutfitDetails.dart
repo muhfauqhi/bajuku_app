@@ -204,7 +204,7 @@ class _AddOutfitDetailScreenState extends State<AddOutfitDetailScreen> {
       child: TextFormField(
         validator: (val) {
           if (val.isEmpty) {
-            return 'The clothes name field is required';
+            return 'The notes field is required';
           }
           return null;
         },
@@ -216,7 +216,7 @@ class _AddOutfitDetailScreenState extends State<AddOutfitDetailScreen> {
         controller: _mapController['notes'],
         maxLines: 5,
         decoration: InputDecoration(
-          hintText: 'Name of your outfits',
+          hintText: 'Write your notes here',
           hintStyle: TextStyle(
             color: Color(0xff3F4D55),
             letterSpacing: 1,

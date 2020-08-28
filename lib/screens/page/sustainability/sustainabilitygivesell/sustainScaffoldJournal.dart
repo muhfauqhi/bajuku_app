@@ -1,7 +1,6 @@
 import 'package:bajuku_app/models/outfit.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainabilitygivesell/sustainabiilityJournal.dart';
-import 'package:bajuku_app/screens/template/templateDetailOutfits.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class SustainScaffoldJournal extends StatelessWidget {
 
   Future fetchData() async {
     List id = [];
-    List available = [];
+    List<Outfit> outfit = [];
     QuerySnapshot snapshot = await _databaseService.getOutfit();
     var documents = snapshot.documents;
     documents.forEach((e) {
@@ -34,23 +33,36 @@ class SustainScaffoldJournal extends StatelessWidget {
       DocumentSnapshot snapshot = await _databaseService.getCloth(i);
       var status = snapshot.data['status'];
       if (status == 'Available') {
-        available.add(snapshot.data);
+        outfit.add(Outfit(
+            '',
+            snapshot.data['image'],
+            snapshot.data['notes'],
+            snapshot.data['outfitName'],
+            snapshot.data['tagged'],
+            snapshot.data['totalCost'],
+            snapshot.data['created']));
       }
     }
-    return available;
-  }
-
-  Future<List<Outfit>> getData() async {
-    List<Outfit> outfit = [];
-    QuerySnapshot snapshot = await _databaseService.getOutfit();
-
-    snapshot.documents.forEach((e) {
-      outfit.add(Outfit(e.documentID,e.data['image'], e.data['notes'], e.data['outfitName'],
-          e.data['tagged'], e.data['totalCost'], e.data['created']));
-    });
-
     return outfit;
   }
+
+  // Future<List<Outfit>> getData() async {
+  //   List<Outfit> outfit = [];
+  //   QuerySnapshot snapshot = await _databaseService.getOutfit();
+
+  //   snapshot.documents.forEach((e) {
+  //     outfit.add(Outfit(
+  //         e.documentID,
+  //         e.data['image'],
+  //         e.data['notes'],
+  //         e.data['outfitName'],
+  //         e.data['tagged'],
+  //         e.data['totalCost'],
+  //         e.data['created']));
+  //   });
+
+  //   return outfit;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +93,7 @@ class SustainScaffoldJournal extends StatelessWidget {
       headerWidget: [],
       body: Container(
         child: FutureBuilder(
-          future: getData(),
+          future: fetchData(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var data = snapshot.data;

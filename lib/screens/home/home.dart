@@ -19,6 +19,11 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
+RenderBox renderBox = keyImage.currentContext.findRenderObject();
+dynamic size = renderBox.size;
+
+GlobalKey keyImage = GlobalKey();
+
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   CollectionReference userRef;
   String uid;
@@ -38,7 +43,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     super.initState();
     _getUserDoc();
     _getUid();
+    // WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
   }
+
+  // _afterLayout(_) {
+  //   _getSizes();
+  // }
 
   @override
   Widget build(BuildContext context) {
