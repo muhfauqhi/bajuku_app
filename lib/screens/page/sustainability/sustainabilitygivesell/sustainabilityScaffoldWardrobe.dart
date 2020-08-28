@@ -17,7 +17,6 @@ class SustainScaffoldWardrobe extends StatelessWidget {
   Future fetchData() async {
     List<String> categories = [];
     QuerySnapshot snapshot = await _databaseService.getClothesByCategory();
-    String urlLastImage;
     Set<Map<String, Object>> categoryWithImage = {};
     int index = 0;
     var documents = snapshot.documents;
@@ -115,11 +114,6 @@ class SustainScaffoldWardrobe extends StatelessWidget {
                       mainAxisSpacing: 15.0,
                     ),
                     itemBuilder: (context, index) {
-                      List<Clothes> clothesList = [];
-
-                      // clothesList.add(
-                      //   Clothes(documentId, brand, category, clothName, color, cost, dateBought, endDate, fabric, image, price, notes, season, size, startDate, status, updateDate, url, usedInOutfit, worn)
-                      // );
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -129,7 +123,6 @@ class SustainScaffoldWardrobe extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => SustainCategory(
-                                            // clothesList: clothesList,
                                             type: type,
                                             title:
                                                 '${snapshot.data.toList()[index].keys.elementAt(0)}',
@@ -189,12 +182,6 @@ class SustainScaffoldWardrobe extends StatelessWidget {
               }
             }),
       ),
-      // body: Column(
-      //   children: <Widget>[
-      //     rowCategory('All Items', 'allitems', 'Jacket', 'jacket_asset'),
-      //     rowCategory('Jeans', 'jeans_asset', 'Bags', 'bags_asset'),
-      //   ],
-      // ),
     );
   }
 

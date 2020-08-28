@@ -23,7 +23,6 @@ class _DetailOutfitsState extends State<DetailOutfits> {
   List<DragItem> _children = List();
   @override
   void initState() {
-    print(widget.outfit.documentId.toString());
     super.initState();
   }
 
@@ -173,24 +172,6 @@ class _DetailOutfitsState extends State<DetailOutfits> {
                         Center(child: Container(
                           margin: EdgeInsets.only(bottom: 20),
                           child: _buildButtonDelete())),
-                        FlatButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    SustainAddJournal(
-                                  outfit: widget.outfit,
-                                  title: 'Journal',
-                                  type: 'Given',
-                                ),
-                              ),
-                            );
-                          },
-                          child: Image(
-                            image: AssetImage('assets/images/next.png'),
-                          ),
-                        ),
                       ],
                     ),
                   ),

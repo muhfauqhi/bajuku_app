@@ -5,6 +5,7 @@ import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:bajuku_app/screens/template/buildTextField.dart';
 import 'package:bajuku_app/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class SustainAddJournal extends StatefulWidget {
@@ -34,7 +35,6 @@ class _SustainAddJournalState extends State<SustainAddJournal> {
   @override
   void initState() {
     super.initState();
-    buildTextField();
   }
 
   @override
@@ -44,99 +44,108 @@ class _SustainAddJournalState extends State<SustainAddJournal> {
       leadingActive: true,
       title: widget.title,
       headerWidget: [],
-      body: SingleChildScrollView(
-        child: Column(children: [
-          for (var item in textFieldCount) item,
-          Container(
-            margin: EdgeInsets.only(top: 40.0, bottom: 30.0),
-            child: BuildTextField(
-              widget: 'button',
-              type: widget.type,
-              onTap: () {
-                var index = 0;
-                List<SustainabilityClothes> sustainClothes = [];
-                for (var i = 0; i < clothesList.length; i++) {
-                  if (widget.type == 'Given') {
-                    sustainClothes.add(
-                      SustainabilityClothes(
-                          clothesList[i],
-                          controller[index].text,
-                          'Free',
-                          controller[index + 2].text,
-                          controller[index + 3].text),
-                    );
-                  } else {
-                    sustainClothes.add(
-                      SustainabilityClothes(
-                          clothesList[i],
-                          controller[index].text,
-                          controller[index + 1].text,
-                          controller[index + 2].text,
-                          controller[index + 3].text),
-                    );
-                  }
-                  index += 4;
-                }
-                for (int i = 0; i < clothesList.length; i++) {
-                  databaseService.updateGivenJournal(
-                      widget.type, clothesList[i].documentId);
-                  clothesList[i].status = widget.type;
-                  databaseService.setGivenOrSellClothes(
-                      sustainClothes[i].clothes,
-                      sustainClothes[i].productDesc,
-                      sustainClothes[i].price,
-                      sustainClothes[i].condition,
-                      widget.type,
-                      sustainClothes[i].location);
-                }
-                showDialog(
-                  builder: (context) {
-                    Future.delayed(Duration(seconds: 3), () {
-                      Navigator.of(context).pop(true);
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (BuildContext context) => new Home()));
-                    });
-                    return Image.asset('assets/images/${widget.type}Post.png');
-                  },
-                  context: context,
-                );
-              },
-            ),
-          ),
-        ]),
-      ),
+      body: FutureBuilder(
+          future: buildTextField(),
+          builder: (context, snapshot) {
+            return SingleChildScrollView(
+              child: Column(children: [
+                for (var item in textFieldCount) item,
+                Container(
+                  margin: EdgeInsets.only(top: 40.0, bottom: 30.0),
+                  child: BuildTextField(
+                    widget: 'button',
+                    type: widget.type,
+                    onTap: () {
+                      var index = 0;
+                      List<SustainabilityClothes> sustainClothes = [];
+                      for (var i = 0; i < clothesList.length; i++) {
+                        if (widget.type == 'Given') {
+                          sustainClothes.add(
+                            SustainabilityClothes(
+                                clothesList[i],
+                                controller[index].text,
+                                'Free',
+                                controller[index + 2].text,
+                                controller[index + 3].text),
+                          );
+                        } else {
+                          sustainClothes.add(
+                            SustainabilityClothes(
+                                clothesList[i],
+                                controller[index].text,
+                                controller[index + 1].text,
+                                controller[index + 2].text,
+                                controller[index + 3].text),
+                          );
+                        }
+                        index += 4;
+                      }
+                      for (int i = 0; i < clothesList.length; i++) {
+                        clothesList[i].status = widget.type;
+                        databaseService.setGivenOrSellClothes(
+                            sustainClothes[i].clothes,
+                            sustainClothes[i].productDesc,
+                            sustainClothes[i].price,
+                            sustainClothes[i].condition,
+                            widget.type,
+                            sustainClothes[i].location);
+                      }
+                      showDialog(
+                        builder: (context) {
+                          Future.delayed(Duration(seconds: 3), () {
+                            Navigator.of(context).pop(true);
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        new Home()));
+                          });
+                          return Image.asset(
+                              'assets/images/${widget.type}Post.png');
+                        },
+                        context: context,
+                      );
+                    },
+                  ),
+                ),
+              ]),
+            );
+          }),
     );
   }
 
-  void buildTextField() {
+  Future buildTextField() async {
     var index = 0;
     var controllerIndex = 0;
-    for (var i in widget.outfit.tagged.values.toList()) {
-      if (i['status'] == 'Available') {
+
+    for (var i in widget.outfit.tagged) {
+      String docId =
+          i.values.toString().substring(1, i.values.toString().length - 1);
+      DocumentSnapshot d = await databaseService.getCloth(docId);
+      String status = d.data['status'];
+      if (status == 'Available') {
         clothesList.add(Clothes(
-          i['documentId'],
-          i['brand'],
-          i['category'],
-          i['clothName'],
-          i['color'],
-          i['cost'],
-          i['dateBought'],
-          i['endDate'],
-          i['fabric'],
-          i['image'],
-          i['price'],
-          i['notes'],
-          i['season'],
-          i['size'],
-          i['startDate'],
-          i['status'],
-          i['updateDate'],
-          i['url'],
-          i['usedInOutfit'],
-          i['worn'],
+          docId,
+          d.data['brand'],
+          d.data['category'],
+          d.data['clothName'],
+          d.data['color'],
+          d.data['cost'],
+          d.data['dateBought'],
+          d.data['endDate'],
+          d.data['fabric'],
+          d.data['image'],
+          d.data['price'],
+          d.data['notes'],
+          d.data['season'],
+          d.data['size'],
+          d.data['startDate'],
+          d.data['status'],
+          d.data['updateDate'],
+          d.data['url'],
+          d.data['usedInOutfit'],
+          d.data['worn'],
         ));
         for (int i = 0; i < 4; i++) {
           controller.add(TextEditingController());

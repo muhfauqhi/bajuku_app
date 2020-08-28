@@ -498,7 +498,6 @@ class TaggingScreen extends StatefulWidget {
   _TaggingScreenState createState() => _TaggingScreenState();
 }
 
-GlobalKey keyImage = GlobalKey();
 
 class _TaggingScreenState extends State<TaggingScreen> {
   List<DragItem> _children;
@@ -679,9 +678,6 @@ class _TaggingScreenState extends State<TaggingScreen> {
     return results;
   }
 }
-
-RenderBox renderBox = keyImage.currentContext.findRenderObject();
-final size = renderBox.size;
 
 class DragItem extends StatefulWidget {
   final data;
