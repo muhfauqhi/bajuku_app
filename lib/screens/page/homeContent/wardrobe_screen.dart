@@ -133,13 +133,15 @@ class _WardrobeScreenState extends State<WardrobeScreen> {
               padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CategoriesScreen(
-                                category:
-                                    'All Items',
-                              )));
+                  print('hako');
+                  DatabaseService().updateClothesInOutfits();
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => CategoriesScreen(
+                  //               category:
+                  //                   'All Items',
+                  //             )));
                 },
                 child: Card(
                   shape: RoundedRectangleBorder(

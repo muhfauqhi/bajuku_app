@@ -235,14 +235,16 @@ class DatabaseService {
 
   updateClothesInOutfits() async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
-    List<String> outfitsDocs = await this.getOutfit();
+    // List<String> outfitsDocs = await this.getOutfit();
+    print('halo');
     firestoreInstance
         .collection('users')
         .document(firebaseUser.uid)
         .collection('outfits')
         .document('J95cdpuKVHrUqS7ZcbTD')
         .updateData({
-      "tagged.5v9weSMSBnzKisOuB1Hh": FieldValue.delete(),
+      'tagged': FieldValue.arrayRemove([{'Offset(71.2, 67.4)':'5v9weSMSBnzKisOuB1Hh'}])
+      // "test.test": FieldValue.delete(),
     });
     // if (outfitsDocs.length != 0) {
     //   for (int i = 0; i < outfitsDocs.length; i++) {

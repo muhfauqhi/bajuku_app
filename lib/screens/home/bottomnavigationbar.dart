@@ -108,7 +108,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: GestureDetector(
               child: Image.asset('assets/images/profilebottom.png'),
               onTap: () {
-                DatabaseService().updateClothesInOutfits();
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
