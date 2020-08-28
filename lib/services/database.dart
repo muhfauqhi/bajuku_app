@@ -404,4 +404,16 @@ class DatabaseService {
         .get();
     return qn;
   }
+
+  updateOutfit(String documentId) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('outfits')
+        .document('J95cdpuKVHrUqS7ZcbTD')
+        .updateData({
+      'tagged': FieldValue.arrayRemove(['3'])
+    });
+  }
 }

@@ -31,6 +31,7 @@ class MyScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       resizeToAvoidBottomPadding: false,
       floatingActionButton: floatingActionButton,
       bottomNavigationBar: bottomNavigationBar,
@@ -46,7 +47,9 @@ class MyScaffold extends StatelessWidget {
                 expandedHeight: 50.0,
                 floating: false,
                 pinned: false,
-                title: isTitleWidget ? titleWithStyle(title, titleTextStyle) : titleWidget,
+                title: isTitleWidget
+                    ? titleWithStyle(title, titleTextStyle)
+                    : titleWidget,
                 // flexibleSpace: FlexibleSpaceBar(
                 //   centerTitle: true,
                 //   title: isTitleWidget
