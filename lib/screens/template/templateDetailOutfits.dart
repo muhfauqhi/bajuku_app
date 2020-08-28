@@ -241,10 +241,11 @@ class _DetailOutfitsState extends State<DetailOutfits> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(top: 30, bottom: 40),
-                    child: Image.asset(
-                      'assets/images/textCancelFeedback.png',
-                      width: 240,
+                    margin: EdgeInsets.only(top: 50, bottom: 50),
+                    child: Text(
+                      'Are you sure want \n   to delete this?',
+                      style:
+                          TextStyle(fontSize: 16, color: Hexcolor('#3F4D55')),
                     ),
                   ),
                   Container(

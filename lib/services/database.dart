@@ -230,6 +230,32 @@ class DatabaseService {
         .collection('clothes')
         .document(selectedDoc)
         .delete();
+    // updateClothesInOutfits(selectedDoc);
+  }
+
+  updateClothesInOutfits() async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    List<String> outfitsDocs = await this.getOutfit();
+    firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('outfits')
+        .document('J95cdpuKVHrUqS7ZcbTD')
+        .updateData({
+      "tagged.5v9weSMSBnzKisOuB1Hh": FieldValue.delete(),
+    });
+    // if (outfitsDocs.length != 0) {
+    //   for (int i = 0; i < outfitsDocs.length; i++) {
+    //     firestoreInstance
+    //         .collection('users')
+    //         .document(firebaseUser.uid)
+    //         .collection('outfits')
+    //         .document(outfitsDocs[i])
+    //         .updateData({
+    //       "tagged.Offset(71.2, 67.4)": FieldValue.delete(),
+    //     });
+    //   }
+    // }
   }
 
   deleteOutfit(selectedDoc) async {

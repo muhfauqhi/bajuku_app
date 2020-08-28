@@ -219,6 +219,15 @@ class _ClothesDetailState extends State<ClothesDetail> {
   onTapWorn() {
     setState(() {
       widget.clothes.worn++;
+      showDialog(
+        builder: (context) {
+          Future.delayed(Duration(seconds: 3), () {
+            Navigator.of(context).pop(true);
+          });
+          return Image.asset('assets/images/itemWorn.png');
+        },
+        context: context,
+      );
     });
     databaseService.updateWorn(widget.clothes.documentId);
   }
@@ -283,10 +292,11 @@ class _ClothesDetailState extends State<ClothesDetail> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(top: 30, bottom: 40),
-                    child: Image.asset(
-                      'assets/images/textCancelFeedback.png',
-                      width: 240,
+                    margin: EdgeInsets.only(top: 50, bottom: 50),
+                    child: Text(
+                      'Are you sure want \n   to delete this?',
+                      style:
+                          TextStyle(fontSize: 16, color: Hexcolor('#3F4D55')),
                     ),
                   ),
                   Container(
