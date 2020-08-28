@@ -18,7 +18,7 @@ class _JournalScreenState extends State<JournalScreen> {
     QuerySnapshot snapshot = await _databaseService.getOutfit();
 
     snapshot.documents.forEach((e) {
-      outfit.add(Outfit(e.data['image'], e.data['notes'], e.data['outfitName'],
+      outfit.add(Outfit(e.documentID ,e.data['image'], e.data['notes'], e.data['outfitName'],
           e.data['tagged'], e.data['totalCost'], e.data['created']));
     });
 

@@ -232,6 +232,16 @@ class DatabaseService {
         .delete();
   }
 
+  deleteOutfit(selectedDoc) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('outfits')
+        .document(selectedDoc)
+        .delete();
+  }
+
   updateWorn(selectedDoc) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
     firestoreInstance

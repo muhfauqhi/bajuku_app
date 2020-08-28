@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Outfit {
+  final documentId;
   final image;
   final notes;
   final outfitName;
@@ -8,6 +9,6 @@ class Outfit {
   final totalCost;
   Timestamp created;
 
-  Outfit(this.image, this.notes, this.outfitName, this.tagged, this.totalCost,
+  Outfit(this.documentId,this.image, this.notes, this.outfitName, this.tagged, this.totalCost,
       this.created);
 }
