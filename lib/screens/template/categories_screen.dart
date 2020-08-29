@@ -19,16 +19,114 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   final DatabaseService _databaseService = DatabaseService();
   final TextEditingController _controller = TextEditingController();
   List searchresult = List();
-  bool flag = false;
+  bool flag;
   final _key = new GlobalKey<ScaffoldState>();
   bool _isSearching;
-  String _searchText = '';
+  String _searchText;
+  bool flagFilter;
+  String _filter = 'All Items';
+  List<bool> selected = [];
+  List _filterMenu = [
+    {
+      'status': [
+        'All Items',
+        'Available',
+        'Given',
+        'Sold',
+      ]
+    },
+    {
+      'fabric': [
+        'Acetate',
+        'Bamboo',
+        'Cotton',
+        'Chiffon',
+        'Chino',
+        'Charmeuse',
+        'Combed Cotton',
+        'Coolmax',
+        'Corduroy',
+        'Ecosil Polyester',
+        'Fleece',
+        'Interlock Knit',
+        'Jacquard',
+        'Jersey',
+        'Jeans',
+        'Knit',
+        'Leather',
+        'Lace',
+        'Latex',
+        'Linen',
+        'Lycra',
+        'Lyocell',
+        'Memory Foam',
+        'Microfiber',
+        'Microfleece',
+        'Neoprene',
+        'Nylon',
+        'Pique',
+        'Polyester',
+        'Rayon',
+        'Satin',
+        'Silk',
+        'Spandex',
+        'Suede',
+        'Tencel',
+        'Tactel',
+        'Thermastat',
+        'Velvet',
+        'Viscose',
+        'Vinyl',
+        'Wool',
+        'Woven',
+      ],
+    },
+    {
+      'category': [
+        'Accessories',
+        'Tops',
+        'Full Body Wear',
+        'Bottoms',
+        'Innerwear',
+        'Outerwear',
+        'Footwear',
+        'Socks',
+        'Bags',
+        'Caps and Hats',
+        'Headbands',
+        'Head Tie/Scarves',
+        'Belts',
+        'Eyewear',
+        'Wallets & Card Holder',
+        'Jewelry',
+        'Scarves',
+        'Ties',
+        'Watches',
+        'Others',
+      ],
+    },
+    {
+      'season': [
+        'Summer',
+        'Autumn',
+        'Spring',
+        'Winter',
+      ]
+    },
+    {},
+  ];
 
   @override
   void initState() {
     super.initState();
     _isSearching = false;
     _controller.addListener(_listener);
+    flag = false;
+    _searchText = '';
+    flagFilter = false;
+    for (var i in _filterMenu[2]['category']) {
+      selected.add(false);
+    }
   }
 
   Future getData() async {
@@ -53,28 +151,35 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   Clothes _addClothes(List<dynamic> data, int i) {
-    Clothes clothes = Clothes(
-      data[i].documentID,
-      data[i]['brand'],
-      data[i]['category'],
-      data[i]['clothName'],
-      data[i]['color'],
-      data[i]['cost'],
-      data[i]['dateBought'],
-      data[i]['endDate'],
-      data[i]['fabric'],
-      data[i]['image'],
-      data[i]['price'],
-      data[i]['notes'],
-      data[i]['season'],
-      data[i]['size'],
-      data[i]['startDate'],
-      data[i]['status'],
-      data[i]['updateDate'],
-      data[i]['url'],
-      data[i]['usedInOutfit'],
-      data[i]['worn'],
-    );
+    Clothes clothes;
+    if (!flagFilter) {
+      clothes = Clothes(
+        data[i].documentID,
+        data[i]['brand'],
+        data[i]['category'],
+        data[i]['clothName'],
+        data[i]['color'],
+        data[i]['cost'],
+        data[i]['dateBought'],
+        data[i]['endDate'],
+        data[i]['fabric'],
+        data[i]['image'],
+        data[i]['price'],
+        data[i]['notes'],
+        data[i]['season'],
+        data[i]['size'],
+        data[i]['startDate'],
+        data[i]['status'],
+        data[i]['updateDate'],
+        data[i]['url'],
+        data[i]['usedInOutfit'],
+        data[i]['worn'],
+      );
+    } else {
+      // if(){
+
+      // }
+    }
     return clothes;
   }
 
@@ -241,11 +346,230 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   });
                 },
               ),
+              // DropdownButton(
+              //   // isExpanded: false,
+              //   icon: Image(
+              //     height: 24,
+              //     image: AssetImage('assets/images/filterIcon.png'),
+              //   ),
+              //   items: _filterMenu
+              //       .map(
+              //         (label) => DropdownMenuItem(
+              //           child: Text(
+              //             label,
+              //             style: TextStyle(
+              //               fontSize: 12.0,
+              //               color: Color(0xff3F4D55),
+              //             ),
+              //           ),
+              //           value: label,
+              //         ),
+              //       )
+              //       .toList(),
+              //   onChanged: (val) {
+              //     _filter = val;
+              //   },
+              // ),
               IconButton(
                 icon: Image(
                   image: AssetImage('assets/images/filterIcon.png'),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  // setState(() {
+                  //   flagFilter = !flagFilter;
+                  // });
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'Filter',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                                IconButton(
+                                  iconSize: 30.0,
+                                  icon: Icon(
+                                    Icons.close,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10.0),
+                            Text(
+                              'Status',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20.0),
+                            ),
+                            Wrap(
+                              spacing: 5.0,
+                              children: <Widget>[
+                                for (var i in _filterMenu[0]['status'])
+                                  Chip(
+                                    label: Text('$i'),
+                                  ),
+                              ],
+                            ),
+                            SizedBox(height: 10.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'Fabrics',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0),
+                                ),
+                                Text(
+                                  'See All',
+                                  style: TextStyle(color: Color(0xffE1C8B4)),
+                                ),
+                              ],
+                            ),
+                            Wrap(
+                              spacing: 5.0,
+                              children: <Widget>[
+                                for (int i = 0; i < 7; i++)
+                                  Chip(
+                                    label:
+                                        Text('${_filterMenu[1]['fabric'][i]}'),
+                                  ),
+                              ],
+                            ),
+                            SizedBox(height: 10.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'Categories',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      context: context,
+                                      builder: (context) {
+                                        return Container(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 20.0,
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: <Widget>[
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  IconButton(
+                                                    iconSize: 30.0,
+                                                    icon: Icon(
+                                                      Icons.close,
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                  Text(
+                                                    'Categories',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20.0,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Expanded(
+                                                child: ListView.builder(
+                                                  itemCount: _filterMenu[2]
+                                                          ['category']
+                                                      .length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    print(selected.length);
+                                                    return ListTile(
+                                                      title: Text(
+                                                        '${_filterMenu[2]['category'][index]}',
+                                                      ),
+                                                      onTap: () async {
+                                                        setState(() {
+                                                          selected[index] =
+                                                              !selected[index];
+                                                        });
+                                                      },
+                                                      trailing: selected[index]
+                                                          ? Icon(
+                                                              Icons.check_box)
+                                                          : Icon(Icons
+                                                              .check_box_outline_blank),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Text(
+                                    'See All',
+                                    style: TextStyle(
+                                      color: Color(0xffE1C8B4),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Wrap(
+                              spacing: 5.0,
+                              children: <Widget>[
+                                for (int i = 0; i < 7; i++)
+                                  Chip(
+                                    label: Text(
+                                        '${_filterMenu[2]['category'][i]}'),
+                                  ),
+                              ],
+                            ),
+                            SizedBox(height: 10.0),
+                            Text(
+                              'Seasons',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20.0),
+                            ),
+                            Wrap(
+                              spacing: 5.0,
+                              children: <Widget>[
+                                for (var i in _filterMenu[3]['season'])
+                                  Chip(
+                                    label: Text('$i'),
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),
