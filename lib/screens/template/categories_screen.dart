@@ -23,17 +23,21 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   final _key = new GlobalKey<ScaffoldState>();
   bool _isSearching;
   String _searchText;
-  bool flagFilter;
-  String _filter = 'All Items';
-  List<bool> selected = [];
+  List<String> selectedStatus;
+  List<String> selectedSeason;
+  List<String> selectedFabric;
+  List<String> selectedCategory;
+  List<bool> selectedCategoryBool = [];
+  List<bool> selectedFabricBool = [];
   List _filterMenu = [
     {
       'status': [
-        'All Items',
         'Available',
+        'Washing',
         'Given',
         'Sold',
-      ]
+        'Unavailable',
+      ],
     },
     {
       'fabric': [
@@ -80,6 +84,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         'Wool',
         'Woven',
       ],
+      'fabricSuggestion': [
+        'Acetate',
+        'Cotton',
+        'Wool',
+        'Satin',
+        'Nylon',
+      ],
     },
     {
       'category': [
@@ -104,6 +115,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         'Watches',
         'Others',
       ],
+      'categorySuggestion': [
+        'Accessories',
+        'Tops',
+        'Full Body Wear',
+        'Bottoms',
+        'Innerwear',
+        'Outerwear',
+        'Footwear',
+      ],
     },
     {
       'season': [
@@ -111,28 +131,33 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         'Autumn',
         'Spring',
         'Winter',
-      ]
+      ],
     },
-    {},
   ];
 
   @override
   void initState() {
     super.initState();
+    selectedStatus = List();
+    selectedSeason = List();
+    selectedFabric = List();
+    selectedCategory = List();
     _isSearching = false;
     _controller.addListener(_listener);
     flag = false;
     _searchText = '';
-    flagFilter = false;
     for (var i in _filterMenu[2]['category']) {
-      selected.add(false);
+      selectedCategoryBool.add(false);
+    }
+    for (var i in _filterMenu[1]['fabric']) {
+      selectedFabricBool.add(false);
     }
   }
 
   Future getData() async {
     QuerySnapshot data = await _databaseService.getClothesByCategory();
-    List<DocumentSnapshot> documents = data.documents;
-    List<DocumentSnapshot> categories = [];
+    var documents = data.documents;
+    List<DocumentSnapshot> ds = [];
 
     if (documents.isEmpty) {
       return null;
@@ -140,46 +165,40 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       documents.forEach((e) {
         var category = e.data['category'][0];
         if (category == widget.category) {
-          categories.add(e);
+          ds.add(e);
         }
         if (widget.category == 'All Items') {
-          categories.add(e);
+          ds.add(e);
         }
       });
-      return categories;
+      return ds;
     }
   }
 
   Clothes _addClothes(List<dynamic> data, int i) {
     Clothes clothes;
-    if (!flagFilter) {
-      clothes = Clothes(
-        data[i].documentID,
-        data[i]['brand'],
-        data[i]['category'],
-        data[i]['clothName'],
-        data[i]['color'],
-        data[i]['cost'],
-        data[i]['dateBought'],
-        data[i]['endDate'],
-        data[i]['fabric'],
-        data[i]['image'],
-        data[i]['price'],
-        data[i]['notes'],
-        data[i]['season'],
-        data[i]['size'],
-        data[i]['startDate'],
-        data[i]['status'],
-        data[i]['updateDate'],
-        data[i]['url'],
-        data[i]['usedInOutfit'],
-        data[i]['worn'],
-      );
-    } else {
-      // if(){
-
-      // }
-    }
+    clothes = Clothes(
+      data[i].documentID,
+      data[i]['brand'],
+      data[i]['category'],
+      data[i]['clothName'],
+      data[i]['color'],
+      data[i]['cost'],
+      data[i]['dateBought'],
+      data[i]['endDate'],
+      data[i]['fabric'],
+      data[i]['image'],
+      data[i]['price'],
+      data[i]['notes'],
+      data[i]['season'],
+      data[i]['size'],
+      data[i]['startDate'],
+      data[i]['status'],
+      data[i]['updateDate'],
+      data[i]['url'],
+      data[i]['usedInOutfit'],
+      data[i]['worn'],
+    );
     return clothes;
   }
 
@@ -285,7 +304,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         suffixIcon: IconButton(
           color: Colors.grey,
           focusColor: Colors.grey,
-          icon: Icon(Icons.close),
+          icon: Icon(
+            Icons.close,
+          ),
           onPressed: () {
             setState(() {
               _isSearching = false;
@@ -346,47 +367,24 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   });
                 },
               ),
-              // DropdownButton(
-              //   // isExpanded: false,
-              //   icon: Image(
-              //     height: 24,
-              //     image: AssetImage('assets/images/filterIcon.png'),
-              //   ),
-              //   items: _filterMenu
-              //       .map(
-              //         (label) => DropdownMenuItem(
-              //           child: Text(
-              //             label,
-              //             style: TextStyle(
-              //               fontSize: 12.0,
-              //               color: Color(0xff3F4D55),
-              //             ),
-              //           ),
-              //           value: label,
-              //         ),
-              //       )
-              //       .toList(),
-              //   onChanged: (val) {
-              //     _filter = val;
-              //   },
-              // ),
               IconButton(
                 icon: Image(
                   image: AssetImage('assets/images/filterIcon.png'),
                 ),
                 onPressed: () {
-                  // setState(() {
-                  //   flagFilter = !flagFilter;
-                  // });
+                  setState(() {});
                   showModalBottomSheet(
                     isScrollControlled: true,
                     context: context,
                     builder: (context) {
                       return Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 20.0),
+                        padding: EdgeInsets.only(
+                          left: 20.0,
+                          top: 20.0,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -415,139 +413,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20.0),
                             ),
-                            Wrap(
-                              spacing: 5.0,
-                              children: <Widget>[
-                                for (var i in _filterMenu[0]['status'])
-                                  Chip(
-                                    label: Text('$i'),
-                                  ),
-                              ],
-                            ),
-                            SizedBox(height: 10.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'Fabrics',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20.0),
-                                ),
-                                Text(
-                                  'See All',
-                                  style: TextStyle(color: Color(0xffE1C8B4)),
-                                ),
-                              ],
-                            ),
-                            Wrap(
-                              spacing: 5.0,
-                              children: <Widget>[
-                                for (int i = 0; i < 7; i++)
-                                  Chip(
-                                    label:
-                                        Text('${_filterMenu[1]['fabric'][i]}'),
-                                  ),
-                              ],
-                            ),
-                            SizedBox(height: 10.0),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'Categories',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20.0),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      isScrollControlled: true,
-                                      context: context,
-                                      builder: (context) {
-                                        return Container(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 20.0,
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: <Widget>[
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: <Widget>[
-                                                  IconButton(
-                                                    iconSize: 30.0,
-                                                    icon: Icon(
-                                                      Icons.close,
-                                                    ),
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                  ),
-                                                  Text(
-                                                    'Categories',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 20.0,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Expanded(
-                                                child: ListView.builder(
-                                                  itemCount: _filterMenu[2]
-                                                          ['category']
-                                                      .length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    print(selected.length);
-                                                    return ListTile(
-                                                      title: Text(
-                                                        '${_filterMenu[2]['category'][index]}',
-                                                      ),
-                                                      onTap: () async {
-                                                        setState(() {
-                                                          selected[index] =
-                                                              !selected[index];
-                                                        });
-                                                      },
-                                                      trailing: selected[index]
-                                                          ? Icon(
-                                                              Icons.check_box)
-                                                          : Icon(Icons
-                                                              .check_box_outline_blank),
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: Text(
-                                    'See All',
-                                    style: TextStyle(
-                                      color: Color(0xffE1C8B4),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Wrap(
-                              spacing: 5.0,
-                              children: <Widget>[
-                                for (int i = 0; i < 7; i++)
-                                  Chip(
-                                    label: Text(
-                                        '${_filterMenu[2]['category'][i]}'),
-                                  ),
-                              ],
+                            MultiSelectChip(
+                              reportList: _filterMenu[0]['status'],
+                              onSelectionChanged: (selectedList) {
+                                setState(() {
+                                  selectedStatus = selectedList;
+                                });
+                              },
                             ),
                             SizedBox(height: 10.0),
                             Text(
@@ -555,14 +427,319 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20.0),
                             ),
-                            Wrap(
-                              spacing: 5.0,
-                              children: <Widget>[
-                                for (var i in _filterMenu[3]['season'])
-                                  Chip(
-                                    label: Text('$i'),
+                            MultiSelectChip(
+                              reportList: _filterMenu[3]['season'],
+                              onSelectionChanged: (selectedList) {
+                                setState(() {
+                                  selectedSeason = selectedList;
+                                });
+                              },
+                            ),
+                            SizedBox(height: 10.0),
+                            Padding(
+                              padding: EdgeInsets.only(right: 20.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    'Fabrics',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0),
                                   ),
-                              ],
+                                  GestureDetector(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (context) {
+                                          return StatefulBuilder(
+                                            builder: (context, setState) {
+                                              return Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  vertical: 20.0,
+                                                ),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: <Widget>[
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: <Widget>[
+                                                        Row(
+                                                          children: <Widget>[
+                                                            IconButton(
+                                                              iconSize: 30.0,
+                                                              icon: Icon(
+                                                                Icons.close,
+                                                              ),
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                            ),
+                                                            Text(
+                                                              'Fabrics',
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 20.0,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  12.0),
+                                                          child:
+                                                              GestureDetector(
+                                                            onTap: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(
+                                                              'Save',
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Expanded(
+                                                      child: ListView.builder(
+                                                        itemCount:
+                                                            _filterMenu[1]
+                                                                    ['fabric']
+                                                                .length,
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          return ListTile(
+                                                            title: Text(
+                                                              '${_filterMenu[1]['fabric'][index]}',
+                                                            ),
+                                                            onTap: () {
+                                                              setState(() {
+                                                                selectedFabricBool[
+                                                                        index] =
+                                                                    !selectedFabricBool[
+                                                                        index];
+                                                              });
+                                                            },
+                                                            trailing: selectedFabricBool[
+                                                                    index]
+                                                                ? Icon(Icons
+                                                                    .check_box)
+                                                                : Icon(Icons
+                                                                    .check_box_outline_blank),
+                                                          );
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Text(
+                                      'See All',
+                                      style: TextStyle(
+                                        color: Color(0xffE1C8B4),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            MultiSelectChip(
+                              reportList: _filterMenu[1]['fabricSuggestion'],
+                              onSelectionChanged: (selectedList) {
+                                setState(() {
+                                  selectedFabric = selectedList;
+                                });
+                              },
+                            ),
+                            SizedBox(height: 10.0),
+                            Padding(
+                              padding: EdgeInsets.only(right: 20.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    'Categories',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (context) {
+                                          return StatefulBuilder(
+                                            builder: (context, setState) {
+                                              return Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  vertical: 20.0,
+                                                ),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: <Widget>[
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: <Widget>[
+                                                        Row(
+                                                          children: <Widget>[
+                                                            IconButton(
+                                                              iconSize: 30.0,
+                                                              icon: Icon(
+                                                                Icons.close,
+                                                              ),
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                            ),
+                                                            Text(
+                                                              'Categories',
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 20.0,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  12.0),
+                                                          child:
+                                                              GestureDetector(
+                                                            onTap: () {
+                                                              // Navigator.pop(
+                                                              //     context);
+                                                              // selectedCategoryBool.forEach((e) { })
+                                                              List<int>
+                                                                  selectedBool =
+                                                                  List();
+                                                              for (int i = 0;
+                                                                  i <
+                                                                      selectedCategoryBool
+                                                                          .length;
+                                                                  i++) {
+                                                                if (selectedCategoryBool[
+                                                                    i]) {
+                                                                  selectedBool
+                                                                      .add(i);
+                                                                }
+                                                              }
+                                                              print(
+                                                                  selectedBool);
+                                                            },
+                                                            child: Text(
+                                                              'Save',
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Expanded(
+                                                      child: ListView.builder(
+                                                        itemCount:
+                                                            _filterMenu[2]
+                                                                    ['category']
+                                                                .length,
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          return ListTile(
+                                                            title: Text(
+                                                              '${_filterMenu[2]['category'][index]}',
+                                                            ),
+                                                            onTap: () {
+                                                              setState(() {
+                                                                selectedCategoryBool[
+                                                                        index] =
+                                                                    !selectedCategoryBool[
+                                                                        index];
+                                                              });
+                                                            },
+                                                            trailing: selectedCategoryBool[
+                                                                    index]
+                                                                ? Icon(Icons
+                                                                    .check_box)
+                                                                : Icon(Icons
+                                                                    .check_box_outline_blank),
+                                                          );
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Text(
+                                      'See All',
+                                      style: TextStyle(
+                                        color: Color(0xffE1C8B4),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            MultiSelectChip(
+                              reportList: _filterMenu[2]['categorySuggestion'],
+                              onSelectionChanged: (selectedList) {
+                                setState(() {
+                                  selectedCategory = selectedList;
+                                });
+                              },
+                            ),
+                            SizedBox(height: 40.0),
+                            Center(
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0)),
+                                textColor: Color(0xffE1C8B4),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 15.0,
+                                  horizontal: 90.0,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                                color: Color(0xff4AA081),
+                              ),
                             ),
                           ],
                         ),
@@ -592,16 +769,19 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         ),
         shrinkWrap: true,
         itemBuilder: (context, i) {
-          Clothes clothes = _addClothes(data, i);
+          Clothes clothes;
           var status = data[i]['status'];
+          clothes = _addClothes(data, i);
           return GestureDetector(
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => TemplateDetail(
-                            clothes: clothes,
-                          )));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TemplateDetail(
+                    clothes: clothes,
+                  ),
+                ),
+              );
             },
             child: Stack(
               children: <Widget>[
@@ -644,6 +824,59 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           );
         },
       ),
+    );
+  }
+}
+
+class MultiSelectChip extends StatefulWidget {
+  final List<String> reportList;
+  final Function(List<String>) onSelectionChanged;
+
+  MultiSelectChip({Key key, this.reportList, this.onSelectionChanged})
+      : super(key: key);
+  @override
+  _MultiSelectChipState createState() => _MultiSelectChipState();
+}
+
+class _MultiSelectChipState extends State<MultiSelectChip> {
+  List<String> selectedChoices = List();
+
+  _buildChoiceList() {
+    List<Widget> choices = List();
+
+    widget.reportList.forEach((item) {
+      choices.add(
+        Container(
+          child: ChoiceChip(
+            elevation: 3.0,
+            selectedColor: Color(0xffE1C8B4).withOpacity(0.5),
+            labelStyle: TextStyle(
+              color: Colors.black,
+            ),
+            backgroundColor: Color(0xffFFFFFF),
+            shadowColor: Colors.grey,
+            label: Text(item),
+            selected: selectedChoices.contains(item),
+            onSelected: (selected) {
+              setState(() {
+                selectedChoices.contains(item)
+                    ? selectedChoices.remove(item)
+                    : selectedChoices.add(item);
+                widget.onSelectionChanged(selectedChoices);
+              });
+            },
+          ),
+        ),
+      );
+    });
+    return choices;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 5.0,
+      children: _buildChoiceList(),
     );
   }
 }
