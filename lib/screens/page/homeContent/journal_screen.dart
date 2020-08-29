@@ -1,5 +1,4 @@
 import 'package:bajuku_app/models/outfit.dart';
-import 'package:bajuku_app/screens/template/templateDetailOutfit.dart';
 import 'package:bajuku_app/screens/template/templateDetailOutfits.dart';
 import 'package:bajuku_app/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

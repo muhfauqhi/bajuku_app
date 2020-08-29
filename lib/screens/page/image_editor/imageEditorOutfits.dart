@@ -498,7 +498,6 @@ class TaggingScreen extends StatefulWidget {
   _TaggingScreenState createState() => _TaggingScreenState();
 }
 
-
 class _TaggingScreenState extends State<TaggingScreen> {
   List<DragItem> _children;
 
@@ -571,10 +570,11 @@ class _TaggingScreenState extends State<TaggingScreen> {
       body: Stack(
         children: <Widget>[
           AspectRatio(
-            key: keyImage,
             aspectRatio: 0.85,
             child: GestureDetector(
               onTap: () async {
+                print(MediaQuery.of(context).size.width);
+                print(MediaQuery.of(context).size.height * 0.7);
                 var data = await getData();
                 if (data != null) {
                   String name = data.clothName;

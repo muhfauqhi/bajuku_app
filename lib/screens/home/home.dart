@@ -19,10 +19,12 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-RenderBox renderBox = keyImage.currentContext.findRenderObject();
-dynamic size = renderBox.size;
+// RenderBox renderBox = keyImage.currentContext.findRenderObject();
+// dynamic size = renderBox.size;
 
-GlobalKey keyImage = GlobalKey();
+Size size;
+
+// GlobalKey keyImage = GlobalKey();
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   CollectionReference userRef;
@@ -43,12 +45,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     super.initState();
     _getUserDoc();
     _getUid();
-    // WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
   }
 
-  // _afterLayout(_) {
-  //   _getSizes();
-  // }
+  Size sizeScreenSize() {
+    return Size(MediaQuery.of(context).size.width,
+        MediaQuery.of(context).size.height * 0.7);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +107,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       onTap: (index) {
                         setState(() {
                           _activeTabIndex = index;
+                          size = sizeScreenSize();
                         });
                       },
                     ),

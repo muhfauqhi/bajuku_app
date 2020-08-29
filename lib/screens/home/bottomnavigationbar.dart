@@ -1,10 +1,10 @@
 import 'package:bajuku_app/screens/page/addItem/addChoiceDialog.dart';
 import 'package:bajuku_app/screens/page/menu_burger/routingPage/profile.dart';
 import 'package:bajuku_app/screens/page/sustainability/sustainablehome.dart';
-import 'package:bajuku_app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:bajuku_app/screens/home/home.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   final int indexNow;
@@ -27,13 +27,16 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       WidgetsBinding.instance.addPostFrameCallback(
           (_) => ShowCaseWidget.of(context).startShowCase([_one, _two]));
     }
-    // _getUserDoc();
-    // _getUid();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Size sizeScreenSize() {
+    return Size(MediaQuery.of(context).size.width,
+        MediaQuery.of(context).size.height * 0.7);
   }
 
   @override
@@ -91,6 +94,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               child: GestureDetector(
                 child: Image.asset('assets/images/menubottom.png'),
                 onTap: () {
+                  size = sizeScreenSize();
                   showModalBottomSheet(
                       backgroundColor: Colors.transparent,
                       isDismissible: true,
