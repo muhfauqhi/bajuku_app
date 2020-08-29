@@ -34,6 +34,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     super.dispose();
   }
 
+  // Fix buat journal error
   Size sizeScreenSize() {
     return Size(MediaQuery.of(context).size.width,
         MediaQuery.of(context).size.height * 0.7);
