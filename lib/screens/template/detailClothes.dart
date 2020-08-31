@@ -39,18 +39,20 @@ class _ClothesDetailState extends State<ClothesDetail> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(left: 330),
-                child: IconButton(
-                    icon: new Image.asset('assets/images/edit.png'),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  EditItemScreen(clothes: widget.clothes)));
-                    }),
-              ),
+              widget.buttonWorn
+                  ? Container(
+                      margin: EdgeInsets.only(left: 330),
+                      child: IconButton(
+                          icon: Image.asset('assets/images/edit.png'),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditItemScreen(
+                                        clothes: widget.clothes)));
+                          }),
+                    )
+                  : Container(),
               Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Card(
