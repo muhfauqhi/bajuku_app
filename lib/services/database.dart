@@ -423,4 +423,41 @@ class DatabaseService {
         .get();
     return qn;
   }
+
+  Future updateClothes(
+      String name,
+      String brand,
+      List<String> fabric,
+      String notes,
+      List<String> category,
+      String size,
+      List<String> season,
+      String price,
+      DateTime dateBought,
+      String color,
+      String status,
+      String url,
+      String docId) async {
+    var firebaseUser = await FirebaseAuth.instance.currentUser();
+    return await firestoreInstance
+        .collection('users')
+        .document(firebaseUser.uid)
+        .collection('clothes')
+        .document(docId)
+        .updateData({
+      "clothName": name,
+      "fabric": fabric,
+      "brand": brand,
+      "notes": notes,
+      "category": category,
+      "size": size,
+      "season": season,
+      "price": price,
+      "cost": price,
+      "dateBought": dateBought,
+      "color": color,
+      "status": status,
+      "url": url,
+    });
+  }
 }

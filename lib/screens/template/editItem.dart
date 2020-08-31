@@ -1,8 +1,10 @@
 import 'package:bajuku_app/models/clothes.dart';
+import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsCategories.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsFabrics.dart';
 import 'package:bajuku_app/screens/page/addItem/dialogChipsSeason.dart';
 import 'package:bajuku_app/screens/page/menu_burger/template/boxcolor.dart';
+import 'package:bajuku_app/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -26,6 +28,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
   List<String> category = [];
   DateTime selectedDate = DateTime.now();
   Color currentColor = Colors.white;
+  final DatabaseService _databaseService = DatabaseService();
 
   List<String> _statusMenu = [
     'Available',
@@ -212,8 +215,34 @@ class _EditItemScreenState extends State<EditItemScreen> {
             FlatButton(
               onPressed: () {
                 if (_key.currentState.validate()) {
-                  print('yes');
-                  print(_controller[1].text);
+                  if (fabric.length < 1) {
+                    String a = _controller[2].text;
+                    fabric = a.split(', ');
+                  }
+                  if (category.length < 1) {
+                    String a = _controller[9].text;
+                    category = a.split(', ');
+                  }
+                  if (season.length < 1) {
+                    String a = _controller[5].text;
+                    season = a.split(', ');
+                  }
+                  _databaseService.updateClothes(
+                      _controller[0].text,
+                      _controller[3].text,
+                      fabric,
+                      _controller[11].text,
+                      category,
+                      _controller[4].text,
+                      season,
+                      _controller[6].text,
+                      selectedDate,
+                      currentColor.toString(),
+                      status,
+                      _controller[10].text,
+                      widget.clothes.documentId);
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (context) => Home()));
                 } else {
                   print('no');
                 }
