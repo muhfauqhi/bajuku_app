@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bajuku_app/screens/home/home.dart';
 import 'package:bajuku_app/screens/page/addItem/addItemDetail.dart';
 import 'package:bajuku_app/screens/page/addItem/addItemDetails.dart';
+import 'package:bajuku_app/screens/page/image_editor/bottomnavbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -18,6 +19,7 @@ class _ImageEditorState extends State<ImageEditor> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      bottomNavigationBar: BottomNavbar(),
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
