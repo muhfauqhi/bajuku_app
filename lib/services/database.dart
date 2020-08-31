@@ -288,6 +288,7 @@ class DatabaseService {
 
   updateWorn(selectedDoc) async {
     var firebaseUser = await FirebaseAuth.instance.currentUser();
+    updatePoints(10);
     firestoreInstance
         .collection('users')
         .document(firebaseUser.uid)
