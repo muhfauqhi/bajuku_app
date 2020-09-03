@@ -1,5 +1,4 @@
 import 'package:bajuku_app/screens/page/profileheader/headerprofile.dart';
-import 'package:bajuku_app/screens/page/profileheader/profileheader.dart';
 import 'package:bajuku_app/screens/page/scaffold/myscaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
