@@ -1,4 +1,5 @@
 import 'package:bajuku_app/models/user.dart';
+import 'package:bajuku_app/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -29,10 +30,30 @@ class AuthService {
   }
 
   // Sign in email & password
-
+  Future signInWithEmailAndPassword(String email, String password) async {
+    try{
+      AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      FirebaseUser user = result.user;
+      return _userFromFirebaseUser(user);
+    } catch(e){
+      print(e.toString());
+      return null;
+    }
+  }
 
   // Register with email & password
-
+  Future registerWithEmailAndPassword(String email, String password, String firstName, String lastName) async {
+    try{
+      AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      FirebaseUser user = result.user;
+      
+      await DatabaseService().setUser(firstName, lastName, email);
+      return _userFromFirebaseUser(user);
+    } catch(e){
+      print(e.toString());
+      return null;
+    }
+  }
 
   // Sign out
   Future signOut() async {
